@@ -271,7 +271,9 @@ class ProfilePage{
         playSongContainer.appendChild(this.currentlyPlayingSongHeader());
         playSongContainer.appendChild(this.playPauseSongIcon());
         playSongContainer.appendChild(this.updateCurrentlyPlayingSongInformationButton());
-        playSongContainer.appendChild(this.displayCurrentlyPlayingSongInformation(currentlyPlayingSong));
+        if(currentlyPlayingSong != ''){
+                    playSongContainer.appendChild(this.displayCurrentlyPlayingSongInformation(currentlyPlayingSong));
+        }
 
         return playSongContainer;
     }
@@ -508,6 +510,9 @@ class ProfilePage{
             request.setRequestHeader('Authorization', `Bearer ${this.accessToken}`);
             request.setRequestHeader('Content-type', 'application/json');
             request.onreadystatechange = () => {
+                if(request.status == 204){
+                    resolve('');
+                }
                 if(request.readyState == 4 && request.status == 200){
                     let body = request.responseText;
                     body = JSON.parse(body);

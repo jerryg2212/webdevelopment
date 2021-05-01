@@ -1,0 +1,89 @@
+/* background-image: radial-gradient(#121B40 70%, #060D28) 
+** lighter #121B40
+** darker #060D28
+*/
+
+html{
+    height: 100%;
+}
+body{
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+#profilePageBody{
+    display: flex;
+}
+
+    /* containe that stores the users profile and favorite music information */
+    #userInformationContainer{
+        flex: 20;
+        background-color: lightblue;
+        z-index: 2;
+        box-shadow: 2px 0px 5px black;
+        padding: 10px;
+    }
+        /* container that holds the users profile information */
+        #profileInformationContainer{
+            text-align: center;
+        }
+            /* link to users spotify page */
+            #profileInformationContainer a{
+                text-decoration: none;
+                padding: 0px;
+                margin: 0px;
+                color: #121B40
+            }
+            /* header that displays the users profile name */
+            #profileInformationContainer h1{
+                padding: 0px;
+                margin: 5px;
+            }
+            /* header that displays the users account email */
+            #profileInformationContainer h3{
+                padding : 2px;
+                margin: 5px;
+                font-size: 16px;
+            }
+            #profileInformationContainer p{
+                margin: 2px; padding: 2px;
+                color: #121B40;
+            }
+        /* container that holds the favorite musics information form and songs and artists */
+        #favoriteMusicInformationContainer{
+            margin-top: 20px;
+
+        }
+            /* form where user changes how the favorite music information gets displayed */
+            #favoriteMusicSearchForm{
+                background-color: #121B40;
+                padding: 10px;
+                border-radius: 25px;
+                box-shadow: 2px 2px 5px black;
+            }
+                /* container in the form that holds everything but the button */
+                #favoriteMusicSelectionsContainer{
+                    color: lightblue;
+                    text-shadow: 1px 1px 1px black;
+                    display: flex;
+                    flex-wrap: wrap;
+                }
+                    #favoriteMusicSelectionsContainer div{
+                        margin: 5px;
+                    }
+
+    /* container where user works */
+    #workBenchContainer{
+        flex: 68;
+        background-color: #121B40;
+        background-image: radial-gradient(#121B40 70%, #060D28)
+    }
+
+    /* container where user plays song and its displays information on the song */
+    #playSongContainer{
+        flex: 12;
+        background-color: lightblue;
+        z-index: 2;
+        box-shadow: -2px 0px 5px black;
+    }
