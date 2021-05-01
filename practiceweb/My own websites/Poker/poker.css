@@ -1,0 +1,332 @@
+
+html{
+    min-height: 100%;
+    
+}
+body{
+    background: linear-gradient(to bottom, rgb(1, 63, 6) 75%, rgb(52, 109, 56));
+  background-position: fixed;
+  
+}
+@font-face{
+    font-family: coco;
+    src: url(cocogoose/Cocogoose\ Pro-trial.ttf);
+}
+@font-face{
+    font-family: midnight;
+    src: url(midnight_workers/Midnight\ Workers.ttf);
+}
+
+/* Logo */
+img{
+    display: block;
+    margin: 10px auto 10px auto;
+    text-align: center;
+}
+/* New Game Button */
+button.newGame{
+    background-color: rgb(250, 0, 0);
+    color: white;
+    padding: 21px;
+    box-shadow: 2px 3px  3px rgba(202, 1, 1, .5),
+             inset 0px 2px 2px rgba(255, 255, 255, .5),
+             -2px -2px 3px rgba(122, 0, 0, 0.4);
+    font-size: 35px;
+    border: none;
+    display: block;
+    margin:40px auto;
+    border-radius: 3px;
+    text-shadow: 3px 3px 2px rgba(80, 6, 6, 0.788);
+    font-family: coco;
+
+}
+/* New Game Button when clicked */
+button.newGame:active{
+    box-shadow: 4px 5px  5px rgba(202, 1, 1, .5),
+             inset 0px 2px 2px rgba(255, 255, 255, 0.7),
+             -4px -4px 5px rgba(122, 0, 0, 0.4),
+             inset -1px -2px 4px rgba(255, 255, 255, .6);
+             text-shadow: 4px 4px 5px rgba(80, 6, 6, 0.9);
+}
+/* Hamburger Icon */
+div.navigation img{
+    width: 25px;
+    top: 10px;
+    right: 10px;
+    position: fixed;
+    z-index: 2;
+    
+
+
+}
+
+
+/* class that turns the icon white when the sidenav is onscreen */
+
+/* Side Navigation pop-in */
+nav.sideNav{
+    background-color: rgba(8, 8, 8, 0.6);
+    
+    padding-bottom: 20px;
+    width: 40%;
+    color: white;
+}
+/* classes that make the side nav on screen or off the screen when the hamburger icon is clicked */
+.onScreen{
+    position: fixed;
+    top: 7px;
+    z-index: 1;
+    right: 0px;
+    transition: .5s;
+}
+.offScreen{
+    position: fixed;
+    top: 7px;
+    right: -200px;
+    transition: .5s;
+}
+nav.sideNav ul{
+    list-style-type: none;
+    margin-top: 27px;
+    position: relative;
+    padding: 0px;  
+    transition: 1s;  
+    
+
+}
+nav.sideNav ul li{
+    text-align: center;
+    font-size: 20px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    
+    
+}
+nav.sideNav ul li a{
+    text-decoration: none;
+    color: white;
+    font-family: 'coco';
+    font-size: 16px;
+}
+nav.sideNav ul li:hover{
+    background-color: rgba(1, 1, 1, .4);
+    
+}
+
+/*
+   //
+   This is for the add players site
+    //
+
+    */
+    
+    button.addPlayer{
+        background-color: rgb(250, 0, 0);
+        color: white;
+        border: none;
+        padding: 5px;
+        font-size: 20px;
+        border-radius: 5px;
+        margin: 0px auto;
+        display: block;
+    }
+    div.players p{
+        color: white;
+        font-family: coco;
+        font-size: 17px;
+        text-align:center;
+    }
+    div.players input{
+        margin: 10px auto 2px auto;
+        width: 30px;
+        display:block;
+        
+        
+    }
+    #endUpdateBalances,
+    #endbtn,
+    #endGamebtn,
+    #editGame,
+    #increaseBuyin,
+    #updateBalances,
+    div.players button.playersbtn{
+        background-color: rgb(255, 0, 0);
+        color: white;
+        padding: 5px 10px 5px 10px;
+        font-size: 14px;
+        display: Block;
+        margin: 10px auto;
+        border: none;
+        text-shadow: 2px 2px 3px rgba(1, 1, 1, .7);
+        border-radius: 5px;
+        box-shadow: 1px 1px 2px rgba(1, 1, 1, .7),
+                inset 1px 1px 1px rgba(255, 255, 255, .5);
+    }
+    
+    div.players button.playersbtn:active{
+        box-shadow: 1px 1px  2px rgba(1, 1, 1, .5),
+        inset 0px 2px 2px rgba(255, 255, 255, 0.7),
+        -1px -1px 1px rgba(122, 0, 0, 0.4),
+        inset -1px -2px 2px rgba(255, 255, 255, .6);
+        text-shadow: 1px 1px 1px rgba(80, 6, 6, 0.9);
+    }
+    form{
+        text-align: center;
+    }
+    span.errormsg{
+        font-weight: bold;
+        color: white;
+        font-family: 'arial';
+        font-size: 10px;
+        
+    }
+    .active{
+        padding: 3px;
+    }
+    /* div that contains the inputs for new players */
+    div.playerList{
+        margin: 10px auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+    /* inputs for new players */
+    div.playerList input{
+        margin: 15px;
+        border: 1px solid black;
+        background-color: rgba(1, 1, 1, .1);
+        font-weight: bold;
+        padding: 5px;
+        font-size: 15px;
+        border-radius: 50px;
+    }
+    
+    /* class for the buyin */
+    input.buyin{
+        width: 50px;
+    }
+    /* start game button */
+    button.startGamebtn{
+        background-color: rgb(255, 0, 0);
+        color: white;
+        padding: 5px 10px 5px 10px;
+        font-size: 14px;
+        display: Block;
+        margin: 10px auto;
+        border: none;
+        text-shadow: 2px 2px 3px rgba(1, 1, 1, .7);
+        border-radius: 5px;
+        box-shadow: 1px 1px 2px rgba(1, 1, 1, .7),
+                inset 1px 1px 1px rgba(255, 255, 255, .5);
+    }
+
+    /*    Current Game Page Section      */
+    div p{
+        text-align: center;
+        font-family: midnight;
+        font-size: 20px;
+    }
+    body#currentGameBody{
+        position: relative;
+    }
+    /* add new player button */
+    button#addNewPlayerbtn{
+        border: 1px solid rgba(1,1,1,.8);
+        background-color: rgb(95, 90, 90, .5);   
+        border-radius: 30px;     
+        margin: 5px auto;
+        display: block;
+        padding: 3px 10px 3px 10px;
+
+    }
+
+
+    /* the plus icon on the add new player button */
+    #plusIcon{
+        display: inline;
+    }
+
+    #plusIcon img{
+        display: inline;
+        padding: 0px;
+        margin: 0px;
+        vertical-align: middle;
+        
+    }
+    /* for the add player button in the div popup */
+    #addNPInfobtn1{
+        background-color: green;
+        color: white;
+        padding: 5px 10px 5px 10px;
+        font-size: 14px;
+        display: Block;
+        margin: 10px auto;
+        margin-top:45px;
+        border: none;
+        text-shadow: 2px 2px 3px rgba(1, 1, 1, .7);
+        border-radius: 5px;
+        box-shadow: 1px 1px 2px rgba(1, 1, 1, .7),
+                inset 1px 1px 1px rgba(255, 255, 255, .5);
+    }
+    /* button for when the user wants to add a wager */
+    #UBPbtn1,
+    #EUBPbtn1,
+    #IBPbtn1{
+        background-color: rgb(1, 64, 6);
+        color: white;
+        padding: 5px 10px 5px 10px;
+        font-size: 14px;
+        display: Block;
+        margin: 10px auto;
+        border: none;
+        text-shadow: 2px 2px 3px rgba(1, 1, 1, .7);
+        border-radius: 5px;
+        box-shadow: 1px 1px 2px rgba(1, 1, 1, .7),
+                inset 1px 1px 1px rgba(255, 255, 255, .5);
+        grid-column-start: 1;
+        grid-column-end: 3;
+        text-align: center;
+    }
+    #gameStats,
+    #divGameInformation{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        width: 70%;
+        font-size: 16px;
+        margin: 10px auto;
+    }
+    #gameStats p,
+    #divGameInformation p{
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+    #gameStats p:nth-child(-n+3),
+    #divGameInformation p:nth-child(-n+3){
+        color: rgb(255, 0, 0);
+        text-shadow: 2px 2px black;
+    }
+
+    #IBPdiv1,
+    #EUBPdiv1,
+    #UBPdiv1{
+        background-color: rgba(255, 0, 0, .9);
+    }
+    #EUBPdiv1 p,
+    #IBPdiv1 p,
+    #UBPdiv1 p{
+        color: white;
+        text-shadow: 1px 1px black;
+    }
+
+    #enddiv{
+        background-color: rgb(1, 63, 6);
+    }
+    #enddiv p{
+        color: white;
+        text-shadow: 1px 1px black;
+    }
+    
+    /* for poker hands picture */
+    .pokerhandsimg{
+        height: 90%;
+        width: 100%;
+    }

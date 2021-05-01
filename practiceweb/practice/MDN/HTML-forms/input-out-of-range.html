@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>i am not adk</title>
+        <style>
+            form{
+                width: 40%;
+                margin: 50px auto;
+            }
+            input{
+                margin:0 auto;
+                padding:5px;
+                box-sizing: border-box;
+            }
+            input:invalid{
+                border: 1px solid red;
+                box-sizing: border-box;
+            }
+            fieldset{
+                padding:30px;
+            }
+            input, label{
+                width:100%;
+                padding:5px;
+                margin: 5px;
+                display: block;
+            }
+            input + span{
+                position: relative;
+            }
+            input:required + span::after{
+                content: 'Required';
+                padding: 5px;
+                position:absolute;
+                color: white;
+                background-color:black;
+            }
+            fieldset > div{
+                display:flex;
+                
+                flex-flow: row wrap;
+            }
+
+        </style>
+    </head>
+    <body>
+        <form>
+            <fieldset>
+                <div>
+            <label for="age">Age (must be 12+)</label>
+            <input id="age" name="Age" type="number" required min="12" max="120">
+            <span></span>
+                </div>
+            </fieldset>
+        </form>
+    </body>
+</html>

@@ -1,0 +1,14 @@
+doctype html
+html
+    head 
+        link(rel='stylesheet', href='styles.css')
+
+    
+    body
+        div(id="wrapper")
+            h1 Please make a list
+            div(id="homepageContainer" class="container")
+                form(id="firstListForm" action="/list/first" method="post")
+                    input(type="text" id="firstListInput" name="firstList" class="textInput" placeholder="Name of list")
+                    button(type="submit" id="firstListbutton" class="submitButton") Create List
+        

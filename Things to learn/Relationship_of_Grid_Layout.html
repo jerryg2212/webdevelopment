@@ -1,0 +1,852 @@
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head prefix="og: http://ogp.me/ns#">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <script>(function(d) { d.className = d.className.replace(/\bno-js/, ''); })(document.documentElement);</script>
+  <title>Relationship of grid layout to other layout methods - CSS: Cascading Style Sheets | MDN</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="index, follow">
+
+  
+<link rel="preload" href="/static/fonts/locales/ZillaSlab-Regular.subset.bbc33fb47cf6.woff2" as="font" type="font/woff2"
+    crossorigin />
+<link rel="preload" href="/static/fonts/locales/ZillaSlab-Bold.subset.e96c15f68c68.woff2" as="font" type="font/woff2"
+    crossorigin />
+
+  <link rel="home" href="/en-US/">
+  <link rel="license" href="#license">
+
+  <link href="/static/build/styles/react-header.76c3c9e8a4b4.css" rel="stylesheet" type="text/css" />
+<link href="/static/build/styles/auth-modal.be43f0f58a73.css" rel="stylesheet" type="text/css" />
+<link href="/static/build/styles/react-mdn.083dfaff7b4d.css" rel="stylesheet" type="text/css" />
+<link href="/static/build/styles/subscriptions.deda97515994.css" rel="stylesheet" type="text/css" />
+
+  <link href="/static/build/styles/prism.a6f275e5032b.css" rel="stylesheet" type="text/css" />
+
+  
+<style>
+    @font-face {
+        font-family: zillaslab;
+        font-display: swap;
+        src: url(/static/fonts/locales/ZillaSlab-Regular.subset.bbc33fb47cf6.woff2) format('woff2'),
+             url(/static/fonts/locales/ZillaSlab-Regular.subset.0357f12613a7.woff) format('woff');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    @font-face {
+        font-family: zillaslab;
+        font-display: swap;
+        src: url(/static/fonts/locales/ZillaSlab-Bold.subset.e96c15f68c68.woff2) format('woff2'),
+             url(/static/fonts/locales/ZillaSlab-Bold.subset.da0ccde4ca4a.woff) format('woff');
+        font-weight: bold;
+        font-style: normal;
+    }
+</style>
+
+
+  
+<script>
+    // Mozilla DNT Helper
+    /* This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/. */ if(typeof Mozilla==='undefined'){var Mozilla={}}Mozilla.dntEnabled=function(dnt,ua){'use strict';var dntStatus=dnt||navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack;var userAgent=ua||navigator.userAgent;var anomalousWinVersions=['Windows NT 6.1','Windows NT 6.2','Windows NT 6.3'];var fxMatch=userAgent.match(/Firefox\/(\d+)/);var ieRegEx=/MSIE|Trident/i;var isIE=ieRegEx.test(userAgent);var platform=userAgent.match(/Windows.+?(?=;)/g);if(isIE&&typeof Array.prototype.indexOf!=='function'){return false}else if(fxMatch&&parseInt(fxMatch[1],10)<32){dntStatus='Unspecified'}else if(isIE&&platform&&anomalousWinVersions.indexOf(platform.toString())!==-1){dntStatus='Unspecified'}else{dntStatus={'0':'Disabled','1':'Enabled'}[dntStatus]||'Unspecified'}return dntStatus==='Enabled'?true:false};
+    // only load GA if DNT is not enabled
+    if (Mozilla && !Mozilla.dntEnabled()) {
+        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+        ga('create', 'UA-36116321-5', 'mozilla.org');
+        ga('set', 'anonymizeIp', true);
+    }
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+  <script>
+LUX=(function(){var a=("undefined"!==typeof(LUX)&&"undefined"!==typeof(LUX.gaMarks)?LUX.gaMarks:[]);var d=("undefined"!==typeof(LUX)&&"undefined"!==typeof(LUX.gaMeasures)?LUX.gaMeasures:[]);var j="LUX_start";var k=window.performance;var l=("undefined"!==typeof(LUX)&&LUX.ns?LUX.ns:(Date.now?Date.now():+(new Date())));if(k&&k.timing&&k.timing.navigationStart){l=k.timing.navigationStart}function f(){if(k&&k.now){return k.now()}var o=Date.now?Date.now():+(new Date());return o-l}function b(n){if(k){if(k.mark){return k.mark(n)}else{if(k.webkitMark){return k.webkitMark(n)}}}a.push({name:n,entryType:"mark",startTime:f(),duration:0});return}function m(p,t,n){if("undefined"===typeof(t)&&h(j)){t=j}if(k){if(k.measure){if(t){if(n){return k.measure(p,t,n)}else{return k.measure(p,t)}}else{return k.measure(p)}}else{if(k.webkitMeasure){return k.webkitMeasure(p,t,n)}}}var r=0,o=f();if(t){var s=h(t);if(s){r=s.startTime}else{if(k&&k.timing&&k.timing[t]){r=k.timing[t]-k.timing.navigationStart}else{return}}}if(n){var q=h(n);if(q){o=q.startTime}else{if(k&&k.timing&&k.timing[n]){o=k.timing[n]-k.timing.navigationStart}else{return}}}d.push({name:p,entryType:"measure",startTime:r,duration:(o-r)});return}function h(n){return c(n,g())}function c(p,o){for(i=o.length-1;i>=0;i--){var n=o[i];if(p===n.name){return n}}return undefined}function g(){if(k){if(k.getEntriesByType){return k.getEntriesByType("mark")}else{if(k.webkitGetEntriesByType){return k.webkitGetEntriesByType("mark")}}}return a}return{mark:b,measure:m,gaMarks:a,gaMeasures:d}})();LUX.ns=(Date.now?Date.now():+(new Date()));LUX.ac=[];LUX.cmd=function(a){LUX.ac.push(a)};LUX.init=function(){LUX.cmd(["init"])};LUX.send=function(){LUX.cmd(["send"])};LUX.addData=function(a,b){LUX.cmd(["addData",a,b])};LUX_ae=[];window.addEventListener("error",function(a){LUX_ae.push(a)});LUX_al=[];if("function"===typeof(PerformanceObserver)){var LongTaskObserver=new PerformanceObserver(function(c){var b=c.getEntries();for(var a=0;a<b.length;a++){var d=b[a];LUX_al.push(d)}});try{LongTaskObserver.observe({entryTypes:["longtask"],buffered:true})}catch(e){}};
+</script>
+<script src="https://cdn.speedcurve.com/js/lux.js?id=108906238" async defer crossorigin="anonymous"></script>
+
+
+  <script>
+  window.fetch || document.write('<script src="/static/build/js/fetch-polyfill.63fdc379c7eb.js"><\/script>');
+</script>
+<script>
+  // Only include the fat polyfill for browsers that seem to not have
+  // certain JS features. E.g. Firefox 38.
+  Array.prototype.includes || document.write('<script src="/static/build/js/js-polyfill.6f2e22100487.js"><\/script>');
+</script>
+
+  <script async type="text/javascript" src="/static/build/js/perf.654b849a6fd9.js" charset="utf-8"></script>
+
+  <!-- common social tags -->
+  
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://developer.mozilla.org/static/img/opengraph-logo.72382e605ce3.png">
+  <meta property="og:site_name" content="MDN Web Docs">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:image" content="https://developer.mozilla.org/static/img/opengraph-logo.72382e605ce3.png">
+  <meta name="twitter:site" content="@MozDevNet">
+  <meta name="twitter:creator" content="@MozDevNet">
+  <link rel="search" type="application/opensearchdescription+xml" href="https://developer.mozilla.org/en-US/search/xml" title="MDN Web Docs">
+
+  <!-- third-generation iPad with high-resolution Retina display: -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/static/img/favicon144.e7e21ca263ca.png">
+  <!-- iPhone with high-resolution Retina display: -->
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/img/favicon114.d526f38b09c5.png">
+  <!-- first- and second-generation iPad: -->
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/img/favicon72.cc65d1d762a0.png">
+  <!-- non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+  <link rel="apple-touch-icon-precomposed" href="/static/img/favicon57.de33179910ae.png">
+  <!-- basic favicon -->
+  <link rel="shortcut icon" href="/static/img/favicon32.7f3da72dcea1.png">
+
+  <link href="/static/build/styles/banners.92084d28db45.css" rel="stylesheet" type="text/css" />
+
+
+
+<link href="/static/build/styles/mdn-subscriptions.dbb82432d74c.css" rel="stylesheet" type="text/css" />
+
+  <link rel="preconnect" href="https://interactive-examples.mdn.mozilla.net" pr="0.75" />
+
+  <link rel="canonical" href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout" >
+
+  
+  <link rel="alternate" hreflang="en" href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout" title="Relationship of grid layout to other layout methods">
+  
+    <link rel="alternate" hreflang="ar" href="https://developer.mozilla.org/ar/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout_arabic" title="العلاقة بين التنسيق الشبكي وطرق التنسيق الأخرى">
+  
+    <link rel="alternate" hreflang="es" href="https://developer.mozilla.org/es/docs/Web/CSS/CSS_Grid_Layout/Relacion_de_Grid_Layout" title="Relación de Grid Layout con otros métodos de diseño y posicionamiento - CSS">
+  
+    <link rel="alternate" hreflang="fr" href="https://developer.mozilla.org/fr/docs/Web/CSS/CSS_Grid_Layout/Mod%C3%A8le_de_grille_et_autres_mod%C3%A8les_de_disposition" title="Le modèle de grille et les autres modèles de disposition">
+  
+    <link rel="alternate" hreflang="ja" href="https://developer.mozilla.org/ja/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout" title="グリッドレイアウトと他のレイアウト方法との関係">
+  
+    <link rel="alternate" hreflang="ko" href="https://developer.mozilla.org/ko/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_grid_layout" title="Relationship of grid layout to other layout methods">
+  
+    <link rel="alternate" hreflang="pt" href="https://developer.mozilla.org/pt-BR/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout" title="Relationship of grid layout to other layout methods">
+  
+    <link rel="alternate" hreflang="ru" href="https://developer.mozilla.org/ru/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout" title="Связь Grid позиционирования с другими методами позиционирования">
+  
+    <link rel="alternate" hreflang="uk" href="https://developer.mozilla.org/uk/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout" title="Relationship of grid layout to other layout methods">
+  
+    <link rel="alternate" hreflang="zh" href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout" title="grid layout 和其它布局方法的联系">
+  
+
+  <!-- document-specific social tags -->
+  <meta property="og:title" content="Relationship of grid layout to other layout methods">
+  <meta property="og:url" content="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout">
+  <meta name="twitter:url" content="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout">
+  <meta name="twitter:title" content="Relationship of grid layout to other layout methods">
+  
+  <meta property="og:description" content="CSS Grid Layout has been designed to work alongside other parts of CSS, as part of a complete system for doing the layout. In this guide, I will explain how a grid fits together with other techniques you may already be using.">
+  <meta name="description" content="CSS Grid Layout has been designed to work alongside other parts of CSS, as part of a complete system for doing the layout. In this guide, I will explain how a grid fits together with other techniques you may already be using.">
+  <meta name="twitter:description" content="CSS Grid Layout has been designed to work alongside other parts of CSS, as part of a complete system for doing the layout. In this guide, I will explain how a grid fits together with other techniques you may already be using.">
+  
+
+  
+    <link href="/static/build/styles/print.ca192a439743.css" rel="stylesheet" type="text/css" media="print" />
+  
+</head>
+<body>
+  <script>
+    // make sure global mdn object exists
+    var mdn = window.mdn || {};
+
+    (function(win) {
+        'use strict';
+
+        win.mdn.features = {};
+        win.mdn.stripePublicKey = 'pk_live_GZl4tCi8J5mWhKbJeRey4DSy';
+        win.mdn.contributionSupportEmail = 'mdn-support@mozilla.com';
+
+        win.mdn.siteUrl = 'https://developer.mozilla.org';
+        win.mdn.wikiSiteUrl = 'https://wiki.developer.mozilla.org';
+        win.mdn.staticPath = '/static/';
+        win.mdn.wiki = {
+            autosuggestTitleUrl: '/en-US/docs/get-documents'
+        };
+
+        win.mdn.notifications = [];
+
+        
+
+        // interactive editor config
+        win.mdn.interactiveEditor = {
+            siteUrl: "https://developer.mozilla.org",
+            editorUrl: "https://interactive-examples.mdn.mozilla.net"
+        };
+        win.mdn.langCookieName = "django_language";
+
+    })(this);
+</script>
+
+  
+
+  <div id="react-container" data-component-name="SPA"><div class="loading-bar"></div><ul id="nav-access" data-testid="a11y-nav"><li><a id="skip-main" href="#content">Skip to main content</a></li><li><a id="skip-language" href="#language">Select language</a></li><li><a id="skip-search" href="#main-q">Skip to search</a></li></ul><header class="page-header" data-testid="header"><a href="/en-US/" class="logo" aria-label="MDN Web Docs"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 219 48" role="img"><path d="M49.752 30.824h59.917v17.132H49.75zm57.23 12.3c-.103.03-.21.048-.316.05-.338 0-.514-.15-.514-.582v-3.256c0-1.71-1.352-2.543-2.976-2.543a7.206 7.206 0 00-3.21.676l-.29 1.724 1.71.182.245-.842a2.338 2.338 0 011.147-.216c1.214 0 1.23.913 1.23 1.69v.234c-.407-.048-.818-.07-1.23-.068-1.71 0-3.49.433-3.49 2.276 0 1.563 1.23 2.144 2.31 2.144a2.7 2.7 0 002.41-1.494c.018.88.77 1.563 1.648 1.494a2.89 2.89 0 001.353-.338zm-4.604-.05a.787.787 0 01-.88-.867c0-.815.677-1.015 1.432-1.015.36.008.722.04 1.078.098-.05 1.235-.852 1.783-1.63 1.783zM97.388 33l-3.24 11.433h2.11L99.5 33.002zm-4.353 0l-3.24 11.433h2.11L95.145 33zm-6.89 6.645h2.243V36.94h-2.242zm0 4.802h2.243v-2.706h-2.242zm-3.617-1.64H80.1l4.156-4.736-.166-1.13h-6.58l-.268 2.63 1.546.164.338-1.163h2.343l-4.123 4.734.216 1.13h6.544l.467-2.63-1.69-.164zM72.143 36.79c-2.706 0-4.02 1.812-4.02 4.004 0 2.394 1.595 3.804 3.905 3.804 2.394 0 4.122-1.51 4.122-3.905-.003-2.093-1.32-3.906-4.01-3.906zm-.054 6.154c-1.165 0-1.763-.997-1.763-2.292 0-1.414.676-2.23 1.778-2.23 1.015 0 1.83.677 1.83 2.196 0 1.438-.73 2.327-1.846 2.327zm-5.906-3.564c0-1.78-1.224-2.594-2.577-2.594a2.51 2.51 0 00-2.44 1.612c-.367-1.1-1.364-1.613-2.443-1.613a2.48 2.48 0 00-2.276 1.278v-1.13h-3.14v1.63h.996v4.24h-.997v1.63h4.572v-1.63h-1.432V40.2c0-1.048.433-1.78 1.448-1.78.845 0 1.278.502 1.278 1.797v4.224h3.14v-1.63h-.996v-2.612c0-1.048.433-1.78 1.447-1.78.846 0 1.278.502 1.278 1.797v4.214h3.142V42.8h-.998zm78.791-22.39h-6.29c.23-1.935 1.16-3.558 3.274-3.558 2.245 0 3.2 1.857 3.016 3.558zM218.952 0v29.137h-169.2V0zM71.706 6.885h-3.85L61.51 20.01h-.104L54.882 6.884h-3.84v1.65h2.19V21.98H51.12v1.65h5.927v-1.65h-2.012V11.24h.1l5.75 11.553H61.9l5.62-11.474h.105v10.66h-1.962v1.65h5.942v-1.65h-2.09V8.536h2.19zm9.993 16.76c5.285 0 8.484-3.48 8.484-8.42 0-4.847-3.094-8.353-8.56-8.353H74.12v1.623h2.114v13.527H74.12v1.623zm27.05-16.76h-6.426v1.65h2.526v11.268h-.1L95.21 6.885H91.6v1.65h2.22V21.98h-1.935v1.65h6.385v-1.65h-2.655V10.444h.1l9.724 13.202h1.21V8.535h2.09zm26.71 5.29h-5.156v1.467h1.83l-1.857 7.247h-.128l-3.586-8.716h-1.21l-3.423 8.718h-.127l-2.14-7.247h1.933v-1.47h-5.41v1.467h1.522l3.25 10.003h1.352l3.432-8.766h.13l3.496 8.765h1.393l3.122-10.003h1.573zm6.704 11.727c2.837 0 4.514-1.583 4.83-3.568l-1.523-.338c-.36 1.42-1.365 2.347-3.17 2.347-2.283 0-3.53-1.468-3.636-4.02h8.058c.1-.445.153-.898.156-1.354-.024-2.71-1.728-5.03-4.873-5.03-3.246 0-5.26 2.58-5.26 6.14 0 3.712 2.162 5.825 5.412 5.825zm13.408 0c3.663 0 5.134-3.25 5.134-6.294 0-3.642-2.063-5.67-4.924-5.67-2.19 0-3.402 1.186-4.1 2.603V5.905h-3.53v1.47h1.692v12.923a22.8 22.8 0 01-.338 3.35h1.805a44.05 44.05 0 00.235-1.906c.747 1.39 2.242 2.165 4.02 2.165zm26.198-1.728h-1.985V5.904h-4.6v1.47h2.798v6.653c-.748-1.342-2.15-2.09-3.842-2.09-3.74 0-5.183 3.2-5.183 6.267 0 3.584 1.958 5.698 4.924 5.698 2.087 0 3.352-1.224 4.1-2.577v2.323h3.784zm6.963 1.728c3.53 0 5.75-2.526 5.742-6.006 0-3.25-1.934-5.982-5.647-5.982s-5.67 2.735-5.67 6.087c0 3.457 2.09 5.905 5.568 5.905zm12.942 0c3.172 0 4.538-2.114 4.866-4.112l-1.548-.34c-.334 1.885-1.315 2.917-3.094 2.917-2.27 0-3.507-1.637-3.507-4.397 0-2.475.982-4.487 3.43-4.487a4.4 4.4 0 012.45.646l.42 1.936 1.496-.18-.44-2.758c-1.16-.876-2.397-1.187-3.92-1.187-3.556 0-5.362 2.966-5.362 6.14 0 3.685 2.036 5.825 5.208 5.825zm11.166 0c2.76 0 4.874-1.34 4.847-3.595 0-4.565-7.1-2.195-7.1-5.184 0-1.177 1.03-1.69 2.474-1.69.826-.015 1.64.18 2.368.567l.267 1.864 1.495-.18-.284-2.68a8.135 8.135 0 00-3.997-1.06c-2.088 0-4.255.903-4.255 3.328 0 4.46 7.193 2.063 7.193 5.208 0 1.315-1.495 1.934-3.095 1.934a5.812 5.812 0 01-2.553-.568l.078-1.522-1.444-.156-.362 2.604c.977.643 2.736 1.133 4.36 1.133zm-54.042-6.11c0 2.373-1.058 4.564-3.584 4.564a3.455 3.455 0 01-3.534-3.456v-1.728c.05-1.7 1.444-3.686 3.635-3.686 1.948 0 3.48 1.444 3.483 4.305zm19.18-1.06v1.833c-.076 1.73-1.57 3.79-3.634 3.79-1.985 0-3.48-1.47-3.48-4.28 0-2.425 1.133-4.59 3.686-4.59a3.36 3.36 0 013.43 3.248zm14.597 1.133c0 2.58-1.34 4.488-3.79 4.488-2.453 0-3.74-1.958-3.74-4.46 0-2.55 1.34-4.434 3.74-4.434 2.397 0 3.79 1.778 3.79 4.405zm-104.39-2.593c0 4.16-2.32 6.763-6.574 6.763h-3.478V8.508h3.466c4.254 0 6.574 2.71 6.587 6.764zM.116 0h47.956v47.956H.116zM42.01 22.02c-.036-.723-.12-1.448-.17-2.166a1.74 1.74 0 00-.395-.98 2.465 2.465 0 00-1.026-.74c-.808-.314-1.622-.664-2.435-.975a21.509 21.509 0 01-3.342-1.472 2.626 2.626 0 01-1.296-1.972 2.954 2.954 0 00-1.47-2.228 4.062 4.062 0 00-2.958-.35c-.734.176-1.5.165-2.23-.033l-1.112-.34-.302-.09-.873-.26c-1.57-.468-2.228-.713-4.773-.278a14.678 14.678 0 00-7.09 3.897l-6.37 6.76h5.72l-3.504 3.71h6.026l-3.503 3.71h4.844l-1.548 4.06c5.93 6.07 12.25 7.295 12.25 7.295 0-1.673.38-8.24.826-9.34a5.25 5.25 0 01.762-1.54 4.211 4.211 0 013.393-1.547c1.303 0 2.597.238 3.815.702.74.31 1.577.264 2.277-.122a38.42 38.42 0 001.498-.94.839.839 0 01.556-.18c.54.06 1.054-.237 1.27-.734.16-.33.35-.64.524-.97.472-.884.69-1.88.633-2.88z"></path></svg></a><nav class="main-nav" role="navigation"><ul><li class="top-level-entry-container"><button type="button" class="top-level-entry" aria-haspopup="true">Technologies<span class="main-menu-arrow" aria-hidden="true">▼</span></button><ul><li data-item="Technologies" role="menuitem"><a href="/en-US/docs/Web">Technologies Overview</a></li><li data-item="Technologies" role="menuitem"><a href="/en-US/docs/Web/HTML">HTML</a></li><li data-item="Technologies" role="menuitem"><a href="/en-US/docs/Web/CSS">CSS</a></li><li data-item="Technologies" role="menuitem"><a href="/en-US/docs/Web/JavaScript">JavaScript</a></li><li data-item="Technologies" role="menuitem"><a href="/en-US/docs/Web/Guide/Graphics">Graphics</a></li><li data-item="Technologies" role="menuitem"><a href="/en-US/docs/Web/HTTP">HTTP</a></li><li data-item="Technologies" role="menuitem"><a href="/en-US/docs/Web/API">APIs / DOM</a></li><li data-item="Technologies" role="menuitem"><a href="/en-US/docs/Mozilla/Add-ons/WebExtensions">Browser Extensions</a></li><li data-item="Technologies" role="menuitem"><a href="/en-US/docs/Web/MathML">MathML</a></li></ul></li><li class="top-level-entry-container"><button type="button" class="top-level-entry" aria-haspopup="true">References &amp; Guides<span class="main-menu-arrow" aria-hidden="true">▼</span></button><ul><li data-item="References &amp; Guides" role="menuitem"><a href="/en-US/docs/Learn">Learn web development</a></li><li data-item="References &amp; Guides" role="menuitem"><a href="/en-US/docs/Web/Tutorials">Tutorials</a></li><li data-item="References &amp; Guides" role="menuitem"><a href="/en-US/docs/Web/Reference">References</a></li><li data-item="References &amp; Guides" role="menuitem"><a href="/en-US/docs/Web/Guide">Developer Guides</a></li><li data-item="References &amp; Guides" role="menuitem"><a href="/en-US/docs/Web/Accessibility">Accessibility</a></li><li data-item="References &amp; Guides" role="menuitem"><a href="/en-US/docs/Games">Game development</a></li><li data-item="References &amp; Guides" role="menuitem"><a href="/en-US/docs/Web">...more docs</a></li></ul></li><li class="top-level-entry-container"><button type="button" class="top-level-entry" aria-haspopup="true">Feedback<span class="main-menu-arrow" aria-hidden="true">▼</span></button><ul><li data-item="Feedback" role="menuitem"><a href="/en-US/docs/MDN/Feedback">Send Feedback</a></li><li data-item="Feedback" role="menuitem"><a target="_blank" rel="noopener noreferrer" href="https://support.mozilla.org/">Get Firefox help<!-- --> 🌐</a></li><li data-item="Feedback" role="menuitem"><a target="_blank" rel="noopener noreferrer" href="https://stackoverflow.com/">Get web development help<!-- --> 🌐</a></li><li data-item="Feedback" role="menuitem"><a href="/en-US/docs/MDN/Community">Join the MDN community</a></li><li data-item="Feedback" role="menuitem"><a target="_blank" rel="noopener noreferrer" href="https://github.com/mdn/sprints/issues/new?template=issue-template.md&amp;projects=mdn/sprints/2&amp;labels=user-report&amp;title=%2Fen-US%2Fdocs%2FWeb%2FCSS%2FCSS_Grid_Layout%2FRelationship_of_Grid_Layout">Report a content problem<!-- --> 🌐</a></li><li data-item="Feedback" role="menuitem"><a target="_blank" rel="noopener noreferrer" href="https://github.com/mdn/kuma/issues/new/choose">Report an issue<!-- --> 🌐</a></li></ul></li></ul></nav><form class="header-search" id="nav-main-search" action="/en-US/search" method="get" role="search"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 28" aria-hidden="true" class="search-icon"><path d="M18 13c0-3.859-3.141-7-7-7s-7 3.141-7 7 3.141 7 7 7 7-3.141 7-7zm8 13c0 1.094-.906 2-2 2a1.96 1.96 0 01-1.406-.594l-5.359-5.344a10.971 10.971 0 01-6.234 1.937c-6.078 0-11-4.922-11-11s4.922-11 11-11 11 4.922 11 11c0 2.219-.672 4.406-1.937 6.234l5.359 5.359c.359.359.578.875.578 1.406z"></path></svg><label for="main-q" class="visually-hidden">Search MDN</label><input type="search" class="search-input-field" id="main-q" name="q" placeholder="Search MDN" pattern="(.|\s)*\S(.|\s)*" required=""/></form></header><main role="main"><header><div class="titlebar-container"><div class="titlebar"><h1 class="title">Relationship of grid layout to other layout methods</h1></div></div><div class="full-width-row-container"><div class="max-content-width-container"><nav class="breadcrumbs" role="navigation"><ol typeof="BreadcrumbList" vocab="https://schema.org/" aria-label="breadcrumbs"><li property="itemListElement" typeof="ListItem"><a href="/en-US/docs/Web" class="breadcrumb-chevron" property="item" typeof="WebPage"><span class="pre-text">See<!-- --> </span><span property="name">Web technology for developers</span></a><meta property="position" content="1"/></li><li property="itemListElement" typeof="ListItem"><a href="/en-US/docs/Web/CSS" class="breadcrumb-chevron" property="item" typeof="WebPage"><span class="pre-text">See<!-- --> </span><span property="name">CSS: Cascading Style Sheets</span></a><meta property="position" content="2"/></li><li property="itemListElement" typeof="ListItem"><a href="/en-US/docs/Web/CSS/CSS_Grid_Layout" class="breadcrumb-previous" property="item" typeof="WebPage"><span class="pre-text">See<!-- --> </span><span property="name">CSS Grid Layout</span></a><meta property="position" content="3"/></li><li property="itemListElement" typeof="ListItem"><a href="/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout" class="crumb-current-page" property="item" typeof="WebPage"><span property="name" aria-current="page">Relationship of grid layout to other layout methods</span></a><meta property="position" content="4"/></li></ol></nav><div class="dropdown-container"><button id="header-language-menu" type="button" class="dropdown-menu-label" aria-haspopup="true" aria-owns="language-menu" aria-label="Current language is English. Choose your preferred language.">English<span class="dropdown-arrow-down" aria-hidden="true">▼</span></button><ul id="language-menu" class="dropdown-menu-items right" role="menu"><li lang="ar" role="menuitem"><a href="/ar/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout_arabic" title="Arabic"><bdi>عربي</bdi></a></li><li lang="es" role="menuitem"><a href="/es/docs/Web/CSS/CSS_Grid_Layout/Relacion_de_Grid_Layout" title="Spanish"><bdi>Español</bdi></a></li><li lang="fr" role="menuitem"><a href="/fr/docs/Web/CSS/CSS_Grid_Layout/Mod%C3%A8le_de_grille_et_autres_mod%C3%A8les_de_disposition" title="French"><bdi>Français</bdi></a></li><li lang="ja" role="menuitem"><a href="/ja/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout" title="Japanese"><bdi>日本語</bdi></a></li><li lang="ko" role="menuitem"><a href="/ko/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_grid_layout" title="Korean"><bdi>한국어</bdi></a></li><li lang="pt-BR" role="menuitem"><a href="/pt-BR/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout" title="Portuguese (Brazilian)"><bdi>Português (do Brasil)</bdi></a></li><li lang="ru" role="menuitem"><a href="/ru/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout" title="Russian"><bdi>Русский</bdi></a></li><li lang="uk" role="menuitem"><a href="/uk/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout" title="Ukrainian"><bdi>Українська</bdi></a></li><li lang="zh-CN" role="menuitem"><a href="/zh-CN/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout" title="Chinese (Simplified)"><bdi>中文 (简体)</bdi></a></li><li><a href="https://wiki.developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout$locales" rel="nofollow" id="translations-add">Add a translation</a></li></ul></div></div></div></header><div class="wiki-left-present content-layout"><aside class="document-toc-container"><section class="document-toc"><header><h2>On this Page</h2><button type="button" class="toc-trigger-mobile">Jump to section<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 28" aria-hidden="true" role="img"><path d="M16 11a.99.99 0 01-.297.703l-7 7C8.516 18.89 8.265 19 8 19s-.516-.109-.703-.297l-7-7A.996.996 0 010 11c0-.547.453-1 1-1h14c.547 0 1 .453 1 1z"></path></svg></button></header><ul><li><a href="#Grid_and_flexbox" rel="internal">Grid and flexbox</a><li><a href="#Grid_and_absolutely_positioned_elements" rel="internal">Grid and absolutely positioned elements</a><li><a href="#Grid_and_display_contents" rel="internal">Grid and <code>display: contents</code></a><li><a href="#See_Also" rel="internal">See Also</a></ul></section></aside><div id="content" class="article text-content"><article id="wikiArticle"><p>CSS Grid Layout has been designed to work alongside other parts of CSS, as part of a complete system for doing the layout. In this guide, I will explain how a grid fits together with other techniques you may already be using.</p>
+
+<h2 id="Grid_and_flexbox">Grid and flexbox</h2>
+
+<p>The basic difference between CSS Grid Layout and <a href="/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout">CSS Flexbox Layout</a> is that flexbox was designed for layout in one dimension - either a row <em>or</em> a column. Grid was designed for two-dimensional layout - rows, and columns at the same time. The two specifications share some common features, however, and if you have already learned how to use flexbox, the similarities should help you get to grips with Grid.</p>
+
+<h3 id="One-dimensional_vs._two-dimensional_layout">One-dimensional vs. two-dimensional layout</h3>
+
+<p>A simple example can demonstrate the difference between one- and two-dimensional layouts.</p>
+
+<p>In this first example, I am using flexbox to lay out a set of boxes. I have five child items in my container, and I have given the flex properties values so that they can grow and shrink from a flex-basis of 150 pixels.</p>
+
+<p>I have also set the <a href="/en-US/docs/Web/CSS/flex-wrap" title="The flex-wrap CSS property sets whether flex items are forced onto one line or can wrap onto multiple lines. If wrapping is allowed, it sets the direction that lines are stacked."><code>flex-wrap</code></a> property to <code>wrap</code>, so that if the space in the container becomes too narrow to maintain the flex basis, items will wrap onto a new row.</p>
+
+<div id="onedtwod">
+<div class="hidden">
+<pre class="brush: css">* {box-sizing: border-box;}
+
+.wrapper {
+  border: 2px solid #f76707;
+  border-radius: 5px;
+  background-color: #fff4e6;
+}
+
+.wrapper &gt; div {
+  border: 2px solid #ffa94d;
+  border-radius: 5px;
+  background-color: #ffd8a8;
+  padding: 1em;
+  color: #d9480f;
+}
+</pre>
+</div>
+
+<pre class="brush: html">&lt;div class="wrapper"&gt;
+  &lt;div&gt;One&lt;/div&gt;
+  &lt;div&gt;Two&lt;/div&gt;
+  &lt;div&gt;Three&lt;/div&gt;
+  &lt;div&gt;Four&lt;/div&gt;
+  &lt;div&gt;Five&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+<pre class="brush: css">.wrapper {
+  width: 500px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.wrapper &gt; div {
+  flex: 1 1 150px;
+}
+</pre>
+</div>
+
+<p><iframe class="live-sample-frame sample-code-frame" frameborder="0" height="230" id="frame_onedtwod" src="https://mdn.mozillademos.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout$samples/onedtwod?revision=1619228" width="500"></iframe></p>
+
+<p>In the image, you can see that two items have wrapped onto a new line. These items are sharing the available space and not lining up underneath the items above. This is because when you wrap flex items, each new row (or column when working by column) becomes a new flex container. Space distribution happens across the row.</p>
+
+<p>A common question then is how to make those items line up. This is where you want a two-dimensional layout method: You want to control the alignment by row and column, and this is where grid comes in.</p>
+
+<h3 id="The_same_layout_with_CSS_grids">The same layout with CSS grids</h3>
+
+<p>In this next example, I create the same layout using Grid. This time we have three <code>1fr</code> column tracks. We do not need to set anything on the items themselves; they will lay themselves out one into each cell of the created grid. As you can see they stay in a strict grid, lining up in rows and columns. With five items, we get a gap on the end of row two.</p>
+
+<div class="Two_Dimensional_With_Grid">
+<div class="hidden">
+<pre class="brush: css">* {box-sizing: border-box;}
+
+.wrapper {
+  border: 2px solid #f76707;
+  border-radius: 5px;
+  background-color: #fff4e6;
+}
+
+.wrapper &gt; div {
+  border: 2px solid #ffa94d;
+  border-radius: 5px;
+  background-color: #ffd8a8;
+  padding: 1em;
+  color: #d9480f;
+}
+</pre>
+</div>
+
+<pre class="brush: html">&lt;div class="wrapper"&gt;
+  &lt;div&gt;One&lt;/div&gt;
+  &lt;div&gt;Two&lt;/div&gt;
+  &lt;div&gt;Three&lt;/div&gt;
+  &lt;div&gt;Four&lt;/div&gt;
+  &lt;div&gt;Five&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+<pre class="brush: css">.wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+</pre>
+
+<p><iframe class="live-sample-frame sample-code-frame" frameborder="0" height="170" id="frame_Two_Dimensional_With_Grid" src="https://mdn.mozillademos.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout$samples/Two_Dimensional_With_Grid?revision=1619228" width="300"></iframe></p>
+</div>
+
+<p>A simple question to ask yourself when deciding between grid or flexbox is:</p>
+
+<ul>
+ <li>do I only need to control the layout by row <u><em>or</em></u> column – use a flexbox</li>
+ <li>do I need to control the layout by row <u><em>and</em></u> column – use a grid</li>
+</ul>
+
+<h3 id="Content_out_or_layout_in">Content out or layout in?</h3>
+
+<p>In addition to the one-dimensional versus two-dimensional distinction, there is another way to decide if you should use flexbox or grid for a layout. Flexbox works from the content out. An ideal use case for flexbox is when you have a set of items and want to space them out evenly in a container. You let the size of the content decide how much individual space each item takes up. If the items wrap onto a new line, they will work out their spacing based on their size and the available space <em>on that line</em>.</p>
+
+<p>Grid works from the layout in. When you use CSS Grid Layout you create a layout and then you place items into it, or you allow the auto-placement rules to place the items into the grid cells according to that strict grid. It is possible to create tracks that respond to the size of the content, however, they will also change the entire track.</p>
+
+<p>If you are using flexbox and find yourself disabling some of the flexibility, you probably need to use CSS Grid Layout. An example would be if you are setting a percentage width on a flex item to make it line up with other items in a row above. In that case, a grid is likely to be a better choice.</p>
+
+<h3 id="Box_alignment">Box alignment</h3>
+
+<p>The feature of flexbox that was most exciting to many of us was that it gave us proper alignment control for the first time. It made it easy to center a box on the page. Flex items can stretch to the height of the flex container, meaning that equal height columns were possible. These were things we have wanted to do for a very long time, and have come up with all kinds of hacks to accomplish, at least visually.</p>
+
+<p>The alignment properties from the flexbox specification have been added to a new specification called <a class="external" href="https://drafts.csswg.org/css-align/" rel="noopener">Box Alignment Level 3</a>. This means that they can be used in other specifications, including Grid Layout. In the future, they may well apply to other layout methods as well.</p>
+
+<p>In a later guide in this series, I’ll be taking a proper look at Box Alignment and how it works in Grid Layout. For now, here is a comparison between simple examples of flexbox and grid.</p>
+
+<p>In the first example, which uses flexbox, I have a container with three items inside. The wrapper <a href="/en-US/docs/Web/CSS/min-height" title="The min-height CSS property sets the minimum height of an element. It prevents the used value of the height property from becoming smaller than the value specified for min-height."><code>min-height</code></a> is set, so it defines the height of the flex container. I have set <a href="/en-US/docs/Web/CSS/align-items" title="The CSS align-items property sets the align-self value on all direct children as a group."><code>align-items</code></a> on the flex container to <code>flex-end</code> so the items will line up at the end of the flex container. I have also set the <a href="/en-US/docs/Web/CSS/align-self" title="The align-self CSS property overrides a grid or flex item's align-items value. In Grid, it aligns the item inside the grid area. In Flexbox, it aligns the item on the cross axis."><code>align-self</code></a> property on <code>box1</code> so it will override the default and stretch to the height of the container and on <code>box2</code> so it aligns to the start of the flex container.</p>
+
+<div class="hidden">
+<pre class="brush: css">* {box-sizing: border-box;}
+
+.wrapper {
+  border: 2px solid #f76707;
+  border-radius: 5px;
+  background-color: #fff4e6;
+}
+
+.wrapper &gt; div {
+  border: 2px solid #ffa94d;
+  border-radius: 5px;
+  background-color: #ffd8a8;
+  padding: 1em;
+  color: #d9480f;
+}
+</pre>
+</div>
+
+<pre class="brush: html">&lt;div class="wrapper"&gt;
+  &lt;div class="box1"&gt;One&lt;/div&gt;
+  &lt;div class="box2"&gt;Two&lt;/div&gt;
+  &lt;div class="box3"&gt;Three&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+<pre class="brush: css">.wrapper {
+  display: flex;
+  align-items: flex-end;
+  min-height: 200px; 
+}
+.box1 {
+  align-self: stretch;
+}
+.box2 {
+  align-self: flex-start;
+}
+</pre>
+
+<p><iframe class="live-sample-frame sample-code-frame" frameborder="0" height="230" id="frame_Box_alignment" src="https://mdn.mozillademos.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout$samples/Box_alignment?revision=1619228" width="300"></iframe></p>
+
+<h3 id="Alignment_in_CSS_Grids">Alignment in CSS Grids</h3>
+
+<p>This second example uses a grid to create the same layout. This time we are using the box alignment properties as they apply to a grid layout. So we align to <code>start</code> and <code>end</code> rather than <code>flex-start</code> and <code>flex-end</code>. In the case of a grid layout, we are aligning the items inside their grid area. In this case that is a single grid cell, but it could be an area made up of several grid cells.</p>
+
+<div class="hidden">
+<pre class="brush: css">* {box-sizing: border-box;}
+
+.wrapper {
+  border: 2px solid #f76707;
+  border-radius: 5px;
+  background-color: #fff4e6;
+}
+
+.wrapper &gt; div {
+  border: 2px solid #ffa94d;
+  border-radius: 5px;
+  background-color: #ffd8a8;
+  padding: 1em;
+  color: #d9480f;
+}
+</pre>
+</div>
+
+<pre class="brush: html">&lt;div class="wrapper"&gt;
+  &lt;div class="box1"&gt;One&lt;/div&gt;
+  &lt;div class="box2"&gt;Two&lt;/div&gt;
+  &lt;div class="box3"&gt;Three&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+<pre class="brush: css">.wrapper {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  align-items: end;
+  grid-auto-rows: 200px;
+}
+.box1 {
+  align-self: stretch;
+}
+.box2 {
+  align-self: start;
+}
+</pre>
+
+<p><iframe class="live-sample-frame sample-code-frame" frameborder="0" height="310" id="frame_Alignment_in_CSS_Grids" src="https://mdn.mozillademos.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout$samples/Alignment_in_CSS_Grids?revision=1619228" width="200"></iframe></p>
+
+<h3 id="The_fr_unit_and_flex-basis">The <code>fr</code> unit and <code>flex-basis</code></h3>
+
+<p>We have already seen how the <code>fr</code> unit works to assign a proportion of available space in the grid container to our grid tracks. The <code>fr</code> unit, when combined with the <a href="/en-US/docs/Web/CSS/minmax" title="The documentation about this has not yet been written; please consider contributing!"><code>minmax()</code></a> function can give us very similar behavior to the <code>flex</code> properties in flexbox while still enabling the creation of a layout in two dimensions.</p>
+
+<p>If we look back at the example where I demonstrated the difference between one and two-dimensional layouts, you can see there is a difference between the way of the two layouts work responsively. With the flex layout, if we drag our window wider and smaller, the flexbox does a nice job of adjusting the number of items in each row according to the available space. If we have a lot of space all five items can fit on one row. If we have a very narrow container we may only have space for one.</p>
+
+<p>In comparison, the grid version always has three column tracks. The tracks themselves will grow and shrink, but there are always three since we asked for three when defining our grid.</p>
+
+<h4 id="Auto-filling_grid_tracks">Auto-filling grid tracks</h4>
+
+<p>We can create a similar effect to flexbox, while still keeping the content arranged in strict rows and columns, by creating our track listing using repeat notation and the <code>auto-fill</code> and <code>auto-fit</code> properties.</p>
+
+<p>In this next example, I have used the <code>auto-fill</code> keyword in place of an integer in the repeat notation and set the track listing to 200 pixels. This means that grid will create as many 200 pixels column tracks as will fit in the container.</p>
+
+<div class="hidden">
+<pre class="brush: css">* {box-sizing: border-box;}
+
+.wrapper {
+  border: 2px solid #f76707;
+  border-radius: 5px;
+  background-color: #fff4e6;
+}
+
+.wrapper &gt; div {
+  border: 2px solid #ffa94d;
+  border-radius: 5px;
+  background-color: #ffd8a8;
+  padding: 1em;
+  color: #d9480f;
+}
+</pre>
+</div>
+
+<pre class="brush: html">&lt;div class="wrapper"&gt;
+  &lt;div&gt;One&lt;/div&gt;
+  &lt;div&gt;Two&lt;/div&gt;
+  &lt;div&gt;Three&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+<pre class="brush: css">.wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 200px);
+}
+</pre>
+
+<p><iframe class="live-sample-frame sample-code-frame" frameborder="0" height="170" id="frame_Auto-filling_grid_tracks" src="https://mdn.mozillademos.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout$samples/Auto-filling_grid_tracks?revision=1619228" width="500"></iframe></p>
+
+<h3 id="A_flexible_number_of_tracks">A flexible number of tracks</h3>
+
+<p>This isn’t quite the same as flexbox. In the flexbox example, the items are larger than the 200 pixel basis before wrapping. We can achieve the same in grid by combining <code>auto-fit</code> and the <a href="/en-US/docs/Web/CSS/minmax" title="The documentation about this has not yet been written; please consider contributing!"><code>minmax()</code></a> function. In this next example, I create auto filled tracks with <code>minmax</code>. I want my tracks to be a minimum of 200 pixels, so I set the maximum to be <code>1fr</code>. Once the browser has worked out how many times 200 pixels will fit into the container–also taking account of grid gaps–it will treat the <code>1fr</code> maximum as an instruction to share out the remaining space between the items.</p>
+
+<div class="hidden">
+<pre class="brush: css">* {box-sizing: border-box;}
+
+.wrapper {
+  border: 2px solid #f76707;
+  border-radius: 5px;
+  background-color: #fff4e6;
+}
+
+.wrapper &gt; div {
+  border: 2px solid #ffa94d;
+  border-radius: 5px;
+  background-color: #ffd8a8;
+  padding: 1em;
+  color: #d9480f;
+}
+</pre>
+</div>
+
+<pre class="brush: html">&lt;div class="wrapper"&gt;
+  &lt;div&gt;One&lt;/div&gt;
+  &lt;div&gt;Two&lt;/div&gt;
+  &lt;div&gt;Three&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+<pre class="brush: css">.wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+</pre>
+
+<p><iframe class="live-sample-frame sample-code-frame" frameborder="0" height="170" id="frame_A_flexible_number_of_tracks" src="https://mdn.mozillademos.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout$samples/A_flexible_number_of_tracks?revision=1619228" width="500"></iframe></p>
+
+<p>We now have the ability to create a grid with a flexible number of flexible tracks, but see items laid out on the grid aligned by rows and columns at the same time.</p>
+
+<h2 id="Grid_and_absolutely_positioned_elements">Grid and absolutely positioned elements</h2>
+
+<p>Grid interacts with absolutely positioned elements, which can be useful if you want to position an item inside a grid or grid area. The specification defines the behavior when a grid container is a containing block and a parent of the absolutely positioned item.</p>
+
+<h3 id="A_grid_container_as_containing_block">A grid container as containing block</h3>
+
+<p>To make the grid container a containing block you need to add the position property to the container with a value of relative, just as you would make a containing block for any other absolutely positioned items. Once you have done this, if you give a grid item <code>position: absolute</code> it will take as its containing block the grid container or, if the item also has a grid position, the area of the grid it is placed into.</p>
+
+<p>In the below example I have a wrapper containing four child items. Item three is absolutely positioned and also placed on the grid using line-based placement. The grid container has <code>position: relative</code> and so becomes the positioning context of this item.</p>
+
+<div class="hidden">
+<pre class="brush: css">* {box-sizing: border-box;}
+
+.wrapper {
+  border: 2px solid #f76707;
+  border-radius: 5px;
+  background-color: #fff4e6;
+}
+
+.wrapper &gt; div {
+  border: 2px solid #ffa94d;
+  border-radius: 5px;
+  background-color: #ffd8a8;
+  padding: 1em;
+  color: #d9480f;
+}
+</pre>
+</div>
+
+<pre class="brush: html">&lt;div class="wrapper"&gt;
+  &lt;div class="box1"&gt;One&lt;/div&gt;
+  &lt;div class="box2"&gt;Two&lt;/div&gt;
+  &lt;div class="box3"&gt;
+   This block is absolutely positioned. In this example the grid container is the containing block and so the absolute positioning offset values are calculated in from the outer edges of the area it has been placed into.
+  &lt;/div&gt;
+  &lt;div class="box4"&gt;Four&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+<pre class="brush: css">.wrapper {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  grid-auto-rows: 200px;
+  grid-gap: 20px;
+  position: relative;
+}
+.box3 {
+  grid-column-start: 2;
+  grid-column-end: 4;
+  grid-row-start: 1;
+  grid-row-end: 3;
+  position: absolute;
+  top: 40px;
+  left: 40px;
+}
+</pre>
+
+<p><iframe class="live-sample-frame sample-code-frame" frameborder="0" height="330" id="frame_A_grid_container_as_containing_block" src="https://mdn.mozillademos.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout$samples/A_grid_container_as_containing_block?revision=1619228" width="500"></iframe></p>
+
+<p>You can see that the item is taking the area from grid column line 2 to 4, and starting after line 1. Then it is offset in that area using the top and left properties. However, it has been taken out of flow as is usual for absolutely positioned items and so the auto-placement rules now place items into the same space. The item also doesn’t cause the additional row to be created to span to row line 3.</p>
+
+<p>If we remove <code>position:</code> <code>absolute</code> from the rules for <code>.box3</code> you can see how it would display without the positioning.</p>
+
+<h3 id="A_grid_container_as_parent">A grid container as parent</h3>
+
+<p>If the absolutely positioned child has a grid container as a parent but that container does not create a new positioning context, then it is taken out of flow as in the previous example. The positioning context will be whatever element creates a positioning context as is common to other layout methods. In our case, if we remove <code>position:</code> <code>relative</code> from the wrapper above, positioning context is from the viewport, as shown in this image.</p>
+
+<p><img alt="Image of grid container as parent" src="https://mdn.mozillademos.org/files/14661/2_abspos_example.png" style="height: 408px; width: 1702px;"></p>
+
+<p>Once again the item no longer participates in the grid layout in terms of sizing or when other items are auto-placed.</p>
+
+<h3 id="With_a_grid_area_as_the_parent">With a grid area as the parent</h3>
+
+<p>If the absolutely positioned item is nested inside a grid area then you can create a positioning context on that area. In the below example we have our grid as before but this time I have nested an item inside <code>.box3</code> of the grid.</p>
+
+<p>I have given <code>.box3</code> position relative and then positioned the sub-item with the offset properties. In this case, the positioning context is the grid area.</p>
+
+<div class="hidden">
+<pre class="brush: css">* {box-sizing: border-box;}
+
+.wrapper {
+  border: 2px solid #f76707;
+  border-radius: 5px;
+  background-color: #fff4e6;
+}
+
+.wrapper &gt; div {
+  border: 2px solid #ffa94d;
+  border-radius: 5px;
+  background-color: #ffd8a8;
+  padding: 1em;
+  color: #d9480f;
+}
+</pre>
+</div>
+
+<pre class="brush: html">&lt;div class="wrapper"&gt;
+  &lt;div class="box1"&gt;One&lt;/div&gt;
+  &lt;div class="box2"&gt;Two&lt;/div&gt;
+  &lt;div class="box3"&gt;Three
+    &lt;div class="abspos"&gt;
+     This block is absolutely positioned. In this example the grid area is the containing block and so the absolute positioning offset values are calculated in from the outer edges of the grid area.
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="box4"&gt;Four&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+<pre class="brush: css">.wrapper {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  grid-auto-rows: 200px;
+  grid-gap: 20px;
+}
+.box3 {
+  grid-column-start: 2;
+  grid-column-end: 4;
+  grid-row-start: 1;
+  grid-row-end: 3;
+  position: relative;
+}
+.abspos {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  background-color: rgba(255,255,255,.5);
+  border: 1px solid rgba(0,0,0,0.5);
+  color: #000;
+  padding: 10px;
+}
+</pre>
+
+<p><iframe class="live-sample-frame sample-code-frame" frameborder="0" height="420" id="frame_With_a_grid_area_as_the_parent" src="https://mdn.mozillademos.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout$samples/With_a_grid_area_as_the_parent?revision=1619228" width="500"></iframe></p>
+
+<h2 id="Grid_and_display_contents">Grid and <code>display: contents</code></h2>
+
+<p>A final interaction with another layout specification that is worth noting is the interaction between CSS Grid Layout and <code>display: contents</code>. The <code>contents</code> value of the display property is a new value that is described in the <a class="external" href="https://drafts.csswg.org/css-display/#box-generation" rel="noopener">Display specification</a> as follows:</p>
+
+<blockquote>
+<p>“The element itself does not generate any boxes, but its children and pseudo-elements still generate boxes as normal. For the purposes of box generation and layout, the element must be treated as if it had been replaced with its children and pseudo-elements in the document tree.”</p>
+</blockquote>
+
+<p>If you set an item to <code>display:</code> <code>contents</code> the box it would normally create disappears, and the boxes of the child elements appear as if they have risen up a level. This means that children of a grid item can become grid items. Sound odd? Here is a simple example. In the following markup, I have a grid and the first item on the grid is set to span all three column tracks. It contains three nested items. As these items are not direct children, they don’t become part of the grid layout and so display using regular block layout.</p>
+
+<div id="Display_Contents_Before">
+<div class="hidden">
+<pre class="brush: css">* {box-sizing: border-box;}
+
+.wrapper {
+  border: 2px solid #f76707;
+  border-radius: 5px;
+  background-color: #fff4e6;
+}
+
+.box {
+  border: 2px solid #ffa94d;
+  border-radius: 5px;
+  background-color: #ffd8a8;
+  padding: 1em;
+  color: #d9480f;
+}
+.nested {
+  border: 2px solid #ffec99;
+  border-radius: 5px;
+  background-color: #fff9db;
+  padding: 1em;
+}
+</pre>
+</div>
+
+<pre class="brush: html">&lt;div class="wrapper"&gt;
+  &lt;div class="box box1"&gt;
+    &lt;div class="nested"&gt;a&lt;/div&gt;
+    &lt;div class="nested"&gt;b&lt;/div&gt;
+    &lt;div class="nested"&gt;c&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="box box2"&gt;Two&lt;/div&gt;
+  &lt;div class="box box3"&gt;Three&lt;/div&gt;
+  &lt;div class="box box4"&gt;Four&lt;/div&gt;
+  &lt;div class="box box5"&gt;Five&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+<pre class="brush: css">.wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: minmax(100px, auto);
+}
+.box1 {
+  grid-column-start: 1;
+  grid-column-end: 4;
+}
+
+</pre>
+
+<p><iframe class="live-sample-frame sample-code-frame" frameborder="0" height="420" id="frame_Display_Contents_Before" src="https://mdn.mozillademos.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout$samples/Display_Contents_Before?revision=1619228" width="400"></iframe></p>
+</div>
+
+<p>If I now add <code>display:</code> <code>contents</code> to the rules for <code>box1</code>, the box for that item vanishes and the sub-items now become grid items and lay themselves out using the auto-placement rules.</p>
+
+<div id="Display_Contents_After">
+<div class="hidden">
+<pre class="brush: css">* {box-sizing: border-box;}
+
+.wrapper {
+  border: 2px solid #f76707;
+  border-radius: 5px;
+  background-color: #fff4e6;
+}
+
+.box {
+  border: 2px solid #ffa94d;
+  border-radius: 5px;
+  background-color: #ffd8a8;
+  padding: 1em;
+  color: #d9480f;
+}
+.nested {
+  border: 2px solid #ffec99;
+  border-radius: 5px;
+  background-color: #fff9db;
+  padding: 1em;
+}
+</pre>
+</div>
+
+<pre class="brush: html">&lt;div class="wrapper"&gt;
+  &lt;div class="box box1"&gt;
+    &lt;div class="nested"&gt;a&lt;/div&gt;
+    &lt;div class="nested"&gt;b&lt;/div&gt;
+    &lt;div class="nested"&gt;c&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="box box2"&gt;Two&lt;/div&gt;
+  &lt;div class="box box3"&gt;Three&lt;/div&gt;
+  &lt;div class="box box4"&gt;Four&lt;/div&gt;
+  &lt;div class="box box5"&gt;Five&lt;/div&gt;
+&lt;/div&gt;
+</pre>
+
+<pre class="brush: css">.wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: minmax(100px, auto);
+}
+.box1 {
+  grid-column-start: 1;
+  grid-column-end: 4;
+  display: contents;
+}
+</pre>
+
+<p><iframe class="live-sample-frame sample-code-frame" frameborder="0" height="330" id="frame_Display_Contents_After" src="https://mdn.mozillademos.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout$samples/Display_Contents_After?revision=1619228" width="400"></iframe></p>
+</div>
+
+<p>This can be a way to get items nested into the grid to act as if they are part of the grid, and is a way around some of the issues that would be solved by subgrids once they are implemented. You can also use <code>display:</code> <code>contents</code> in a similar way with flexbox to enable nested items to become flex items.</p>
+
+<p>As you can see from this guide, CSS Grid Layout is just one part of your toolkit. Don’t be afraid to mix it with other methods of doing layout to get the different effects you need.</p>
+
+<h2 id="See_Also">See Also</h2>
+
+<ul>
+ <li><a href="/en-US/docs/Learn/CSS/CSS_layout/Flexbox">Flexbox Guides</a></li>
+ <li><a href="/en-US/docs/Web/CSS/CSS_Columns">Multiple-column Layout Guides</a></li>
+</ul>
+
+</article><div class="metadata"><section class="document-meta"><header class="visually-hidden"><h4>Metadata</h4></header> <ul><li class="last-modified"><b>Last modified:</b> <time dateTime="2020-04-20T09:44:21.710873">Apr 20, 2020</time>,<!-- --> <a href="https://wiki.developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout$history" rel="nofollow">by MDN contributors</a></li></ul></section></div></div><div class="sidebar"><div class="quick-links"><div class="quick-links-head sidebar-heading">Related Topics</div><div>
+<ol>
+ <li><a href="/en-US/docs/Web/CSS"><strong>CSS</strong></a></li>
+ <li><a href="/en-US/docs/Web/CSS/Reference"><strong>CSS Reference</strong></a></li>
+ <li><a href="/en-US/docs/Web/CSS/CSS_Grid_Layout">CSS Grid Layout</a></li>
+ <li data-default-state="open"><a href="#"><strong>Guides</strong></a>
+  <ol>
+   <li><a href="/en-US/docs/Web/CSS/CSS_Grid_Layout/Basic_Concepts_of_Grid_Layout">Basics concepts of grid layout</a></li>
+   <li><a href="/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout">Relationship to other layout methods</a></li>
+   <li><a href="/en-US/docs/Web/CSS/CSS_Grid_Layout/Line-based_Placement_with_CSS_Grid">Line-based placement</a></li>
+   <li><a href="/en-US/docs/Web/CSS/CSS_Grid_Layout/Grid_Template_Areas">Grid template areas</a></li>
+   <li><a href="/en-US/docs/Web/CSS/CSS_Grid_Layout/Layout_using_Named_Grid_Lines">Layout using named grid lines</a></li>
+   <li><a href="/en-US/docs/Web/CSS/CSS_Grid_Layout/Auto-placement_in_CSS_Grid_Layout">Auto-placement in grid layout</a></li>
+   <li><a href="/en-US/docs/Web/CSS/CSS_Grid_Layout/Box_Alignment_in_CSS_Grid_Layout">Box alignment in grid layout</a></li>
+   <li><a href="/en-US/docs/Web/CSS/CSS_Grid_Layout/CSS_Grid,_Logical_Values_and_Writing_Modes">Grids, logical values, and writing modes</a></li>
+   <li><a href="/en-US/docs/Web/CSS/CSS_Grid_Layout/CSS_Grid_Layout_and_Accessibility">CSS Grid Layout and Accessibility</a></li>
+   <li><a href="/en-US/docs/Web/CSS/CSS_Grid_Layout/CSS_Grid_and_Progressive_Enhancement">CSS Grid Layout and Progressive Enhancement</a></li>
+   <li><a href="/en-US/docs/Web/CSS/CSS_Grid_Layout/Realizing_common_layouts_using_CSS_Grid_Layout">Realizing common layouts using grids</a></li>
+  </ol>
+ </li>
+ <li data-default-state="open"><a href="#"><strong>Properties</strong></a>
+  <ol>
+   <li><a href="/en-US/docs/Web/CSS/grid">grid</a></li>
+   <li><a href="/en-US/docs/Web/CSS/grid-area">grid-area</a></li>
+   <li><a href="/en-US/docs/Web/CSS/grid-auto-columns">grid-auto-columns</a></li>
+   <li><a href="/en-US/docs/Web/CSS/grid-auto-flow">grid-auto-flow</a></li>
+   <li><a href="/en-US/docs/Web/CSS/grid-auto-rows">grid-auto-rows</a></li>
+   <li><a href="/en-US/docs/Web/CSS/grid-column">grid-column</a></li>
+   <li><a href="/en-US/docs/Web/CSS/grid-column-end">grid-column-end</a></li>
+   <li><a href="/en-US/docs/Web/CSS/grid-column-gap">grid-column-gap</a></li>
+   <li><a href="/en-US/docs/Web/CSS/grid-column-start">grid-column-start</a></li>
+   <li><a href="/en-US/docs/Web/CSS/grid-gap">grid-gap</a></li>
+   <li><a href="/en-US/docs/Web/CSS/grid-row">grid-row</a></li>
+   <li><a href="/en-US/docs/Web/CSS/grid-row-end">grid-row-end</a></li>
+   <li><a href="/en-US/docs/Web/CSS/grid-row-gap">grid-row-gap</a></li>
+   <li><a href="/en-US/docs/Web/CSS/grid-row-start">grid-row-start</a></li>
+   <li><a href="/en-US/docs/Web/CSS/grid-template">grid-template</a></li>
+   <li><a href="/en-US/docs/Web/CSS/grid-template-areas">grid-template-areas</a></li>
+   <li><a href="/en-US/docs/Web/CSS/grid-template-columns">grid-template-columns</a></li>
+   <li><a href="/en-US/docs/Web/CSS/grid-template-rows">grid-template-rows</a></li>
+  </ol>
+ </li>
+ <li data-default-state="open"><a href="#"><strong>Glossary</strong></a>
+  <ol>
+   <li><a href="/en-US/docs/Glossary/Grid">Grid</a></li>
+   <li><a href="/en-US/docs/Glossary/Grid_lines">Grid lines</a></li>
+   <li><a href="/en-US/docs/Glossary/Grid_tracks">Grid tracks</a></li>
+   <li><a href="/en-US/docs/Glossary/Grid_cell">Grid cell</a></li>
+   <li><a href="/en-US/docs/Glossary/Grid_areas">Grid areas</a></li>
+   <li><a href="/en-US/docs/Glossary/Gutters">Gutters</a></li>
+   <li><a href="/en-US/docs/Glossary/Grid_Axis">Grid Axis</a></li>
+   <li><a href="/en-US/docs/Glossary/Grid_rows">Grid row</a></li>
+   <li><a href="/en-US/docs/Glossary/Grid_column">Grid column</a></li>
+  </ol>
+ </li>
+</ol>
+</div></div></div></div></main><section class="newsletter-container"><div id="newsletter-form-container" class="newsletter"><form class="newsletter-form nodisable" name="newsletter-form"><section class="newsletter-head"><h2 class="newsletter-teaser">Learn the best of web development</h2><p class="newsletter-description">Get the latest and greatest from MDN delivered straight to your inbox.</p><p class="hidden" aria-hidden="true">The newsletter is offered in English only at the moment.</p></section><fieldset class="newsletter-fields"><input type="hidden" name="fmt" value="H"/><input type="hidden" name="newsletters" value="app-dev"/><div class="form-group newsletter-group-email"><label for="newsletter-email-input" class="form-label offscreen">E-mail</label><input type="email" id="newsletter-email-input" name="email" class="form-input newsletter-input-email" placeholder="you@example.com" required=""/></div><div id="newsletter-privacy" class="form-group form-group-agree newsletter-group-privacy" aria-hidden="false"><input type="checkbox" id="newsletter-privacy-input" name="privacy" required=""/><label for="newsletter-privacy-input">I’m okay with Mozilla handling my info as explained in this <a href="https://www.mozilla.org/privacy/">Privacy Policy</a>.</label></div><div class="newsletter-group-submit"><button id="newsletter-submit" type="submit" class="button neutral newsletter-submit">Sign up now</button></div></fieldset></form><button type="button" class="only-icon newsletter-hide" aria-controls="newsletter-form-container"><span>Hide Newsletter Sign-up</span><svg class="icon icon-close" xmlns="http://www.w3.org/2000/svg" role="presentation" viewBox="0 0 24 28"><path d="M20.281 20.656c0 .391-.156.781-.438 1.062l-2.125 2.125c-.281.281-.672.438-1.062.438s-.781-.156-1.062-.438L11 19.249l-4.594 4.594c-.281.281-.672.438-1.062.438s-.781-.156-1.062-.438l-2.125-2.125c-.281-.281-.438-.672-.438-1.062s.156-.781.438-1.062L6.751 15l-4.594-4.594c-.281-.281-.438-.672-.438-1.062s.156-.781.438-1.062l2.125-2.125c.281-.281.672-.438 1.062-.438s.781.156 1.062.438L11 10.751l4.594-4.594c.281-.281.672-.438 1.062-.438s.781.156 1.062.438l2.125 2.125c.281.281.438.672.438 1.062s-.156.781-.438 1.062L15.249 15l4.594 4.594c.281.281.438.672.438 1.062z"></path></svg></button></div></section><footer id="nav-footer" class="nav-footer" data-testid="footer"><div class="content-container"><a href="/en-US/" class="nav-footer-logo">MDN Web Docs</a><ul class="link-list-mdn"><li><a href="/en-US/docs/Web">Web Technologies</a></li><li><a href="/en-US/docs/Learn">Learn Web Development</a></li><li><a href="/en-US/docs/MDN/About">About MDN</a></li><li><a href="/en-US/docs/MDN/Feedback">Feedback</a></li></ul><ul class="link-list-moz"><li><a href="https://www.mozilla.org/about/" target="_blank" rel="noopener noreferrer">About</a></li><li><a href="https://www.mozilla.org/contact/" target="_blank" rel="noopener noreferrer">Contact Us</a></li><li><a href="https://www.mozilla.org/firefox/?utm_source=developer.mozilla.org&amp;utm_campaign=footer&amp;utm_medium=referral" target="_blank" rel="noopener noreferrer">Firefox</a></li></ul><div class="social social-mdn"><h4>MDN</h4><ul><li><a href="https://twitter.com/mozdevnet" target="_blank" rel="noopener noreferrer"><svg class="icon icon-twitter" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 28" aria-label="Twitter" role="img" focusable="false"><path d="M25.312 6.375a10.85 10.85 0 01-2.531 2.609c.016.219.016.438.016.656 0 6.672-5.078 14.359-14.359 14.359-2.859 0-5.516-.828-7.75-2.266.406.047.797.063 1.219.063 2.359 0 4.531-.797 6.266-2.156a5.056 5.056 0 01-4.719-3.5c.313.047.625.078.953.078.453 0 .906-.063 1.328-.172a5.048 5.048 0 01-4.047-4.953v-.063a5.093 5.093 0 002.281.641 5.044 5.044 0 01-2.25-4.203c0-.938.25-1.797.688-2.547a14.344 14.344 0 0010.406 5.281 5.708 5.708 0 01-.125-1.156 5.045 5.045 0 015.047-5.047 5.03 5.03 0 013.687 1.594 9.943 9.943 0 003.203-1.219 5.032 5.032 0 01-2.219 2.781c1.016-.109 2-.391 2.906-.781z"></path></svg></a></li><li><a href="https://github.com/mdn/" target="_blank" rel="noopener noreferrer"><svg class="icon icon-github" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-label="GitHub" role="img" focusable="false"><path d="M12 2c6.625 0 12 5.375 12 12 0 5.297-3.437 9.797-8.203 11.391-.609.109-.828-.266-.828-.578 0-.391.016-1.687.016-3.297 0-1.125-.375-1.844-.812-2.219 2.672-.297 5.484-1.313 5.484-5.922 0-1.313-.469-2.375-1.234-3.219.125-.313.531-1.531-.125-3.187-1-.313-3.297 1.234-3.297 1.234a11.28 11.28 0 00-6 0S6.704 6.656 5.704 6.969c-.656 1.656-.25 2.875-.125 3.187-.766.844-1.234 1.906-1.234 3.219 0 4.594 2.797 5.625 5.469 5.922-.344.313-.656.844-.766 1.609-.688.313-2.438.844-3.484-1-.656-1.141-1.844-1.234-1.844-1.234-1.172-.016-.078.734-.078.734.781.359 1.328 1.75 1.328 1.75.703 2.141 4.047 1.422 4.047 1.422 0 1 .016 1.937.016 2.234 0 .313-.219.688-.828.578C3.439 23.796.002 19.296.002 13.999c0-6.625 5.375-12 12-12zM4.547 19.234c.031-.063-.016-.141-.109-.187-.094-.031-.172-.016-.203.031-.031.063.016.141.109.187.078.047.172.031.203-.031zm.484.532c.063-.047.047-.156-.031-.25-.078-.078-.187-.109-.25-.047-.063.047-.047.156.031.25.078.078.187.109.25.047zm.469.703c.078-.063.078-.187 0-.297-.063-.109-.187-.156-.266-.094-.078.047-.078.172 0 .281s.203.156.266.109zm.656.656c.063-.063.031-.203-.063-.297-.109-.109-.25-.125-.313-.047-.078.063-.047.203.063.297.109.109.25.125.313.047zm.891.391c.031-.094-.063-.203-.203-.25-.125-.031-.266.016-.297.109s.063.203.203.234c.125.047.266 0 .297-.094zm.984.078c0-.109-.125-.187-.266-.172-.141 0-.25.078-.25.172 0 .109.109.187.266.172.141 0 .25-.078.25-.172zm.906-.156c-.016-.094-.141-.156-.281-.141-.141.031-.234.125-.219.234.016.094.141.156.281.125s.234-.125.219-.219z"></path></svg></a></li></ul></div><div class="social social-moz"><h4>Mozilla</h4><ul><li><a href="https://twitter.com/mozilla" target="_blank" rel="noopener noreferrer"><svg class="icon icon-twitter" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 28" aria-label="Twitter" role="img" focusable="false"><path d="M25.312 6.375a10.85 10.85 0 01-2.531 2.609c.016.219.016.438.016.656 0 6.672-5.078 14.359-14.359 14.359-2.859 0-5.516-.828-7.75-2.266.406.047.797.063 1.219.063 2.359 0 4.531-.797 6.266-2.156a5.056 5.056 0 01-4.719-3.5c.313.047.625.078.953.078.453 0 .906-.063 1.328-.172a5.048 5.048 0 01-4.047-4.953v-.063a5.093 5.093 0 002.281.641 5.044 5.044 0 01-2.25-4.203c0-.938.25-1.797.688-2.547a14.344 14.344 0 0010.406 5.281 5.708 5.708 0 01-.125-1.156 5.045 5.045 0 015.047-5.047 5.03 5.03 0 013.687 1.594 9.943 9.943 0 003.203-1.219 5.032 5.032 0 01-2.219 2.781c1.016-.109 2-.391 2.906-.781z"></path></svg></a></li><li><a href="https://www.instagram.com/mozillagram/" target="_blank" rel="noopener noreferrer"><svg class="icon icon-instagram" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-label="Instagram" role="img" focusable="false"><path d="M16 14c0-2.203-1.797-4-4-4s-4 1.797-4 4 1.797 4 4 4 4-1.797 4-4zm2.156 0c0 3.406-2.75 6.156-6.156 6.156S5.844 17.406 5.844 14 8.594 7.844 12 7.844s6.156 2.75 6.156 6.156zm1.688-6.406c0 .797-.641 1.437-1.437 1.437S16.97 8.39 16.97 7.594s.641-1.437 1.437-1.437 1.437.641 1.437 1.437zM12 4.156c-1.75 0-5.5-.141-7.078.484-.547.219-.953.484-1.375.906s-.688.828-.906 1.375c-.625 1.578-.484 5.328-.484 7.078s-.141 5.5.484 7.078c.219.547.484.953.906 1.375s.828.688 1.375.906c1.578.625 5.328.484 7.078.484s5.5.141 7.078-.484c.547-.219.953-.484 1.375-.906s.688-.828.906-1.375c.625-1.578.484-5.328.484-7.078s.141-5.5-.484-7.078c-.219-.547-.484-.953-.906-1.375s-.828-.688-1.375-.906C17.5 4.015 13.75 4.156 12 4.156zM24 14c0 1.656.016 3.297-.078 4.953-.094 1.922-.531 3.625-1.937 5.031s-3.109 1.844-5.031 1.937c-1.656.094-3.297.078-4.953.078s-3.297.016-4.953-.078c-1.922-.094-3.625-.531-5.031-1.937S.173 20.875.08 18.953C-.014 17.297.002 15.656.002 14s-.016-3.297.078-4.953c.094-1.922.531-3.625 1.937-5.031s3.109-1.844 5.031-1.937c1.656-.094 3.297-.078 4.953-.078s3.297-.016 4.953.078c1.922.094 3.625.531 5.031 1.937s1.844 3.109 1.937 5.031C24.016 10.703 24 12.344 24 14z"></path></svg></a></li></ul></div><p id="license" class="footer-license">© 2005-<!-- -->2020<!-- --> Mozilla and individual contributors. Content is available under<!-- --> <a href="/docs/MDN/About#Copyrights_and_licenses">these licenses</a>.</p><ul class="footer-legal"><li><a href="https://www.mozilla.org/about/legal/terms/mozilla" target="_blank" rel="noopener noreferrer">Terms</a></li><li><a href="https://www.mozilla.org/privacy/websites/" target="_blank" rel="noopener noreferrer">Privacy</a></li><li><a href="https://www.mozilla.org/privacy/websites/#cookies" target="_blank" rel="noopener noreferrer">Cookies</a></li></ul></div></footer></div>
+<script>window._react_data = JSON.parse("{\"locale\":\"en-US\",\"stringCatalog\":{},\"pluralExpression\":null,\"url\":\"/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout\",\"documentData\":{\"locale\":\"en-US\",\"slug\":\"Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout\",\"enSlug\":\"Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout\",\"id\":202907,\"title\":\"Relationship of grid layout to other layout methods\",\"summary\":\"CSS Grid Layout has been designed to work alongside other parts of CSS, as part of a complete system for doing the layout. In this guide, I will explain how a grid fits together with other techniques you may already be using.\",\"language\":\"English (US)\",\"hrefLang\":\"en\",\"absoluteURL\":\"/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout\",\"wikiURL\":\"https://wiki.developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout\",\"editURL\":\"https://wiki.developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout$edit\",\"translateURL\":\"https://wiki.developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout$locales\",\"translationStatus\":null,\"bodyHTML\":\"<p>CSS Grid Layout has been designed to work alongside other parts of CSS, as part of a complete system for doing the layout. In this guide, I will explain how a grid fits together with other techniques you may already be using.</p>\\n\\n<h2 id=\\\"Grid_and_flexbox\\\">Grid and flexbox</h2>\\n\\n<p>The basic difference between CSS Grid Layout and <a href=\\\"/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout\\\">CSS Flexbox Layout</a> is that flexbox was designed for layout in one dimension - either a row <em>or</em> a column. Grid was designed for two-dimensional layout - rows, and columns at the same time. The two specifications share some common features, however, and if you have already learned how to use flexbox, the similarities should help you get to grips with Grid.</p>\\n\\n<h3 id=\\\"One-dimensional_vs._two-dimensional_layout\\\">One-dimensional vs. two-dimensional layout</h3>\\n\\n<p>A simple example can demonstrate the difference between one- and two-dimensional layouts.</p>\\n\\n<p>In this first example, I am using flexbox to lay out a set of boxes. I have five child items in my container, and I have given the flex properties values so that they can grow and shrink from a flex-basis of 150 pixels.</p>\\n\\n<p>I have also set the <a href=\\\"/en-US/docs/Web/CSS/flex-wrap\\\" title=\\\"The flex-wrap CSS property sets whether flex items are forced onto one line or can wrap onto multiple lines. If wrapping is allowed, it sets the direction that lines are stacked.\\\"><code>flex-wrap</code></a> property to <code>wrap</code>, so that if the space in the container becomes too narrow to maintain the flex basis, items will wrap onto a new row.</p>\\n\\n<div id=\\\"onedtwod\\\">\\n<div class=\\\"hidden\\\">\\n<pre class=\\\"brush: css\\\">* {box-sizing: border-box;}\\n\\n.wrapper {\\n  border: 2px solid #f76707;\\n  border-radius: 5px;\\n  background-color: #fff4e6;\\n}\\n\\n.wrapper &gt; div {\\n  border: 2px solid #ffa94d;\\n  border-radius: 5px;\\n  background-color: #ffd8a8;\\n  padding: 1em;\\n  color: #d9480f;\\n}\\n</pre>\\n</div>\\n\\n<pre class=\\\"brush: html\\\">&lt;div class=\\\"wrapper\\\"&gt;\\n  &lt;div&gt;One&lt;/div&gt;\\n  &lt;div&gt;Two&lt;/div&gt;\\n  &lt;div&gt;Three&lt;/div&gt;\\n  &lt;div&gt;Four&lt;/div&gt;\\n  &lt;div&gt;Five&lt;/div&gt;\\n&lt;/div&gt;\\n</pre>\\n\\n<pre class=\\\"brush: css\\\">.wrapper {\\n  width: 500px;\\n  display: flex;\\n  flex-wrap: wrap;\\n}\\n.wrapper &gt; div {\\n  flex: 1 1 150px;\\n}\\n</pre>\\n</div>\\n\\n<p><iframe class=\\\"live-sample-frame sample-code-frame\\\" frameborder=\\\"0\\\" height=\\\"230\\\" id=\\\"frame_onedtwod\\\" src=\\\"https://mdn.mozillademos.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout$samples/onedtwod?revision=1619228\\\" width=\\\"500\\\"></iframe></p>\\n\\n<p>In the image, you can see that two items have wrapped onto a new line. These items are sharing the available space and not lining up underneath the items above. This is because when you wrap flex items, each new row (or column when working by column) becomes a new flex container. Space distribution happens across the row.</p>\\n\\n<p>A common question then is how to make those items line up. This is where you want a two-dimensional layout method: You want to control the alignment by row and column, and this is where grid comes in.</p>\\n\\n<h3 id=\\\"The_same_layout_with_CSS_grids\\\">The same layout with CSS grids</h3>\\n\\n<p>In this next example, I create the same layout using Grid. This time we have three <code>1fr</code> column tracks. We do not need to set anything on the items themselves; they will lay themselves out one into each cell of the created grid. As you can see they stay in a strict grid, lining up in rows and columns. With five items, we get a gap on the end of row two.</p>\\n\\n<div class=\\\"Two_Dimensional_With_Grid\\\">\\n<div class=\\\"hidden\\\">\\n<pre class=\\\"brush: css\\\">* {box-sizing: border-box;}\\n\\n.wrapper {\\n  border: 2px solid #f76707;\\n  border-radius: 5px;\\n  background-color: #fff4e6;\\n}\\n\\n.wrapper &gt; div {\\n  border: 2px solid #ffa94d;\\n  border-radius: 5px;\\n  background-color: #ffd8a8;\\n  padding: 1em;\\n  color: #d9480f;\\n}\\n</pre>\\n</div>\\n\\n<pre class=\\\"brush: html\\\">&lt;div class=\\\"wrapper\\\"&gt;\\n  &lt;div&gt;One&lt;/div&gt;\\n  &lt;div&gt;Two&lt;/div&gt;\\n  &lt;div&gt;Three&lt;/div&gt;\\n  &lt;div&gt;Four&lt;/div&gt;\\n  &lt;div&gt;Five&lt;/div&gt;\\n&lt;/div&gt;\\n</pre>\\n\\n<pre class=\\\"brush: css\\\">.wrapper {\\n  display: grid;\\n  grid-template-columns: repeat(3, 1fr);\\n}\\n</pre>\\n\\n<p><iframe class=\\\"live-sample-frame sample-code-frame\\\" frameborder=\\\"0\\\" height=\\\"170\\\" id=\\\"frame_Two_Dimensional_With_Grid\\\" src=\\\"https://mdn.mozillademos.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout$samples/Two_Dimensional_With_Grid?revision=1619228\\\" width=\\\"300\\\"></iframe></p>\\n</div>\\n\\n<p>A simple question to ask yourself when deciding between grid or flexbox is:</p>\\n\\n<ul>\\n <li>do I only need to control the layout by row <u><em>or</em></u> column \u2013 use a flexbox</li>\\n <li>do I need to control the layout by row <u><em>and</em></u> column \u2013 use a grid</li>\\n</ul>\\n\\n<h3 id=\\\"Content_out_or_layout_in\\\">Content out or layout in?</h3>\\n\\n<p>In addition to the one-dimensional versus two-dimensional distinction, there is another way to decide if you should use flexbox or grid for a layout. Flexbox works from the content out. An ideal use case for flexbox is when you have a set of items and want to space them out evenly in a container. You let the size of the content decide how much individual space each item takes up. If the items wrap onto a new line, they will work out their spacing based on their size and the available space <em>on that line</em>.</p>\\n\\n<p>Grid works from the layout in. When you use CSS Grid Layout you create a layout and then you place items into it, or you allow the auto-placement rules to place the items into the grid cells according to that strict grid. It is possible to create tracks that respond to the size of the content, however, they will also change the entire track.</p>\\n\\n<p>If you are using flexbox and find yourself disabling some of the flexibility, you probably need to use CSS Grid Layout. An example would be if you are setting a percentage width on a flex item to make it line up with other items in a row above. In that case, a grid is likely to be a better choice.</p>\\n\\n<h3 id=\\\"Box_alignment\\\">Box alignment</h3>\\n\\n<p>The feature of flexbox that was most exciting to many of us was that it gave us proper alignment control for the first time. It made it easy to center a box on the page. Flex items can stretch to the height of the flex container, meaning that equal height columns were possible. These were things we have wanted to do for a very long time, and have come up with all kinds of hacks to accomplish, at least visually.</p>\\n\\n<p>The alignment properties from the flexbox specification have been added to a new specification called <a class=\\\"external\\\" href=\\\"https://drafts.csswg.org/css-align/\\\" rel=\\\"noopener\\\">Box Alignment Level 3</a>. This means that they can be used in other specifications, including Grid Layout. In the future, they may well apply to other layout methods as well.</p>\\n\\n<p>In a later guide in this series, I\u2019ll be taking a proper look at Box Alignment and how it works in Grid Layout. For now, here is a\u00A0comparison between simple examples of flexbox and\u00A0grid.</p>\\n\\n<p>In the first example, which uses flexbox, I have a container with three items inside. The wrapper <a href=\\\"/en-US/docs/Web/CSS/min-height\\\" title=\\\"The min-height CSS property sets the minimum height of an element. It prevents the used value of the height property from becoming smaller than the value specified for min-height.\\\"><code>min-height</code></a> is set, so it defines the height of the flex container. I have set <a href=\\\"/en-US/docs/Web/CSS/align-items\\\" title=\\\"The CSS align-items property sets the align-self value on all direct children as a group.\\\"><code>align-items</code></a> on the flex container to <code>flex-end</code> so the items will line up at the end of the flex container. I have also set the <a href=\\\"/en-US/docs/Web/CSS/align-self\\\" title=\\\"The align-self CSS property overrides a grid or flex item's align-items value. In Grid, it aligns the item inside the\u00A0grid area. In Flexbox, it aligns the item on the cross axis.\\\"><code>align-self</code></a> property on <code>box1</code> so it will override the default and stretch to the height of the container and on <code>box2</code> so it aligns to the start of the flex container.</p>\\n\\n<div class=\\\"hidden\\\">\\n<pre class=\\\"brush: css\\\">* {box-sizing: border-box;}\\n\\n.wrapper {\\n  border: 2px solid #f76707;\\n  border-radius: 5px;\\n  background-color: #fff4e6;\\n}\\n\\n.wrapper &gt; div {\\n  border: 2px solid #ffa94d;\\n  border-radius: 5px;\\n  background-color: #ffd8a8;\\n  padding: 1em;\\n  color: #d9480f;\\n}\\n</pre>\\n</div>\\n\\n<pre class=\\\"brush: html\\\">&lt;div class=\\\"wrapper\\\"&gt;\\n  &lt;div class=\\\"box1\\\"&gt;One&lt;/div&gt;\\n  &lt;div class=\\\"box2\\\"&gt;Two&lt;/div&gt;\\n  &lt;div class=\\\"box3\\\"&gt;Three&lt;/div&gt;\\n&lt;/div&gt;\\n</pre>\\n\\n<pre class=\\\"brush: css\\\">.wrapper {\\n  display: flex;\\n  align-items: flex-end;\\n  min-height: 200px; \\n}\\n.box1 {\\n  align-self: stretch;\\n}\\n.box2 {\\n  align-self: flex-start;\\n}\\n</pre>\\n\\n<p><iframe class=\\\"live-sample-frame sample-code-frame\\\" frameborder=\\\"0\\\" height=\\\"230\\\" id=\\\"frame_Box_alignment\\\" src=\\\"https://mdn.mozillademos.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout$samples/Box_alignment?revision=1619228\\\" width=\\\"300\\\"></iframe></p>\\n\\n<h3 id=\\\"Alignment_in_CSS_Grids\\\">Alignment in CSS Grids</h3>\\n\\n<p>This second example uses a grid to create the same layout. This time we are using the box alignment properties as they apply to a grid layout. So we align to <code>start</code> and <code>end</code> rather than <code>flex-start</code> and <code>flex-end</code>. In the case of a grid layout, we are aligning the items inside their grid area. In this case that is a single grid cell, but it could be an area made up of several grid cells.</p>\\n\\n<div class=\\\"hidden\\\">\\n<pre class=\\\"brush: css\\\">* {box-sizing: border-box;}\\n\\n.wrapper {\\n  border: 2px solid #f76707;\\n  border-radius: 5px;\\n  background-color: #fff4e6;\\n}\\n\\n.wrapper &gt; div {\\n  border: 2px solid #ffa94d;\\n  border-radius: 5px;\\n  background-color: #ffd8a8;\\n  padding: 1em;\\n  color: #d9480f;\\n}\\n</pre>\\n</div>\\n\\n<pre class=\\\"brush: html\\\">&lt;div class=\\\"wrapper\\\"&gt;\\n  &lt;div class=\\\"box1\\\"&gt;One&lt;/div&gt;\\n  &lt;div class=\\\"box2\\\"&gt;Two&lt;/div&gt;\\n  &lt;div class=\\\"box3\\\"&gt;Three&lt;/div&gt;\\n&lt;/div&gt;\\n</pre>\\n\\n<pre class=\\\"brush: css\\\">.wrapper {\\n  display: grid;\\n  grid-template-columns: repeat(3,1fr);\\n  align-items: end;\\n  grid-auto-rows: 200px;\\n}\\n.box1 {\\n  align-self: stretch;\\n}\\n.box2 {\\n  align-self: start;\\n}\\n</pre>\\n\\n<p><iframe class=\\\"live-sample-frame sample-code-frame\\\" frameborder=\\\"0\\\" height=\\\"310\\\" id=\\\"frame_Alignment_in_CSS_Grids\\\" src=\\\"https://mdn.mozillademos.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout$samples/Alignment_in_CSS_Grids?revision=1619228\\\" width=\\\"200\\\"></iframe></p>\\n\\n<h3 id=\\\"The_fr_unit_and_flex-basis\\\">The <code>fr</code> unit and <code>flex-basis</code></h3>\\n\\n<p>We have already seen how the <code>fr</code> unit works to assign a proportion of available space in the grid container to our grid tracks. The <code>fr</code> unit, when combined with the <a href=\\\"/en-US/docs/Web/CSS/minmax\\\" title=\\\"The documentation about this has not yet been written; please consider contributing!\\\"><code>minmax()</code></a> function can give us very similar behavior to the <code>flex</code> properties in flexbox while still enabling the creation of a layout in two dimensions.</p>\\n\\n<p>If we look back at the example where I demonstrated the difference between one and two-dimensional layouts, you can see there is a difference between the way of the two layouts work responsively. With the flex layout, if we drag our window wider and smaller, the flexbox does a nice job of adjusting the number of items in each row according to the available space. If we have a lot of space all five items can fit on one row. If we have a very narrow container we may only have space for one.</p>\\n\\n<p>In comparison, the grid version always has three column tracks. The tracks themselves will grow and shrink, but there are always three since we asked for three when defining our grid.</p>\\n\\n<h4 id=\\\"Auto-filling_grid_tracks\\\">Auto-filling grid tracks</h4>\\n\\n<p>We can create a similar effect to flexbox, while still keeping the content arranged in strict rows and columns, by creating our track listing using repeat notation and the <code>auto-fill</code> and <code>auto-fit</code> properties.</p>\\n\\n<p>In this next example, I have used the <code>auto-fill</code> keyword in place of an integer in the repeat notation and set the track listing to 200 pixels. This means that grid will create as many 200 pixels column tracks as will fit in the container.</p>\\n\\n<div class=\\\"hidden\\\">\\n<pre class=\\\"brush: css\\\">* {box-sizing: border-box;}\\n\\n.wrapper {\\n  border: 2px solid #f76707;\\n  border-radius: 5px;\\n  background-color: #fff4e6;\\n}\\n\\n.wrapper &gt; div {\\n  border: 2px solid #ffa94d;\\n  border-radius: 5px;\\n  background-color: #ffd8a8;\\n  padding: 1em;\\n  color: #d9480f;\\n}\\n</pre>\\n</div>\\n\\n<pre class=\\\"brush: html\\\">&lt;div class=\\\"wrapper\\\"&gt;\\n  &lt;div&gt;One&lt;/div&gt;\\n  &lt;div&gt;Two&lt;/div&gt;\\n  &lt;div&gt;Three&lt;/div&gt;\\n&lt;/div&gt;\\n</pre>\\n\\n<pre class=\\\"brush: css\\\">.wrapper {\\n  display: grid;\\n  grid-template-columns: repeat(auto-fill, 200px);\\n}\\n</pre>\\n\\n<p><iframe class=\\\"live-sample-frame sample-code-frame\\\" frameborder=\\\"0\\\" height=\\\"170\\\" id=\\\"frame_Auto-filling_grid_tracks\\\" src=\\\"https://mdn.mozillademos.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout$samples/Auto-filling_grid_tracks?revision=1619228\\\" width=\\\"500\\\"></iframe></p>\\n\\n<h3 id=\\\"A_flexible_number_of_tracks\\\">A flexible number of tracks</h3>\\n\\n<p>This isn\u2019t quite the same as flexbox. In the flexbox example, the items are larger than the 200 pixel basis before wrapping. We can achieve the same in grid by combining <code>auto-fit</code> and the <a href=\\\"/en-US/docs/Web/CSS/minmax\\\" title=\\\"The documentation about this has not yet been written; please consider contributing!\\\"><code>minmax()</code></a> function. In this next example, I create auto filled tracks with <code>minmax</code>. I want my tracks to be a minimum of 200 pixels, so I set the maximum to be <code>1fr</code>. Once the browser has worked out how many times 200 pixels will fit into the container\u2013also taking account of grid gaps\u2013it will treat the <code>1fr</code> maximum as an instruction to share out the remaining space between the items.</p>\\n\\n<div class=\\\"hidden\\\">\\n<pre class=\\\"brush: css\\\">* {box-sizing: border-box;}\\n\\n.wrapper {\\n  border: 2px solid #f76707;\\n  border-radius: 5px;\\n  background-color: #fff4e6;\\n}\\n\\n.wrapper &gt; div {\\n  border: 2px solid #ffa94d;\\n  border-radius: 5px;\\n  background-color: #ffd8a8;\\n  padding: 1em;\\n  color: #d9480f;\\n}\\n</pre>\\n</div>\\n\\n<pre class=\\\"brush: html\\\">&lt;div class=\\\"wrapper\\\"&gt;\\n  &lt;div&gt;One&lt;/div&gt;\\n  &lt;div&gt;Two&lt;/div&gt;\\n  &lt;div&gt;Three&lt;/div&gt;\\n&lt;/div&gt;\\n</pre>\\n\\n<pre class=\\\"brush: css\\\">.wrapper {\\n  display: grid;\\n  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));\\n}\\n</pre>\\n\\n<p><iframe class=\\\"live-sample-frame sample-code-frame\\\" frameborder=\\\"0\\\" height=\\\"170\\\" id=\\\"frame_A_flexible_number_of_tracks\\\" src=\\\"https://mdn.mozillademos.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout$samples/A_flexible_number_of_tracks?revision=1619228\\\" width=\\\"500\\\"></iframe></p>\\n\\n<p>We now have the ability to create a grid with a flexible number of flexible tracks, but see items laid out on the grid aligned by rows and columns at the same time.</p>\\n\\n<h2 id=\\\"Grid_and_absolutely_positioned_elements\\\">Grid and absolutely positioned elements</h2>\\n\\n<p>Grid interacts with absolutely positioned elements, which can be useful if you want to position an item inside a grid or grid area. The specification defines the behavior when a grid container is a containing block and a parent of the absolutely positioned item.</p>\\n\\n<h3 id=\\\"A_grid_container_as_containing_block\\\">A grid container as containing block</h3>\\n\\n<p>To make the grid container a containing block you need to add the position property to the container with a value of relative, just as you would make a containing block for any other absolutely positioned items. Once you have done this, if you give a grid item <code>position: absolute</code> it will take as its containing block the grid container or, if the item also has a grid position, the area of the grid it is placed into.</p>\\n\\n<p>In the below example I have a wrapper containing four child items. Item three is absolutely positioned and also placed on the grid using line-based placement. The grid container has <code>position: relative</code> and so becomes the positioning context of this item.</p>\\n\\n<div class=\\\"hidden\\\">\\n<pre class=\\\"brush: css\\\">* {box-sizing: border-box;}\\n\\n.wrapper {\\n  border: 2px solid #f76707;\\n  border-radius: 5px;\\n  background-color: #fff4e6;\\n}\\n\\n.wrapper &gt; div {\\n  border: 2px solid #ffa94d;\\n  border-radius: 5px;\\n  background-color: #ffd8a8;\\n  padding: 1em;\\n  color: #d9480f;\\n}\\n</pre>\\n</div>\\n\\n<pre class=\\\"brush: html\\\">&lt;div class=\\\"wrapper\\\"&gt;\\n  &lt;div class=\\\"box1\\\"&gt;One&lt;/div&gt;\\n  &lt;div class=\\\"box2\\\"&gt;Two&lt;/div&gt;\\n  &lt;div class=\\\"box3\\\"&gt;\\n   This block is absolutely positioned. In this example the grid container is the containing block and so the absolute positioning offset values are calculated in from the outer edges of the area it has been placed into.\\n  &lt;/div&gt;\\n  &lt;div class=\\\"box4\\\"&gt;Four&lt;/div&gt;\\n&lt;/div&gt;\\n</pre>\\n\\n<pre class=\\\"brush: css\\\">.wrapper {\\n  display: grid;\\n  grid-template-columns: repeat(4,1fr);\\n  grid-auto-rows: 200px;\\n  grid-gap: 20px;\\n  position: relative;\\n}\\n.box3 {\\n  grid-column-start: 2;\\n  grid-column-end: 4;\\n  grid-row-start: 1;\\n  grid-row-end: 3;\\n  position: absolute;\\n  top: 40px;\\n  left: 40px;\\n}\\n</pre>\\n\\n<p><iframe class=\\\"live-sample-frame sample-code-frame\\\" frameborder=\\\"0\\\" height=\\\"330\\\" id=\\\"frame_A_grid_container_as_containing_block\\\" src=\\\"https://mdn.mozillademos.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout$samples/A_grid_container_as_containing_block?revision=1619228\\\" width=\\\"500\\\"></iframe></p>\\n\\n<p>You can see that the item is taking the area from grid column line 2 to 4, and starting after line 1. Then it is offset in that area using the top and left properties. However, it has been taken out of flow as is usual for absolutely positioned items and so the auto-placement rules now place items into the same space. The item also doesn\u2019t cause the additional row to be created to span to row line 3.</p>\\n\\n<p>If we remove <code>position:</code> <code>absolute</code> from the rules for <code>.box3</code> you can see how it would display without the positioning.</p>\\n\\n<h3 id=\\\"A_grid_container_as_parent\\\">A grid container as parent</h3>\\n\\n<p>If the absolutely positioned child has a grid container as a parent but that container does not create a new positioning context, then it is taken out of flow as in the previous example. The positioning context will be whatever element creates a positioning context as is common to other layout methods. In our case, if we remove <code>position:</code> <code>relative</code> from the wrapper above, positioning context is from the viewport, as shown in this image.</p>\\n\\n<p><img alt=\\\"Image of grid container as parent\\\" src=\\\"https://mdn.mozillademos.org/files/14661/2_abspos_example.png\\\" style=\\\"height: 408px; width: 1702px;\\\"></p>\\n\\n<p>Once again the item no longer participates in the grid layout in terms of sizing or when other items are auto-placed.</p>\\n\\n<h3 id=\\\"With_a_grid_area_as_the_parent\\\">With a grid area as the parent</h3>\\n\\n<p>If the absolutely positioned item is nested inside a grid area then you can create a positioning context on that area. In the below example we have our grid as before but this time I have nested an item inside <code>.box3</code> of the grid.</p>\\n\\n<p>I have given <code>.box3</code> position relative and then positioned the sub-item with the offset properties. In this case, the positioning context is the grid area.</p>\\n\\n<div class=\\\"hidden\\\">\\n<pre class=\\\"brush: css\\\">* {box-sizing: border-box;}\\n\\n.wrapper {\\n  border: 2px solid #f76707;\\n  border-radius: 5px;\\n  background-color: #fff4e6;\\n}\\n\\n.wrapper &gt; div {\\n  border: 2px solid #ffa94d;\\n  border-radius: 5px;\\n  background-color: #ffd8a8;\\n  padding: 1em;\\n  color: #d9480f;\\n}\\n</pre>\\n</div>\\n\\n<pre class=\\\"brush: html\\\">&lt;div class=\\\"wrapper\\\"&gt;\\n  &lt;div class=\\\"box1\\\"&gt;One&lt;/div&gt;\\n  &lt;div class=\\\"box2\\\"&gt;Two&lt;/div&gt;\\n  &lt;div class=\\\"box3\\\"&gt;Three\\n    &lt;div class=\\\"abspos\\\"&gt;\\n     This block is absolutely positioned. In this example the grid area is the containing block and so the absolute positioning offset values are calculated in from the outer edges of the grid area.\\n    &lt;/div&gt;\\n  &lt;/div&gt;\\n  &lt;div class=\\\"box4\\\"&gt;Four&lt;/div&gt;\\n&lt;/div&gt;\\n</pre>\\n\\n<pre class=\\\"brush: css\\\">.wrapper {\\n  display: grid;\\n  grid-template-columns: repeat(4,1fr);\\n  grid-auto-rows: 200px;\\n  grid-gap: 20px;\\n}\\n.box3 {\\n  grid-column-start: 2;\\n  grid-column-end: 4;\\n  grid-row-start: 1;\\n  grid-row-end: 3;\\n  position: relative;\\n}\\n.abspos {\\n  position: absolute;\\n  top: 40px;\\n  left: 40px;\\n  background-color: rgba(255,255,255,.5);\\n  border: 1px solid rgba(0,0,0,0.5);\\n  color: #000;\\n  padding: 10px;\\n}\\n</pre>\\n\\n<p><iframe class=\\\"live-sample-frame sample-code-frame\\\" frameborder=\\\"0\\\" height=\\\"420\\\" id=\\\"frame_With_a_grid_area_as_the_parent\\\" src=\\\"https://mdn.mozillademos.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout$samples/With_a_grid_area_as_the_parent?revision=1619228\\\" width=\\\"500\\\"></iframe></p>\\n\\n<h2 id=\\\"Grid_and_display_contents\\\">Grid and <code>display: contents</code></h2>\\n\\n<p>A final interaction with another layout specification that is worth noting is the interaction between CSS Grid Layout and <code>display: contents</code>. The <code>contents</code> value of the display property is a new value that is described in the <a class=\\\"external\\\" href=\\\"https://drafts.csswg.org/css-display/#box-generation\\\" rel=\\\"noopener\\\">Display specification</a> as follows:</p>\\n\\n<blockquote>\\n<p>\u201CThe element itself does not generate any boxes, but its children and pseudo-elements still generate boxes as normal. For the purposes of box generation and layout, the element must be treated as if it had been replaced with its children and pseudo-elements in the document tree.\u201D</p>\\n</blockquote>\\n\\n<p>If you set an item to <code>display:</code> <code>contents</code> the box it would normally create disappears, and the boxes of the child elements appear as if they have risen up a level. This means that children of a grid item can become grid items. Sound odd? Here is a simple example. In the following markup, I have a grid and the first item on the grid is set to span all three column tracks. It contains three nested items. As these items are not direct children, they don\u2019t become part of the grid layout and so display using regular block layout.</p>\\n\\n<div id=\\\"Display_Contents_Before\\\">\\n<div class=\\\"hidden\\\">\\n<pre class=\\\"brush: css\\\">* {box-sizing: border-box;}\\n\\n.wrapper {\\n  border: 2px solid #f76707;\\n  border-radius: 5px;\\n  background-color: #fff4e6;\\n}\\n\\n.box {\\n  border: 2px solid #ffa94d;\\n  border-radius: 5px;\\n  background-color: #ffd8a8;\\n  padding: 1em;\\n  color: #d9480f;\\n}\\n.nested {\\n  border: 2px solid #ffec99;\\n  border-radius: 5px;\\n  background-color: #fff9db;\\n  padding: 1em;\\n}\\n</pre>\\n</div>\\n\\n<pre class=\\\"brush: html\\\">&lt;div class=\\\"wrapper\\\"&gt;\\n  &lt;div class=\\\"box box1\\\"&gt;\\n    &lt;div class=\\\"nested\\\"&gt;a&lt;/div&gt;\\n    &lt;div class=\\\"nested\\\"&gt;b&lt;/div&gt;\\n    &lt;div class=\\\"nested\\\"&gt;c&lt;/div&gt;\\n  &lt;/div&gt;\\n  &lt;div class=\\\"box box2\\\"&gt;Two&lt;/div&gt;\\n  &lt;div class=\\\"box box3\\\"&gt;Three&lt;/div&gt;\\n  &lt;div class=\\\"box box4\\\"&gt;Four&lt;/div&gt;\\n  &lt;div class=\\\"box box5\\\"&gt;Five&lt;/div&gt;\\n&lt;/div&gt;\\n</pre>\\n\\n<pre class=\\\"brush: css\\\">.wrapper {\\n  display: grid;\\n  grid-template-columns: repeat(3, 1fr);\\n  grid-auto-rows: minmax(100px, auto);\\n}\\n.box1 {\\n  grid-column-start: 1;\\n  grid-column-end: 4;\\n}\\n\\n</pre>\\n\\n<p><iframe class=\\\"live-sample-frame sample-code-frame\\\" frameborder=\\\"0\\\" height=\\\"420\\\" id=\\\"frame_Display_Contents_Before\\\" src=\\\"https://mdn.mozillademos.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout$samples/Display_Contents_Before?revision=1619228\\\" width=\\\"400\\\"></iframe></p>\\n</div>\\n\\n<p>If I now add <code>display:</code> <code>contents</code> to the rules for <code>box1</code>, the box for that item vanishes and the sub-items now become grid items and lay themselves out using the auto-placement rules.</p>\\n\\n<div id=\\\"Display_Contents_After\\\">\\n<div class=\\\"hidden\\\">\\n<pre class=\\\"brush: css\\\">* {box-sizing: border-box;}\\n\\n.wrapper {\\n  border: 2px solid #f76707;\\n  border-radius: 5px;\\n  background-color: #fff4e6;\\n}\\n\\n.box {\\n  border: 2px solid #ffa94d;\\n  border-radius: 5px;\\n  background-color: #ffd8a8;\\n  padding: 1em;\\n  color: #d9480f;\\n}\\n.nested {\\n  border: 2px solid #ffec99;\\n  border-radius: 5px;\\n  background-color: #fff9db;\\n  padding: 1em;\\n}\\n</pre>\\n</div>\\n\\n<pre class=\\\"brush: html\\\">&lt;div class=\\\"wrapper\\\"&gt;\\n  &lt;div class=\\\"box box1\\\"&gt;\\n    &lt;div class=\\\"nested\\\"&gt;a&lt;/div&gt;\\n    &lt;div class=\\\"nested\\\"&gt;b&lt;/div&gt;\\n    &lt;div class=\\\"nested\\\"&gt;c&lt;/div&gt;\\n  &lt;/div&gt;\\n  &lt;div class=\\\"box box2\\\"&gt;Two&lt;/div&gt;\\n  &lt;div class=\\\"box box3\\\"&gt;Three&lt;/div&gt;\\n  &lt;div class=\\\"box box4\\\"&gt;Four&lt;/div&gt;\\n  &lt;div class=\\\"box box5\\\"&gt;Five&lt;/div&gt;\\n&lt;/div&gt;\\n</pre>\\n\\n<pre class=\\\"brush: css\\\">.wrapper {\\n  display: grid;\\n  grid-template-columns: repeat(3, 1fr);\\n  grid-auto-rows: minmax(100px, auto);\\n}\\n.box1 {\\n  grid-column-start: 1;\\n  grid-column-end: 4;\\n  display: contents;\\n}\\n</pre>\\n\\n<p><iframe class=\\\"live-sample-frame sample-code-frame\\\" frameborder=\\\"0\\\" height=\\\"330\\\" id=\\\"frame_Display_Contents_After\\\" src=\\\"https://mdn.mozillademos.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout$samples/Display_Contents_After?revision=1619228\\\" width=\\\"400\\\"></iframe></p>\\n</div>\\n\\n<p>This can be a way to get items nested into the grid to act as if they are part of the grid, and is a way around some of the issues that would be solved by subgrids once they are implemented. You can also use <code>display:</code> <code>contents</code> in a similar way with flexbox to enable nested items to become flex items.</p>\\n\\n<p>As you can see from this guide, CSS Grid Layout is just one part of your toolkit. Don\u2019t be afraid to mix it with other methods of doing layout to get the different effects you need.</p>\\n\\n<h2 id=\\\"See_Also\\\">See Also</h2>\\n\\n<ul>\\n <li><a href=\\\"/en-US/docs/Learn/CSS/CSS_layout/Flexbox\\\">Flexbox Guides</a></li>\\n <li><a href=\\\"/en-US/docs/Web/CSS/CSS_Columns\\\">Multiple-column Layout Guides</a></li>\\n</ul>\\n\\n\",\"quickLinksHTML\":\"\\n<ol>\\n <li><a href=\\\"/en-US/docs/Web/CSS\\\"><strong>CSS</strong></a></li>\\n <li><a href=\\\"/en-US/docs/Web/CSS/Reference\\\"><strong>CSS Reference</strong></a></li>\\n <li><a href=\\\"/en-US/docs/Web/CSS/CSS_Grid_Layout\\\">CSS Grid Layout</a></li>\\n <li data-default-state=\\\"open\\\"><a href=\\\"#\\\"><strong>Guides</strong></a>\\n  <ol>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/CSS_Grid_Layout/Basic_Concepts_of_Grid_Layout\\\">Basics concepts of grid layout</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout\\\">Relationship to other layout methods</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/CSS_Grid_Layout/Line-based_Placement_with_CSS_Grid\\\">Line-based placement</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/CSS_Grid_Layout/Grid_Template_Areas\\\">Grid template areas</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/CSS_Grid_Layout/Layout_using_Named_Grid_Lines\\\">Layout using named grid lines</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/CSS_Grid_Layout/Auto-placement_in_CSS_Grid_Layout\\\">Auto-placement in grid layout</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/CSS_Grid_Layout/Box_Alignment_in_CSS_Grid_Layout\\\">Box alignment in grid layout</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/CSS_Grid_Layout/CSS_Grid,_Logical_Values_and_Writing_Modes\\\">Grids, logical values, and writing modes</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/CSS_Grid_Layout/CSS_Grid_Layout_and_Accessibility\\\">CSS Grid Layout and Accessibility</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/CSS_Grid_Layout/CSS_Grid_and_Progressive_Enhancement\\\">CSS Grid Layout and Progressive Enhancement</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/CSS_Grid_Layout/Realizing_common_layouts_using_CSS_Grid_Layout\\\">Realizing common layouts using grids</a></li>\\n  </ol>\\n </li>\\n <li data-default-state=\\\"open\\\"><a href=\\\"#\\\"><strong>Properties</strong></a>\\n  <ol>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid\\\">grid</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-area\\\">grid-area</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-auto-columns\\\">grid-auto-columns</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-auto-flow\\\">grid-auto-flow</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-auto-rows\\\">grid-auto-rows</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-column\\\">grid-column</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-column-end\\\">grid-column-end</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-column-gap\\\">grid-column-gap</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-column-start\\\">grid-column-start</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-gap\\\">grid-gap</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-row\\\">grid-row</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-row-end\\\">grid-row-end</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-row-gap\\\">grid-row-gap</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-row-start\\\">grid-row-start</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-template\\\">grid-template</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-template-areas\\\">grid-template-areas</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-template-columns\\\">grid-template-columns</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-template-rows\\\">grid-template-rows</a></li>\\n  </ol>\\n </li>\\n <li data-default-state=\\\"open\\\"><a href=\\\"#\\\"><strong>Glossary</strong></a>\\n  <ol>\\n   <li><a href=\\\"/en-US/docs/Glossary/Grid\\\">Grid</a></li>\\n   <li><a href=\\\"/en-US/docs/Glossary/Grid_lines\\\">Grid lines</a></li>\\n   <li><a href=\\\"/en-US/docs/Glossary/Grid_tracks\\\">Grid tracks</a></li>\\n   <li><a href=\\\"/en-US/docs/Glossary/Grid_cell\\\">Grid cell</a></li>\\n   <li><a href=\\\"/en-US/docs/Glossary/Grid_areas\\\">Grid areas</a></li>\\n   <li><a href=\\\"/en-US/docs/Glossary/Gutters\\\">Gutters</a></li>\\n   <li><a href=\\\"/en-US/docs/Glossary/Grid_Axis\\\">Grid Axis</a></li>\\n   <li><a href=\\\"/en-US/docs/Glossary/Grid_rows\\\">Grid row</a></li>\\n   <li><a href=\\\"/en-US/docs/Glossary/Grid_column\\\">Grid column</a></li>\\n  </ol>\\n </li>\\n</ol>\\n\",\"tocHTML\":\"<li><a href=\\\"#Grid_and_flexbox\\\" rel=\\\"internal\\\">Grid and flexbox</a><li><a href=\\\"#Grid_and_absolutely_positioned_elements\\\" rel=\\\"internal\\\">Grid and absolutely positioned elements</a><li><a href=\\\"#Grid_and_display_contents\\\" rel=\\\"internal\\\">Grid and <code>display: contents</code></a><li><a href=\\\"#See_Also\\\" rel=\\\"internal\\\">See Also</a>\",\"raw\":\"<p>CSS Grid Layout has been designed to work alongside other parts of CSS, as part of a complete system for doing the layout. In this guide, I will explain how a grid fits together with other techniques you may already be using.</p>\\n\\n<h2 id=\\\"Grid_and_flexbox\\\">Grid and flexbox</h2>\\n\\n<p>The basic difference between CSS Grid Layout and <a href=\\\"/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout\\\">CSS Flexbox Layout</a> is that flexbox was designed for layout in one dimension - either a row <em>or</em> a column. Grid was designed for two-dimensional layout - rows, and columns at the same time. The two specifications share some common features, however, and if you have already learned how to use flexbox, the similarities should help you get to grips with Grid.</p>\\n\\n<h3 id=\\\"One-dimensional_vs._two-dimensional_layout\\\">One-dimensional vs. two-dimensional layout</h3>\\n\\n<p>A simple example can demonstrate the difference between one- and two-dimensional layouts.</p>\\n\\n<p>In this first example, I am using flexbox to lay out a set of boxes. I have five child items in my container, and I have given the flex properties values so that they can grow and shrink from a flex-basis of 150 pixels.</p>\\n\\n<p>I have also set the {{cssxref(\\\"flex-wrap\\\")}} property to <code>wrap</code>, so that if the space in the container becomes too narrow to maintain the flex basis, items will wrap onto a new row.</p>\\n\\n<div id=\\\"onedtwod\\\">\\n<div class=\\\"hidden\\\">\\n<pre class=\\\"brush: css\\\">* {box-sizing: border-box;}\\n\\n.wrapper {\\n  border: 2px solid #f76707;\\n  border-radius: 5px;\\n  background-color: #fff4e6;\\n}\\n\\n.wrapper &gt; div {\\n  border: 2px solid #ffa94d;\\n  border-radius: 5px;\\n  background-color: #ffd8a8;\\n  padding: 1em;\\n  color: #d9480f;\\n}\\n</pre>\\n</div>\\n\\n<pre class=\\\"brush: html\\\">&lt;div class=\\\"wrapper\\\"&gt;\\n  &lt;div&gt;One&lt;/div&gt;\\n  &lt;div&gt;Two&lt;/div&gt;\\n  &lt;div&gt;Three&lt;/div&gt;\\n  &lt;div&gt;Four&lt;/div&gt;\\n  &lt;div&gt;Five&lt;/div&gt;\\n&lt;/div&gt;\\n</pre>\\n\\n<pre class=\\\"brush: css\\\">.wrapper {\\n  width: 500px;\\n  display: flex;\\n  flex-wrap: wrap;\\n}\\n.wrapper &gt; div {\\n  flex: 1 1 150px;\\n}\\n</pre>\\n</div>\\n\\n<p>{{ EmbedLiveSample('onedtwod', '500', '230') }}</p>\\n\\n<p>In the image, you can see that two items have wrapped onto a new line. These items are sharing the available space and not lining up underneath the items above. This is because when you wrap flex items, each new row (or column when working by column) becomes a new flex container. Space distribution happens across the row.</p>\\n\\n<p>A common question then is how to make those items line up. This is where you want a two-dimensional layout method: You want to control the alignment by row and column, and this is where grid comes in.</p>\\n\\n<h3 id=\\\"The_same_layout_with_CSS_grids\\\">The same layout with CSS grids</h3>\\n\\n<p>In this next example, I create the same layout using Grid. This time we have three <code>1fr</code> column tracks. We do not need to set anything on the items themselves; they will lay themselves out one into each cell of the created grid. As you can see they stay in a strict grid, lining up in rows and columns. With five items, we get a gap on the end of row two.</p>\\n\\n<div class=\\\"Two_Dimensional_With_Grid\\\">\\n<div class=\\\"hidden\\\">\\n<pre class=\\\"brush: css\\\">* {box-sizing: border-box;}\\n\\n.wrapper {\\n  border: 2px solid #f76707;\\n  border-radius: 5px;\\n  background-color: #fff4e6;\\n}\\n\\n.wrapper &gt; div {\\n  border: 2px solid #ffa94d;\\n  border-radius: 5px;\\n  background-color: #ffd8a8;\\n  padding: 1em;\\n  color: #d9480f;\\n}\\n</pre>\\n</div>\\n\\n<pre class=\\\"brush: html\\\">&lt;div class=\\\"wrapper\\\"&gt;\\n  &lt;div&gt;One&lt;/div&gt;\\n  &lt;div&gt;Two&lt;/div&gt;\\n  &lt;div&gt;Three&lt;/div&gt;\\n  &lt;div&gt;Four&lt;/div&gt;\\n  &lt;div&gt;Five&lt;/div&gt;\\n&lt;/div&gt;\\n</pre>\\n\\n<pre class=\\\"brush: css\\\">.wrapper {\\n  display: grid;\\n  grid-template-columns: repeat(3, 1fr);\\n}\\n</pre>\\n\\n<p>{{ EmbedLiveSample('Two_Dimensional_With_Grid', '300', '170') }}</p>\\n</div>\\n\\n<p>A simple question to ask yourself when deciding between grid or flexbox is:</p>\\n\\n<ul>\\n <li>do I only need to control the layout by row <u><em>or</em></u> column \u2013 use a flexbox</li>\\n <li>do I need to control the layout by row <u><em>and</em></u> column \u2013 use a grid</li>\\n</ul>\\n\\n<h3 id=\\\"Content_out_or_layout_in\\\">Content out or layout in?</h3>\\n\\n<p>In addition to the one-dimensional versus two-dimensional distinction, there is another way to decide if you should use flexbox or grid for a layout. Flexbox works from the content out. An ideal use case for flexbox is when you have a set of items and want to space them out evenly in a container. You let the size of the content decide how much individual space each item takes up. If the items wrap onto a new line, they will work out their spacing based on their size and the available space <em>on that line</em>.</p>\\n\\n<p>Grid works from the layout in. When you use CSS Grid Layout you create a layout and then you place items into it, or you allow the auto-placement rules to place the items into the grid cells according to that strict grid. It is possible to create tracks that respond to the size of the content, however, they will also change the entire track.</p>\\n\\n<p>If you are using flexbox and find yourself disabling some of the flexibility, you probably need to use CSS Grid Layout. An example would be if you are setting a percentage width on a flex item to make it line up with other items in a row above. In that case, a grid is likely to be a better choice.</p>\\n\\n<h3 id=\\\"Box_alignment\\\">Box alignment</h3>\\n\\n<p>The feature of flexbox that was most exciting to many of us was that it gave us proper alignment control for the first time. It made it easy to center a box on the page. Flex items can stretch to the height of the flex container, meaning that equal height columns were possible. These were things we have wanted to do for a very long time, and have come up with all kinds of hacks to accomplish, at least visually.</p>\\n\\n<p>The alignment properties from the flexbox specification have been added to a new specification called <a href=\\\"https://drafts.csswg.org/css-align/\\\">Box Alignment Level 3</a>. This means that they can be used in other specifications, including Grid Layout. In the future, they may well apply to other layout methods as well.</p>\\n\\n<p>In a later guide in this series, I\u2019ll be taking a proper look at Box Alignment and how it works in Grid Layout. For now, here is a\u00A0comparison between simple examples of flexbox and\u00A0grid.</p>\\n\\n<p>In the first example, which uses flexbox, I have a container with three items inside. The wrapper {{cssxref(\\\"min-height\\\")}} is set, so it defines the height of the flex container. I have set {{cssxref(\\\"align-items\\\")}} on the flex container to <code>flex-end</code> so the items will line up at the end of the flex container. I have also set the {{cssxref(\\\"align-self\\\")}} property on <code>box1</code> so it will override the default and stretch to the height of the container and on <code>box2</code> so it aligns to the start of the flex container.</p>\\n\\n<div class=\\\"hidden\\\">\\n<pre class=\\\"brush: css\\\">* {box-sizing: border-box;}\\n\\n.wrapper {\\n  border: 2px solid #f76707;\\n  border-radius: 5px;\\n  background-color: #fff4e6;\\n}\\n\\n.wrapper &gt; div {\\n  border: 2px solid #ffa94d;\\n  border-radius: 5px;\\n  background-color: #ffd8a8;\\n  padding: 1em;\\n  color: #d9480f;\\n}\\n</pre>\\n</div>\\n\\n<pre class=\\\"brush: html\\\">&lt;div class=\\\"wrapper\\\"&gt;\\n  &lt;div class=\\\"box1\\\"&gt;One&lt;/div&gt;\\n  &lt;div class=\\\"box2\\\"&gt;Two&lt;/div&gt;\\n  &lt;div class=\\\"box3\\\"&gt;Three&lt;/div&gt;\\n&lt;/div&gt;\\n</pre>\\n\\n<pre class=\\\"brush: css\\\">.wrapper {\\n  display: flex;\\n  align-items: flex-end;\\n  min-height: 200px; \\n}\\n.box1 {\\n  align-self: stretch;\\n}\\n.box2 {\\n  align-self: flex-start;\\n}\\n</pre>\\n\\n<p>{{ EmbedLiveSample('Box_alignment', '300', '230') }}</p>\\n\\n<h3 id=\\\"Alignment_in_CSS_Grids\\\">Alignment in CSS Grids</h3>\\n\\n<p>This second example uses a grid to create the same layout. This time we are using the box alignment properties as they apply to a grid layout. So we align to <code>start</code> and <code>end</code> rather than <code>flex-start</code> and <code>flex-end</code>. In the case of a grid layout, we are aligning the items inside their grid area. In this case that is a single grid cell, but it could be an area made up of several grid cells.</p>\\n\\n<div class=\\\"hidden\\\">\\n<pre class=\\\"brush: css\\\">* {box-sizing: border-box;}\\n\\n.wrapper {\\n  border: 2px solid #f76707;\\n  border-radius: 5px;\\n  background-color: #fff4e6;\\n}\\n\\n.wrapper &gt; div {\\n  border: 2px solid #ffa94d;\\n  border-radius: 5px;\\n  background-color: #ffd8a8;\\n  padding: 1em;\\n  color: #d9480f;\\n}\\n</pre>\\n</div>\\n\\n<pre class=\\\"brush: html\\\">&lt;div class=\\\"wrapper\\\"&gt;\\n  &lt;div class=\\\"box1\\\"&gt;One&lt;/div&gt;\\n  &lt;div class=\\\"box2\\\"&gt;Two&lt;/div&gt;\\n  &lt;div class=\\\"box3\\\"&gt;Three&lt;/div&gt;\\n&lt;/div&gt;\\n</pre>\\n\\n<pre class=\\\"brush: css\\\">.wrapper {\\n  display: grid;\\n  grid-template-columns: repeat(3,1fr);\\n  align-items: end;\\n  grid-auto-rows: 200px;\\n}\\n.box1 {\\n  align-self: stretch;\\n}\\n.box2 {\\n  align-self: start;\\n}\\n</pre>\\n\\n<p>{{ EmbedLiveSample('Alignment_in_CSS_Grids', '200', '310') }}</p>\\n\\n<h3 id=\\\"The_fr_unit_and_flex-basis\\\">The <code>fr</code> unit and <code>flex-basis</code></h3>\\n\\n<p>We have already seen how the <code>fr</code> unit works to assign a proportion of available space in the grid container to our grid tracks. The <code>fr</code> unit, when combined with the {{cssxref(\\\"minmax\\\", \\\"minmax()\\\")}} function can give us very similar behavior to the <code>flex</code> properties in flexbox while still enabling the creation of a layout in two dimensions.</p>\\n\\n<p>If we look back at the example where I demonstrated the difference between one and two-dimensional layouts, you can see there is a difference between the way of the two layouts work responsively. With the flex layout, if we drag our window wider and smaller, the flexbox does a nice job of adjusting the number of items in each row according to the available space. If we have a lot of space all five items can fit on one row. If we have a very narrow container we may only have space for one.</p>\\n\\n<p>In comparison, the grid version always has three column tracks. The tracks themselves will grow and shrink, but there are always three since we asked for three when defining our grid.</p>\\n\\n<h4 id=\\\"Auto-filling_grid_tracks\\\">Auto-filling grid tracks</h4>\\n\\n<p>We can create a similar effect to flexbox, while still keeping the content arranged in strict rows and columns, by creating our track listing using repeat notation and the <code>auto-fill</code> and <code>auto-fit</code> properties.</p>\\n\\n<p>In this next example, I have used the <code>auto-fill</code> keyword in place of an integer in the repeat notation and set the track listing to 200 pixels. This means that grid will create as many 200 pixels column tracks as will fit in the container.</p>\\n\\n<div class=\\\"hidden\\\">\\n<pre class=\\\"brush: css\\\">* {box-sizing: border-box;}\\n\\n.wrapper {\\n  border: 2px solid #f76707;\\n  border-radius: 5px;\\n  background-color: #fff4e6;\\n}\\n\\n.wrapper &gt; div {\\n  border: 2px solid #ffa94d;\\n  border-radius: 5px;\\n  background-color: #ffd8a8;\\n  padding: 1em;\\n  color: #d9480f;\\n}\\n</pre>\\n</div>\\n\\n<pre class=\\\"brush: html\\\">&lt;div class=\\\"wrapper\\\"&gt;\\n  &lt;div&gt;One&lt;/div&gt;\\n  &lt;div&gt;Two&lt;/div&gt;\\n  &lt;div&gt;Three&lt;/div&gt;\\n&lt;/div&gt;\\n</pre>\\n\\n<pre class=\\\"brush: css\\\">.wrapper {\\n  display: grid;\\n  grid-template-columns: repeat(auto-fill, 200px);\\n}\\n</pre>\\n\\n<p>{{ EmbedLiveSample('Auto-filling_grid_tracks', '500', '170') }}</p>\\n\\n<h3 id=\\\"A_flexible_number_of_tracks\\\">A flexible number of tracks</h3>\\n\\n<p>This isn\u2019t quite the same as flexbox. In the flexbox example, the items are larger than the 200 pixel basis before wrapping. We can achieve the same in grid by combining <code>auto-fit</code> and the {{cssxref(\\\"minmax\\\", \\\"minmax()\\\")}} function. In this next example, I create auto filled tracks with <code>minmax</code>. I want my tracks to be a minimum of 200 pixels, so I set the maximum to be <code>1fr</code>. Once the browser has worked out how many times 200 pixels will fit into the container\u2013also taking account of grid gaps\u2013it will treat the <code>1fr</code> maximum as an instruction to share out the remaining space between the items.</p>\\n\\n<div class=\\\"hidden\\\">\\n<pre class=\\\"brush: css\\\">* {box-sizing: border-box;}\\n\\n.wrapper {\\n  border: 2px solid #f76707;\\n  border-radius: 5px;\\n  background-color: #fff4e6;\\n}\\n\\n.wrapper &gt; div {\\n  border: 2px solid #ffa94d;\\n  border-radius: 5px;\\n  background-color: #ffd8a8;\\n  padding: 1em;\\n  color: #d9480f;\\n}\\n</pre>\\n</div>\\n\\n<pre class=\\\"brush: html\\\">&lt;div class=\\\"wrapper\\\"&gt;\\n  &lt;div&gt;One&lt;/div&gt;\\n  &lt;div&gt;Two&lt;/div&gt;\\n  &lt;div&gt;Three&lt;/div&gt;\\n&lt;/div&gt;\\n</pre>\\n\\n<pre class=\\\"brush: css\\\">.wrapper {\\n  display: grid;\\n  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));\\n}\\n</pre>\\n\\n<p>{{ EmbedLiveSample('A_flexible_number_of_tracks', '500', '170') }}</p>\\n\\n<p>We now have the ability to create a grid with a flexible number of flexible tracks, but see items laid out on the grid aligned by rows and columns at the same time.</p>\\n\\n<h2 id=\\\"Grid_and_absolutely_positioned_elements\\\">Grid and absolutely positioned elements</h2>\\n\\n<p>Grid interacts with absolutely positioned elements, which can be useful if you want to position an item inside a grid or grid area. The specification defines the behavior when a grid container is a containing block and a parent of the absolutely positioned item.</p>\\n\\n<h3 id=\\\"A_grid_container_as_containing_block\\\">A grid container as containing block</h3>\\n\\n<p>To make the grid container a containing block you need to add the position property to the container with a value of relative, just as you would make a containing block for any other absolutely positioned items. Once you have done this, if you give a grid item <code>position: absolute</code> it will take as its containing block the grid container or, if the item also has a grid position, the area of the grid it is placed into.</p>\\n\\n<p>In the below example I have a wrapper containing four child items. Item three is absolutely positioned and also placed on the grid using line-based placement. The grid container has <code>position: relative</code> and so becomes the positioning context of this item.</p>\\n\\n<div class=\\\"hidden\\\">\\n<pre class=\\\"brush: css\\\">* {box-sizing: border-box;}\\n\\n.wrapper {\\n  border: 2px solid #f76707;\\n  border-radius: 5px;\\n  background-color: #fff4e6;\\n}\\n\\n.wrapper &gt; div {\\n  border: 2px solid #ffa94d;\\n  border-radius: 5px;\\n  background-color: #ffd8a8;\\n  padding: 1em;\\n  color: #d9480f;\\n}\\n</pre>\\n</div>\\n\\n<pre class=\\\"brush: html\\\">&lt;div class=\\\"wrapper\\\"&gt;\\n  &lt;div class=\\\"box1\\\"&gt;One&lt;/div&gt;\\n  &lt;div class=\\\"box2\\\"&gt;Two&lt;/div&gt;\\n  &lt;div class=\\\"box3\\\"&gt;\\n   This block is absolutely positioned. In this example the grid container is the containing block and so the absolute positioning offset values are calculated in from the outer edges of the area it has been placed into.\\n  &lt;/div&gt;\\n  &lt;div class=\\\"box4\\\"&gt;Four&lt;/div&gt;\\n&lt;/div&gt;\\n</pre>\\n\\n<pre class=\\\"brush: css\\\">.wrapper {\\n  display: grid;\\n  grid-template-columns: repeat(4,1fr);\\n  grid-auto-rows: 200px;\\n  grid-gap: 20px;\\n  position: relative;\\n}\\n.box3 {\\n  grid-column-start: 2;\\n  grid-column-end: 4;\\n  grid-row-start: 1;\\n  grid-row-end: 3;\\n  position: absolute;\\n  top: 40px;\\n  left: 40px;\\n}\\n</pre>\\n\\n<p>{{ EmbedLiveSample('A_grid_container_as_containing_block', '500', '330') }}</p>\\n\\n<p>You can see that the item is taking the area from grid column line 2 to 4, and starting after line 1. Then it is offset in that area using the top and left properties. However, it has been taken out of flow as is usual for absolutely positioned items and so the auto-placement rules now place items into the same space. The item also doesn\u2019t cause the additional row to be created to span to row line 3.</p>\\n\\n<p>If we remove <code>position:</code> <code>absolute</code> from the rules for <code>.box3</code> you can see how it would display without the positioning.</p>\\n\\n<h3 id=\\\"A_grid_container_as_parent\\\">A grid container as parent</h3>\\n\\n<p>If the absolutely positioned child has a grid container as a parent but that container does not create a new positioning context, then it is taken out of flow as in the previous example. The positioning context will be whatever element creates a positioning context as is common to other layout methods. In our case, if we remove <code>position:</code> <code>relative</code> from the wrapper above, positioning context is from the viewport, as shown in this image.</p>\\n\\n<p><img alt=\\\"Image of grid container as parent\\\" src=\\\"https://mdn.mozillademos.org/files/14661/2_abspos_example.png\\\" style=\\\"height: 408px; width: 1702px;\\\"></p>\\n\\n<p>Once again the item no longer participates in the grid layout in terms of sizing or when other items are auto-placed.</p>\\n\\n<h3 id=\\\"With_a_grid_area_as_the_parent\\\">With a grid area as the parent</h3>\\n\\n<p>If the absolutely positioned item is nested inside a grid area then you can create a positioning context on that area. In the below example we have our grid as before but this time I have nested an item inside <code>.box3</code> of the grid.</p>\\n\\n<p>I have given <code>.box3</code> position relative and then positioned the sub-item with the offset properties. In this case, the positioning context is the grid area.</p>\\n\\n<div class=\\\"hidden\\\">\\n<pre class=\\\"brush: css\\\">* {box-sizing: border-box;}\\n\\n.wrapper {\\n  border: 2px solid #f76707;\\n  border-radius: 5px;\\n  background-color: #fff4e6;\\n}\\n\\n.wrapper &gt; div {\\n  border: 2px solid #ffa94d;\\n  border-radius: 5px;\\n  background-color: #ffd8a8;\\n  padding: 1em;\\n  color: #d9480f;\\n}\\n</pre>\\n</div>\\n\\n<pre class=\\\"brush: html\\\">&lt;div class=\\\"wrapper\\\"&gt;\\n  &lt;div class=\\\"box1\\\"&gt;One&lt;/div&gt;\\n  &lt;div class=\\\"box2\\\"&gt;Two&lt;/div&gt;\\n  &lt;div class=\\\"box3\\\"&gt;Three\\n    &lt;div class=\\\"abspos\\\"&gt;\\n     This block is absolutely positioned. In this example the grid area is the containing block and so the absolute positioning offset values are calculated in from the outer edges of the grid area.\\n    &lt;/div&gt;\\n  &lt;/div&gt;\\n  &lt;div class=\\\"box4\\\"&gt;Four&lt;/div&gt;\\n&lt;/div&gt;\\n</pre>\\n\\n<pre class=\\\"brush: css\\\">.wrapper {\\n  display: grid;\\n  grid-template-columns: repeat(4,1fr);\\n  grid-auto-rows: 200px;\\n  grid-gap: 20px;\\n}\\n.box3 {\\n  grid-column-start: 2;\\n  grid-column-end: 4;\\n  grid-row-start: 1;\\n  grid-row-end: 3;\\n  position: relative;\\n}\\n.abspos {\\n  position: absolute;\\n  top: 40px;\\n  left: 40px;\\n  background-color: rgba(255,255,255,.5);\\n  border: 1px solid rgba(0,0,0,0.5);\\n  color: #000;\\n  padding: 10px;\\n}\\n</pre>\\n\\n<p>{{ EmbedLiveSample('With_a_grid_area_as_the_parent', '500', '420') }}</p>\\n\\n<h2 id=\\\"Grid_and_display_contents\\\">Grid and <code>display: contents</code></h2>\\n\\n<p>A final interaction with another layout specification that is worth noting is the interaction between CSS Grid Layout and <code>display: contents</code>. The <code>contents</code> value of the display property is a new value that is described in the <a href=\\\"https://drafts.csswg.org/css-display/#box-generation\\\">Display specification</a> as follows:</p>\\n\\n<blockquote>\\n<p>\u201CThe element itself does not generate any boxes, but its children and pseudo-elements still generate boxes as normal. For the purposes of box generation and layout, the element must be treated as if it had been replaced with its children and pseudo-elements in the document tree.\u201D</p>\\n</blockquote>\\n\\n<p>If you set an item to <code>display:</code> <code>contents</code> the box it would normally create disappears, and the boxes of the child elements appear as if they have risen up a level. This means that children of a grid item can become grid items. Sound odd? Here is a simple example. In the following markup, I have a grid and the first item on the grid is set to span all three column tracks. It contains three nested items. As these items are not direct children, they don\u2019t become part of the grid layout and so display using regular block layout.</p>\\n\\n<div id=\\\"Display_Contents_Before\\\">\\n<div class=\\\"hidden\\\">\\n<pre class=\\\"brush: css\\\">* {box-sizing: border-box;}\\n\\n.wrapper {\\n  border: 2px solid #f76707;\\n  border-radius: 5px;\\n  background-color: #fff4e6;\\n}\\n\\n.box {\\n  border: 2px solid #ffa94d;\\n  border-radius: 5px;\\n  background-color: #ffd8a8;\\n  padding: 1em;\\n  color: #d9480f;\\n}\\n.nested {\\n  border: 2px solid #ffec99;\\n  border-radius: 5px;\\n  background-color: #fff9db;\\n  padding: 1em;\\n}\\n</pre>\\n</div>\\n\\n<pre class=\\\"brush: html\\\">&lt;div class=\\\"wrapper\\\"&gt;\\n  &lt;div class=\\\"box box1\\\"&gt;\\n    &lt;div class=\\\"nested\\\"&gt;a&lt;/div&gt;\\n    &lt;div class=\\\"nested\\\"&gt;b&lt;/div&gt;\\n    &lt;div class=\\\"nested\\\"&gt;c&lt;/div&gt;\\n  &lt;/div&gt;\\n  &lt;div class=\\\"box box2\\\"&gt;Two&lt;/div&gt;\\n  &lt;div class=\\\"box box3\\\"&gt;Three&lt;/div&gt;\\n  &lt;div class=\\\"box box4\\\"&gt;Four&lt;/div&gt;\\n  &lt;div class=\\\"box box5\\\"&gt;Five&lt;/div&gt;\\n&lt;/div&gt;\\n</pre>\\n\\n<pre class=\\\"brush: css\\\">.wrapper {\\n  display: grid;\\n  grid-template-columns: repeat(3, 1fr);\\n  grid-auto-rows: minmax(100px, auto);\\n}\\n.box1 {\\n  grid-column-start: 1;\\n  grid-column-end: 4;\\n}\\n\\n</pre>\\n\\n<p>{{ EmbedLiveSample('Display_Contents_Before', '400', '420') }}</p>\\n</div>\\n\\n<p>If I now add <code>display:</code> <code>contents</code> to the rules for <code>box1</code>, the box for that item vanishes and the sub-items now become grid items and lay themselves out using the auto-placement rules.</p>\\n\\n<div id=\\\"Display_Contents_After\\\">\\n<div class=\\\"hidden\\\">\\n<pre class=\\\"brush: css\\\">* {box-sizing: border-box;}\\n\\n.wrapper {\\n  border: 2px solid #f76707;\\n  border-radius: 5px;\\n  background-color: #fff4e6;\\n}\\n\\n.box {\\n  border: 2px solid #ffa94d;\\n  border-radius: 5px;\\n  background-color: #ffd8a8;\\n  padding: 1em;\\n  color: #d9480f;\\n}\\n.nested {\\n  border: 2px solid #ffec99;\\n  border-radius: 5px;\\n  background-color: #fff9db;\\n  padding: 1em;\\n}\\n</pre>\\n</div>\\n\\n<pre class=\\\"brush: html\\\">&lt;div class=\\\"wrapper\\\"&gt;\\n  &lt;div class=\\\"box box1\\\"&gt;\\n    &lt;div class=\\\"nested\\\"&gt;a&lt;/div&gt;\\n    &lt;div class=\\\"nested\\\"&gt;b&lt;/div&gt;\\n    &lt;div class=\\\"nested\\\"&gt;c&lt;/div&gt;\\n  &lt;/div&gt;\\n  &lt;div class=\\\"box box2\\\"&gt;Two&lt;/div&gt;\\n  &lt;div class=\\\"box box3\\\"&gt;Three&lt;/div&gt;\\n  &lt;div class=\\\"box box4\\\"&gt;Four&lt;/div&gt;\\n  &lt;div class=\\\"box box5\\\"&gt;Five&lt;/div&gt;\\n&lt;/div&gt;\\n</pre>\\n\\n<pre class=\\\"brush: css\\\">.wrapper {\\n  display: grid;\\n  grid-template-columns: repeat(3, 1fr);\\n  grid-auto-rows: minmax(100px, auto);\\n}\\n.box1 {\\n  grid-column-start: 1;\\n  grid-column-end: 4;\\n  display: contents;\\n}\\n</pre>\\n\\n<p>{{ EmbedLiveSample('Display_Contents_After', '400', '330') }}</p>\\n</div>\\n\\n<p>This can be a way to get items nested into the grid to act as if they are part of the grid, and is a way around some of the issues that would be solved by subgrids once they are implemented. You can also use <code>display:</code> <code>contents</code> in a similar way with flexbox to enable nested items to become flex items.</p>\\n\\n<p>As you can see from this guide, CSS Grid Layout is just one part of your toolkit. Don\u2019t be afraid to mix it with other methods of doing layout to get the different effects you need.</p>\\n\\n<h2 id=\\\"See_Also\\\">See Also</h2>\\n\\n<ul>\\n <li><a href=\\\"/en-US/docs/Learn/CSS/CSS_layout/Flexbox\\\">Flexbox Guides</a></li>\\n <li><a href=\\\"/en-US/docs/Web/CSS/CSS_Columns\\\">Multiple-column Layout Guides</a></li>\\n</ul>\\n\\n<section class=\\\"Quick_links\\\" id=\\\"Quick_Links\\\">\\n<ol>\\n <li><a href=\\\"/en-US/docs/Web/CSS\\\"><strong>CSS</strong></a></li>\\n <li><a href=\\\"/en-US/docs/Web/CSS/Reference\\\"><strong>CSS Reference</strong></a></li>\\n <li><a href=\\\"/en-US/docs/Web/CSS/CSS_Grid_Layout\\\">CSS Grid Layout</a></li>\\n <li data-default-state=\\\"open\\\"><a href=\\\"#\\\"><strong>Guides</strong></a>\\n  <ol>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/CSS_Grid_Layout/Basic_Concepts_of_Grid_Layout\\\">Basics concepts of grid layout</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout\\\">Relationship to other layout methods</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/CSS_Grid_Layout/Line-based_Placement_with_CSS_Grid\\\">Line-based placement</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/CSS_Grid_Layout/Grid_Template_Areas\\\">Grid template areas</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/CSS_Grid_Layout/Layout_using_Named_Grid_Lines\\\">Layout using named grid lines</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/CSS_Grid_Layout/Auto-placement_in_CSS_Grid_Layout\\\">Auto-placement in grid layout</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/CSS_Grid_Layout/Box_Alignment_in_CSS_Grid_Layout\\\">Box alignment in grid layout</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/CSS_Grid_Layout/CSS_Grid,_Logical_Values_and_Writing_Modes\\\">Grids, logical values, and writing modes</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/CSS_Grid_Layout/CSS_Grid_Layout_and_Accessibility\\\">CSS Grid Layout and Accessibility</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/CSS_Grid_Layout/CSS_Grid_and_Progressive_Enhancement\\\">CSS Grid Layout and Progressive Enhancement</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/CSS_Grid_Layout/Realizing_common_layouts_using_CSS_Grid_Layout\\\">Realizing common layouts using grids</a></li>\\n  </ol>\\n </li>\\n <li data-default-state=\\\"open\\\"><a href=\\\"#\\\"><strong>Properties</strong></a>\\n  <ol>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid\\\">grid</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-area\\\">grid-area</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-auto-columns\\\">grid-auto-columns</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-auto-flow\\\">grid-auto-flow</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-auto-rows\\\">grid-auto-rows</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-column\\\">grid-column</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-column-end\\\">grid-column-end</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-column-gap\\\">grid-column-gap</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-column-start\\\">grid-column-start</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-gap\\\">grid-gap</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-row\\\">grid-row</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-row-end\\\">grid-row-end</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-row-gap\\\">grid-row-gap</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-row-start\\\">grid-row-start</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-template\\\">grid-template</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-template-areas\\\">grid-template-areas</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-template-columns\\\">grid-template-columns</a></li>\\n   <li><a href=\\\"/en-US/docs/Web/CSS/grid-template-rows\\\">grid-template-rows</a></li>\\n  </ol>\\n </li>\\n <li data-default-state=\\\"open\\\"><a href=\\\"#\\\"><strong>Glossary</strong></a>\\n  <ol>\\n   <li><a href=\\\"/en-US/docs/Glossary/Grid\\\">Grid</a></li>\\n   <li><a href=\\\"/en-US/docs/Glossary/Grid_lines\\\">Grid lines</a></li>\\n   <li><a href=\\\"/en-US/docs/Glossary/Grid_tracks\\\">Grid tracks</a></li>\\n   <li><a href=\\\"/en-US/docs/Glossary/Grid_cell\\\">Grid cell</a></li>\\n   <li><a href=\\\"/en-US/docs/Glossary/Grid_areas\\\">Grid areas</a></li>\\n   <li><a href=\\\"/en-US/docs/Glossary/Gutters\\\">Gutters</a></li>\\n   <li><a href=\\\"/en-US/docs/Glossary/Grid_Axis\\\">Grid Axis</a></li>\\n   <li><a href=\\\"/en-US/docs/Glossary/Grid_rows\\\">Grid row</a></li>\\n   <li><a href=\\\"/en-US/docs/Glossary/Grid_column\\\">Grid column</a></li>\\n  </ol>\\n </li>\\n</ol>\\n</section>\",\"parents\":[{\"url\":\"/en-US/docs/Web\",\"title\":\"Web technology for developers\"},{\"url\":\"/en-US/docs/Web/CSS\",\"title\":\"CSS: Cascading Style Sheets\"},{\"url\":\"/en-US/docs/Web/CSS/CSS_Grid_Layout\",\"title\":\"CSS Grid Layout\"}],\"translations\":[{\"language\":\"\u0639\u0631\u0628\u064A\",\"hrefLang\":\"ar\",\"localizedLanguage\":\"Arabic\",\"locale\":\"ar\",\"url\":\"/ar/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout_arabic\",\"title\":\"\u0627\u0644\u0639\u0644\u0627\u0642\u0629 \u0628\u064A\u0646 \u0627\u0644\u062A\u0646\u0633\u064A\u0642 \u0627\u0644\u0634\u0628\u0643\u064A \u0648\u0637\u0631\u0642 \u0627\u0644\u062A\u0646\u0633\u064A\u0642 \u0627\u0644\u0623\u062E\u0631\u0649\"},{\"language\":\"Espa\u00F1ol\",\"hrefLang\":\"es\",\"localizedLanguage\":\"Spanish\",\"locale\":\"es\",\"url\":\"/es/docs/Web/CSS/CSS_Grid_Layout/Relacion_de_Grid_Layout\",\"title\":\"Relaci\u00F3n de Grid Layout con otros m\u00E9todos de dise\u00F1o y posicionamiento - CSS\"},{\"language\":\"Fran\u00E7ais\",\"hrefLang\":\"fr\",\"localizedLanguage\":\"French\",\"locale\":\"fr\",\"url\":\"/fr/docs/Web/CSS/CSS_Grid_Layout/Mod%C3%A8le_de_grille_et_autres_mod%C3%A8les_de_disposition\",\"title\":\"Le mod\u00E8le de grille et les autres mod\u00E8les de disposition\"},{\"language\":\"\u65E5\u672C\u8A9E\",\"hrefLang\":\"ja\",\"localizedLanguage\":\"Japanese\",\"locale\":\"ja\",\"url\":\"/ja/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout\",\"title\":\"\u30B0\u30EA\u30C3\u30C9\u30EC\u30A4\u30A2\u30A6\u30C8\u3068\u4ED6\u306E\u30EC\u30A4\u30A2\u30A6\u30C8\u65B9\u6CD5\u3068\u306E\u95A2\u4FC2\"},{\"language\":\"\uD55C\uAD6D\uC5B4\",\"hrefLang\":\"ko\",\"localizedLanguage\":\"Korean\",\"locale\":\"ko\",\"url\":\"/ko/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_grid_layout\",\"title\":\"Relationship of grid layout to other layout methods\"},{\"language\":\"Portugu\u00EAs (do\u00A0Brasil)\",\"hrefLang\":\"pt\",\"localizedLanguage\":\"Portuguese (Brazilian)\",\"locale\":\"pt-BR\",\"url\":\"/pt-BR/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout\",\"title\":\"Relationship of grid layout to other layout methods\"},{\"language\":\"\u0420\u0443\u0441\u0441\u043A\u0438\u0439\",\"hrefLang\":\"ru\",\"localizedLanguage\":\"Russian\",\"locale\":\"ru\",\"url\":\"/ru/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout\",\"title\":\"\u0421\u0432\u044F\u0437\u044C Grid \u043F\u043E\u0437\u0438\u0446\u0438\u043E\u043D\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u044F \u0441 \u0434\u0440\u0443\u0433\u0438\u043C\u0438 \u043C\u0435\u0442\u043E\u0434\u0430\u043C\u0438 \u043F\u043E\u0437\u0438\u0446\u0438\u043E\u043D\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u044F\"},{\"language\":\"\u0423\u043A\u0440\u0430\u0457\u043D\u0441\u044C\u043A\u0430\",\"hrefLang\":\"uk\",\"localizedLanguage\":\"Ukrainian\",\"locale\":\"uk\",\"url\":\"/uk/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout\",\"title\":\"Relationship of grid layout to other layout methods\"},{\"language\":\"\u4E2D\u6587 (\u7B80\u4F53)\",\"hrefLang\":\"zh\",\"localizedLanguage\":\"Chinese (Simplified)\",\"locale\":\"zh-CN\",\"url\":\"/zh-CN/docs/Web/CSS/CSS_Grid_Layout/Relationship_of_Grid_Layout\",\"title\":\"grid layout \u548C\u5176\u5B83\u5E03\u5C40\u65B9\u6CD5\u7684\u8054\u7CFB\"}],\"lastModified\":\"2020-04-20T09:44:21.710873\"}}");</script>
+
+
+  
+    <div id="auth-modal" class="modal hidden">
+    <section class="auth-providers" tabindex="-1" role="dialog" aria-modal="true"
+        aria-labelledby="modal-main-heading">
+        <header>
+            <h2 id="modal-main-heading">Sign In</h2>
+        </header>
+        
+  <p>
+    Sign in to enjoy the benefits of an MDN account. If you haven’t already created an account, you will be prompted to do so after signing in.
+</p>
+<div class="auth-button-container">
+    <a href="/users/github/login/?next=%2Fen-US%2Fdocs%2FWeb%2FCSS%2FCSS_Grid_Layout%2FRelationship_of_Grid_Layout" class="github-auth" data-first-focusable="true">
+        Sign in with Github
+    </a>
+    <a href="/users/google/login/?next=%2Fen-US%2Fdocs%2FWeb%2FCSS%2FCSS_Grid_Layout%2FRelationship_of_Grid_Layout" class="google-auth">
+        Sign in with Google
+    </a>
+</div>
+
+        <button id="close-modal" class="close-modal" data-last-focusable="true">
+            <span>Close modal</span>
+        </button>
+    </section>
+</div>
+  
+
+  <!-- site js -->
+  <script defer type="text/javascript" src="/static/build/js/react-main.7a4e254b3c83.js" charset="utf-8"></script>
+  <script defer type="text/javascript" src="/static/build/js/mathml.3cb4c04c0706.js" charset="utf-8"></script>
+  <script defer type="text/javascript" src="/static/build/js/auth-modal.119e5d70465f.js" charset="utf-8"></script>
+  
+    <script defer type="text/javascript" src="/static/build/js/react-bcd-signal.0124e23c0b7b.js" charset="utf-8"></script>
+  
+</body>
+</html>

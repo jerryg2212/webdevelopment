@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>Viewport Unit Based Typography | Zell Liew</title>
+<meta name="description" content="
+  I talked about using [rem and em](/blog/rem-vs-em/) for [responsive typography](/blog/responsive-typography/) and for building modular components in two blog posts previously. In both posts, comments about viewport based units inevitably comes into the picture. I resisted working with viewport"/>
+<link rel="canonical" href="https://zellwk.com/blog/viewport-based-typography/">
+<link rel="stylesheet" href="/css/styles-min-c2487ce387.css">
+
+<script>
+  (function(d) {
+    var config = {
+      kitId: 'tsd8lrs',
+      scriptTimeout: 3000,
+      async: true
+    },
+    h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+  })(document);
+</script>
+<!-- Favicons -->
+<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+<link rel="manifest" href="/favicons/manifest.json">
+<link rel="mask-icon" href="/favicons/safari-pinned-tab.svg" color="#fd256e">
+<link rel="shortcut icon" href="/favicons/favicon.ico">
+<meta name="msapplication-config" content="/images/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+
+  
+  <meta property="og:image" content="https://zellwk.com/images/zell-profile-pic.jpg"/>
+  <meta name="twitter:image" content="https://zellwk.com/images/zell-profile-pic.jpg"/>
+  <meta property="og:image:alt" content="Page image for Viewport Unit Based Typography | Zell Liew"/>
+  <meta name="twitter:image:alt" content="Page image for Viewport Unit Based Typography | Zell Liew"/>
+
+
+
+  <meta name="twitter:creator" content="@zellwk"/>
+
+<link rel="alternate" type="application/rss+xml" title="Feed for articles" href="/feed.xml">
+</head>
+
+  <body class="">
+    <div class="c-site-container">
+        <header>
+  <div class="l-wrap">
+    <nav class="c-main-nav l-wrap__full">
+      <div>
+        <a class="c-main-nav__logo" href="/about">
+          <div class="o-zell"><svg id="zell" viewBox="0 0 90 30">
+  <title> Zell </title>
+  <g>
+    <g class="z">
+      <path class="o-zell__bar" d="M0 0v6.332h24.336L24.384 0z"/>
+      <path class="o-zell__text" d="M24.336 6.332h-8.154L0 23.425v6.332h24.336v-6.38H9.562z"/>
+    </g>
+    <path class="e o-zell__text" d="M45.706 29.757v-5.34H34.657v-3.614h9.194v-4.941h-9.194V12.28h11.05V6.956H27.893v22.801z"/>
+    <path class="l1 o-zell__text" d="M68.124 29.757v-5.9H57.938V6.956h-7.275v22.801z"/>
+    <path class="l2 o-zell__text" d="M89.646 29.757v-5.9H79.461V6.956h-7.276v22.801z"/>
+  </g>
+</svg>
+</div>
+        </a>
+      </div><div class="main-nav jsNavContainer">
+    <a href="https://learnjavascript.today" class="o-navlink">Learn JavaScript</a>
+    <a href="/about" class="o-navlink">About</a>
+    <a href="/blog" class="o-navlink">Articles</a>
+    <a href="/contact" class="o-navlink">Contact</a>
+    <a href="/newsletter" class="o-navlink">Newsletter</a>
+
+    <button
+    class="button c-main-nav__toggle jsOffsiteLauncher">Menu</button>
+  </div>
+    </nav>
+  </div>
+</header>
+
+
+      <main><div class="l-wrap">
+  <article class="o-content post-layout">
+    <h1>Viewport Unit Based Typography</h1>
+    <span class="post-layout__date">9th Mar 2016</span>
+
+    
+    
+<p>I talked about using <a href="/blog/rem-vs-em/">rem and em</a> for <a href="/blog/responsive-typography/">responsive typography</a> and for building modular components in two blog posts previously. In both posts, comments about viewport based units inevitably comes into the picture.</p>
+<p>I resisted working with viewport units for a while, believing that using them would be a pain in the ass because of the calculations involved.</p>
+<p>Last week, I finally overcame the resistance and took a stab at exploring viewport units and how to use them in responsive typography.</p>
+<!--more-->
+<p>Before I deep dive into viewport units and how they work with responsive typography, let’s first talk about what viewport units are.</p>
+<h2 id="what-are-viewport-units%3F">What are Viewport Units?</h2>
+<p>There are 4 different types of viewport units available in CSS today. They are:</p>
+<ul>
+<li><code>vw</code> – Percentage of viewport width</li>
+<li><code>vh</code> – Percentage of viewport height</li>
+<li><code>vmin</code> – <code>vw</code> or <code>vh</code>, whichever smaller</li>
+<li><code>vmax</code> – <code>vw</code> or <code>vh</code>, whichever bigger</li>
+</ul>
+<p><strong>Viewport</strong>, in this case, <strong>refers to the browser screen</strong>. <code>1vw</code> would mean one percent of the browser’s width. <strong><code>100vw</code> would mean the full browser width</strong>.</p>
+<figure><img src="/images/2016/viewport-based-typography/viewport-units.png" alt="Viewport units">
+  <figcaption>100vw and 100vh</figcaption>
+</figure>
+<p>The good thing about <strong>viewport units is that they are automatically recalculated whenever the viewport changes</strong>. This happens on load, on resize or even on orientation change.</p>
+<p>Since viewport units are automatically recalculated, it becomes extremely easy to create a component that will always be a quarter of the viewport:</p>
+<pre><code class="language-css">.component {
+  width: 50vw;
+  height: 50vh;
+  background: rgba(255, 0, 0, 0.25)
+}
+</code></pre>
+<figure><img src="/images/2016/viewport-based-typography/quarter-viewport-component.gif" alt="Quarter viewport component">
+  <figcaption>A component that's always a quarter of the viewport</figcaption>
+</figure>
+<p>That’s viewport units in a nutshell. Now, let’s move into the meat of this article.</p>
+<h2 id="using-viewport-units-for-typography">Using Viewport Units for Typography</h2>
+<p>There’s <strong>one reason</strong> why you might want to consider using viewport units for typography – <strong>viewport units are recalculated automatically depending on the client’s browser</strong>. This means we don’t have to explicitly declare font-size changes with media queries.</p>
+<p>Let’s use an example to illustrate this point clearly.</p>
+<p>Consider the following code where we change the <code>font-size</code> from 16px to 20px at a breakpoint of 800px:</p>
+<pre><code class="language-scss">// Note: CSS are all written in SCSS
+
+html {
+  font-size: 16px;
+
+  @media (min-width: 800px) {
+    font-size: 20px;
+  }
+}
+</code></pre>
+<p>When you look at this code, you can immediately tell that the <code>font-size</code> jumps from 16px to 20px at a viewport of 800px. That’s decent. It’s what we have done for a long time.</p>
+<p>Once in a while, you’ll encounter the situation where you had to add an extra media query between two breakpoints to make sure the typography looks good on all devices:</p>
+<pre><code class="language-scss">html {
+  font-size: 16px;
+
+  @media (min-width: 600px) {
+    font-size: 18px;
+  }
+
+  @media (min-width: 800px) {
+    font-size: 20px;
+  }
+}
+</code></pre>
+<p>Although we can go on and specify multiple media queries and multiple font-sizes, it’s usually an overkill so we stick to 3 - 4 sizes.</p>
+<p><strong>But what if you can get the same effecting without specifying multiple media queries or multiple font-sizes?</strong></p>
+<p>That’s where viewport units come in. You can get the same effect easily by setting the <code>font-size</code> property in viewport units.</p>
+<p>Consider the results from the following code:</p>
+<pre><code class="language-scss">html { font-size: 3vw; }
+</code></pre>
+<figure><img src="/images/2016/viewport-based-typography/font-size-in-vw.gif" alt="Font size in vw">
+  <figcaption>Resizing text automatically with viewport units!</figcaption>
+</figure>
+<p>Pretty amazing, isn’t it?</p>
+<p>The downside though, as you can see, is that <strong>viewport units are too responsive to the changes of the screen’s width</strong>.</p>
+<p>If you set a font-size at <code>3vw</code> like I did above, you’ll get a text size of 10px on a device with a screen width of 320px (mobile). That’s too small to read. On the flipside, text becomes 43px when you’re on a device with a screen width of 1440px (laptop). That’s too big.</p>
+<p><strong>We’re now presented with an interesting challenge</strong> – taming the viewport beast.</p>
+<p>Thankfully, there’s a simple way to solve the problem. <strong>We can set a minimum font-size, then scale the font with a small viewport multiple by using the <code>calc()</code> property</strong>.</p>
+<p>This is how it looks like in code:</p>
+<pre><code class="language-scss">html { font-size: calc(18px + 0.25vw) }
+</code></pre>
+<p>Looks pretty cool, doesn’t it? I first found out about this technique through <a href="https://twitter.com/MikeRiethmuller">Mike Riethmuller’s</a> article on <a href="http://madebymike.com.au/writing/precise-control-responsive-typography">precise control over responsive typography</a>.</p>
+<p>Unfortunately, <strong>I realized at the same time that this code doesn’t work on some browsers</strong>. For example, it doesn’t resize on Safari for Mac (According to Mike, it does on Windows though).</p>
+<p><strong>The fix though, is surprisingly simple.</strong> We can combine the use of a percentage unit with <code>vw</code> to allow Safari to scale the fonts again:</p>
+<pre><code class="language-scss">html { font-size: calc(112.5% + 0.5vw) }
+</code></pre>
+<p>Tada!</p>
+<figure><img src="/images/2016/viewport-based-typography/font-size-vw-tamed.gif" alt="Font size tamed">
+  <figcaption>Font sized with vw now tamed!</figcaption>
+</figure>
+<p>Shwweeeeeet! Can we really get rid of <code>em</code>, <code>rem</code> and media queries altogether in our code? At this point, I can’t wait to try it out!</p>
+<p>The next challenge I had to overcome was to try setting font-sizes of other typographic elements (h1-h6) in viewport units.</p>
+<h2 id="setting-other-typography-elements-in-viewport-units">Setting Other Typography Elements in Viewport Units</h2>
+<p>The first thing I tried to do was to create a <code>&lt;h1&gt;</code> element thats twice the size of the body text. It turned out that it wasn’t straightforward to do so :(</p>
+<p>I tried multiplying the calculations in the <code>&lt;html&gt;</code> <code>font-size</code> by 2, and I saw that it’s larger than what it should be:</p>
+<pre><code class="language-scss">html { font-size: calc(112.5% + 0.25vw) }
+h1 { font-size: calc((112.5% + 0.25vw) * 2); }
+</code></pre>
+<figure><img src="/images/2016/viewport-based-typography/viewport-sized-header.png" alt="Incorrectly sized h1">
+  <figcaption>H1 has sized incorrectly :(</figcaption>
+</figure>
+<p><strong>This happens because I’m using a percentage-based <code>font-size</code> calculation in the <code>&lt;h1&gt;</code></strong>. Effectively, I’m recalculating the <code>font-size</code> in <code>&lt;h1&gt;</code> after inheriting the calculated <code>font-size</code> in <code>&lt;html&gt;</code>.</p>
+<p>It might be easier to visualize if we put some numbers to it.</p>
+<p>Let’s say you’re now on a viewport of 800px. The default <code>font-size</code> is 16px.</p>
+<ul>
+<li>112.5% in the <code>&lt;html&gt;</code> calculation means a <code>font-size</code> of 18px (<code>112.5/100 * 16px</code>)</li>
+<li>0.25vw in the calculation equals to 2px (<code>800px * 0.25 ÷ 100</code>)</li>
+<li>The computed <code>&lt;html&gt;</code> <code>font-size</code> is 20px (<code>18px + 2px</code>)</li>
+</ul>
+<p>So far so good for the HTML calculation? Great!</p>
+<p>We’ll use the same method to tackle the <code>&lt;h1&gt;</code> calculation. <strong>Pay special attention to the the 112.5% when calculating <code>&lt;h1&gt;</code> this time</strong>.</p>
+<ul>
+<li>112.5% in the <code>&lt;h1&gt;</code> calculation means a <code>font-size</code> of 22.5px (<code>112.5/100 * 20px</code>)</li>
+<li>0.25 vw in the calculation equals to 2px (<code>800px * 0.25 ÷ 100</code>)</li>
+<li>The computed <code>&lt;h1&gt;</code> <code>font-size</code> is 49px <code>((22.5px + 2px) * 2)</code></li>
+</ul>
+<p>Unfortunately, <strong>the correct <code>&lt;h1&gt;</code> size we’re looking for is twice the body <code>font-size</code>, or 40px.</strong> They’re different :(</p>
+<p><strong>There are two ways to solve this problem since we know the error has caused by <code>&lt;h1&gt;</code> inheriting the <code>font-size</code> of <code>&lt;html&gt;</code></strong></p>
+<p>The first way is simply set 112.5% as 100% in <code>&lt;h1&gt;</code>:</p>
+<pre><code class="language-scss">h1 { font-size: calc((100% + 0.25vw) * 2) }
+</code></pre>
+<p>The second way to solve this problem is to make sure font-sizes aren’t inherited across elements.</p>
+<pre><code class="language-scss">h1 { font-size: calc((100% + 0.25vw) * 2) }
+p { font-size: calc((100% + 0.25vw)) }
+</code></pre>
+<p><strong>Both of these seemed like hacky ways</strong> to solve the problem. I wasn’t happy with either, so I kept searching.</p>
+<p>Eventually, <strong>the cleanest way I found is to revert to using <a href="/blog/rem-vs-em/">Rem and Em</a></strong>. Why discard good ol’ units for shiny new ones? :)</p>
+<pre><code class="language-scss">html { font-size: calc(112.5% + 0.25vw) }
+h1 { font-size: 2em; }
+</code></pre>
+<figure><img src="/images/2016/viewport-based-typography/correctly-sized-header.png" alt="Correctly sized headers">
+  <figcaption>H1 now correctly sized with em!</figcaption>
+</figure>
+<p>Since we’re talking about scaling font-sizes, the next question you may have is: “<strong>What about vertical rhythm or modular scale with viewport units?</strong>”</p>
+<p>Well, let’s talk about that next.</p>
+<h2 id="vertical-rhythm-and-modular-scale-with-viewport-units">Vertical Rhythm and Modular Scale with Viewport Units</h2>
+<p>This is relatively easy to answer.</p>
+<p>Did you notice that viewport units are used only for sizing the <code>&lt;html&gt;</code> element? Everything else is still sized with <code>rem</code> and <code>em</code>!</p>
+<p><strong>This means you can still use <code>em</code> and <code>rem</code> units to create vertical rhythm and modular scale in the same way I’ve discussed previously in <a href="/blog/responsive-typography">everything I know about responsive typography</a></strong>.</p>
+<p>Nothing has changed! :)</p>
+<p>Oh. One more thing before we end this article.</p>
+<p>There’s one more challenge I had to overcome. Here’s the question I had: <strong>“How can you calculate vw such that your typography is going to be sized at 20px when the viewport is 800px”?</strong></p>
+<p>That’s a mouthful to ask, so let’s shorten the question into a single word – <strong>Precision</strong>. In other words, how can I be more precise with the font-sizes I intend to use?</p>
+<h2 id="precision">Precision</h2>
+<p>Turns out, Mike has already solved this challenge for me. I’m just going to explain to you how this formula works.</p>
+<p>Let’s say you want your…</p>
+<ul>
+<li><code>font-size</code> to be <strong>18px</strong> when the viewport is at <strong>600px</strong></li>
+<li><code>font-size</code> to be <strong>22px</strong> when the viewport is at <strong>1000px</strong></li>
+</ul>
+<p><strong>First, we have to convert the smaller <code>font-size</code> (18px) into a percentage</strong>. The first part of the calculation is thus: <code>calc(18/16 * 100%)</code> (or simply <code>calc(112.5%)</code>).</p>
+<p><strong>Next, we calculate the vw amount.</strong> This part of the calculation is slightly more difficult.</p>
+<p>You calculate the vw value by taking the difference in <code>font-size</code> (<code>22 - 18</code>), divide it by the difference in viewport widths (<code>1000 - 600</code>), then multiply it by <code>100vw - smaller-viewport-width</code> (<code>100vw - 600px</code>).</p>
+<p><strong>When put together, its:</strong></p>
+<pre><code class="language-scss">html {
+  font-size: calc(112.5% + 4 * (100vw - 600px) / 400)
+}
+</code></pre>
+<p>It might be a tad complicated at first, but once you know the ingredients, you can simplify it into a Sass mixin.</p>
+<p><a href="https://twitter.com/indrekpaas">Indrek Paas</a> has already converted the above formula into a <a href="http://www.sassmeister.com/gist/7f22e44ace49b5124eec">simple Sass mixin</a>. The only thing I’ll love to change in his implementation is to use percentages instead of pixels.</p>
+<h2 id="super-duper-precision">Super Duper Precision</h2>
+<p>So, how does implementing viewport units look like if you wanted your type sizes to scale at a different rate at different breakpoints?</p>
+<p>Here’s one answer:</p>
+<pre><code class="language-scss">html {
+  font-size: 100%;
+
+  // Scales by 1px for every 100px from 600px to 1000px
+  @media (min-width: 600px) {
+    font-size: calc(112.5% + 4 * (100vw - 600px) / 400)
+  }
+
+  // Scales by 0.5px for every 100px from 1000px to 2000px
+  @media (min-width: 1000px) {
+    font-size: calc(137.5% + 5 * (100vw - 1000px) / 1000)
+  }
+}
+</code></pre>
+<p>But hey, in reality you probably won’t scale it with different rates anyway!</p>
+<p>Which means, a more realistic implementation is:</p>
+<pre><code class="language-scss">html {
+  font-size: 100%;
+
+  // Scales by 1px for every 100px from 600px onwards
+  @media (min-width: 600px) {
+    font-size: calc(112.5% + 4 * (100vw - 600px) / 400)
+  }
+
+  // Sets font-size to 22px after a viewport of 1000px
+  @media (min-width: 1000px) {
+    font-size: calc(137.5%)
+  }
+}
+</code></pre>
+<p>You get the drift. Feel free to combine viewport units with media queries to achieve the effect you wanted.</p>
+<p>Now, probably the most important question of all:</p>
+<p><strong>Would I use viewport units on an actual project?</strong></p>
+<p>Maybe. I haven’t worked with viewport units enough to form a conclusion yet. Here are a few things I’ll need to do before seriously trying it out on a real project:</p>
+<ol>
+<li>Create a Sass mixin to calculate vw</li>
+<li>Test for browser support and additional bugs</li>
+</ol>
+<p>It’ll be super helpful if you can let me know about the bugs you found in the comments :)</p>
+<p><strong>SUPER IMPORTANT UPDATE:</strong> It has come to my attention (Thanks, Paul!) that <code>calc</code> with percentages is totally broken on IE (both 11 and Edge). My personal tests suggests it does fine, but the guys over at <a href="https://www.sitepoint.com/community/t/font-size-calc-100-0-3vw-not-working-in-ie/218960/6">this thread</a> proved me otherwise.</p>
+<p>So, if you wanted to use viewport units, you can use a regular <code>calc()</code> function with the <code>em</code> unit, followed by a <code>-webkit-calc()</code> function with the percentage unit:</p>
+<pre><code class="language-scss">html {
+  font-size: calc(0.875em + 0.25 * (100vw - 80em) / 40);
+  font-size: -webkit-calc(87.5% + 0.25 * (100vw - 8000%) / 40);
+}
+</code></pre>
+<p>Indrek has been kind enough to put up a Codepen demo for this at <a href="https://codepen.io/indrekpaas/pen/VarLaJ">http://codepen.io/indrekpaas/pen/VarLaJ</a>. Check it out!</p>
+<h2 id="wrapping-up">Wrapping Up</h2>
+<p>So, in summary, we talked about using viewport units to size typography in this article. <strong>Viewport units can be beneficial because they are recalculated automatically whenever the viewport changes.</strong></p>
+<p>During the implementation, I discovered that it’s a much better practice to set viewport based units only to the <code>&lt;html&gt;</code> element. Everything else is to be sized in <code>em</code> and <code>rem</code> so we can do practices like modular scale and vertical rhythm easily.</p>
+<p>What are your thoughts on using Viewport units for typography? I’ll love to hear what you have to say in the comments below!</p>
+<p>If you enjoyed this article, please tell a friend about it! Share it on <a href="https://twitter.com/share?text=Viewport%20Unit%20Based%20Typography by @zellwk 👇 &url=https://zellwk.com/blog/viewport-based-typography/" target="_blank" rel="noopener">Twitter</a>. If you spot a typo, I’d appreciate if you can correct <a href="https://github.com/zellwk/zellwk.com/blob/master/./src/posts/2016-03-09-viewport-typography.md">it on GitHub</a>. Thank you!</p>
+
+  </article>
+
+  <div class="post-layout">
+    <section id="convertkit" class="o-content c-ck ck-layout jsCkForm">
+
+
+<script defer id="_ck_177782" src="https://forms.convertkit.com/177782?v=6"></script></section>
+  </div>
+
+  
+  
+</div>
+
+<div class="l-wrap">
+  <div class="post-layout">
+    <nav class="post-nav">
+      
+
+          <a class="button" data-type="outline" href="/blog/why-vertical-rhythms/" data-link-to="previous-post">
+              <svg height="1em" viewbox="0 0 22 38">
+                <path fill="currentColor" d="M18.9 38l3.1-3.1L6.1 19 22 3.1 18.9 0 0 19z"></path>
+              </svg>
+              <span>Why is Vertical Rhythm an Important Typography Practice?</span>
+            </a>
+          <a class="button" data-type="outline" href="/blog/media-query-units/" data-link-to="next-post">
+              <span>PX, EM or REM Media Queries?</span>
+              <svg height="1em" viewbox="0 0 22 38">
+                <path fill="currentColor" d="M3.1 0L0 3.1 15.9 19 0 34.9 3.1 38 22 19z"></path>
+              </svg>
+            </a>
+          </nav>
+  </div>
+</div>
+</main><footer class="c-footer" role="contentinfo">
+  <div class="l-wrap">
+    <div class="l-wrap__full l-footer__wrap">
+      <div class="c-footer__cta">
+        <ul class="c-footer__nav">
+          <li>
+            <span>About Zell</span>
+            <ul>
+              <li>
+                <a href="/">Home</a>
+              </li>
+              <li>
+                <a href="/about">About</a>
+              </li>
+              <li>
+                <a href="/contact">Contact</a>
+              </li>
+            </ul>
+          </li>
+
+          <li>
+            <span>Things I made</span>
+            <ul>
+              <li>
+                <a href="/products#course-section">Courses</a>
+              </li>
+              <li>
+                <a href="/products#library-section">Libraries</a>
+              </li>
+            </ul>
+          </li>
+
+          <li>
+            <span>Newsletter</span>
+            <ul>
+              <li>
+                <a href="/newsletter">Email</a>
+              </li>
+              <li>
+                <a href="/rss">RSS</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <div class="c-footer__info">
+        <p>
+          <span>
+            © 2020 <a href="/blog">Zell Liew</a>
+            · <a href="/terms">Terms</a>
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+</div><div class="c-offsite-container jsOffsiteContainer">
+  <div class="c-offsite">
+    <div class="c-offsite__header">
+      <a class="c-main-nav__logo" href="/about">
+        <div class="o-zell--white"><svg id="zell" viewBox="0 0 90 30">
+  <title> Zell </title>
+  <g>
+    <g class="z">
+      <path class="o-zell__bar" d="M0 0v6.332h24.336L24.384 0z"/>
+      <path class="o-zell__text" d="M24.336 6.332h-8.154L0 23.425v6.332h24.336v-6.38H9.562z"/>
+    </g>
+    <path class="e o-zell__text" d="M45.706 29.757v-5.34H34.657v-3.614h9.194v-4.941h-9.194V12.28h11.05V6.956H27.893v22.801z"/>
+    <path class="l1 o-zell__text" d="M68.124 29.757v-5.9H57.938V6.956h-7.275v22.801z"/>
+    <path class="l2 o-zell__text" d="M89.646 29.757v-5.9H79.461V6.956h-7.276v22.801z"/>
+  </g>
+</svg>
+</div>
+      </a>
+      <a href="#" class="c-offsite__close jsOffsiteClose">&times;</a>
+    </div>
+    <div class="c-offsite__content"><nav class="c-offsite__nav">
+    <a href="/about" class="o-navlink--offsite">About</a>
+    <a href="/blog" class="o-navlink--offsite">Articles</a>
+    <a href="/newsletter" class="o-navlink--offsite">Newsletter</a>
+    <a href="/contact" class="o-navlink--offsite">Contact</a>
+  </nav></div>
+  </div>
+</div>
+<div class="c-modal-container jsModalContainer">
+  <div class="l-wrap">
+    <div class="c-modal jsModal jsLoader">
+      <h3 class="c-modal__title jsModalTitle jsLoaderTitle">Hold on while i sign you up&hellip;</h3>
+
+      <div class="c-modal__content c-post">
+        <div class="c-loader">
+          <div class="c-loader__spinner-container">
+            <div class="c-loader__spinner o-spinner jsSpinner">
+              <div class="o-spinner__item--pink"></div>
+              <div class="o-spinner__item"></div>
+              <div class="o-spinner__item"></div>
+            </div>
+            <div class="c-loader__success-icon jsSuccessIcon">🤗</div>
+          </div>
+
+          <div class="c-loader__messages jsLoaderMessages jsModalMessages">
+            <div class="jsModalSuccessText">Woohoo! You&rsquo;re in!</div>
+            <div>Now, hold on while I redirect you.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+    
+      <script module src="/js/main-1b7c954c92.mjs"></script>
+      <script nomodule src="/js/main-legacy-428160f964.js"></script>
+
+      <script defer>
+        (function (i, s, o, g, r, a, m) {
+          i['GoogleAnalyticsObject'] = r;
+          i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+          },
+          i[r].l = 1 * new Date();
+          a = s.createElement(o),
+          m = s.getElementsByTagName(o)[0];
+          a.async = 1;
+          a.src = g;
+          m
+            .parentNode
+            .insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-34947087-3', 'auto');
+        ga('send', 'pageview');
+      </script>
+  </body>
+</html>

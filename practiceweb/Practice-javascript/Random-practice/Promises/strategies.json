@@ -1,0 +1,63 @@
+{    "BS1D" : {
+        "title" : "Basic Strategy 1 Deck",
+        "graph" : [
+            [" ","2","3","4","5","6","7","8","9","10","A"],
+            ["62","H","H","H","H","H","H","H","H","H","H"],
+            ["53","H","H","H","D","D","H","H","H","H","H"],
+            ["9","D","D","D","D","D","H","H","H","H","H"],
+            ["10","D","D","D","D","D","D","D","D","H","H"],
+            ["11","D","D","D","D","D","D","D","D","D","D"],
+            ["12","H","H","S","S","S","H","H","H","H","H"],
+            ["13","S","S","S","S","S","H","H","H","H","H"],
+            ["14","S","S","S","S","S","H","H","H","H","H"],
+            ["15","S","S","S","S","S","H","H","H","H","H"],
+            ["16","S","S","S","S","S","H","H","H","H","H"],
+            ["A2","H","H","D","D","D","H","H","H","H","H"],
+            ["A3","H","H","D","D","D","H","H","H","H","H"],
+            ["A4","H","H","D","D","D","H","H","H","H","H"],
+            ["A5","H","H","D","D","D","H","H","H","H","H"],
+            ["A6","D","D","D","D","D","H","H","H","H","H"],
+            ["A7","S","D","D","D","D","S","S","H","H","S"],
+            ["A8","S","S","S","S","D","S","S","S","S","S"],
+            ["A9","S","S","S","S","S","S","S","S","S","S"],
+            ["AA","P","P","P","P","P","P","P","P","P","P"],
+            ["22","H","P","P","P","P","P","H","H","H","H"],
+            ["33","H","H","P","P","P","P","H","H","H","H"],
+            ["44","H","H","H","D","D","H","H","H","H","H"],
+            ["66","P","P","P","P","P","H","H","H","H","H"],
+            ["77","P","P","P","P","P","P","H","H","S","H"],
+            ["88","P","P","P","P","P","P","P","P","P","P"],
+            ["99","P","P","P","P","P","S","P","P","S","S"],
+            ["XX","S","S","S","S","S","S","S","S","S","S"]
+        
+        ]
+    },
+    "BS4D":{
+        "title": "Basic Strategy > 1 Decks",
+        "graph": []
+    },
+    "RFC":{
+        "title":"Revere Five Count Strategy",
+        "graph": []
+    },
+    "RPM":{
+        "title": "Revere Plus Minus Strategy",
+        "graph": []
+    },
+    "R10C":{
+        "title":"Revere Ten Count Strategy",
+        "graph": []
+    },
+    "RPC":{
+        "title":"Revere Point Count Strategy",
+        "graph": []
+    },
+    "RAPC":{
+        "title":"Revere Advanced Point Count Strategy"
+    }
+
+
+
+}
+
+

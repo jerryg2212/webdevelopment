@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <script>
+            function selectionSort(array){
+                for(let i = 0; i < array.length; i++){
+                    let lowest = array[i];
+                    for(let j = i + 1; j < array.length; j++){
+                        lowest = array[j] < array[array.indexOf(lowest)] ? array[j] : array[array.indexOf(lowest)];
+                        console.log(lowest);
+                    }
+                   // if(lowest = array[i])continue;
+                   console.log(array);
+                    array[array.indexOf(lowest)] = array[i];
+                    array[i] = lowest;
+                    console.log(array);
+                }
+                return array;
+            }
+        </script>
+    </body>
+</html>

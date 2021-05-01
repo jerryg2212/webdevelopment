@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+
+
+        <script>
+            class Person {
+                constructor(name, money, hobby, job){
+                    this.name = name;
+                    this.money = money;
+                    this.hobby = hobby;
+                    this.job = job;
+                }
+                showName(){
+                    console.log(`Hello my name is ${this.name}!`);
+                }
+                showMoney(){
+                    console.log(this.money);
+                }
+
+            }
+            Person.prototype.changeMoney = function(amount) {
+                this.money = amount;
+            }
+            let jerry = new Person('Jerry', 100, 'sports', 'Web Designer');
+            let mike = new Person('Mike', 3500, 'Xbox', 'Carpenter');
+            let john = new Person('John', 250, 'Painting', 'Accountant');
+            let jeremy = new Person('Jeremy', 15, 'walking', 'Hobo');
+            Person.prototype.changeMoney.call(mike, 22);
+            let people = [jerry, mike,john,jeremy];
+            console.log(people);
+
+            let ages = new Map();
+                ages.set("jerry", 20);
+                ages.set('mike', 21);
+                ages.set('paul', 19);
+                ages.set('shane', 18);
+
+                Object.defineProperty(Person.prototype, 'getName',{
+                   get : function(){ return this.name}
+                });
+                console.log(jerry.getName);
+
+
+            
+        /*    console.log(ages);
+            console.log(`Jerry is ${ages.get("jerry")} years old`); 
+            console.log(Person.hasOwnProperty('name'));
+            console.log(Person.hasOwnProperty("toString"));
+
+            let sym = Symbol("name");
+            console.log(sym == Symbol("name"));
+            jerry[sym] = 23;
+            console.log(jerry[sym]);
+            console.log(jerry.name);
+
+            let okIterator = ["fuck", "you"][Symbol.iterator]();
+            console.log(okIterator.next());
+            console.log(okIterator.next());
+            console.log(okIterator.next());*/
+            class Sport {
+                constructor(name, time) {
+                    this.name = name;
+                    this.time = time;
+                }
+                get gameTime(){
+                    return this.time;
+                }
+                set gameTime(value){
+                    this.time = value;
+                }
+            }
+           /* let football = new Sport('football', 120);
+            console.log(football.time);
+            football.gameTime(500);
+            console.log(football.gameTime)*/
+            class Vec{
+                constructor(x,y){
+                    this.x = x;
+                    this.y = y;
+                }
+                plus(vec) {
+                    let x = this.x + vec.x;
+                    let y = this.y + vec.y;
+                    return new Vec(x, y);
+                }
+                minus(vec){
+                    let x = this.x - vec.x;
+                    let y = this.y - vec.y;
+                    return new Vec(x,y);
+                }
+                get length() {
+                    let x = this.x - 0;
+                    let y = this.y - 0;
+                    return '(' + x +', ' + y + ')';
+                }
+            }
+            let vector = new Vec(4,5);
+            let vector1 = new Vec(10, 10);
+
+                        // creates a new error
+                        class operatorError extends Error{}
+
+           /* function calcNumber(operand1, operand2, operator){
+                if(true){
+                    throw new operatorError(operator + ' is not an proper operator');
+                }
+                let result = operand1 + '' + operator + '' + operand2;
+                result = eval(result);
+                if(isNaN(result) == true){
+                    throw new Error(result + 'is not a number');
+                }else {
+                    return result;
+                }
+            }
+            try{
+                console.log(calcNumber(3, 8, 'jk'));
+            }catch (error){
+                if(error instanceof operatorError){
+                    console.log('you sick');
+                }else{
+                console.log(error);
+            }
+            }*/
+           // console.log('1002 2001'.replace(/(\d*) (\d*)/, "$2 $1"));
+           function stripComments(code){
+               return code.replace(/\/\/.*|\/\*[^]*?\*\//g, '');
+           }
+    //  console.log(stripComments("1 /* a */+/* b */ 1"));
+         /*  let gge = "\"fuck you for being yourself.\" said Johnathan";
+          let str = gge.replace(/"+/g, '\'');
+           console.log(str);*/ 
+         //  let plusOne = Function('n', 'return 2 * n');
+         //  console.log(plusOne(4));
+        /* let xs = 10;
+         function times (x){
+            return x = x * x;
+         }
+  
+         console.log(xs);
+      
+         console.log(times(xs));*/
+       /*  switch (calcNumber(2,2)){
+             case 1: 
+             console.log(1);
+             break;
+             case 3:
+                 console.log(3);
+                 break;
+             case 4: 
+             console.log(4);
+             break;
+             default: 
+             console.log('you suck');
+         }
+
+         function calcNumber(x, y){
+             return x * y;
+         }*/
+         /*let xy = 10;
+         yx();
+         console.log(xy);
+
+          function yx (){
+              xy = 121;
+          }*/ 
+        /*  let tompson = (function (){
+              let magazine = 10;
+              function magazineSize(x){
+                  magazine = magazine * x;
+              }
+              return {
+                  double : function(){
+                    magazineSize(2);
+                  },
+                  triple : function(){
+                      magazineSize(3);
+                  },
+                  stock : function(){
+                      magazine = 10;
+                  },
+                  magazineCapacity : function(){
+                      return magazine;
+                  }
+                  
+              }
+          })();*/ 
+          class Book{
+              constructor (title, pages, author){
+                this.title = title;
+                this.pages = pages;
+                this.author = author;
+              }
+              get _pages() {
+                  return this.pages;
+              }
+              set _pages (x){
+                  this.pages = x;
+              }
+              _author() {
+                  return this.author;
+              }
+          }
+
+          class LibraryBook extends Book{
+              constructor(title, pages, author, genre, location){
+                  super(title, pages, author);
+
+                  this.genre = genre;
+                  this.location = location;
+              }
+              get _location() {
+                  return this.location;
+              }
+              set _location(x){
+                  this.location = x;
+              }
+          }
+          const Guns = new Book('Guns, Germs, And Steel', 471, 'Jared Diamond');
+          const Habit = new LibraryBook('The Power Of Habit', 378, 'Charles Duhigg', 'Psychology', 'HG2204');
+
+          function sumPairs(ints, s) {
+  let result = [];
+  ints.forEach(function(element, index){
+    
+    for(let i = index; i < ints.length; i++){
+    
+      if(element + ints[i] == s && result.length == 0){
+   
+        result.push(element);
+        result.push(ints[i]);
+      
+      }
+    }
+  });
+  
+  return result;
+  
+}
+console.log(sumPairs([1, 4, 8, 7, 3, 15], 8));
+
+
+        </script>
+    </body>
+</html>

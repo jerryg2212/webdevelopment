@@ -1,0 +1,33 @@
+doctype html
+html
+    head 
+        link(rel='stylesheet', href='../styles.css')
+
+    
+    body
+        div(id="sideNavListsContainer")
+            div(id="sideNavFormWrapper")
+                h2 Create New List 
+                form(id="createNewListForm" action="/newList" method="post")
+                    button(id="newListButton" type="submit" class="submitButton") New List 
+                    div(id="inputWrapperCreateForm" class="inputWrapper")
+                        input(type="text" class="textInput" id="createListTextInput" name="listTitle") 
+            div(id="listsContainer")
+                img(src="../delete.svg" id="sideNavDeleteIcon" class="checkDeleteIcons")
+                h2 Lists
+                ul(id="sideNavUl")  
+                    each list of lists  
+                        li(class="pascalCase")=list.title
+        div(id="wrapper")
+            h1(class="pascalCase")=title 
+            div(id="listContainer" class="container")
+                img(src="../delete.svg" id="deleteIcon" class="checkDeleteIcons")
+                form(action=`/list/${title}` method="post" id="addNewItemForm")
+                    button(type="submit" class="submitButton" id="newItemButton") Post Item
+                    div(id="inputWrapperCreateItem" class="inputWrapper")
+                        input(type="text" name="newtask" id="textInput" class="textInput")
+                ul(id="tasksList")
+                    each val of tasks
+                        li= val
+            script(src="../events.js")
+            script(src="../homepage.js")

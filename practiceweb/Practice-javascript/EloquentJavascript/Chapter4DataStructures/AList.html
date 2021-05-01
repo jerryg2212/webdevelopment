@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <script>
+            function arrayToList(arr){
+                let history = null;
+                for(let i = arr.length - 1; i >=0; i--){
+                    let list = {value : arr[i], rest : history};
+                    history = list;
+                }
+                return history;
+            }
+            function listToArray(list){
+                let arr = [];
+                while(list){
+                    arr.push(list.value);
+                    list = list.rest;
+                }
+                return arr;
+            }
+            function prepend(element, list){
+                return {value: element, rest : list}
+            }
+            function nth(num, list){
+                let current = 0;
+                while(list){
+                    if(current == num) return list.value;
+                    current++
+                    list = list.rest;
+                }
+                return undefined;
+            }
+            function nthRecursive(num, list, index){
+                if(index === undefined)index = -1;
+                index++;
+                if(index < num) nthRecursive(num, list.rest, index);
+                console.log(index + 'index');
+                console.log(list.value + 'value');
+                if(num == index) {
+                    console.log('success');
+                    console.log(list.value);
+                    return list.value;
+                }
+
+ 
+                if(list.rest === null)return undefined;
+
+            }
+        </script>
+    </body>
+</html>

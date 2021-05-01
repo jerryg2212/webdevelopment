@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <script>
+
+            let reverseArray = function(array) {
+                let newArray = [];
+                for(let i = array.length -1; i >= 0; i--){
+                    newArray.push(array[i]);
+                }
+                return newArray;
+            }
+
+            let reverseArrayInPlace = function(array){
+                let temp = Array.from(array);
+                for(let i = 0; i < array.length; i++){
+                    array[i] = temp[temp.length - (i +1)];
+
+                }
+            }
+
+        </script>
+    </body>
+</html>

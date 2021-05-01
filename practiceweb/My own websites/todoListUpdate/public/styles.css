@@ -1,0 +1,263 @@
+/*
+** list container = 89FF00 137, 255, 0
+** body = 00C054 0, 192, 84
+** side nav = #58FDA0 88, 253, 160
+** text input FF287B 255, 40, 123
+** buttons FF3500 255, 53, 0
+*/
+
+/* FONTS */
+
+    /*header font */
+    @font-face{
+        font-family: 'headerFont';
+        src: url('fonts/pink_chicken/PinkChicken-Regular.ttf') format('truetype');
+
+    }
+
+html{
+    height: 100%;
+}
+/* Login/Register Pages */
+    #loginRegisterBody{
+        text-align: center;
+    }
+
+    #loginRegisterBody form{
+        display: block;
+        background-color: #89FF00;
+        width: 100%;
+        max-width: 500px;
+        min-width: 300px;
+        margin: 50px auto 20px auto;
+        padding: 20px;
+        box-shadow: rgba(1, 1, 1, .7) 2px 2px 6px;
+        border-radius: 10px;
+        position: relative;
+    }
+    #loginRegisterBody label{
+        display: block;
+        margin: 10px auto;
+
+    }
+    #loginRegisterBody input{
+        display: block;
+        margin: 10px auto;
+        width : 90%;
+        max-width: 200px;
+        min-width: 100px;
+    }
+    #loginRegisterBody button{
+        display: block;
+        margin: 10px auto;
+    }
+    /* error p text */
+    #loginRegisterErrorText{
+        position: absolute;
+        width: 160px;
+        margin: 0px;
+        top: 0px;
+        left: 50%;
+        margin-left: -80px;
+        padding: 5px;
+        color: red;
+        font-weight: bold;
+        text-shadow: black 1px 1px 1px; 
+        font-size: 15px;
+    }
+
+/* Specific List Page */
+    #specificListBody{
+        display: flex;
+        height: 100%;
+        padding: 0px;
+        margin: 0px;
+    }
+    /* wrapper that wraps the list */
+        #wrapper{
+            flex: 2 2;
+        }
+        /* styles for the list container */
+            #listContainer{
+                box-shadow: rgba(1, 1, 1, .7) 2px 2px 6px;
+            }
+                #listContainer ul{
+                    margin: 0px;
+                    padding: 0px;
+                    max-width: 100%;
+                }
+                #listContainer li{
+                    width: -moz-fit-content;
+                    width: fit-content;
+                    margin: 2px auto;
+                    padding: 5px;
+                    list-style-type: none;
+                }
+                h1{
+                    text-align:center;
+                }
+                .checkDeleteIcons{
+                    position: absolute;
+                    right: 5px;
+                    top: 5px;
+                    width: 16px;
+                    padding: 5px;
+                }
+    /* styles for the side nav of lists*/
+        #specificListBody #sideNavListsContainer{
+            background-color: #39D27C;
+            align-self: stretch;
+            min-width: fit-content;
+            padding: 0px 0px 10px 0px;
+            flex: .44 .44;
+        }
+        /* div that wraps the form on the side nav*/
+            #sideNavFormWrapper{
+                padding: 5px 0px 20px 0px;
+                background-color: #58FDA0;
+            }
+                
+            /* form */
+            #sideNavListsContainer form{
+                text-align: center;
+            }
+            /* input element */
+                #sideNavListsContainer input{
+                    margin: 5px auto;
+                }
+            /*submit button */
+                #sideNavListsContainer button{
+                    display: block;
+                    margin: 10px auto;
+
+                }
+        /* div that wraps the list of lists on the side nav */
+            #listsContainer{
+                position: relative;
+                padding: 10px;
+            }
+                #listsContainer h2{
+                    margin: 0px;
+                }
+                #sideNavListsContainer ul{
+                    width: 100%;
+                    padding: 0px;
+                }
+                    #sideNavListsContainer ul li{
+                        list-style-type: none;
+                        padding: 10px;
+                    }
+                #sideNavListsContainer h2{
+                    text-align:center;
+                }
+
+
+
+
+
+/* Create First List Page */
+    #creatFirstListBody{}
+    #createFirstListBody h1{
+        text-align: center;
+    }
+
+
+/**** CLASSES ****/
+    /* different background colors */
+    .bodyBackgroundColor{
+        background-color: #00C054;
+    }
+
+    /* div class containers */
+    .container{
+        background-color: #89FF00;
+        width: 60%;
+        max-width: 700px;
+        min-width: 400px;
+        text-align:center;
+        margin: 10px auto;
+        padding: 10px;
+        position: relative;
+    }
+    /* text inputs */
+    .textInput{
+        padding: 7px;
+        background-color: rgba(255, 40, 123, .4);
+        border: 1px solid rgb(255, 40, 123);
+        border-radius: 20px;
+        margin: 7px;
+    }
+    /* submit buttons */
+    .submitButton{
+        display: block;
+        margin: 7px auto;
+        padding: 5px;
+        background-color: #FF3500;
+        color: white;
+        text-shadow: 1px 1px 1px;
+        border: none;
+        font-size: 18px;
+        letter-spacing: 2px;
+        border-radius: 0px 10px 0px 10px;
+        box-shadow: 1px 1px 2px black;
+    }
+
+    /* for the check mark and delte icons */
+    .checkDeleteIcons{
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        width: 16px;
+        padding: 5px;
+    }
+
+    /* for headers */
+    .whiteHeader{
+        color: white;
+        font-family: 'headerFont';
+        text-shadow:rgba(1, 1, 1, .7) 1px 1px 1px;
+
+    }
+
+    /* class for the logout link */
+    .logOutLink{
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+    /* pascal case */
+        .pascalCase{
+            text-transform: capitalize;
+        }
+
+            /* for the error boxes */
+            .errorBox{
+                background-color: white;
+                padding: 0px;
+                margin: 0px auto;
+                width: -moz-fit-content;
+                width: fit-content;
+            }
+        /* for the input elements when input is invalid */
+            .invalidInput{
+                margin-bottom: 0px !important;
+            }
+            /*p element inside the div wrapper */
+            #errorMessageP{
+                margin: 0px;
+                padding: 0px;
+                width: -moz-fit-content;
+                width: fit-content;            
+            }
+
+            
+        /*class for when the list element is being hovered over*/
+            .listElementHover{
+                background-color: red;
+            }
+        /*class for when the list element is clicked to be deleted*/
+            .listElementDelete{
+                background-color: red;
+            }
+
+

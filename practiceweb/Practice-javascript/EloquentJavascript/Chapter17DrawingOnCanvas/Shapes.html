@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head><style>
+
+    </style></head>
+    <body>
+        <script>
+            function drawTrapezoid(scale, originX, originY){
+                let canvas = document.createElement('canvas');
+                document.body.appendChild(canvas);
+                let context = canvas.getContext('2d');
+                context.beginPath();
+                context.moveTo(originX, originY);
+                context.lineTo(originX + 10 * scale, originY - 20 * scale);
+                context.lineTo(originX + 30 * scale, originY - 20 * scale);
+                context.lineTo(originX + 40 * scale, originY);
+                context.lineTo(originX, originY);
+                context.stroke();
+            }
+            function drawDiamond(originX, originY, width, height){
+                let canvas = document.createElement('canvas');
+                document.body.appendChild(canvas);
+                let context = canvas.getContext('2d');
+                context.rotate(45 * Math.PI / 180);
+                context.fillStyle = 'red';
+                context.fillRect(originX, originY, width, height);
+            }
+            function zigZag(length,lines){
+                let canvas = document.createElement('canvas');
+                document.body.appendChild(canvas);
+                let context = canvas.getContext('2d');
+                context.moveTo(10,10);
+                context.beginPath();
+                let y = 10;
+                let x = 10;
+                for(let i = 0; i < lines; i = i + 2){
+                    y = y +  5;
+                    context.lineTo(x + length, y);
+                    y = y +  5;
+                    context.lineTo(x, y);
+                }
+                context.stroke();
+            }
+            function spiral(){
+                let canvas = document.createElement('canvas');
+                document.body.appendChild(canvas);
+                let context = canvas.getContext('2d');
+                context.moveTo(50,50);
+                let increment = 40 / 100 * 1.5;
+                let totalIncrement = increment;
+                let radiansIncrement = 8 * Math.PI / 100;
+                console.log(radiansIncrement);
+                for(let i = 1; i < 101; i++){
+                    context.arc(50,50, totalIncrement,  i * radiansIncrement,  (i - 1) * radiansIncrement);
+                    totalIncrement += increment;
+                }
+                context.stroke();
+            }
+            function star(x, y){
+                let canvas = document.createElement('canvas');
+                document.body.appendChild(canvas);
+                let context = canvas.getContext('2d');
+                let originX = x, originY = y;
+                let goalX = originX + 
+                context.moveTo(originX, originY + 30);
+                for(let i = 1; i <= 8; i++){
+                    
+                    context.quadraticCurveTo(originX, originY, )
+                }
+                context.stroke();
+                context.fill();
+                
+            }
+
+            
+            </script>
+    </body>
+</html>

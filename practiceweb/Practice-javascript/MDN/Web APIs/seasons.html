@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Seasons</title>
+        <style>
+            .container{
+                width: 500px;
+                margin: 0px auto;
+                background-color: rgb(132, 212, 116);  
+
+            }
+            h1{
+                text-align:center;
+                color: white
+            }
+            select{
+                margin-left: 40%;
+                
+                
+            }
+        </style>
+    </head>
+    <body>
+        <section class="container">
+            <h1>Pick your favorite season</h1>
+            <select>
+                <option>Fall</option>
+                <option>Winter</option>
+                <option>Spring</option>
+                <option>Summer</option>
+            </select>
+
+        </section>
+
+        <script>
+            const container = document.querySelector('section');
+           let winHeight = window.innerHeight;
+           container.style.height = winHeight -50 + 'px';
+           window.addEventListener('onresize', function () {
+               winHeight = window.innerHeight;
+                container.style.height = winHeight - 50 + 'px';
+           })
+        </script>
+    </body>
+</html>

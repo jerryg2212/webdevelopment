@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            p{
+                position: absolute;
+                padding: 0px;
+                margin: 0px;
+
+            }
+        </style>
+    </head>
+    <body id="body">
+
+        <script>
+            let para = document.createElement('p');
+            para.style.fontSize = '50px';
+            para.style.top = (window.innerHeight / 2) - (Number(para.style.fontSize.slice(0, para.style.fontSize.indexOf('p'))) / 2) + 'px';
+            para.style.left = (window.innerWidth / 2) - (Number(para.style.fontSize.slice(0, para.style.fontSize.indexOf('p'))) / 2) + 'px';
+            para.textContent = String.fromCodePoint(0x1F388);
+            document.querySelector('body').appendChild(para);
+
+            window.addEventListener('keyup', function(event){
+                let currentFontSize = Number(para.style.fontSize.slice(0, para.style.fontSize.indexOf('p')));
+                if(event.key == "ArrowUp"){
+                    if(para.style.fontSize == '500px'){
+                        para.textContent = 'd';
+                    }else {
+                    para.style.fontSize = (currentFontSize + 50) + 'px';
+                    }
+                }
+                if(event.key == "ArrowDown"){
+                    if(para.style.fontSize == '50px'){
+                        return;
+                    }else {
+                        para.style.fontSize = (currentFontSize - 50) + 'px';
+                    }
+                }
+                currentFontSize = Number(para.style.fontSize.slice(0, para.style.fontSize.indexOf('p')));j
+                para.style.top = (window.innerHeight / 2) - (currentFontSize / 2) + 'px';
+                    para.style.left = (window.innerWidth / 2) - (currentFontSize / 2) + 'px';
+            });
+
+
+        </script>
+    </body>
+</html>

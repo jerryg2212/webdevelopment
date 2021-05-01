@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <script>
+            function bubbleSort(array){
+                for(let i = 0; i < array.length; i++){
+                    let  bubble = array[i]
+                    for(let j = i + 1; j < array.length - i + 1; j++){
+                        if(array[array.indexOf(bubble)] > array[j]){
+                            array[array.indexOf(bubble)] = array[j];
+                            array[j] = bubble;
+                        }
+                        bubble = array[j]; 
+                    }
+                }
+                return array;
+            }
+        </script>
+    </body>
+</html>

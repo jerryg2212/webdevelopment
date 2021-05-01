@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <title>Simple setInterval clock</title>
+    <style>
+      p {
+        font-family: sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <p class="clock" id="clock"></p>
+    <button id="stopWatch">Start</button><button id="stop">Stop</button><button id="reset">Reset</button>
+    <script>
+     //Variable that is the counter
+     let secondCount = 0;
+     let go;
+
+     // Storing the HTML in variables
+     const timer = document.getElementById('clock');
+     const startbtn = document.getElementById('stopWatch');
+     const stopbtn = document.getElementById('stop');
+     const resetbtn = document.getElementById('reset');
+
+    let displayTime = function() {
+        timer.textContent = ' ' + secondCount + ' seconds';
+        secondCount++;
+    }
+
+     startbtn.addEventListener('click', () => {
+        displayTime();
+         go = setInterval(displayTime, 1000);
+     });
+
+     stopbtn.addEventListener('click', () => {
+         clearInterval(go);
+     });
+     resetbtn.addEventListener('click', () => {
+         
+         clearInterval(go);
+         secondCount = 0;
+         displayTime();
+     })
+
+     
+
+    </script>
+  </body>
+</html>

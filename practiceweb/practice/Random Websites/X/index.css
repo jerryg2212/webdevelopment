@@ -1,0 +1,73 @@
+html{
+    font-size: 10px;
+}
+
+section{
+    background-color: rgb(139, 48, 48);
+    
+
+}
+h1{
+    text-align:center;
+    font-size: 6em;
+    color:white;
+    background-color: rgb(139, 60, 60);
+    margin-top:40px;
+    width:60%;
+    margin: 10px auto 0px auto;
+    
+    
+
+}
+section > p{
+    text-align:center;
+    font-size: 1.8em;
+    color:white;
+}
+hr{
+    margin:0 auto;
+    width:60px;
+    border: 3px solid white;
+}
+fieldset{
+    margin-top: 20px;
+    width: 50%;
+    margin: 20px auto 60px auto;
+    display:grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: 7px;
+    border:none;
+
+}
+input{
+    
+    padding:20px 5px;
+    font-size:1.8em;
+    background-color: rgb(182, 45, 45);
+    border:none;
+    color: white;
+   
+}
+input:nth-of-type(4){
+  grid-column: 1/4;
+
+}
+input:nth-of-type(5){
+   grid-column: 1/4;
+    
+}
+input::-moz-placeholder{
+    margin-left: 10px;
+    color: white;
+    
+}
+input:nth-of-type(6){
+    grid-column:3/4;
+    width:80px;
+   margin-left:60%;
+   position: relative;
+    background-color:white;
+    color: rgb(182,45, 45);
+   bottom: 68px;
+}
+

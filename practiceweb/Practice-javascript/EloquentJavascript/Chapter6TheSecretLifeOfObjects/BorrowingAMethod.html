@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <script>
+            let hasOwnProperty = Symbol('name');
+
+            let people  = {
+                hasOwnProperty : 'john',
+                fuck : 'jeremy'
+            }
+           // people[hasOwnProperty] = (prop) => people.hasOwnProperty('' + prop);
+            function Person(name, age){
+                this.name = name;
+                this.age = age;
+                this.hasOwnProperty = 'fuk';
+            }
+            Person.prototype[hasOwnProperty] = (prop) => this.hasOwnProperty(prop);
+            
+        </script>
+    </body>
+</html>

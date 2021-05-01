@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head><style>canvas{
+       /* width: 400px;*/
+        height: 400px;
+    }</style></head>
+    <body>
+        <canvas></canvas>
+        <script>
+            let results = [
+                {name: "Satisfied", count: 1043, color: "lightblue"},
+                {name: "Neutral", count: 563, color: "lightgreen"},
+                {name: "Unsatisfied", count: 510, color: "pink"},
+                {name: "No comment", count: 175, color: "silver"}
+        ]
+              let cx = document.querySelector("canvas").getContext("2d");
+  let total = results
+    .reduce((sum, {count}) => sum + count, 0);
+  let currentAngle = -0.5 * Math.PI;
+  let centerX = 100, centerY = 100;
+
+  // Add code to draw the slice labels in this loop.
+  let totalAngle;
+  let startAngle = 1.5 * Math.PI;
+  for (let result of results) {
+    let sliceAngle = (result.count / total) * 2 * Math.PI;
+   // console.log(sliceAngle);
+   // let totalAngle = ((startAngle + sliceAngle) / 2) %(2 * Math.PI);
+    console.log(totalAngle);
+    cx.beginPath();
+    cx.arc(centerX, centerY, 50,
+           currentAngle, currentAngle + sliceAngle);
+    currentAngle += sliceAngle;
+    totalAngle = ((startAngle + sliceAngle) / 2) %(2 * Math.PI);
+    if(totalAngle <= Math.PI /2 || totalAngle > Math.PI * 2 ){
+        console.log('fuck you');
+        cx.textAlign = 'left';
+    }else{
+        cx.textAlign = 'right';
+    }
+    cx.fillStyle = 'black';
+   cx.fillText(`${result.name}`,(Math.cos(totalAngle) * 50) + 100, (Math.sin(totalAngle)* 50) + 100);
+    cx.lineTo(centerX, centerY);
+    cx.fillStyle = result.color;
+    cx.fill();
+  }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            .container{
+                margin: 10px auto;
+                background-color: lightblue;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <textarea></textarea>
+            <button>Enter</button>
+            <p class="para"></p>
+        </div>
+        <script>
+            let button = document.querySelector('button');
+            let textArea = document.querySelector('textarea');
+            let para = document.querySelector('.para');
+            button.addEventListener('click' ,function(){
+                let text = Function('', textArea.value + "");
+                para.textContent = text();
+            });
+        </script>
+    </body>
+</html>

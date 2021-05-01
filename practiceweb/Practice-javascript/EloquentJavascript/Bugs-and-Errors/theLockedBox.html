@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <script>
+            const box = {
+                locked: true,
+                unlock() { this.locked = false},
+                lock() {this.locked = true},
+                _content: [],
+                get content() {
+                    if(this.locked) throw new Error("Locked");
+                    return this._content;
+                }
+            };
+            function withBoxUnlocked(body){
+                let initialStatus = box.locked;
+                if(box.locked == true){
+                    box.unlock();
+                }
+                body();
+                box.locked = initialStatus;
+            }
+            withBoxUnlocked(function(){
+                box.content.push("gold piece");
+                console.log(box.content);
+            });
+
+            let jerry = /b/g;
+            let tom = /b/y;
+          ////  console.log(tom.exec(" b"));
+           // console.log(jerry.exec(" b"));
+           let mainobj = {};
+           let copy = mainobj;
+           copy["name"] = "shit";
+           copy["fuck"] = "fuck";
+           mainobj.city = {};
+           copy = mainobj.city;
+           copy.address = "23";
+           console.log(mainobj);
+           console.log(copy);
+        </script>
+    </body>
+</html>

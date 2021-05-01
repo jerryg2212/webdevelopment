@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>firstAnimation
+
+        </title>
+        <style>
+            div.two{
+                margin: 40px auto;
+                width:70%;
+                background-color:green;
+                height:300px; 
+                contain: content; 
+                transition-property: background-color;
+                transition-duration: 4s;              
+                
+                
+            }
+            @keyframes one{
+                from {
+                    margin-left:calc(100% - 30px);
+                    
+                }
+                10%{
+                    background-color:aqua;
+                }
+                20%{
+                    background-color: yellow;
+                    margin-left:0%;
+                    margin-top: 0px;
+                }
+                30%{
+                    background-color: lightgreen;
+                }
+                40%{
+                    background-color:green;
+                }
+                50%{
+                    background-color:darkgreen;
+                }
+                60%{
+                    background-color:blueviolet;
+                    margin-left:0%;
+                    margin-top:270px;
+                }
+                70%{
+                    background-color:purple;
+                }
+                80%{
+                    background-color:cadetblue;
+                    margin-left:calc(100% - 30px);
+                    margin-top:270px;
+                }
+                90%{
+                    background-color:coral;
+                }
+                to {
+                    margin-left: calc(100% - 30px);
+                    margin-bottom: 300px;
+                    
+                }
+
+            }
+            div .box{
+                width:30px;
+                border-radius: 10px;
+                background-color:blue;
+                height: 30px;
+                -webkit-margin-collapse: unset;
+                
+                
+            }
+            .box{
+                animation-name: one;
+                animation-duration: 5s;
+                animation-iteration-count: infinite;
+                
+                animation-timing-function: linear;
+                             
+            }
+            .two:hover{
+                background-color: blue;
+            }
+
+
+        </style>
+    </head>
+    <body>
+        <div class="two">
+            
+            <div class="box">
+                
+            </div>
+
+        </div>
+        
+    </body>
+</html>

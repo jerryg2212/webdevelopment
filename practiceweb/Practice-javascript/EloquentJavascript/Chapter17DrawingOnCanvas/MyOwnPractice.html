@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head><style>
+        canvas{
+            width: 1000px;
+            height: 500px;
+        }
+    </style></head>
+    <body>
+        <canvas></canvas>
+        <script>
+            let canvas = document.querySelector('canvas');
+            canvas.style.backgroundColor = 'lightgrey';
+            let context = canvas.getContext('2d');
+            
+           /* context.beginPath();
+            context.strokeStyle = 'green';
+            context.moveTo(100, 100);
+            context.quadraticCurveTo(0,200, 100, 10);
+            context.closePath();
+            context.fillStyle = 'green';
+            context.fill();
+            context.stroke();*/
+            let people = [{amount: 200, color: 'red'},{amount: 75, color: 'blue'}, {amount:235, color: 'green'},
+             {amount: 59, color: 'yellow'}, {amount: 124, color: 'orange'}, {amount: 99, color: 'cyan'}];
+            let total = people.reduce((sum, {amount}) => sum + amount, 0);
+
+            /*let currentAngle = -.5 * Math.PI;
+            for (let person of people){
+                context.beginPath();
+                let angle = (person.amount * 2 * Math.PI) / total;
+                context.arc(50,50,40, currentAngle, currentAngle + angle);
+                currentAngle += angle;
+                context.lineTo(50,50);
+                context.fillStyle = person.color;
+                context.fill();
+            }
+             currentAngle = -.5 * Math.PI;
+             flipHorizontally(context, 150);
+            for (let person of people){
+                context.beginPath();
+                let angle = (person.amount * 2 * Math.PI) / total;
+                context.arc(150,50,40, currentAngle, currentAngle + angle);
+                currentAngle += angle;
+                context.lineTo(150,50);
+                context.fillStyle = person.color;
+                context.fill();
+            }
+            function flipHorizontally(context, around){
+                context.translate(around, 0);
+                context.scale(-1, 1);
+                context.translate(-around, 0);
+            }*/
+            function segmentedCircle(lines, originX, originY, radius){
+                let canvas = document.querySelector('canvas');
+                let contex = canvas.getContext('2d');
+                let angleog = (2 * Math.PI) / lines;
+                let angle = angleog;
+                console.log(angle);
+                context.beginPath();
+                for(let i = 0; i < lines; i++){
+                    contex.moveTo(originX, originY);
+                    contex.lineWidth = 1;
+                    contex.arc(originX, originY, radius, angle, angle,);
+                    contex.lineTo(originX, originY);
+                    angle += angleog;
+                    console.log(angle);
+                }
+                contex.stroke();
+            }
+            
+
+            
+
+        </script>
+    </body>
+</html>

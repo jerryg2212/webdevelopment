@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <script>
+            class Group {
+                constructor(){
+                    this.group = [];
+                }
+                has(x){
+                    for(const element of this.group){
+                        if(x === element){
+                             return true;
+                        }
+                    }
+                    return false;
+                }
+                add(x){
+                    if(!this.has(x)){
+                        this.group.push(x); 
+                    }
+                }
+                deletes(x){
+                    if(this.has(x)){
+                        this.group.splice(this.group.indexOf(x),1);
+                    }
+                }
+                multiple(arr){
+                    for(const element of arr){
+                        if(!this.has(element)){
+                            this.add(element);
+                        }
+                    }
+                }
+
+            }
+
+            let jerry = {
+                hasOwnProperty : 'jerry123',
+                name : 'jerry1'
+            }
+            console.log(Object.hasOwnProperty.call(jerry, 'name'));
+        </script>
+    </body>
+</html>

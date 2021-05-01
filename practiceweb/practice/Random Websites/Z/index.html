@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>A</title>
+        <style>
+            body{
+                width:90%;
+                margin:0 auto;
+                background-color:lightgrey;
+            }
+            div{
+                width:100%;
+                height:150px;
+                background-image: linear-gradient( rgb(250, 250, 250), rgb(175, 200, 241));
+                
+            }
+            span{
+                font-weight: bold;
+            }
+            .huh{
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                width:300px;
+                height:100px;
+                float:right;
+                background-color:white;
+                padding:10px;
+                background-image:none;
+                margin-top: 20px;
+                margin-right:10px;
+            }
+            div p{
+                font-size:12px;
+                background-image:none;
+                margin:5px;
+            }
+            div div {
+                background-image:none;
+            }
+            div p:nth-of-type(1){
+                font-size: 16px;
+                color:blue;
+            }
+            .f{
+                border:1px solid white;
+            }
+            div.white{
+                height:92px;
+                width:100%;
+                background-image:none;
+                background-color:white;
+            }
+            h1, .f{
+                margin-left: 15px;
+            }
+            .white p{
+                color:black;
+            }
+
+        </style>
+        
+    </head>
+    <body>
+        <div>
+            
+            <div class="huh">
+                <img src="boots.png">
+                <div>
+                <p>Retired</p>
+                <p>Last position:</p>
+                <p>Manager</p>
+                <p>Bayern Munich</p>
+                <p>Date left:</p>
+                </div>
+                <div> </div>
+            </div>
+            <h1>Georg <span>Hoer</span></h1>
+            <img class="f" src="person.jpg">
+            
+        </div>
+        <div class="white">
+            <p>                  Citizenship <img src="t.png"> <strong>England</strong>   Avg. term as coach 100 years </p>
+
+        </div>
+    </body>
+</html>

@@ -1,0 +1,19 @@
+
+.game{
+    background-color: rgb(0, 205, 40);
+    width: 600px;
+    height: 600px;
+    margin: 100px auto 100px auto;
+}
+body{
+    width: 100%;
+    
+}
+.spinner{
+    margin: 10px auto;
+    font-size: 5em;
+    transition: 2s;
+}
+.container:hover{
+    transform: rotate(10deg);
+}

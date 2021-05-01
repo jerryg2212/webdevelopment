@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Seasons</title>
+        <style>
+            .container{
+                width: 500px;
+                margin: 0px auto;
+                background-color: rgb(132, 212, 116);  
+
+            }
+            h1{
+                text-align:center;
+                color: white
+            }
+            select{
+                margin-left: 40%;
+                
+                
+            }
+        </style>
+    </head>
+    <body>
+        <section class="container">
+            <h1>Pick your favorite season</h1>
+            <select>
+                <option>Fall</option>
+                <option>Winter</option>
+                <option>Spring</option>
+                <option>Summer</option>
+            </select>
+
+        </section>
+
+        <script>
+            // Declaring variables
+            const container = document.querySelector('section');
+            const select = document.querySelector('select');
+            // making the height of the container
+            
+           let winHeight = window.innerHeight;
+           container.style.height = winHeight - 50 + 'px';
+           window.addEventListener('onresize', function () {
+               winHeight = window.innerHeight;
+                container.style.height = winHeight -50 + 'px';
+
+           });
+                
+             // function for adding the image of the selected season
+         /*    changeSeason = function() {
+                 let selectValue = select.value;
+                 selectValue = selectValue.toLowerCase();
+                 let url = selectValue + '.jpg';
+                 let image = fetch(url);
+                 image.then(function (newImage) {
+                     console.log(newImage);
+                     return newImage.blob();
+                 } ).then(function (myBlob) {
+                     imageurl = URL.createObjectURL(myBlob);
+                     let newPost = document.createElement('img');
+                     newPost.src = imageurl;
+                     container.appendChild(newPost);
+                 }).catch(function() {
+                     console.log('you are a dumbass');
+                 });
+             }  */
+
+            // making the event for when the drop down list changes
+             select.addEventListener('onchange', function () {
+                let selectValue = select.value;
+                 selectValue = selectValue.toLowerCase();
+                 let url = selectValue + '.jpg';
+                 let image = fetch(url);
+                 image.then(function (newImage) {
+                     console.log(newImage);
+                     return newImage.blob();
+                 }).then(function (myBlob) {
+                     imageurl = URL.createObjectURL(myBlob);
+                     let newPost = document.createElement('img');
+                     newPost.src = imageurl;
+                     container.appendChild(newPost);
+                 }).catch(function() {
+                     console.log('you are a dumbass');
+                 });
+             }); 
+        </script>
+    </body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body{
+                margin: 0px;
+                padding: 0px;
+            }
+        </style>
+    </head>
+    <body>
+
+        <script>
+            //global variable that has the theme
+
+
+            //factory
+            class PageFactory{
+                constructor(theme){
+                    this.theme = theme;
+                }
+                getPage(){
+                    let windowLocation;
+                    windowLocation = location.pathname.slice(location.pathname.lastIndexOf('/') + 1);
+                    if(windowLocation == 'darkandlight.html') {
+                       // console.log('fuckyeah');
+                        //console.log(this.theme);
+                        return new HomePage(this.theme);
+                    }
+                }
+            }
+            //instances of the factory
+                //light factory
+                    let lightFactory = new PageFactory('Light');
+                    let darkFactory = new PageFactory('Dark');
+
+            //creates the homepage
+                class HomePage{
+                    constructor(theme){
+                        this.theme = theme;
+                        if(theme == 'Dark'){
+                             this.themeBackgroundColor = 'black';
+                             this.themeFontColor = 'white';
+                        }else if(theme == 'Light'){
+                            this.themeBackgroundColor = 'white';
+                            this.themeFontColor = 'black';
+                        }
+                        this.body = document.querySelector('body');
+                    }
+                    loadPage(){
+                        this.body.innerHTML = '';
+                        this.body.style.backgroundColor = this.themeBackgroundColor;
+                        this.assemblePage();
+                    }
+                    assemblePage(){
+                        this.makeHeader();
+                        this.makeNav();
+                    }
+                    makeHeader(){
+                        let headerStyles = {
+                            "width" : "100%",
+                            "text-align" : "center",
+                            "color" : this.themeFontColor,
+                            "background-color" : this.themeBackgroundColor,
+                            "padding" : "10px 0px",
+                            "margin" : "0px",
+
+                        };
+                        let headerp = document.createElement('p');
+                        headerp.textContent = 'My App';
+                        Object.assign(headerp.style, headerStyles);
+                        this.body.appendChild(headerp);
+                    }
+                    makeNav(){
+                        //creating the lis
+                            let toggleli = this.makeThemeToggle();
+                            let homeli = document.createElement('li');
+                            let appsli = document.createElement('li');
+                            let aboutli = document.createElement('li');
+                        //making text for the lis
+                            homeli.textContent = "Home";
+                            appsli.textContent = "Apps";
+                            aboutli.textContent = "About";
+                        //creating styles for the lis
+                            let navliStyle = {
+                                "padding" : "10px",
+                                "border" : `1px solid ${this.themeFontColor}`,
+                                "color" : this.themeFontColor,
+                                "float" : "right",
+                                "list-style-type" : "none",
+                                "margin" : "0px"
+                            }
+                            // style for the toggleli
+                                let toggleliStyle = {
+                                    "padding" : "10px",
+                                    "border" : `1px solid ${this.themeFontColor}`,
+                                    "color" : this.themeFontColor,
+                                    "float" : "left",
+                                    "list-style-type" : "none",
+                                    "margin" : "0px"
+                                }
+                        //adding the style to the lis
+                            Object.assign(toggleli.style, toggleliStyle);
+                            Object.assign(homeli.style, navliStyle);
+                            Object.assign(appsli.style, navliStyle);
+                            Object.assign(aboutli.style, navliStyle);
+                        //create the ul and appending the lis
+                            let navul = document.createElement('ul');
+                            navul.appendChild(toggleli);
+                            navul.appendChild(homeli);
+                            navul.appendChild(appsli);
+                            navul.appendChild(aboutli);
+                        //style for the ul
+                                let navulStyle = {
+                                    "max-width" : "100%",
+                                    "margin" : "10px",
+                                    "padding" : "0px",
+                                    "margin-right" : "10px"
+                                }
+                                Object.assign(navul.style, navulStyle);
+                        this.body.appendChild(navul);
+
+                    }
+                    makeThemeToggle(){
+                       let toggle = document.createElement('li');
+                        toggle.textContent = this.theme;
+                        toggle.addEventListener('click', function(e){
+
+                                if(this.theme == 'Light'){
+                                    localStorage.setItem('theme', 'Dark');
+                                }else localStorage.setItem('theme', 'Light');
+                                loadCurrentPage();
+                            
+                        }.bind(this));
+                        return toggle;
+
+                    }
+                }
+
+                //function that loads the current page
+                    function loadCurrentPage(){
+                        let theme = localStorage.getItem('theme');
+                        if(theme == undefined || theme == "Light"){
+                            lightFactory.getPage().loadPage();
+                        }else darkFactory.getPage().loadPage();
+                    }
+
+
+                // main thread
+                loadCurrentPage();
+
+              // currentPage.loadPage();
+               // currentPage.loadPage();
+        </script>
+    </body>
+</html>

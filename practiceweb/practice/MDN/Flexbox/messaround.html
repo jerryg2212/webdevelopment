@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title></title>
+        <style>
+            section{
+                display:flex;
+                width: 500px;
+                margin: 50px auto;
+                background-color:grey;
+                border: 1px solid black;
+            }
+            article{
+                background-color:turquoise;
+                border:1px solid green;
+                font-size: 4em;
+                flex: 1 1 100px;
+                
+            }
+            article:nth-of-type(1){
+                width:100px
+            }
+            article:nth-of-type(2){
+                width: 50px;
+            }
+            article:nth-of-type(3){
+                width: 200px;
+            }
+
+
+        </style>
+    </head>
+    <body>
+        <section>
+            <article>a</article>
+            <article>b</article>
+            <article>c</article>
+        </section>
+    </body>
+</html>

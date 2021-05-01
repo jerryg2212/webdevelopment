@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <script>
+            class Group{
+                constructor(){
+                    this.group = [];
+                }
+                add(elm){
+                    if(!this.has(elm)) this.group.push(elm);
+                }
+                has(elm){
+                    for(const prop of this.group){
+                        if (prop === elm){
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+                delete(elm){
+                    if(this.has(elm)) this.group.splice(this.group.indexOf(elm), 1);
+                }
+               static from(obj){
+                   let group = new Group();
+                   for(const prop in obj){
+                       group.add(obj[prop]);
+                   }
+                   return group;
+               }
+              /* iterator(){
+                   return new GroupIterator(this.group);
+               }*/
+               [Symbol.iterator](){
+                   return new GroupIterator(this);
+               }
+            }
+          /*  Group.prototype[Symbol.iterator] = function(){
+                return new GroupIterator(this);
+            }*/
+            class GroupIterator{
+                constructor(group){
+                    this.current = 0;
+                    this.set = group;
+                }
+                next(){
+                    if(this.current >= this.set.group.length)return {done : true}
+                    let value = this.set.group[this.current];
+                    this.current++;
+                    return {value : value, done : false}
+                }
+            }
+            let jerry = Group.from({jerry : 20, Shane : 19, Owen : 21});
+            for(let prop of jerry){
+                console.log(prop);
+
+            }
+
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,32 @@
+body{
+    background-color: #29526D;
+}
+h1{
+    text-align: center;
+    font-size: 40px;
+    margin-top: 20px;
+    border-bottom: #fff 6px solid;
+    margin-left: 200px;
+    margin-right: 200px;
+}
+ul.two{
+    display: inline-flex;
+
+}
+li.onedad
+{
+    list-style-type: none;
+    color: #fff;
+    font-weight: 600px;
+    font-size: 20px;
+    padding: 10px 10px;
+    
+}
+.box{
+width:530px;
+color: black;
+font-size: 20px;
+margin: 50px 0 0 100px;
+border-bottom: solid 1px grey;
+font-weight: 600;
+}

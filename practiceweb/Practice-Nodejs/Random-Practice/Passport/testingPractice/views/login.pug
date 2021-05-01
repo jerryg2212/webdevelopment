@@ -1,0 +1,13 @@
+doctype html 
+html 
+    head 
+
+    body 
+        h1 Login
+        form(action="/login" method="POST" id="loginForm")
+            label(for="loginUsername")
+            input(type="text" name="username" id="loginUsername")
+            label(for="loginPassword")
+            input(type="password" name="password" id="loginPassword")
+            button(type="submit") Submit
+        a(href="./register") register

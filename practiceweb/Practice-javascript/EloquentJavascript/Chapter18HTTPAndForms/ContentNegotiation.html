@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head><style></style></head>
+    <body>
+
+        <script>
+            function getText(){
+                fetch("https://eloquentjavascript.net/author", {headers: {Accept: "text/plain"}})
+                .then(response => response.text())
+                .then(res => {
+                    let p = document.createElement('p');
+                    p.textContent = res;
+                    document.body.appendChild(p);
+                });
+            }
+            function getHTML(){
+                fetch("https://eloquentjavascript.net/author", {headers: {Accept: "text/html"}})
+                .then(response => response.text())
+                .then(res => {
+                    let p = document.createElement('p');
+                    p.textContent = res;
+                    document.body.appendChild(p);
+                })
+            }
+            function getJSON(){
+                fetch("https://eloquentjavascript.net/author", {headers: {Accept: "application/json"}})
+                .then(response => response.text())
+                .then(res => {
+                    let p = document.createElement('p');
+                    p.textContent = res;
+                    document.body.appendChild(p);
+                });
+            }
+        </script>
+    </body>
+</html>

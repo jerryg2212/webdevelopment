@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head><title>New York Times</title>
+    <style>
+        body{
+            width:80%;
+            margin:0 auto;
+            font-size:10px;
+            margin-top:30px;
+            
+        }
+        .container{
+            border-top: 2px black solid;
+        }
+      /*  .wrapper{
+            display:grid;
+            grid-template-columns: 1fr 2fr;
+            border-bottom: 1px solid lightgrey;
+            gap: 30px; */
+        }
+        div a{
+            font-size: 5em;
+            font-weight:900;
+        }
+        .image{
+            max-width: 70%;
+            margin:0px;
+            padding:0px;
+            
+        }
+        div.wrapper > div, div.wrapper > img{
+            margin-top: 30px;
+        }
+        a + p{
+            font-size: 1.6em;
+            line-height: 1.6em;
+        }
+        div p:last-child{
+            color:grey;
+            font-size: 1em;
+        }
+        
+        section{
+            column-count: 3;
+            column-gap:30px;
+            margin-top: 30px;
+            column-rule: 1px solid lightgrey; 
+            clear:both;           
+            
+        }
+        article{
+            
+            height:500px;
+        }
+        article > img{
+            width:100%;
+            
+        }
+        article > a{
+            font-size: 3em;
+            font-weight: 900;
+        }
+        .grey{
+            color: grey;
+            font-size:1em;
+        }
+        .feature{
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+        .shit{
+            position:static;
+        }
+        .float{
+            float:right;
+        }
+        @media screen and(max-width: 700px){
+
+        }
+
+        
+
+    </style>
+    </head>
+    <body>
+        <div class="container">
+            
+                <div class="float">
+                    <img class="image" src="a.jpg">
+                   <p>Philip Montgomery for the new york times</p>
+               </div>
+                 <div>
+                 <a>My Restaurant Was My Life for 20 Years. Does the World Need It Anymore?</a>
+                    <p>Forced to shutter Prune, I’ve been revisiting my original dreams 
+                        for it — and wondering if there will still be a place for it in the New York of the future.</p>
+                        <p>By Gabrielle Hamilton</p>
+                </div>
+                
+            
+            <section>
+                <article><img src="1.jpg"> <p class="grey">Noah Kalina for The New York Times</p>
+                <a>I Was Ready to Help Fight the Pandemic. Then I Got Sick Myself.</a>
+            <p>As a surgeon, I anticipated seeing Covid-19 through the eyes of a medical professional.
+                 But being a patient was a different matter.</p>
+                <p>By David Hirsch and C. J. Chivers</p></article>
+                <article> <img src="2.jpg"><p class="grey">Kiana Hayeri for The New York Times</p> <a>Afghanistan’s Next War</a>
+                <p>What happens when the pandemic comes to a country in conflict?</p>
+                <p>Photo Essay by Kiana Hayeri and Text by Mujib Mashal</p>
+                </article>
+                <article> <img class="shit" src="3.jpg"><p class="grey">Illustration by Tim Enthoven</p>
+                    <p class="feature">Feature</p>
+                    <a>How Scientists Could Stop the Next Pandemic Before It Starts</a>
+                    <p>Researchers believe they could pre-emptively create vaccines 
+                        and drugs to fight a wide range of viral threats — if they can get sufficient funding.</p>
+                        <p>By Jennifer Kahn</p>
+                    </article>
+            </section>
+        </div>
+
+    </body>
+</html>

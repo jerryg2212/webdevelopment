@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab|Source+Sans+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/2017.css" />
+    
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <meta name="description" content="" />
+<meta name="robots" content="" />
+<meta property="og:site_name" content="The site of Rachel Andrew, writer, speaker and web developer" />
+<meta property="og:url" content="" />
+<meta property="og:title" content="" />
+<meta property="og:description" content="" />
+
+<meta property="og:image" content="" />
+
+
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@rachelandrew" />
+<meta name="twitter:title" content="" />
+<meta name="twitter:description" content="" />
+
+<meta name="twitter:url" content="" />
+
+    <title>Box Alignment Cheatsheet - rachelandrew.co.uk</title>
+</head>
+<body class="">
+ <header class="css-header">
+     <a class="sitelink" href="/">rachelandrew.co.uk</a>
+	<span class="dotslashcss">./css</span>
+    
+    <div class="twitter"><a href="https://twitter.com/rachelandrew" class="twitter-follow-button" data-size="large" data-show-screen-name="false" data-show-count="true">Follow @rachelandrew</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></div>
+</header><div class="get-on-the-grid">
+    <p>The layout for this cheat sheet uses CSS Grid Layout. It looks like your browser doesn't support it yet. <a href="http://gridbyexample.com/browsers">Find out about support for CSS Grid Layout</a>.</p>
+</div>
+
+<div class="sheet">
+
+    <h1 class="title">Box Alignment Cheatsheet</h1>
+    <div class="intro">
+    <p>The <a href="https://drafts.csswg.org/css-align/">box alignment specification</a> details how items are aligned in the various layout methods. As different layout methods pose different constraints in terms of alignment, some of the behaviour of Box Alignment is layout method dependent. This cheatsheet compares alignment in CSS Grid Layout and Flexbox.</p>
+<h2>Key concepts of the Box Alignment specification</h2>
+<p>When you align an item, you do so within an <strong>alignment container</strong>. This is the rectangle you are aligning the item or items inside, usually the containing block. The item you are aligning inside that block is the <strong>alignment subject</strong>.</p>
+<p>The specification defines three types of alignment:</p>
+<ul>
+<li><a href="https://drafts.csswg.org/css-align/#positional-values">Positional alignment</a> - keywords such as start, end, center</li>
+<li><a href="https://drafts.csswg.org/css-align/#baseline-values">Baseline alignment</a> - baseline, last baseline, first baseline</li>
+<li><a href="https://drafts.csswg.org/css-align/#distribution-values">Distributed alignment</a> - includes space-between and space-around</li>
+</ul>
+<p>Most of these keyword values work in reference to the writing mode of the document. Therefore <code>start</code> may be the left-hand line of a grid container when working in English, but the right-hand line when working in a right-to-left language.</p>
+<h2>Block and Inline Axis</h2>
+<p>You will find the Block and Inline Axis referred to in various ways. The Block Axis, is referred to as the <strong>Column Axis</strong> in the Grid specification and in Flexbox as the <strong>Cross Axis</strong> as it runs across the <strong>Main Axis</strong>. </p>
+<p>The Inline Axis is referred to as the <strong>Row Axis</strong> in the Grid specification and in Flexbox as the <strong>Main Axis</strong>.</p>
+<p>Alignment on these Axes is easier to understand in Grid as we always have strict rows and columns, in flexbox we also have to consider the ability to change the direction of the main axis from row to column.</p>
+    </div>
+    <h2 class="section-title">align-self / align-items</h2>
+
+    <p class="short-desc">Align an item / a group of items on the Block Axis</p>
+  
+    <div class="grid-def info-box">
+        <h3 class="box-label">Grid</h3>
+        <dl>
+        <dt>alignment container</dt>
+        <dd>the grid area</dd>
+        <dt>default behaviour</dt>
+        <dd>Acts as if the value is <code>stretch</code>, other than for items with an intrinsic aspect ratio, these behave as <code>start</code>.</dd>
+        <dt>possible values</dt>
+        <dd>auto, normal, start, end, center, stretch, baseline, first baseline, last baseline</dd>
+        <dt>works on</dt>
+        <dd><strong>block axis</strong> / column axis
+        </dd>
+        </dl>
+        
+        <div class="example">
+        <h4>Example</h4>
+        <p>The default for <code>align-self</code> acts like <code>stretch</code>. Setting <code>align-items</code> to start on the grid container will cause all items to align to the start on the Block axis.</p>
+        <div class="example-grid">
+            <h4>Initial value</h4>
+            <img src="/images/examples/align-items-grid-default.svg" width="200px">
+            <h4>align-items: start</h4>
+            <img src="/images/examples/align-items-grid-start.svg" width="200px">
+        </div>
+        </div>
+        
+    </div>
+
+    <div class="flex-def info-box">
+         <h3 class="box-label">Flexbox</h3>
+        <dl>
+        <dt>alignment container</dt>
+        <dd>the flex line the item is in</dd>
+        <dt>default behavior</dt>
+        <dd>Acts as <code>stretch</code></dd>
+        <dt>possible values</dt>
+        <dd>auto, normal, flex-start, flex-end, center, stretch, baseline, first baseline, last baseline</dd>
+        <dt>works on</dt>
+        <dd><strong>cross axis</strong> / block axis</dd>   
+        </dl>
+        <div class="example">
+        <h4>Example</h4>
+            <p>The default for <code>align-self</code> is <code>stretch</code>. Causing the items to stretch to the height of the flex container if <code>flex-direction: row</code>, and to the width if <code>flex-direction: column</code>.</p>
+        <div class="example-grid">
+            
+            <h4>direction: row</h4>
+            <img src="/images/examples/align-flex-row-align-items.svg" width="200px">
+            <h4>Direction: column</h4>
+            <img src="/images/examples/align-flex-column-align-items.svg" width="200px">
+        </div>
+        <div class="example-grid">
+            <h4>flex-start</h4>
+            <img src="/images/examples/align-items-row-flex-start.svg" width="200px">
+            <h4>flex-start</h4>
+            <img src="/images/examples/align-items-column-flex-start.svg" width="200px">
+        </div>
+        </div>
+    </div>
+
+    <h2 class="section-title">justify-self / justify-items</h2>
+
+    <p class="short-desc">Justify an item / a group of items on the Inline Axis</p>
+  
+    <div class="grid-def info-box">
+        <h3 class="box-label">Grid</h3>
+        <dl>
+        <dt>alignment container</dt>
+        <dd>the grid area</dd>
+        <dt>default behavior</dt>
+        <dd>Acts as if the value is <code>stretch</code>, other than for items with an intrinsic aspect ratio, these behave as <code>start</code>.</dd>
+        <dt>possible values</dt>
+        <dd>auto, normal, start, end, center, stretch, baseline, first baseline, last baseline</dd>
+        <dt>works on</dt>
+        <dd><strong>inline axis</strong> / row axis</dd>
+        </dl>
+        <div class="example">
+        <h4>Example</h4>
+
+        <div class="example">
+             <p>The default for <code>justify-self</code> acts like <code>stretch</code>. Setting <code>justify-items: start</code> on the grid container will cause all items to align to the start on the Inline axis.</p>
+        <div class="example-grid">
+            <h4>Initial value</h4>
+            <img src="/images/examples/align-items-grid-default.svg" width="200px">
+            <h4>justify-items: start</h4>
+            <img src="/images/examples/justify-items-grid-start.svg" width="200px">
+        </div>
+        </div>
+        
+        </div>
+    </div>
+
+    <div class="flex-def info-box">
+        <h3 class="box-label">Flex</h3>
+        <div class="example">
+        <p>The <code>justify-self</code> property does not apply in flexbox as we are working in one dimension only, and there may be multiple items on the main axis making it impossible to align just one. To align the content along the main axis, see the <code>justify-content</code> property below.</p>
+        <p>If you wish to change alignment of a single item on the inline axis, a good method is to add an auto margin to the item.</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">align-content</h2>
+
+    <p class="short-desc">Control alignment of items within their content box on the Block Axis</p>
+  
+    <div class="grid-def info-box">
+        <h3 class="box-label">Grid</h3>
+        <dl>
+        <dt>alignment container</dt>
+        <dd>the grid container</dd>
+        <dt>default behavior</dt>
+        <dd>Acts as if the value is <code>stretch</code>, other than for items with an intrinsic aspect ratio, these behave as <code>start</code>.</dd>
+        <dt>possible values</dt>
+        <dd>normal, start, end, center, stretch, space-around, space-between, space-evenly, baseline, first-baseline, last-baseline</dd>
+        <dt>works on</dt>
+        <dd><strong>block axis</strong> / column axis</dd>
+        <dt>requires</dt>
+        <dd>additional space in the grid container</dd>
+        </dl>
+        
+        <div class="example">
+        <h4>Example</h4>
+        <p>If the track sizing creates fixed size tracks smaller than the container these will align to the start. The value space-between will space them out, making the gap wider.</p>
+        <div class="example-grid">
+            <h4>Initial value</h4>
+            <img src="/images/examples/align-content-grid-default.svg" width="200px">
+            <h4>space-between</h4>
+            <img src="/images/examples/align-content-grid-space-between.svg" width="200px">
+        </div>
+        
+        </div>
+        
+    </div>
+
+    <div class="flex-def info-box">
+        <h3 class="box-label">Flex</h3>
+        <dl>
+        <dt>alignment container</dt>
+        <dd>the flex container</dd>
+        <dt>default behavior</dt>
+        <dd>stretch</dd>
+        <dt>possible values</dt>
+        <dd>normal, flex-start, flex-end, center, stretch, space-around, space-between, space-evenly, baseline, first-baseline, last-baseline</dd>
+        <dt>works on</dt>
+        <dd><strong>cross axis</strong> / block axis</dd>
+        <dt>requires</dt>
+        <dd>the container has more space than is required to display the items, the items are set to <code>flex-wrap: wrap</code>.</dd>
+        </dl>
+
+        <div class="example">
+        <h4>Example</h4>
+        <p>You can use <code>align-content</code> in a flex container if the container has more space on the cross axis than is needed to display the items.</p>
+
+        <div class="example-grid">
+            <h4>row default</h4>
+            <img src="/images/examples/flex-align-content-row-default.svg">
+            <h4>space-between</h4>
+            <img src="/images/examples/flex-align-content-row-space-between.svg">
+        </div>
+
+         <div class="example-grid">
+            <h4>column default</h4>
+            <img src="/images/examples/flex-align-content-column-default.svg">
+            <h4>space-between</h4>
+            <img src="/images/examples/flex-align-content-column-space-between.svg">
+        </div>
+        
+        </div>
+
+    
+
+    </div>
+
+     <h2 class="section-title">justify-content</h2>
+      <p class="short-desc">Control alignment of items within their content box on the Inline Axis</p>
+  
+    <div class="grid-def info-box">
+        <h3 class="box-label">Grid</h3>
+        <dl>
+        <dt>alignment container</dt>
+        <dd>the grid container</dd>
+        <dt>default behavior</dt>
+        <dd>Acts as if the value is <code>stretch</code>, other than for items with an intrinsic aspect ratio, these behave as <code>start</code>.</dd>
+        <dt>possible values</dt>
+        <dd>normal, start, end, center, stretch, space-around, space-between, space-evenly, baseline, first-baseline, last-baseline</dd>
+        <dt>works on</dt>
+        <dd><strong>inline axis</strong> / row axis</dd>
+        <dt>requires</dt>
+        <dd>additional space in the grid container</dd>
+        </dl>
+        
+        <div class="example">
+        <h4>Example</h4>
+
+        <p>If the track sizing creates fixed size tracks smaller than the container these will align to the start. The value <code>space-between</code> will space them out, making the gap wider.</p>
+        <div class="example-grid">
+            <h4>Initial value</h4>
+            <img src="/images/examples/justify-content-grid-default.svg" width="200px">
+            <h4>space-between</h4>
+            <img src="/images/examples/justify-content-grid-space-between.svg" width="200px">
+        </div>
+        
+        </div>
+        
+    </div>
+
+    <div class="flex-def info-box">
+        <h3 class="box-label">Flex</h3>
+        <dl>
+        <dt>alignment container</dt>
+        <dd>the flex container</dd>
+        <dt>default behavior</dt>
+        <dd>behaves as <code>stretch</code> however because the flex properties control stretching on the main/inline axis this defaults to <code>flex-start</code></dd>
+        <dt>possible values</dt>
+        <dd>normal, flex-start, flex-end, center, stretch, space-around, space-between, space-evenly, baseline, first-baseline, last-baseline</dd>
+        <dt>works on</dt>
+        <dd><strong>main axis</strong> / inline axis</dd>
+        <dt>requires</dt>
+        <dd>the container has more space than is required to display the items.</dd>
+        </dl>
+
+        <div class="example">
+        <h4>Example</h4>
+
+        <div class="example-grid">
+            <h4>space-between</h4>
+            <img src="/images/examples/flex-justify-content-space-between.svg" width="200px">
+            <h4>space-between</h4>
+            <img src="/images/examples/flex-justify-content-space-between-column.svg" width="200px">
+        </div>
+        
+        </div>
+
+    
+
+    </div>
+
+</div>
+	<footer class="site-footer">
+        <div class="more">
+            <h2>More like this?</h2>
+            <ul>
+                <li>
+                    <h3><a href="http://gridbyexample.com">Grid by Example</a></h3>
+                    <p>For CSS Grid Layout examples, tutorials videos and resources.</p>
+                </li>
+                <li>
+                    <h3><a href="http://csslayout.news">CSS Layout News</a></h3>
+                    <p>My weekly round-up of CSS Layout news, articles and inspiration.</p>
+                </li>
+                <li>
+                    <h3><a href="https://thecssworkshop.com">The CSS Workshop</a></h3>
+                    <p>Learn layout from floats to flexbox, positioning to grid.</p>
+                </li>
+            </ul>
+        </div>
+        <div class="about">
+            <h2>About</h2>
+            <p>This is a resource created by Rachel Andrew. I hope you like it and find it useful.</p>
+
+            <p>I'm a web developer, writer and speaker. An Invited Expert to the CSS Working Group and a Google Developer Expert. While I am mostly busy working on my CMS product <a href="https://grabaperch.com">Perch</a>, I am also available for <a href="/speaking">speaking engagements</a> and to run internal or public CSS Workshops.</p>
+
+            
+        </div>
+	</footer>
+    <script src="/assets/js/tracking.js"></script>
+    <script src="/assets/js/prism.js"></script>
+</body>
+</html>

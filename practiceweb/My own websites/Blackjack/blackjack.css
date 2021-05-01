@@ -1,0 +1,596 @@
+/* Styles for elements create by js */
+
+/*td, th {
+
+  
+    border: 2px solid black;
+    text-align: center;
+    width: 20px;
+    font-weight: bold;
+
+}
+table{
+    margin: 15px auto;
+    border-collapse: collapse;
+    
+}*/
+
+tr:first-child{
+
+    background-color: grey;
+    position: sticky;
+    z-index: 3;
+    top: 0px;
+    border: 2px solid black;
+}
+
+/* bottom nav */
+    body #bottomnavul{
+        z-index: 2;
+        position: fixed;
+        bottom: 0px;
+        display: flex;
+        flex: 1;
+        width: 100%;
+        justify-content: space-between;
+        padding: 0px;
+        margin: 0px;
+    }
+    #bottomnavul li{
+        background-color: rgb(173, 118, 0);
+        list-style-type: none;
+        width: 100%;
+        border-right: 2px solid white;
+        margin-bottom: 0px;
+        
+    }
+    #bottomnavul li:last-child{
+        border: none;
+    }
+    #bottomnavul li p{
+        color: rgb(11, 51, 18);
+        margin: 0px;
+        padding: 0px;
+        text-align: center;
+        padding: 2px;
+        font-size: 18px;
+        text-shadow: 1px 1px 1px black;
+        font-weight: bold;
+    }
+    #bottomnavul li img{
+        padding-top: 5px;
+        display: block;
+        margin: 0px auto;
+        width: 20px;
+    }
+    #bottomnavul li a{
+        text-decoration: none;
+    }
+    #bottomnavdiv{
+        padding: 0px;
+        margin: 0px;
+    }
+
+/* styles for the homepage */
+
+    /* body */
+        body{
+            padding: 0px;
+            margin: 0px;
+        }
+         #graphspagebody, #testspagebody{
+
+            background-color: rgb(11, 51, 18);
+
+
+        }
+        #hphtml, #practicehtml, #strategiespagehtml{
+            background-image: url("blackjacktable.jpg");
+            background-repeat: no-repeat;
+            padding: 0px;
+            margin: 0px;
+            background-size: 100% 100%;
+            min-height: 100%;
+        }
+  
+    /* title */
+        #hph1{
+            margin: 10px auto;
+            text-align: center;
+            display: inline-block;
+            width: 100%;
+            color: rgb(173, 118, 0);
+            text-shadow: 2px 2px 2px black;
+        }
+    /* nav list */
+        #hpul{
+            list-style-type: none;
+ 
+            margin: 50px auto;
+            padding: 0;
+            
+        }
+        #hpul li{
+            text-align: center;
+            font-size: 25px;
+            padding: 10px;
+            width: 100px;
+            margin: 0px auto;
+            border-bottom: rgb(143, 100, 0) 3px solid;
+            text-shadow: 2px 2px 2px black;
+            font-weight: bold;
+
+
+        }
+        #hpul a{
+            text-decoration: none;
+            color: rgb(238, 230, 214);
+        }
+
+
+/*    styles for the practice page    */
+        #backArrowdiv{
+            position: fixed;
+            top: 15px;
+            left: 0px;
+            padding: 0px 15px 0px 5px;
+            background-color: rgb(4, 41, 2);
+        }
+
+        #backArrowIcon{
+            width: 30px;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #practiceh1{
+            color:white;
+            margin:10px auto;
+            width: 100%;
+            display:inline-block;
+            text-align: center;
+        }
+    /*   list of strategies  */
+        #practiceul{
+            margin: 10px auto;
+            margin-top: 30px;
+            padding: 7px;
+            width: 200px;
+           /* border:5px double black;*/
+
+
+            
+            
+        }
+        #practiceul li{
+            list-style-type: none;
+            text-align: center;
+           /* color: rgb(11, 51, 18);*/
+            background-color: rgba(173, 118, 0, .6);
+           /*background-color: rgba(4,41,2,.7);*/
+           color: white;
+           text-shadow: 1px 1px 1px black;
+            border-bottom: 2px solid black;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 5px;
+            height: 50px;
+            box-shadow: 2px 2px 2px black;
+
+
+
+            
+        }
+        #practiceul a{
+            text-decoration: none;
+ 
+            margin: 0px;
+            padding: 0px;
+
+        }
+        /* practice page menu alternate styles */
+            #basicmenudiv{
+                margin-top: 50px;
+                margin-bottom: 0px;
+                background-color: rgba(173, 118, 0, .9);
+                margin-left: 40%;
+                border-radius: 40px 0px 0px 40px;
+                padding: 10px 0px 10px 10px;
+                max-width: 1000px;
+                
+            }
+            #basicmenudiv h1{
+                color: white;
+                font-size: 20px;
+                text-align: center;
+                text-shadow: 1px 1px 1px black;
+                font-weight: bold;
+                margin: 5px;
+            }
+            /*#alternatebasicul{
+                padding: 0px;
+                text-align: left;
+                color: rgb(173, 118, 0);               
+            }
+            #alternatebasicul li{
+                background-color: rgb(11, 51, 18);
+                text-shadow: 1px 1px 1px black;
+                text-align: left;
+                list-style-type: none;
+                padding: 10px;
+                padding-right: none;
+                padding-left: 10px;
+                border-radius: 15px 0px 0px 15px;
+                border: 1px solid black;
+            }*/
+
+            #countmenudiv{
+                margin-top: 20px;
+                background-color: rgb(11, 51, 18);
+                margin-right: 25%;
+                border-radius: 0px 60px 60px 0px;
+                max-width: 800px;
+                padding: 10px 10px 10px 0px;
+
+            }
+            #countmenudiv h1{
+                color: white;
+                text-shadow: 1px 1px 1px black;
+                font-weight: bold;
+                margin: 5px;
+                text-align: center;
+                font-size: 20px;
+            }
+           /* #alternatecountul{
+                padding-left: 0px;
+                text-align: right;
+                color:rgb(173, 118, 0);
+
+            }
+            #alternatecountul li{
+                background-color: rgb(173, 118, 0);
+                border-radius: 0px 15px 15px 0px;
+                color: rgb(11, 51, 18);
+                list-style-type: none;
+                border: 1px solid black;
+                padding: 10px;
+                padding-left: 0px;
+                text-shadow: 1px 1px 1px black;
+            }*/
+            .basicmenuul{
+                padding: 0px;
+                text-align: left;
+                color: rgb(173, 118, 0); 
+            }
+            .basicmenuli{
+                background-color: rgb(11, 51, 18);
+                text-shadow: 1px 1px 1px black;
+                text-align: left;
+                list-style-type: none;
+                padding: 10px;
+                padding-right: none;
+                padding-left: 10px;
+                border-radius: 15px 0px 0px 15px;
+                border: 1px solid black;
+            }
+            .countmenuul{
+                padding-left: 0px;
+                text-align: right;
+                color:rgb(173, 118, 0);
+            }
+            .countmenuli{
+                background-color: rgb(173, 118, 0);
+                border-radius: 0px 15px 15px 0px;
+                color: rgb(11, 51, 18);
+                list-style-type: none;
+                border: 1px solid black;
+                padding: 10px;
+                padding-left: 0px;
+                text-shadow: 1px 1px 1px black;
+            }
+            /* media queries */
+                .basicmenuulmedia{
+                    max-width : 400px;
+                    padding : 0px 30px 0px 20px;
+                    margin : 10px auto;
+                    color: rgb(173, 118, 0); 
+                }
+                .basicmenulimedia{
+                    padding : 10px;
+                    margin : 5px auto;
+                    text-align : center;
+                    border-radius : 15px;
+                    background-color: rgb(11, 51, 18);
+                    text-shadow: 1px 1px 1px black;
+                    list-style-type: none;
+                    border: 1px solid black;
+                }
+                .countmenuulmedia{
+                    text-align: center;
+                    color:rgb(173, 118, 0);
+                    padding: 0px 20px 0px 30px;
+                    max-width: 500px;
+                    margin: 10px auto;
+                }
+                .countmenulimedia{
+                    background-color: rgb(173, 118, 0);
+                    border-radius: 15px;
+                    color: rgb(11, 51, 18);
+                    list-style-type: none;
+                    border: 1px solid black;
+                    padding: 10px;
+                    text-shadow: 1px 1px 1px black;
+                    margin: 5px 0px;
+                }
+
+/* Styles for the strtegies page */
+        #strategiespagebody{
+            margin: 0px;
+            padding: 0px;
+        }
+        #strategiespagebody h1{
+            padding: 0px 10px;
+
+            text-align: center;
+            color: white;
+            margin-top: 30px;
+            margin-bottom: 50px;
+            text-shadow: 1px 1px 1px black;
+        }
+
+
+
+    /* styles for the graphs and tests headers */
+       #strategiespagebody #strategiesGraphh1, 
+       #strategiespagebody #strategiesTesth1{
+            width: 100px;
+            margin: 10px auto;
+            margin-top: 30px;
+            color: rgb(173, 118, 0);
+            font-size: 27px;
+            border-bottom: 2px solid white; 
+            text-shadow: 1px 1px 1px black;          
+
+        }
+        #strategiespagebody #strategiesGraphul,
+        #strategiespagebody #strategiesTestul{
+            margin: 10px auto;
+            padding: 0px;
+        }
+        #strategiesTestul{
+            margin-bottom: 50px;
+        }
+        #strategiespagebody ul li{
+            font-size: 20px;
+            padding: 3px;
+            list-style-type: none;
+            color: red;
+            text-align: center;
+            text-shadow: 1.5px 1.5px 1.5px black;
+            font-weight: bold;
+        }
+    /* description */
+        #strategiesDescriptiondiv{
+         /*   background-color: rgb(2, 37, 8);*/
+            position: relative;
+            bottom: 0%;            
+ 
+        }
+        #strategiesDescription{
+            padding: 15px;
+            font-size: 16px;
+            line-height: 20px;
+            margin-top: 20px;
+            margin-bottom: 50px;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+            text-shadow: 1px 1px 1px black;
+        }
+
+
+/* styles for the graphs page  */
+    #graphstable{
+        border-collapse: separate;
+        border-spacing: 0px;
+        margin: 15px auto;
+        margin-bottom: 60px;
+        }
+    
+    #graphstable td,
+    #graphstable th{
+        border: 1px solid black;
+        text-align: center;
+        font-weight: bold;
+        max-height: 20px;
+        width: 5vw;
+        height: 2vw;
+        min-width: 23px;
+    
+    }
+        #graphsStrategyh1{
+            color: rgb(173, 118, 0);
+            text-align: center;
+            width:100%;
+            background-color: rgb(2, 37, 8);
+            padding: 10px 0;
+            margin-bottom: 0px;
+            font-size: 25px;
+            text-shadow: 1px 1px 1px black;
+        }
+        #graphsTypeh1{
+            color: rgb(11, 51, 18);
+            background-color: rgb(173, 118, 0);
+            text-align:center;
+            margin: 0px auto;
+            margin-top: 0px;
+            padding: 3px;
+            width: 40%;
+            font-size: 16px;
+            border-radius: 0px 0px 20px 20px;
+            text-shadow: 1px 1px 1px black;
+            font-weight: bold;
+        }
+
+/*  Styles for the Tests page */
+        #fuck{
+            color: rgb(173, 118, 0);
+            text-align: center;
+            width:100%;
+            background-color: rgb(2, 37, 8);
+            padding: 10px 0;
+            margin-bottom: 0px;
+            font-size: 25px;
+            text-shadow: 1px 1px 1px black;
+        }
+        #testspageTestTypeHeader{
+            color: rgb(11, 51, 18);
+            background-color: rgb(173, 118, 0);
+            text-align:center;
+            margin: 0px auto;
+            margin-top: 0px;
+            padding: 3px;
+            width: 40%;
+            font-size: 16px;
+            border-radius: 0px 0px 20px 20px;
+            text-shadow: 1px 1px 1px black;
+            font-weight: bold;
+        }
+    /* style for the start button */
+        #testpageStartbutton{
+            margin: 20px auto;
+            display: block;
+            background-color: rgba(1,1,1,0);
+            border: 3px solid rgb(173, 118, 0);
+            color: red;
+            text-shadow: 1px 1px 1px black;
+            padding: 7px 20px 7px 20px;
+            font-size: 20px;
+        }
+    /* div that holds the question */
+        #testpageQuestion{
+            display: grid;
+            width: 100px;
+            grid-template-columns: 1fr 1fr;
+            margin: 20px auto;
+            margin-top: 40px;
+            color: white;
+            text-align: center;
+
+        }
+        #pDealerHandTitle, #pYourHandTitle{
+            margin: 0px;
+            padding: 0px;
+            text-decoration: underline;
+        }
+        #testpageQuestion p{
+            font-size: 18px;
+            font-weight: bold;
+            text-shadow: 1px 1px 1px black;
+            color: white;
+            letter-spacing: 1px;
+            border-right: 2px solid white;
+            gap: 0px;
+            margin: 0px;
+            padding: 10px;
+        }
+        #testpageQuestion p:nth-child(even){
+            border-right: none;
+        }
+    /* styles the grid that holds the buttons */
+        #buttonsgrid{
+            display: grid;
+            max-width: 200px;
+            margin: 20px auto;
+            grid-template-columns: 100px 100px;
+            gap: 20px;
+            
+        }
+    /* styles for the hit/stand/double/split buttons */
+        #hitbutton, #standbutton, #doubledownbutton, #splitbutton{
+            background-color: red;
+            padding: 10px 10px;
+            max-width: 90%;
+            font-weight: bold;
+            font-size: 18px;
+            text-shadow: 1px 1px 1px black;
+            color: white;
+            box-shadow: 2px 2px 2px black;
+        }
+        #hitbutton{
+            background-color: red;
+        }
+        #standbutton{
+            background-color: yellow;
+        }
+        #doubledownbutton{
+            background-color: blue;
+        }
+        #splitbutton{
+            background-color: lightgreen;
+        }
+    /* styles the end button */
+        #endbutton{
+            margin: 30px auto;
+            display: block;
+            padding: 10px 15px;
+            background-color: rgb(11, 51, 18);
+            color: white;
+            border: 2px solid white;
+            text-shadow: 1px 1px 1px black;
+            box-shadow: 2px 2px 2px black,
+                        inset -2px -2px 2px black,
+                        inset .5px .5px .5px white;
+                     font-size: 16px;
+        }
+    /* results div */
+    #testResultsdiv{
+        background-color: rgb(143, 100, 0);
+        color: white;
+        margin: 20px auto;
+        width: 200px;
+        padding: 5px;
+        border: 2px solid red;
+        box-shadow: 2px 2px 2px black;
+    }
+    #testResultsdiv #timeHeaderp {
+        font-size: 20px;
+    }
+    #testResultsdiv #timeResultp {
+        font-size: 16px;
+    }
+    #testResultsdiv #incorrectHeaderp{
+        font-size: 20px;
+    }
+    #testResultdiv #incorrectResultsp{
+        font-size: 16px;
+    }
+    #testResultsdiv p{
+        color: white;
+        text-align: center;
+        letter-spacing: .5px;
+        font-weight: bold;
+    }
+
+/* styles for the headerlogo  */
+#headerlogodiv{
+    background-color: black;
+    margin: 0px auto;
+    width: 100%;
+    color: white;
+    text-align: center;
+    padding: 10px 0px 10px 0px;
+    border-radius: 0px 0px 30px 30px;
+    
+}
+#headerlogodiv span{
+    align-self: center;
+    line-height: 150%;
+}
+#headerlogodiv p{
+    padding: 0px;
+    margin: 0px;
+}
+#headerlogodiv img{
+    width: 16px;
+}

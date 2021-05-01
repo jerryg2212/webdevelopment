@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+
+        <script>
+            let strategies;
+
+            let myPromise = new Promise ((resolve, reject) => {
+                let xml = new XMLHttpRequest();
+                    xml.onreadystatechange = function (){
+                        if(this.readyState == 4){
+                            resolve(JSON.parse(this.responseText));
+                    }
+                }
+                    xml.open("get", 'strategies.json', true);
+                    xml.send();
+            });
+          let tim =  myPromise.then(function(response){
+                strategies = (function (){
+                    
+                    function getTitles(){
+                        let r = []
+                        for( element in response){
+                            console.log(response[element].title);
+                        }
+                        //console.log(response.BS1D);
+                        return r;
+                    }
+
+                    return {getTitles}
+                })();
+            });
+            tim.then(function(){
+                strategies.getTitles();
+            })
+
+                
+            
+            
+        </script>
+    </body>
+</html>

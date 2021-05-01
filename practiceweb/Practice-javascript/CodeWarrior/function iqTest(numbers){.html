@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <script>
+            function iqTest(numbers){
+  // ...
+  let totalOdds = 0;
+  let totalEvens = 0;
+  for(let i = 0; i < numbers.length; i++){
+    if(numbers[i] % 2 == 1)  totalOdds++;
+    if(numbers[i] % 2 == 0) totalEvens++;
+
+  }
+ if(totalOdds > totalEvens) {
+   for(let i = 0; i < numbers.length; i++){
+     if(numbers[i] % 2 == 0) return (1 + numbers.indexOf(numbers[i]));
+   }
+ }
+ if(totalEvens > totalOdds) {
+   for(let i = 0; i < numbers.length; i++){
+     if(numbers[i] % 2 == 1) return ( 1 + numbers.indexOf(numbers[i]));
+   }
+ }
+}console.log(iqTest('1 3 5 7 9 2 3');
+
+        </script>
+    </body>
+</html>
+

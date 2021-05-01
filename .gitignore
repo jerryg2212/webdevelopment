@@ -1,0 +1,3 @@
+node_modules
+resources/mongodb-win32-x86_64-windows-4.4.4/
+*.pdb

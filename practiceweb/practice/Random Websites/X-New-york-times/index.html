@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>New York Times</title>
+        <style>
+
+            body{
+                width:80%;
+                margin: 0px auto;
+            }
+            section, div, article{
+                margin:10px;
+            }
+
+            section.one{
+                margin-top: 50px;
+                display: flex;
+                flex-wrap: wrap;
+            }
+            section.one div{
+                
+            }
+            div.container2{
+                flex:  1;
+
+            }
+            div.containerone{
+                flex: 2;
+                display:flex;
+                border-right: 1px solid lightgrey;
+                flex-wrap: wrap;
+            }
+            div.containerone article:nth-of-type(1){
+                flex: 1;
+            }
+            div.containerone article:nth-of-type(2){
+                flex:2;
+            }
+
+            .containerone article img{
+                max-width: 95%;
+                margin: 
+            }
+            ul.world{
+                display:inline-flex;
+                text-align: center;
+            }
+            ul.world li{
+                padding: 10px 15px;
+                background-color:cadetblue;
+                list-style-type: none;
+                border: 1px solid black;
+            }
+            section.section2{
+                display: flex;
+                flex-wrap:wrap;
+                
+            }
+            section.section2 article:nth-of-type(1){
+                flex: 200px 6 6;
+            }
+            section.section2 article:nth-of-type(2){
+                flex: 200px 4 4;
+            }
+
+            section.section2 article:nth-of-type(3){
+                flex: 200px 5 5;
+                
+            }
+            section.section2 article:nth-of-type(4){
+                flex: 200px 5 5;
+                
+            }
+            section.section2 img{
+                max-width: 100%;
+            }
+            
+
+        </style>
+    </head>
+    <body>
+        <section class="one">
+            <div class="containerone">
+                <article>
+                <h4>As Child Hunger Soars, Federal Aid Lags</h4>
+                <ul>
+                    <li>Child hinger is soaring while an emergency program
+                        funded by Congress to replace school meals has reached
+                        only 15 percent of eligible children.
+                    </li>
+                    <li>States that reopened earlier -- or never fully shut down -- are amoung those showing
+                        signs of further spread.
+                    </li>
+                    <li>House G.O.P. leaders have sued to block a proxy voting system set up
+                        for use during the pandemic, calling it unconstitutional. Here's the latest.
+                    </li>
+                </ul>
+                <p>Live 54m ago 788 comments</p>
+                </article>
+                <article>
+                    <img src="head.jpg">
+                    <ul class="world">
+                        <li>World Cases</li>
+                        <li>Hot Spots</li>
+                        <li>Markets</li>
+                        <li>Photos</li>
+                    </ul>
+                </article>
+            </div>
+            <div class="container2">
+                <h4>Economy</h4>
+                <ul class="economy">
+                    <li>Wall Street shifts focus to repening, and stocks rally.</li>
+                    <li>A distressed commercial real estate market beckons opportunistic buyers.</li>
+                    <li>Puerto Rico's economy will shrink this year, an oversight board says.</li>
+                </ul>
+                <h4>Global</h4>
+                <ul>
+                    <li>Here's how Wuhan tested 6.5 million poeple for the coronavirus in days.</li>
+                    <li>As Latin America is declared an epicenter, the U.S travel ban with Brazil looms.</li>
+                    <li>A proposal by a full year, and a warning of consequences.</li>
+                </ul>
+                <h4>New York</h4>
+                <ul>
+                    <li>Long Island is on the cusp of reopening</li>
+                    <li>N.J schools can hold outdoor graduation ceremonies in July</li>
+                    <li>The virus has inflicted a devestating toll on the Bronx</li>
+                </ul>
+            </div>
+
+        </section>
+        <section class="section2">
+            <article>
+                
+                <h3>'It's the Death Towers': How the Bronx Became New York's Virus Hot Spot</h3>
+                <p>The city's poorest borough has the highest rates of cases, hospitalizations and
+                    deaths. Could more have been done?
+                </p>
+            </article>
+            <article>
+                <img src="2.webp">
+            </article>
+            <article>
+                <h3>A Socially Distant Las Vagas? What Are the Odds?</h3>
+                <p>Will a stripped-down version of the city attract the same number
+                    of visitors who used to come party, dance and gamble?
+                </p>
+            </article>
+            <article>
+                <h3>N.H.L. Announces Plan for Return</h3>
+                <p>The league and its players agreed to terms on resuming the season, including a 24-team playoff format and a draft lottery.</p>
+            </article>
+        </section>
+    </body>
+</html>

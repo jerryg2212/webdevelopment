@@ -1,0 +1,759 @@
+  <!doctype html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>
+          Responsive Images 101, Part 8: CSS Images - Cloud Four
+      </title>
+  <meta http-equiv="x-ua-Compatible" content="ie=edge">
+  <meta name="description" content="We design and develop responsive websites and progressive web apps.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#456BD9">
+  <meta name="msapplication-config" content="/browserconfig.xml">
+  <link rel="pingback" href="https://cloudfour.com/xmlrpc.php">
+  <link rel="icon" type="image/png" href="https://29comwzoq712ml5vj5gf479x-wpengine.netdna-ssl.com/favicon-32x32.png" sizes="32x32">
+  <link rel="icon" type="image/png" href="https://29comwzoq712ml5vj5gf479x-wpengine.netdna-ssl.com/favicon-16x16.png" sizes="16x16">
+  <link rel="mask-icon" href="https://29comwzoq712ml5vj5gf479x-wpengine.netdna-ssl.com/safari-pinned-tab.svg" color="#456BD9">
+  <link rel="alternate" type="application/rss+xml" href="https://cloudfour.com/feed/">
+
+    <link rel="preload" as="font"
+   href="https://29comwzoq712ml5vj5gf479x-wpengine.netdna-ssl.com/wp-content/themes/cloudfour/static/toolkit/fonts/source-sans-pro-v9-latin_latin-ext-regular.woff2"
+   type="font/woff2"
+   crossorigin="anonymous">
+
+  
+  <link rel='dns-prefetch' href='//cdn.polyfill.io' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="Cloud Four &raquo; Responsive Images 101, Part 8: CSS Images Comments Feed" href="https://cloudfour.com/thinks/responsive-images-101-part-8-css-images/feed/" />
+<style>/**
+ * Subset font -- this only contains characters for:
+ * ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890,. (and space)
+ *
+ * This will be used close to immediately until the following @font-face
+ * definitions download and fill in the missing characters.
+ */
+@font-face {
+  font-family: "Source Sans Pro";
+  font-display: swap;
+  src:
+    local("Source Sans Pro"),
+    local("SourceSansPro-Regular"),
+    url(data:application/font-woff;base64,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) format("woff");
+}
+
+/**
+ * Regular font -- contains latin and extended latin characters.
+ */
+@font-face {
+  font-family: "Source Sans Pro";
+  font-display: swap;
+  src:
+    local("Source Sans Pro"),
+    local("SourceSansPro-Regular"),
+    url("https://29comwzoq712ml5vj5gf479x-wpengine.netdna-ssl.com/wp-content/themes/cloudfour/static/toolkit/fonts/source-sans-pro-v9-latin_latin-ext-regular.woff2") format("woff2"),
+    url("https://29comwzoq712ml5vj5gf479x-wpengine.netdna-ssl.com/wp-content/themes/cloudfour/static/toolkit/fonts/source-sans-pro-v9-latin_latin-ext-regular.woff") format("woff");
+}
+
+/**
+ * Italic font -- contains latin characters.
+ */
+@font-face {
+  font-family: "Source Sans Pro";
+  font-style: italic;
+  font-display: swap;
+  src:
+    local("Source Sans Pro Italic"),
+    local("SourceSansPro-It"),
+    url("https://29comwzoq712ml5vj5gf479x-wpengine.netdna-ssl.com/wp-content/themes/cloudfour/static/toolkit/fonts/source-sans-pro-v9-latin_latin-ext-italic.woff2") format("woff2"),
+    url("https://29comwzoq712ml5vj5gf479x-wpengine.netdna-ssl.com/wp-content/themes/cloudfour/static/toolkit/fonts/source-sans-pro-v9-latin_latin-ext-italic.woff") format("woff");
+}
+
+/**
+ * Semibold font -- contains subset characters only.
+ */
+@font-face {
+  font-family: "Source Sans Pro";
+  font-weight: 600;
+  font-display: swap;
+  src:
+    local("Source Sans Pro Semibold"),
+    local("SourceSansPro-Semibold"),
+    url("https://29comwzoq712ml5vj5gf479x-wpengine.netdna-ssl.com/wp-content/themes/cloudfour/static/toolkit/fonts/source-sans-pro-v9-subset-600.woff") format("woff");
+}
+
+/**
+ * Bold font -- contains latin characters.
+ */
+@font-face {
+  font-family: "Source Sans Pro";
+  font-weight: 700;
+  font-display: swap;
+  src:
+    local("Source Sans Pro Bold"),
+    local("SourceSansPro-Bold"),
+    url("https://29comwzoq712ml5vj5gf479x-wpengine.netdna-ssl.com/wp-content/themes/cloudfour/static/toolkit/fonts/source-sans-pro-v9-latin-700.woff2") format("woff2"),
+    url("https://29comwzoq712ml5vj5gf479x-wpengine.netdna-ssl.com/wp-content/themes/cloudfour/static/toolkit/fonts/source-sans-pro-v9-latin-700.woff") format("woff");
+}
+
+/**
+ * Monospace font -- contains latin characters.
+ */
+@font-face {
+  font-family: 'Source Code Pro';
+  font-display: swap;
+  src:
+    local('Source Code Pro'),
+    local('SourceCodePro-Regular'),
+    url('https://29comwzoq712ml5vj5gf479x-wpengine.netdna-ssl.com/wp-content/themes/cloudfour/static/toolkit/fonts/source-code-pro-v6-latin-regular.woff2') format('woff2'),
+    url('https://29comwzoq712ml5vj5gf479x-wpengine.netdna-ssl.com/wp-content/themes/cloudfour/static/toolkit/fonts/source-code-pro-v6-latin-regular.woff') format('woff');
+}
+</style><link rel='stylesheet' id='wp-block-library-css'  href='https://29comwzoq712ml5vj5gf479x-wpengine.netdna-ssl.com/wp-includes/css/dist/block-library/style.min.css?ver=5.4.1' type='text/css' media='all' />
+<style id='wp-block-library-inline-css' type='text/css'>
+.has-text-align-justify{text-align:justify;}
+</style>
+<link rel='stylesheet' id='toolkit-css'  href='https://29comwzoq712ml5vj5gf479x-wpengine.netdna-ssl.com/wp-content/themes/cloudfour/static/main.css?ver=1573252820' type='text/css' media='all' />
+<link rel='https://api.w.org/' href='https://cloudfour.com/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://cloudfour.com/xmlrpc.php?rsd" />
+<link rel='prev' title='Responsive Field Day Speakers, Tickets and Community' href='https://cloudfour.com/thinks/responsive-field-day-speakers-tickets-and-community/' />
+<link rel='next' title='Responsive Field Day Tickets On Sale Now' href='https://cloudfour.com/thinks/responsive-field-day-tickets-on-sale-now/' />
+<link rel="canonical" href="https://cloudfour.com/thinks/responsive-images-101-part-8-css-images/" />
+<link rel='shortlink' href='https://cloudfour.com/?p=3945' />
+      <meta name="onesignal" content="wordpress-plugin"/>
+            <script>
+
+      window.OneSignal = window.OneSignal || [];
+
+      OneSignal.push( function() {
+        OneSignal.SERVICE_WORKER_UPDATER_PATH = "OneSignalSDKUpdaterWorker.js.php";
+        OneSignal.SERVICE_WORKER_PATH = "OneSignalSDKWorker.js.php";
+        OneSignal.SERVICE_WORKER_PARAM = { scope: '/' };
+
+        OneSignal.setDefaultNotificationUrl("https://cloudfour.com");
+        var oneSignal_options = {};
+        window._oneSignalInitOptions = oneSignal_options;
+
+        oneSignal_options['wordpress'] = true;
+oneSignal_options['appId'] = 'bbf85d86-7b3d-4945-b568-b408f1e62d50';
+oneSignal_options['welcomeNotification'] = { };
+oneSignal_options['welcomeNotification']['title'] = "Cloud Four";
+oneSignal_options['welcomeNotification']['message'] = "";
+oneSignal_options['path'] = "https://29comwzoq712ml5vj5gf479x-wpengine.netdna-ssl.com/wp-content/plugins/onesignal-free-web-push-notifications/sdk_files/";
+oneSignal_options['promptOptions'] = { };
+          /* OneSignal: Using custom SDK initialization. */
+                });
+
+      function documentInitOneSignal() {
+        var oneSignal_elements = document.getElementsByClassName("OneSignal-prompt");
+
+        var oneSignalLinkClickHandler = function(event) { OneSignal.push(['registerForPushNotifications']); event.preventDefault(); };        for(var i = 0; i < oneSignal_elements.length; i++)
+          oneSignal_elements[i].addEventListener('click', oneSignalLinkClickHandler, false);
+      }
+
+      if (document.readyState === 'complete') {
+           documentInitOneSignal();
+      }
+      else {
+           window.addEventListener("load", function(event){
+               documentInitOneSignal();
+          });
+      }
+    </script>
+
+<!-- Jetpack Open Graph Tags -->
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Responsive Images 101, Part 8: CSS Images" />
+<meta property="og:url" content="https://cloudfour.com/thinks/responsive-images-101-part-8-css-images/" />
+<meta property="og:description" content="Most of the time when people refer to responsive images, they are referring to inline images, not CSS images. This is because before &lt;picture&gt; and srcset there were no good solutions for inli…" />
+<meta property="article:published_time" content="2015-06-03T09:34:25+00:00" />
+<meta property="article:modified_time" content="2016-07-13T00:09:53+00:00" />
+<meta property="og:site_name" content="Cloud Four" />
+<meta property="og:image" content="https://29comwzoq712ml5vj5gf479x-wpengine.netdna-ssl.com/wp-content/themes/cloudfour/open-graph-image-default.png" />
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:creator" content="@CloudFour" />
+<meta name="twitter:site" content="@CloudFour" />
+<meta name="twitter:text:title" content="Responsive Images 101, Part 8: CSS Images" />
+<meta name="twitter:card" content="summary" />
+
+<!-- End Jetpack Open Graph Tags -->
+
+      </head>
+
+  <body class="post-template-default single single-post postid-3945 single-format-standard" data-template="base.twig">
+
+    <div class="Sky Sky--clouds">
+  <div class="u-containSpread">
+    <header class="Sky-nav" role="banner">
+      <ul class="Sky-nav-controls">
+                <li><a class="Sky-nav-controls-skipToMain Button Button--defaultDark u-textNoWrap u-hiddenTillFocus" href="#main">Skip to main content</a></li>
+        <li><a class="Sky-nav-controls-skipToMenu Button Button--defaultDark" href="#menu" aria-label="Skip to navigation">Menu</a></li>
+      </ul>
+      <a class="Sky-nav-logo" href="/">
+                <svg viewBox="0 0 24 24" width="80" height="80" class="Sky-nav-logo-object" role="img" aria-labelledby="logo-title"><title id="logo-title">Cloud Four</title><path d="M6.75,15.12a4.36,4.36,0,0,1-1.91-2.29,1.86,1.86,0,0,1,.52-1c0.48-.55,6.07-6.63,8.44-7.67A11.75,11.75,0,0,0,11.92,4c-7,0-7.67,5-7.67,5S0,10.3,0,14.18C0,19.73,6.84,20,6.84,20A15.3,15.3,0,0,0,9,19.92a1.29,1.29,0,0,0,.89-0.71c0.41-1,1-2.59,1.58-4.26C9.2,15.06,7,15.17,6.75,15.12Z"/><path d="M24,13c0-4.91-4.81-5.44-4.81-5.44a6.11,6.11,0,0,0-2.14-2.2c-0.43,1.53-1.54,5.61-1.6,6.38h1.68s0.27,0,.2.33c-0.16.75-.58,2.58-1.48,2.64l-1.18.07c-0.33,1.35-.68,2.76-0.93,3.78a4.7,4.7,0,0,0,3,.91,4.59,4.59,0,0,0,3.35-1.23C24.14,17.56,24,13,24,13Z"/><path d="M13.89,6.86A42.33,42.33,0,0,0,8.9,12l3.61-.14c0.74-2.08,1.38-3.93,1.66-4.74A0.3,0.3,0,0,0,13.89,6.86Z"/></svg>
+
+      </a>
+            <nav class="Sky-nav-menu" role="navigation" id="menu">
+        <ul class="Sky-nav-menu-items">
+      <li><a class="Sky-nav-menu-item" href="https://cloudfour.com/does/">What We Do</a></li>
+      <li><a class="Sky-nav-menu-item" href="https://cloudfour.com/believes/">Our Approach</a></li>
+      <li><a class="Sky-nav-menu-item" href="https://cloudfour.com/made/">Our Work</a></li>
+      <li><a class="Sky-nav-menu-item" href="https://cloudfour.com/thinks/">Articles</a></li>
+      <li><a class="Sky-nav-menu-item" href="https://cloudfour.com/presents/">Speaking</a></li>
+      <li><a class="Sky-nav-menu-item" href="https://cloudfour.com/contributes/">Labs</a></li>
+      <li><a class="Sky-nav-menu-item" href="https://cloudfour.com/is/">Team</a></li>
+  </ul>
+      </nav>
+    </header>
+  </div>
+</div>
+
+    <main role="main" id="main">
+
+      
+      <div class="u-bgWhite">
+        
+  
+  <article class="u-containProse u-padSides1 u-padEnds4 u-spaceItems1" id="post-3945">
+
+    <header class="u-spaceItems01">
+      <h1 class="u-textGrow3 u-md-textGrow4">
+        Responsive Images 101, Part 8: CSS&nbsp;Images
+      </h1>
+      <p>
+        Written by
+        <a href="https://cloudfour.com/is/jason-grigsby/">Jason Grigsby</a>
+        on
+        <time datetime="2015-06-03">
+          June 3, 2015
+        </time>
+      </p>
+    </header>
+
+    <div class="CmsContent u-staggerItems1 u-staggerHeadings3 u-cf">
+    <p>Most of the time when people refer to responsive images, they are referring to inline images, not CSS images.</p>
+<p>This is because before &lt;picture&gt; and srcset there were no good solutions for inline responsive images. When it comes to CSS images, we could always use media queries. So why worry?</p>
+<p>But now it is time to revisit responsive CSS images and look at the solutions anew based on what we&#8217;ve learned about inline images.</p>
+    <div class="HashHeading HashHeading--h3">
+      <h3 id="image-set-for-resolution-switching">image-set() for resolution switching</h3>
+      <a href="#image-set-for-resolution-switching"
+        aria-label="Permalink for image-set() for resolution switching"
+        class="HashHeading-link">
+        <svg viewBox="0 0 24 24" width="24" height="24" class="Icon" role="presentation"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M13.77,10.09l-0.71-.71a4,4,0,0,0-5.65,0L3.16,13.63a4,4,0,0,0,0,5.66l1.4,1.4a4,4,0,0,0,5.67,0l1.41-1.41"/><path d="M10.23,13.62l0.71,0.71a4,4,0,0,0,5.65,0l4.25-4.25a4,4,0,0,0,0-5.66L19.43,3a4,4,0,0,0-5.67,0L12.35,4.43"/></g></svg>
+
+      </a>
+    </div>
+  
+<p>Just like when we&#8217;re working with inline images, one of the first questions we&#8217;ll need to ask ourselves is whether we&#8217;re dealing with the <a href="http://blog.cloudfour.com/responsive-images-101-definitions/#resolutionswitching">resolution switching</a> or <a href="http://blog.cloudfour.com/responsive-images-101-definitions/#artdirection">art direction</a> use case.</p>
+<p>For resolution switching, we should strive to provide the browser with options and let the browser pick the best possible image. The browser is in a better position to know what image will work best based on user preference, network conditions, etc.</p>
+<p>To provide the browser with options, we should use the image-set() syntax.</p>
+<p><a href="https://29comwzoq712ml5vj5gf479x-wpengine.netdna-ssl.com/wp-content/uploads/2015/06/image-set.png"><img src="https://29comwzoq712ml5vj5gf479x-wpengine.netdna-ssl.com/wp-content/uploads/2015/06/image-set.png" alt="image-set() syntax repeated below" class="aligncenter" /></a></p>
+<p>You may notice some similarity between image-set() and srcset. In fact, srcset was modeled after image-set().</p>
+<pre><code class="language-css">￼￼background-image: image-set( "foo.png" 1x, "foo-2x.png" 2x);
+</code></pre>
+<p>Like srcset, image-set&#8217;s value contains a comma-separated list of image URIs along with a display density descriptor. If a display density descriptor isn&#8217;t provided, it is assumed to be 1x.</p>
+<p>However, image-set() does not support width descriptors yet. The plan is to refine image-set() to provide feature parity with srcset.</p>
+<p>While most of the examples you will see for image-set() show it applied to background-image, it can be applied to any CSS property that accepts images.</p>
+    <div class="HashHeading HashHeading--h4">
+      <h4 id="image-set-the-forgotten-responsive-images-standard">image-set(): The forgotten responsive images standard</h4>
+      <a href="#image-set-the-forgotten-responsive-images-standard"
+        aria-label="Permalink for image-set(): The forgotten responsive images standard"
+        class="HashHeading-link">
+        <svg viewBox="0 0 24 24" width="24" height="24" class="Icon" role="presentation"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M13.77,10.09l-0.71-.71a4,4,0,0,0-5.65,0L3.16,13.63a4,4,0,0,0,0,5.66l1.4,1.4a4,4,0,0,0,5.67,0l1.41-1.41"/><path d="M10.23,13.62l0.71,0.71a4,4,0,0,0,5.65,0l4.25-4.25a4,4,0,0,0,0-5.66L19.43,3a4,4,0,0,0-5.67,0L12.35,4.43"/></g></svg>
+
+      </a>
+    </div>
+  
+<p>image-set() was the first responsive images specific syntax, and as mentioned, it was the foundation for srcset.</p>
+<p>However, because we had solutions for CSS responsive images using media queries, image-set() was ignored by nearly everyone. The Responsive Images Community Group didn&#8217;t spend much time discussing it. Browsers didn&#8217;t prioritize implementing it.</p>
+<p>Once we were nearing completion of the &lt;picture&gt; and srcset standards, we looked around and realized that we had neglected image-set(). Work is underway to increase the functionality of image-set() to bring it in line with srcset.</p>
+<p>But as of publication, despite being the first responsive images standard, browser support for image-set() is lacking. It is <a href="http://caniuse.com/#search=image-set">available with a webkit prefix</a> in Chrome, Opera, and Safari. Neither Firefox nor Microsoft have implemented it yet.</p>
+<p>So why include it in this Responsive Images 101 series?</p>
+<p>Because image-set() is the correct solution for resolution switching. When image-set() is widely supported, we should use it for all of the same reasons we use <a href="http://blog.cloudfour.com/dont-use-picture-most-of-the-time/">srcset instead of &lt;picture&gt; with the media attribute</a> when we&#8217;re dealing with resolution switching.</p>
+<p>Until image-set() is widely supported, you&#8217;ll probably end up using the CSS art direction solution for resolution switching.</p>
+    <div class="HashHeading HashHeading--h3">
+      <h3 id="art-direction">Art direction</h3>
+      <a href="#art-direction"
+        aria-label="Permalink for Art direction"
+        class="HashHeading-link">
+        <svg viewBox="0 0 24 24" width="24" height="24" class="Icon" role="presentation"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M13.77,10.09l-0.71-.71a4,4,0,0,0-5.65,0L3.16,13.63a4,4,0,0,0,0,5.66l1.4,1.4a4,4,0,0,0,5.67,0l1.41-1.41"/><path d="M10.23,13.62l0.71,0.71a4,4,0,0,0,5.65,0l4.25-4.25a4,4,0,0,0,0-5.66L19.43,3a4,4,0,0,0-5.67,0L12.35,4.43"/></g></svg>
+
+      </a>
+    </div>
+  
+<p>What is the CSS solution for art direction? Media queries.</p>
+<p>It&#8217;s that simple. In fact, I&#8217;m going to assume you know media queries so no syntax sample here.</p>
+<p>But as long as I&#8217;ve got your ear, make sure your media queries for images don&#8217;t overlap or you&#8217;ll end up with duplicate downloads. If you have any doubts, check out Tim Kadlec&#8217;s <a href="http://timkadlec.com/2012/04/media-query-asset-downloading-results/">Media Query &amp; Asset Downloading Results</a>.</p>
+    <div class="HashHeading HashHeading--h3">
+      <h3 id="resolution-media-queries">Resolution media queries</h3>
+      <a href="#resolution-media-queries"
+        aria-label="Permalink for Resolution media queries"
+        class="HashHeading-link">
+        <svg viewBox="0 0 24 24" width="24" height="24" class="Icon" role="presentation"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M13.77,10.09l-0.71-.71a4,4,0,0,0-5.65,0L3.16,13.63a4,4,0,0,0,0,5.66l1.4,1.4a4,4,0,0,0,5.67,0l1.41-1.41"/><path d="M10.23,13.62l0.71,0.71a4,4,0,0,0,5.65,0l4.25-4.25a4,4,0,0,0,0-5.66L19.43,3a4,4,0,0,0-5.67,0L12.35,4.43"/></g></svg>
+
+      </a>
+    </div>
+  
+<p>If you want to support high density displays in art direction, you&#8217;ll probably want to use the new resolution media queries.</p>
+<p><a href="https://29comwzoq712ml5vj5gf479x-wpengine.netdna-ssl.com/wp-content/uploads/2015/06/resolution-mq.png"><img src="https://29comwzoq712ml5vj5gf479x-wpengine.netdna-ssl.com/wp-content/uploads/2015/06/resolution-mq.png" alt="Resolution media query syntax. Repeated below." class="aligncenter" /></a></p>
+<p>The resolution media query allows you to apply specific CSS rules to devices that meet the display density that you define.</p>
+<pre><code class="language-css">@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+/* High density stuff here */
+￼￼￼￼￼￼}
+</code></pre>
+<p>(Much thanks to CSS Tricks for this <a href="https://css-tricks.com/snippets/css/retina-display-media-query/">syntax sample</a>.)</p>
+<p>The first thing you&#8217;ll notice in the syntax above is that we&#8217;re including a -webkit prefixed media query. This is for devices that support the old device-pixel-ratio syntax. The only devices that got in the wild with this syntax used the -webkit prefix which is why it is the only one listed.</p>
+<p>The syntax going forward is the resolution media query. In our example, we&#8217;re using min-resolution, but as you probably guessed, there is a complimentary max-resolution feature that can be used instead.</p>
+<p>The resolution media query can check one of three things:</p>
+<ul>
+<li><b>dpi</b> &#8212; dots per inch</li>
+<li><b>dpcm</b> &#8212; dots per centimeter</li>
+<li><b>dppx</b> &#8212; dots per px unit</li>
+</ul>
+<p>The first two are fairly straight-forward, but I found dppx confusing. The Mozilla Developer Network documentation <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/resolution">defines ddpx</a> thusly:</p>
+<blockquote><p>
+This unit represents the number of dots per px unit. Due to the 1:96 fixed ratio of CSS in to CSS px, 1dppx is equivalent to 96dpi, that corresponds to the default resolution of images displayed in CSS as defined by image-resolution.
+</p>
+</blockquote>
+<p>Confused? I certainly was when I first read it.</p>
+<p>Here&#8217;s the way I&#8217;ve begun to think about it, the idea of 1x, 2x, 3x, etc. is based on an imprecision. The value of 1x on some devices is different than others because some devices are 72dpi or 96dpi or whatever.</p>
+<p>But from a CSS perspective, these differences don&#8217;t matter. The CSS Working Group has decided that there will always be a 1:96 fixed ratio of CSS inches to CSS pixels.</p>
+<p>So while 1x might leave things up to interpretation because of 72dpi vs. 96dpi screens, 1dppx will always be what you and I think of as &#8220;1x&#8221;.</p>
+<p>You may be asking yourself, why was 1x sufficient for srcset and image-set, but for min-resolution, it was necessary to use dppx?</p>
+<p>I don&#8217;t know. All I know is that you can think of 1dppx as 1x, 2dppx as 2x, and so on. At this point, I&#8217;ve just accepted the inconsistency and decided to move on with my life. I recommend you do the same. 😉</p>
+    <div class="HashHeading HashHeading--h3">
+      <h3 id="now-comes-the-hard-part">Now comes the hard part</h3>
+      <a href="#now-comes-the-hard-part"
+        aria-label="Permalink for Now comes the hard part"
+        class="HashHeading-link">
+        <svg viewBox="0 0 24 24" width="24" height="24" class="Icon" role="presentation"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M13.77,10.09l-0.71-.71a4,4,0,0,0-5.65,0L3.16,13.63a4,4,0,0,0,0,5.66l1.4,1.4a4,4,0,0,0,5.67,0l1.41-1.41"/><path d="M10.23,13.62l0.71,0.71a4,4,0,0,0,5.65,0l4.25-4.25a4,4,0,0,0,0-5.66L19.43,3a4,4,0,0,0-5.67,0L12.35,4.43"/></g></svg>
+
+      </a>
+    </div>
+  
+<p>Believe it or not, responsive images syntax is the easy part. In <a href="http://blog.cloudfour.com/responsive-images-101-part-9-image-breakpoints/">Part 9</a>, we&#8217;ll discuss the vexing challenge of picking your image breakpoints.</p>
+<section class="u-borderTopMd u-padTop1 u-spaceItems1">
+<header>
+    <div class="HashHeading HashHeading--h4">
+      <h4 id="responsive-images-101-series">Responsive Images 101 Series</h4>
+      <a href="#responsive-images-101-series"
+        aria-label="Permalink for Responsive Images 101 Series"
+        class="HashHeading-link">
+        <svg viewBox="0 0 24 24" width="24" height="24" class="Icon" role="presentation"><g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M13.77,10.09l-0.71-.71a4,4,0,0,0-5.65,0L3.16,13.63a4,4,0,0,0,0,5.66l1.4,1.4a4,4,0,0,0,5.67,0l1.41-1.41"/><path d="M10.23,13.62l0.71,0.71a4,4,0,0,0,5.65,0l4.25-4.25a4,4,0,0,0,0-5.66L19.43,3a4,4,0,0,0-5.67,0L12.35,4.43"/></g></svg>
+
+      </a>
+    </div>
+  
+</header>
+<ol class="u-listColumns u-sm-columns2">
+<li><a href="https://cloudfour.com/thinks/responsive-images-101-definitions/">Definitions</a></li>
+<li><a href="https://cloudfour.com/thinks/responsive-images-101-part-2-img-required/">Img Required</a></li>
+<li><a href="https://cloudfour.com/thinks/responsive-images-101-part-3-srcset-display-density/">Srcset Display Density</a></li>
+<li><a href="https://cloudfour.com/thinks/responsive-images-101-part-4-srcset-width-descriptors/">Srcset Width Descriptors</a></li>
+<li><a href="https://cloudfour.com/thinks/responsive-images-101-part-5-sizes/">Sizes</a></li>
+<li><a href="https://cloudfour.com/thinks/responsive-images-101-part-6-picture-element/">Picture Element</a></li>
+<li><a href="https://cloudfour.com/thinks/responsive-images-101-part-7-type/">Type</a></li>
+<li><span class="u-hiddenVisually">Currently Viewing:</span><b>CSS Responsive Images</b></li>
+<li><a href="https://cloudfour.com/thinks/responsive-images-101-part-9-image-breakpoints/">Image breakpoints</a></li>
+<li><a href="https://cloudfour.com/thinks/responsive-images-part-10-conclusion/">Conclusion</a></li>
+</ol>
+</section>
+
+</div>
+
+    <footer class="u-spaceItems4 u-spaceTop4">
+
+        <div class="u-cf u-bgGray u-pad1 u-pullSides1">
+    <a class="Thumbnail Thumbnail--circle u-floatRight u-spaceLeft" href="https://cloudfour.com/is/jason-grigsby/">
+                      <img src="https://29comwzoq712ml5vj5gf479x-wpengine.netdna-ssl.com/wp-content/uploads/2016/07/jason-75x75-c-default.png" alt="Jason Grigsby" width="75" height="75"
+          srcset="https://29comwzoq712ml5vj5gf479x-wpengine.netdna-ssl.com/wp-content/uploads/2016/07/jason-150x150-c-default.png 2x">
+          </a>
+    <p><a href="https://cloudfour.com/is/jason-grigsby/"><strong>Jason Grigsby</strong></a> is one of the co-founders of Cloud Four, Mobile Portland and Responsive Field Day. He is the author of <a href="https://abookapart.com/products/progressive-web-apps">Progressive Web Apps</a> from A Book Apart. Follow him at <a href="https://twitter.com/grigs">@grigs</a>.</p>
+  </div>
+
+      <div id="notifications-ui" class="u-hidden">
+  <h2>Never miss an article!</h2>
+  <div class="u-sm-flex">
+    <button type="button" id="notifications-activate-btn" class="Button Button--default u-sizeFull u-spaceEnds02 u-sm-spaceEnds1 u-spaceRight1">
+      <svg height="24" viewBox="0 0 24 24" width="24" class="Icon Icon--large" role="img"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+
+      Get Notifications
+    </button>
+
+    <button type="button" id="notifications-deactivate-btn" class="Button u-sizeFull u-spaceEnds02 u-sm-spaceEnds1 u-spaceRight1">
+      <svg height="24" viewBox="0 0 24 24" width="24" class="Icon Icon--large" role="img"><path d="M0 0h24v24H0z" fill="none"/><path d="M20 18.69L7.84 6.14 5.27 3.49 4 4.76l2.8 2.8v.01c-.52.99-.8 2.16-.8 3.42v5l-2 2v1h13.73l2 2L21 19.72l-1-1.03zM12 22c1.11 0 2-.89 2-2h-4c0 1.11.89 2 2 2zm6-7.32V11c0-3.08-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68c-.15.03-.29.08-.42.12-.1.03-.2.07-.3.11h-.01c-.01 0-.01 0-.02.01-.23.09-.46.2-.68.31 0 0-.01 0-.01.01L18 14.68z"/></svg>
+
+      Turn Off Notifications
+    </button>
+
+    <button type="button" id="get-emails-btn" class="Button Button--default u-sizeFull u-spaceEnds02 u-sm-spaceEnds1">
+      <svg viewBox="0 0 24 24" width="24" height="24" class="Icon Icon--large u-spaceRight04" role="img"><path d="M0,5c0-1.1,0.9-2,2-2h20c1.1,0,2,0.9,2,2v2c0,0-7.9,5-12,5C8.1,12,0,7,0,7V5z"/><path d="M24,17c0,1.1-0.9,2-2,2H2c-1.1,0-2-0.9-2-2V9c0,0,7.9,5,12,5c3.9,0,12-5,12-5V17z"/></svg>
+
+      Get Weekly Digests
+    </button>
+  </div>
+</div>
+
+<div id="email-ui">
+  <h2 class="u-spaceBottom1">Get Weekly Digests</h2>
+  
+<form action="https://cloudfour.us13.list-manage.com/subscribe/post?u=ce064f42c86a5982dd218d4de&amp;id=7e505a6a67" method="post" target="_blank" class="Grid Grid--withGutter u-spaceTopNone">
+  <div class="Grid-cell u-sm-sizeFill">
+    <div class="FloatLabel js-FloatLabel ">
+      <label class="FloatLabel-label" for="mce-EMAIL">Your Email Address</label>
+          <input type="email"   class="Input u-spaceBottom1"
+  id="mce-EMAIL"
+  name="EMAIL"
+  autocomplete="home email"  required
+ value="">
+      </div>
+  </div>
+  <div class="Grid-cell u-sm-sizeFit">
+    <button class="Button Button--default u-sizeFull">
+      Subscribe
+    </button>
+  </div>
+</form>
+</div>
+
+              <hr>
+        <section id="comments">
+
+          
+            <header class="u-flex u-flexAlignItemsBaseline u-flexJustifyBetween">
+              <h2>Comments</h2>
+                          </header>
+
+                          <article
+      class="u-padEnds u-spaceItems1 u-borderBottomMd js-comment"
+    data-id="1452"
+  id="comment-1452">
+    <div class="CmsContent u-spaceItems1">
+    <p>“Until image-set() is widely supported, you’ll probably end up using the CSS art direction solution for resolution switching.”</p>
+<p>What? How? Didn’t you mean, we’ll end up using resolution media queries instead?</p>
+
+  </div>
+  <footer>
+    <div class="u-flex u-flexAlignItemsCenter u-flexJustifyBetween js-comment-insertReply">
+      <div class="u-flex u-flexWrap u-flexAlignItemsBaseline">
+        <p class="u-textBold u-spaceRight01">
+                      Šime Vidas
+                  </p>
+        <p class="u-textShrink1 u-spaceRight01">
+          <a class="u-linkEnter" href="https://cloudfour.com/thinks/responsive-images-101-part-8-css-images/#comment-1452" title="Link to this comment">
+            <time datetime="2015-06-03">
+              June 3, 2015
+            </time>
+          </a>
+        </p>
+      </div>
+                </div>
+          <section class="u-spaceLeft1">
+        <header class="u-hiddenVisually">
+          <h2>Replies</h2>
+        </header>
+                  <article
+      class="u-padTop u-spaceTop u-spaceItems1 u-borderTopMd js-comment"
+    data-id="1453"
+  id="comment-1453">
+    <div class="CmsContent u-spaceItems1">
+    <p>No, I realize this is a little confusing, but from a use case perspective, resolution switching covers both scenarios of display density and also the same image displayed in the page at different sizes (what we typically think of when we say responsive images).</p>
+<p>So the resolution media query is great for 1x, 2x, etc, but won&#8217;t help you provide a 200&#215;200 image source if the viewport is smaller than 400px wide and a 500&#215;500 image source if the viewport is smaller than 800 pixels, etc. For that, you just need same media queries that you use to modify layout (max-width, min-width, etc.).</p>
+
+  </div>
+  <footer>
+    <div class="u-flex u-flexAlignItemsCenter u-flexJustifyBetween js-comment-insertReply">
+      <div class="u-flex u-flexWrap u-flexAlignItemsBaseline">
+        <p class="u-textBold u-spaceRight01">
+                      <a class="u-linkEnter" href="https://cloudfour.com/is/jason-grigsby/">
+              <svg viewBox="0 0 24 24" width="24" height="24" class="Icon Icon--large u-linkTarget u-spaceRight06" role="presentation"><path d="M6.75,15.12a4.36,4.36,0,0,1-1.91-2.29,1.86,1.86,0,0,1,.52-1c0.48-.55,6.07-6.63,8.44-7.67A11.75,11.75,0,0,0,11.92,4c-7,0-7.67,5-7.67,5S0,10.3,0,14.18C0,19.73,6.84,20,6.84,20A15.3,15.3,0,0,0,9,19.92a1.29,1.29,0,0,0,.89-0.71c0.41-1,1-2.59,1.58-4.26C9.2,15.06,7,15.17,6.75,15.12Z"/><path d="M24,13c0-4.91-4.81-5.44-4.81-5.44a6.11,6.11,0,0,0-2.14-2.2c-0.43,1.53-1.54,5.61-1.6,6.38h1.68s0.27,0,.2.33c-0.16.75-.58,2.58-1.48,2.64l-1.18.07c-0.33,1.35-.68,2.76-0.93,3.78a4.7,4.7,0,0,0,3,.91,4.59,4.59,0,0,0,3.35-1.23C24.14,17.56,24,13,24,13Z"/><path d="M13.89,6.86A42.33,42.33,0,0,0,8.9,12l3.61-.14c0.74-2.08,1.38-3.93,1.66-4.74A0.3,0.3,0,0,0,13.89,6.86Z"/></svg>
+
+              Jason Grigsby
+            </a>
+                  </p>
+        <p class="u-textShrink1 u-spaceRight01">
+          <a class="u-linkEnter" href="https://cloudfour.com/thinks/responsive-images-101-part-8-css-images/#comment-1453" title="Link to this comment">
+            <time datetime="2015-06-03">
+              June 3, 2015
+            </time>
+          </a>
+        </p>
+      </div>
+                </div>
+          <section class="u-spaceLeft1">
+        <header class="u-hiddenVisually">
+          <h2>Replies</h2>
+        </header>
+                  <article
+      class="u-padTop u-spaceTop u-spaceItems1 u-borderTopMd js-comment"
+    data-id="1454"
+  id="comment-1454">
+    <div class="CmsContent u-spaceItems1">
+    <p>I see (I assumed resolution switching == display density.) However, the current -webkit-image-set() implementation is restricted to display density, so its functionality can be achieved using resolution media queries, or?</p>
+
+  </div>
+  <footer>
+    <div class="u-flex u-flexAlignItemsCenter u-flexJustifyBetween js-comment-insertReply">
+      <div class="u-flex u-flexWrap u-flexAlignItemsBaseline">
+        <p class="u-textBold u-spaceRight01">
+                      Šime Vidas
+                  </p>
+        <p class="u-textShrink1 u-spaceRight01">
+          <a class="u-linkEnter" href="https://cloudfour.com/thinks/responsive-images-101-part-8-css-images/#comment-1454" title="Link to this comment">
+            <time datetime="2015-06-03">
+              June 3, 2015
+            </time>
+          </a>
+        </p>
+      </div>
+                </div>
+          <section class="u-spaceLeft1">
+        <header class="u-hiddenVisually">
+          <h2>Replies</h2>
+        </header>
+                  <article
+      class="u-padTop u-spaceTop u-spaceItems1 u-borderTopMd js-comment"
+    data-id="1456"
+  id="comment-1456">
+    <div class="CmsContent u-spaceItems1">
+    <p>The difference between image-set and resolution media queries is very similar to the difference between srcset and picture using the media attribute.</p>
+<p>When using image-set or srcset, you&#8217;re giving the browser options and letting the browser choice the best source based on whatever heuristics it can use to make a smart decision.</p>
+<p>When using the media attribute on picture source elements or when using the resolution media query, you&#8217;re dictating to the browser what source it MUST use.</p>
+<p>Whenever we&#8217;re dealing with the resolution switching use case, I have a strong bias for letting the browser have choice as the browser is in a better position to know user preference.</p>
+
+  </div>
+  <footer>
+    <div class="u-flex u-flexAlignItemsCenter u-flexJustifyBetween js-comment-insertReply">
+      <div class="u-flex u-flexWrap u-flexAlignItemsBaseline">
+        <p class="u-textBold u-spaceRight01">
+                      <a class="u-linkEnter" href="https://cloudfour.com/is/jason-grigsby/">
+              <svg viewBox="0 0 24 24" width="24" height="24" class="Icon Icon--large u-linkTarget u-spaceRight06" role="presentation"><path d="M6.75,15.12a4.36,4.36,0,0,1-1.91-2.29,1.86,1.86,0,0,1,.52-1c0.48-.55,6.07-6.63,8.44-7.67A11.75,11.75,0,0,0,11.92,4c-7,0-7.67,5-7.67,5S0,10.3,0,14.18C0,19.73,6.84,20,6.84,20A15.3,15.3,0,0,0,9,19.92a1.29,1.29,0,0,0,.89-0.71c0.41-1,1-2.59,1.58-4.26C9.2,15.06,7,15.17,6.75,15.12Z"/><path d="M24,13c0-4.91-4.81-5.44-4.81-5.44a6.11,6.11,0,0,0-2.14-2.2c-0.43,1.53-1.54,5.61-1.6,6.38h1.68s0.27,0,.2.33c-0.16.75-.58,2.58-1.48,2.64l-1.18.07c-0.33,1.35-.68,2.76-0.93,3.78a4.7,4.7,0,0,0,3,.91,4.59,4.59,0,0,0,3.35-1.23C24.14,17.56,24,13,24,13Z"/><path d="M13.89,6.86A42.33,42.33,0,0,0,8.9,12l3.61-.14c0.74-2.08,1.38-3.93,1.66-4.74A0.3,0.3,0,0,0,13.89,6.86Z"/></svg>
+
+              Jason Grigsby
+            </a>
+                  </p>
+        <p class="u-textShrink1 u-spaceRight01">
+          <a class="u-linkEnter" href="https://cloudfour.com/thinks/responsive-images-101-part-8-css-images/#comment-1456" title="Link to this comment">
+            <time datetime="2015-06-04">
+              June 4, 2015
+            </time>
+          </a>
+        </p>
+      </div>
+                </div>
+      </footer>
+</article>
+              </section>
+      </footer>
+</article>
+              </section>
+      </footer>
+</article>
+              </section>
+      </footer>
+</article>
+                          <article
+      class="u-padEnds u-spaceItems1 u-borderBottomMd js-comment"
+    data-id="1455"
+  id="comment-1455">
+    <div class="CmsContent u-spaceItems1">
+    <p>You should put all the responsive image posts into an ALA book!</p>
+
+  </div>
+  <footer>
+    <div class="u-flex u-flexAlignItemsCenter u-flexJustifyBetween js-comment-insertReply">
+      <div class="u-flex u-flexWrap u-flexAlignItemsBaseline">
+        <p class="u-textBold u-spaceRight01">
+                      Catherine Azzarello
+                  </p>
+        <p class="u-textShrink1 u-spaceRight01">
+          <a class="u-linkEnter" href="https://cloudfour.com/thinks/responsive-images-101-part-8-css-images/#comment-1455" title="Link to this comment">
+            <time datetime="2015-06-04">
+              June 4, 2015
+            </time>
+          </a>
+        </p>
+      </div>
+                </div>
+      </footer>
+</article>
+                          <article
+      class="u-padEnds u-spaceItems1  js-comment"
+    data-id="1457"
+  id="comment-1457">
+    <div class="CmsContent u-spaceItems1">
+    <p>Jason really worth content on responsive images.<br />
+I want to know that is it any possible way to make the image with IMG tag a responsive one? Because main product photos and few fancybox gallery need image tag instead of calling from css. And when viewed on ipad or mobile device need to resize image size so that it look like gallery. Facing the issue mainly in gallery as have to call big size image for monitors and have to call the same for mobile small screens also.<br />
+Page I am talking about is  <a href="http://www.goldstar-international.com/brass-battery-terminal-connectors/" rel="nofollow">Brass Battery Terminals</a> page of my website.<br />
+Expecting helpful reply.</p>
+
+  </div>
+  <footer>
+    <div class="u-flex u-flexAlignItemsCenter u-flexJustifyBetween js-comment-insertReply">
+      <div class="u-flex u-flexWrap u-flexAlignItemsBaseline">
+        <p class="u-textBold u-spaceRight01">
+                      Hiren Khambhayta
+                  </p>
+        <p class="u-textShrink1 u-spaceRight01">
+          <a class="u-linkEnter" href="https://cloudfour.com/thinks/responsive-images-101-part-8-css-images/#comment-1457" title="Link to this comment">
+            <time datetime="2015-09-02">
+              September 2, 2015
+            </time>
+          </a>
+        </p>
+      </div>
+                </div>
+          <section class="u-spaceLeft1">
+        <header class="u-hiddenVisually">
+          <h2>Replies</h2>
+        </header>
+                  <article
+      class="u-padTop u-spaceTop u-spaceItems1 u-borderTopMd js-comment"
+    data-id="1458"
+  id="comment-1458">
+    <div class="CmsContent u-spaceItems1">
+    <p>Hi Hiren,</p>
+<p>For inline images, you should look at srcset and sizes. Check out the other articles in this 10-part series. Links are at the end of the article.</p>
+<p>-Jason</p>
+
+  </div>
+  <footer>
+    <div class="u-flex u-flexAlignItemsCenter u-flexJustifyBetween js-comment-insertReply">
+      <div class="u-flex u-flexWrap u-flexAlignItemsBaseline">
+        <p class="u-textBold u-spaceRight01">
+                      <a class="u-linkEnter" href="https://cloudfour.com/is/jason-grigsby/">
+              <svg viewBox="0 0 24 24" width="24" height="24" class="Icon Icon--large u-linkTarget u-spaceRight06" role="presentation"><path d="M6.75,15.12a4.36,4.36,0,0,1-1.91-2.29,1.86,1.86,0,0,1,.52-1c0.48-.55,6.07-6.63,8.44-7.67A11.75,11.75,0,0,0,11.92,4c-7,0-7.67,5-7.67,5S0,10.3,0,14.18C0,19.73,6.84,20,6.84,20A15.3,15.3,0,0,0,9,19.92a1.29,1.29,0,0,0,.89-0.71c0.41-1,1-2.59,1.58-4.26C9.2,15.06,7,15.17,6.75,15.12Z"/><path d="M24,13c0-4.91-4.81-5.44-4.81-5.44a6.11,6.11,0,0,0-2.14-2.2c-0.43,1.53-1.54,5.61-1.6,6.38h1.68s0.27,0,.2.33c-0.16.75-.58,2.58-1.48,2.64l-1.18.07c-0.33,1.35-.68,2.76-0.93,3.78a4.7,4.7,0,0,0,3,.91,4.59,4.59,0,0,0,3.35-1.23C24.14,17.56,24,13,24,13Z"/><path d="M13.89,6.86A42.33,42.33,0,0,0,8.9,12l3.61-.14c0.74-2.08,1.38-3.93,1.66-4.74A0.3,0.3,0,0,0,13.89,6.86Z"/></svg>
+
+              Jason Grigsby
+            </a>
+                  </p>
+        <p class="u-textShrink1 u-spaceRight01">
+          <a class="u-linkEnter" href="https://cloudfour.com/thinks/responsive-images-101-part-8-css-images/#comment-1458" title="Link to this comment">
+            <time datetime="2015-09-02">
+              September 2, 2015
+            </time>
+          </a>
+        </p>
+      </div>
+                </div>
+      </footer>
+</article>
+              </section>
+      </footer>
+</article>
+            
+          
+          
+        </section>
+          </footer>
+  </article>
+        <div class="u-containSpread">
+  <hr class="u-space1 u-spaceBottomNone">
+  <div class="u-posRelative">
+    <p class="u-pad1 u-size2of3">
+      <span class="u-inlineBlock u-textGrow1 u-spaceRight u-textNoWrap">
+        Let&rsquo;s discuss your project!
+      </span>
+      <a class="Button Button--primary u-spaceEnds01 u-textNoWrap" href="mailto:info@cloudfour.com">
+        <svg viewBox="0 0 24 24" width="24" height="24" class="Icon Icon--large u-spaceRight06" role="presentation"><path d="M0,5c0-1.1,0.9-2,2-2h20c1.1,0,2,0.9,2,2v2c0,0-7.9,5-12,5C8.1,12,0,7,0,7V5z"/><path d="M24,17c0,1.1-0.9,2-2,2H2c-1.1,0-2-0.9-2-2V9c0,0,7.9,5,12,5c3.9,0,12-5,12-5V17z"/></svg>
+
+        Email Us
+      </a>
+    </p>
+    <img class="u-posAbsoluteBottomRight u-size2of5 u-sm-size1of3 u-sm-spaceRight1 u-md-size1of4"
+      src="https://29comwzoq712ml5vj5gf479x-wpengine.netdna-ssl.com/wp-content/themes/cloudfour/static/toolkit/images/portland.svg" alt="">
+  </div>
+</div>
+      </div>
+
+    </main>
+
+    <footer class="u-containSpread u-padSides1 u-padTop2 u-padBottom3" role="contentinfo">
+  <div class="Grid u-posRelative">
+    <div class="Grid-cell u-sm-size1of2 u-md-size1of3">
+      <p>
+        <a href="https://cloudfour.com"><strong>Cloud Four, Inc.</strong></a>
+      </p>
+      <p>
+        510 SW 3rd Ave, Suite 420<br>
+        Portland, Oregon 97204 USA
+      </p>
+      <ul class="u-listUnstyled">
+        <li><a href="mailto:info@cloudfour.com">info@cloudfour.com</a></li>
+        <li><a href="tel:15032901090">+1 503.290.1090</a></li>
+      </ul>
+      <ul class="u-listInline u-spaceTop1 u-md-spaceTopNone u-md-posAbsoluteTopRight">
+        <li>
+          <a class="u-textGrow1" href="https://twitter.com/cloudfour" title="Follow @cloudfour on Twitter">
+            <svg viewBox="0 0 24 24" width="24" height="24" class="Icon Icon--large" role="img"><path d="M24,4.31a9.85,9.85,0,0,1-2.83.78,4.94,4.94,0,0,0,2.17-2.72,9.86,9.86,0,0,1-3.13,1.19A4.93,4.93,0,0,0,11.82,8,14,14,0,0,1,1.67,2.9,4.93,4.93,0,0,0,3.19,9.48,4.9,4.9,0,0,1,1,8.86V8.92a4.93,4.93,0,0,0,3.95,4.83,4.94,4.94,0,0,1-2.22.08,4.93,4.93,0,0,0,4.6,3.42,9.88,9.88,0,0,1-6.12,2.11A10,10,0,0,1,0,19.29,13.94,13.94,0,0,0,7.55,21.5a13.91,13.91,0,0,0,14-14q0-.32,0-0.64A10,10,0,0,0,24,4.31"/></svg>
+
+          </a>
+        </li>
+        <li>
+          <a class="u-textGrow1" href="https://www.facebook.com/cloudfourweb/" title="Like Cloud Four on Facebook">
+            <svg viewBox="0 0 24 24" width="24" height="24" class="Icon Icon--large" role="img"><path d="M21.79,1H2.21A1.21,1.21,0,0,0,1,2.21V21.79A1.21,1.21,0,0,0,2.21,23H12.75V14.48H9.88V11.16h2.87V8.71A4,4,0,0,1,17,4.32a23.52,23.52,0,0,1,2.56.13v3H17.83A1.38,1.38,0,0,0,16.18,9v2.12h3.29L19,14.48H16.18V23h5.61A1.21,1.21,0,0,0,23,21.79V2.21A1.21,1.21,0,0,0,21.79,1Z"/></svg>
+
+          </a>
+        </li>
+        <li>
+          <a class="u-textGrow1" href="https://www.instagram.com/cloudfourpdx/" title="Follow @cloudfourpdx on Instagram">
+            <svg viewBox="0 0 24 24" width="24" height="24" class="Icon Icon--large" role="img"><path d="M12,2.16c3.2,0,3.58,0,4.85.07a6.64,6.64,0,0,1,2.23.41,3.72,3.72,0,0,1,1.38.9,3.72,3.72,0,0,1,.9,1.38,6.64,6.64,0,0,1,.41,2.23c0.06,1.27.07,1.64,0.07,4.85s0,3.58-.07,4.85a6.64,6.64,0,0,1-.41,2.23,4,4,0,0,1-2.28,2.28,6.64,6.64,0,0,1-2.23.41c-1.27.06-1.64,0.07-4.85,0.07s-3.58,0-4.85-.07a6.64,6.64,0,0,1-2.23-.41,3.72,3.72,0,0,1-1.38-.9,3.72,3.72,0,0,1-.9-1.38,6.64,6.64,0,0,1-.41-2.23C2.17,15.58,2.16,15.2,2.16,12s0-3.58.07-4.85a6.64,6.64,0,0,1,.41-2.23,3.72,3.72,0,0,1,.9-1.38,3.72,3.72,0,0,1,1.38-.9,6.64,6.64,0,0,1,2.23-.41C8.42,2.17,8.8,2.16,12,2.16M12,0C8.74,0,8.33,0,7.05.07A8.81,8.81,0,0,0,4.14.63,5.88,5.88,0,0,0,2,2,5.88,5.88,0,0,0,.63,4.14,8.81,8.81,0,0,0,.07,7.05C0,8.33,0,8.74,0,12s0,3.67.07,4.95a8.81,8.81,0,0,0,.56,2.91A5.88,5.88,0,0,0,2,22a5.88,5.88,0,0,0,2.13,1.38,8.81,8.81,0,0,0,2.91.56C8.33,24,8.74,24,12,24s3.67,0,4.95-.07a8.81,8.81,0,0,0,2.91-.56,6.14,6.14,0,0,0,3.51-3.51,8.81,8.81,0,0,0,.56-2.91C24,15.67,24,15.26,24,12s0-3.67-.07-4.95a8.81,8.81,0,0,0-.56-2.91A5.88,5.88,0,0,0,22,2,5.88,5.88,0,0,0,19.86.63,8.81,8.81,0,0,0,16.95.07C15.67,0,15.26,0,12,0h0Z"/><path d="M12,5.84A6.16,6.16,0,1,0,18.16,12,6.16,6.16,0,0,0,12,5.84ZM12,16a4,4,0,1,1,4-4A4,4,0,0,1,12,16Z"/><circle cx="18.41" cy="5.59" r="1.44"/></svg>
+
+          </a>
+        </li>
+        <li>
+          <a class="u-textGrow1" href="https://github.com/cloudfour" title="Cloud Four's repositories on GitHub">
+            <svg viewBox="0 0 24 24" width="24" height="24" class="Icon Icon--large" role="img"><path d="M0,12A12,12,0,0,0,8.21,23.39,0.6,0.6,0,0,0,9,22.81c0-.29,0-1,0-2-3.34.72-4-1.61-4-1.61A3.18,3.18,0,0,0,3.63,17.4c-1.09-.74.08-0.73,0.08-0.73a2.52,2.52,0,0,1,1.84,1.24,2.56,2.56,0,0,0,3.49,1,2.57,2.57,0,0,1,.76-1.6C7.14,17,4.34,16,4.34,11.37A4.64,4.64,0,0,1,5.58,8.15,4.32,4.32,0,0,1,5.7,5s1-.32,3.3,1.23a11.38,11.38,0,0,1,6,0C17.3,4.65,18.3,5,18.3,5a4.31,4.31,0,0,1,.12,3.18,4.63,4.63,0,0,1,1.23,3.22c0,4.61-2.81,5.62-5.48,5.92A2.86,2.86,0,0,1,15,19.52c0,1.6,0,2.9,0,3.29a0.6,0.6,0,0,0,.83.58A12,12,0,1,0,0,12Z"/></svg>
+
+          </a>
+        </li>
+        <li>
+          <a class="u-textGrow1" href="https://www.linkedin.com/company/cloud-four" title="Follow Cloud Four on LinkedIn">
+            <svg viewBox="0 0 24 24" width="24" height="24" class="Icon Icon--large" role="img"><path d="M21.37,1H2.62A1.61,1.61,0,0,0,1,2.59V21.41A1.61,1.61,0,0,0,2.62,23H21.37A1.61,1.61,0,0,0,23,21.41V2.59A1.61,1.61,0,0,0,21.37,1ZM7.53,19.75H4.26V9.25H7.53v10.5ZM5.89,7.81A1.89,1.89,0,1,1,7.79,5.92,1.89,1.89,0,0,1,5.89,7.81ZM19.75,19.75H16.48V14.64c0-1.22,0-2.78-1.7-2.78s-2,1.33-2,2.7v5.19H9.57V9.25H12.7v1.44h0A3.43,3.43,0,0,1,15.83,9c3.3,0,3.91,2.17,3.91,5v5.76Z"/></svg>
+
+          </a>
+        </li>
+      </ul>
+
+    </div>
+    <hr class="Grid-cell u-sm-hidden u-spaceTop1 u-spaceBottomNone"/>
+    <nav class="Grid-cell u-spaceTop1 u-sm-spaceTopNone u-sm-size1of2 u-md-size1of3">
+      <ul class="u-listUnstyled u-columns2">
+      <li><a href="https://cloudfour.com/does/">What We Do</a></li>
+      <li><a href="https://cloudfour.com/believes/">Our Approach</a></li>
+      <li><a href="https://cloudfour.com/made/">Our Work</a></li>
+      <li><a href="https://cloudfour.com/thinks/">Articles</a></li>
+      <li><a href="https://cloudfour.com/presents/">Speaking</a></li>
+      <li><a href="https://cloudfour.com/contributes/">Labs</a></li>
+      <li><a href="https://cloudfour.com/is/">Team</a></li>
+      <li><a href="https://cloudfour.com/portland-device-lab/">Device Lab</a></li>
+      <li><a href="http://cloudfour-patterns.netlify.com/">Patterns</a></li>
+  </ul>
+    </nav>
+    <hr class="Grid-cell u-md-hidden u-spaceTop1 u-spaceBottomNone"/>
+    <p class="Grid-cell u-spaceTop1 u-md-sizeFit u-md-flexAlignSelfEnd u-md-flexExpandLeft">
+      <small>&copy; 2007 - 2020 Cloud Four, Inc.</small>
+    </p>
+  </div>
+</footer>
+
+    <script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-3114940-1', 'cloudfour.com');ga('send', 'pageview');</script><script type='text/javascript' src='https://cdn.polyfill.io/v2/polyfill.min.js?features=Object.assign,Array.prototype.find,Array.from,Element.prototype.classList,Element.prototype.prepend,Element.prototype.cloneNode,Node.prototype.contains'></script>
+<script type='text/javascript' src='https://29comwzoq712ml5vj5gf479x-wpengine.netdna-ssl.com/wp-content/themes/cloudfour/static/main.js?ver=1490377004'></script>
+<script type='text/javascript' src='https://29comwzoq712ml5vj5gf479x-wpengine.netdna-ssl.com/wp-includes/js/jquery/jquery.js?ver=1.12.4-wp'></script>
+<script type='text/javascript' src='https://29comwzoq712ml5vj5gf479x-wpengine.netdna-ssl.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<script type='text/javascript' src='https://cdn.onesignal.com/sdks/OneSignalSDK.js?ver=5.4.1' async='async'></script>
+
+
+    <template id="offline-message-template">
+      <div class="Message Message--warning" id="offline-message">
+  <p>
+    You seem to be offline at the moment.
+    <span class="u-hidden u-md-inlineBlock">We&rsquo;ll keep trying to connect.</span>
+    <a class="u-textNoWrap" href="">Try again</a>
+  </p>
+  <button class="Message-close" onclick="this.parentElement.remove()">
+        <svg viewBox="0 0 24 24" width="24" height="24" class="Icon Icon--block" aria-labelledby="Message-close-title"><title id="Message-close-title">Close</title><g transform="rotate(45 12 12)" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><line x1="12" y1="3" x2="12" y2="21"/><line x1="3" y1="12" x2="21" y2="12"/></g></svg>
+
+  </button>
+</div>
+    </template>
+  </body>
+</html>

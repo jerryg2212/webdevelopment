@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <h1>Heading with a <span>span</span> element.</h1>
+<p>A paragraph with <span>one</span>, <span>two</span>
+  spans.</p>
+        <script>
+           function myTagName(node, tagName){
+                let result = [];
+                console.log(node.children);
+                for(let i = 0; i < node.children.length; i++){
+                    console.log(node.children[i]);
+                    if(node.children[i].children.length > 0) result = result.concat(myTagName(node.children[i], tagName));
+                    if(node.children[i].nodeName === tagName.toUpperCase()) result.push(node.children[i]);
+                }
+                return result;
+            }
+            function betterTagName(node, tagName){
+                
+            }
+        </script>
+    </body>
+</html>

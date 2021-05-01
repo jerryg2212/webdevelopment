@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <script>
+            function promise_all(arr){
+               return new Promise((resolve, reject) => {
+                   resolve(arr.map(elm => {
+                       arr.then(result => result).catch(result => reject(result));
+                   }));
+               })
+            }
+            function soon(val) {
+  return new Promise(resolve => {
+    setTimeout(() => resolve(val), Math.random() * 500);
+  });
+        </script>
+    </body>
+</html>

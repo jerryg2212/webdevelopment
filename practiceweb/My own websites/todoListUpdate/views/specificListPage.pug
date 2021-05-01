@@ -1,0 +1,36 @@
+doctype html 
+html 
+    head 
+        link(rel="stylesheet" href="../styles.css")
+    
+    body(id="specificListBody" class="bodyBackgroundColor")
+        a(href="/delete" class="logOutLink") Log Out
+        div(id="sideNavListsContainer")
+            div(id="sideNavFormWrapper")
+                h2 Create New List 
+                form(id="createNewListForm" action="/createList" method="post")
+                    button(id="newListButton" type="submit" class="submitButton") New List 
+                    div(id="inputWrapperCreateForm" class="inputWrapper")
+                        input(type="text" class="textInput" id="createListTextInput" name="listTitle") 
+            div(id="listsContainer")
+                img(src="../icons/delete.svg" id="sideNavDeleteIcon" class="checkDeleteIcons")
+                h2 Lists
+                ul(id="sideNavUl")  
+                    each list of lists  
+                        li(class="pascalCase")=list
+        div(id="wrapper")
+            h1(class="pascalCase whiteHeader")=listTitle
+            div(id="listContainer" class="container")
+                img(src="../icons/delete.svg" id="deleteIcon" class="checkDeleteIcons")
+                form(action=`/list/${listTitle}` method="POST" id="addNewItemForm")
+                    button(type="submit" class="submitButton" id="newItemButton") Post Item
+                    div(id="inputWrapperCreateItem" class="inputWrapper")
+                        input(type="text" name="newItem" id="textInput" class="textInput")
+                ul(id="tasksList")
+                    each item of items
+                        li= item
+            script(src="../globalVariables.js")
+            script(src="../functionality.js")
+            script(src="../body.js")
+            script(src="../sideNav.js")
+

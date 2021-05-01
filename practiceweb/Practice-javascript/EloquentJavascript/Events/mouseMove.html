@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<head>
+    <style>
+        p{
+            width: 100%;
+            text-align: center;
+            background-color: rgb(232,29,78);
+            padding: 20px 0px;
+            color: white;
+            font-size: 70px;
+            font-weight: bold;
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0px;
+        }
+       /* #onoffbtn{
+            margin: 10px auto;
+            padding: 10px 20px;
+            border: 1px solid grey;
+            background-color: white;
+            text-align: center;
+        }*/
+    </style>
+
+</head>
+<body>
+
+    <script>
+                    class CircleFactory {
+                constructor(x,y,cords){
+                    this.x = x;
+                    this.y = y;
+                    this.cords = cords;
+                }
+                randomCircle(x,y,cords){
+                    let circle = new ColoredCircle(Math.floor(Math.random() * (255 - 1) + 1),Math.floor(Math.random() * (255 - 1) + 1),Math.floor(Math.random() * (255 - 1) + 1), x, y, cords);
+                    return circle.makeCircle();
+                }
+            }
+        let circleFactory = new CircleFactory();
+        let body = document.querySelector('body');
+        // making the header
+            makeHeader();
+        //makes the on off button
+            onOffbtn();
+
+
+
+            function makeHeader(){
+                let pheader = document.createElement('p');
+                pheader.textContent = "Mouse Trailer";
+                body.appendChild(pheader);
+            }
+            function onOffbtn() {
+                let divStyles = {
+                    "width" : "100%",
+                    "text-align" : "center"
+                }
+                let onoffbtnStyles = {
+                    "border" : " inset 2px solid white",
+                    "padding" : "10px 20px",
+                    "text-align" : "center",
+                    "background-color" : " rgb(232,29,78)",
+                    "margin" : "10px auto",
+                    "color" : "white",
+                    "font-weight" : "bold",
+                    "width" : "75px"
+                }
+                let btndiv = document.createElement('div');
+                Object.assign(btndiv.style, divStyles);
+                
+                let onoffbtn = document.createElement('button');
+                Object.assign(onoffbtn.style, onoffbtnStyles);
+                onoffbtn.textContent = "Off";
+                onoffbtn.addEventListener('click', function(){
+                    if(onoffbtn.textContent == 'Off'){
+                        //text content for the button
+                            onoffbtn.textContent = "On";
+                        //creates the clear button
+                            let clearbtn = document.createElement('button');
+                            clearbtn.setAttribute('id', 'clearbtn');
+                            clearbtnStyles = {
+                                "border" : " inset 2px solid white",
+                                "padding" : "10px 20px",
+                                "text-align" : "center",
+                                "background-color" : " rgb(232,29,78)",
+                                "margin" : "10px auto",
+                                "color" : "white",
+                                "font-weight" : "bold",
+                                "width" : "75px",
+                                "position" : "absolute",
+                                "right" : "30px"
+
+                            }
+                            Object.assign(clearbtn.style, clearbtnStyles);
+                            clearbtn.textContent = "Clear";
+                            btndiv.appendChild(clearbtn);
+                            //event listener for the clear button
+                                clearbtn.addEventListener('click', function(){
+                                    canvasdiv.innerHTML = '';
+                                })
+                        //creates the div where the drawing is going
+                            let canvasdiv = document.createElement('div');
+                            canvasdiv.setAttribute('id', 'canvasdiv');
+                            canvasdivStyles = {
+                                "width" : "100%",
+                                "background-color" : "green",
+                                "margin" : "0px",
+                                "padding" : "0px",
+                                "position" : "relative"
+                            }
+                            Object.assign(canvasdiv.style, canvasdivStyles);
+
+                            body.appendChild(canvasdiv);
+                            let cords = canvasdiv.getBoundingClientRect();
+                            canvasdiv.addEventListener('mousemove', function (e){
+                              //  let newBall = new ColoredCircle(24,250,45,e.clientX,e.clientY, cords);
+                                
+                               // newBall.makeCircle();
+                                canvasdiv.appendChild(circleFactory.randomCircle(e.clientX, e.clientY,cords));
+                             //   console.log(newBall.makeCircle());
+                              //  console.log(e.clientX);
+
+                              //  console.log('moved');
+                            });
+
+                            console.log(window.innerHeight - cords.top);
+                            canvasdiv.style.height = window.innerHeight - cords.top - 10 + 'px';
+                            console.log(cords);
+                            console.log(canvasdiv.top);
+                    }else {
+                        onoffbtn.textContent = "Off";
+                        btndiv.removeChild(document.getElementById('clearbtn'));
+                        body.removeChild(document.getElementById('canvasdiv'));
+                    }
+                });
+                onoffbtn.setAttribute('id', 'onoffbtn');
+                btndiv.appendChild(onoffbtn);
+                body.appendChild(btndiv);
+
+            }
+
+           class ColoredCircle {
+                constructor(r,g,b, x , y, cords){
+                    this.ball = document.createElement('div');
+                    this.ball.style.backgroundColor = `rgb(${r},${g},${b})`;
+                    this.ball.style.width = '10px';
+                    this.ball.style.height = '10px';
+                    this.ball.style.borderRadius = '5px';
+                    this.ball.style.position = "absolute";
+                    this.ball.style.top = `${y - cords.top}px`;
+                    this.ball.style.left = `${x - cords.left}px`;
+
+                }
+                makeCircle(){
+                   return this.ball;
+                    
+                }
+            }
+
+
+        
+
+    </script>
+</body>

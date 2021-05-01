@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <script>
+            function deepEqual(value1,value2){
+                console.log(value1 +' value1');
+                console.log(value2 + ' value2');
+                if(typeof value1 === typeof value2){
+                    if(typeof value1 === 'object'){
+                        if(Object.keys(value1).length === Object.keys(value2).length){
+                            if((Object.keys(value1).length == 0) && (Object.keys(value2).length == 0)) return true
+                            for(prop of Object.keys(value1)){
+                                if(prop == Object.keys(value2)[Object.keys(value1).indexOf(prop)]){
+                                    return deepEqual(value1[prop], value2[Object.keys(value2)[Object.keys(value1).indexOf(prop)]]);
+                                }else return false;
+                            }
+                        }else return false;
+                    }else if(value1 === value2){
+                        return true;
+                    }  else {
+                        console.log('sdf');
+                        return false;
+                    }
+                }
+               if(typeof value1 != typeof value2) return false;
+               //return false;
+            }
+        </script>
+    </body>
+</html>

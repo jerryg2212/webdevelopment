@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <script>
+            function everythingLoop(array, test){
+                for(prop of array){
+                    if(!test(prop)) return false
+                }
+                return true;
+            }
+            function everythingSome(array, test){
+                if(!array.some( (a) => !test(a))) return true;
+                return false;
+            }
+        </script>
+    </body>
+</html>

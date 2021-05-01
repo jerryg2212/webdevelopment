@@ -1,0 +1,88 @@
+,<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+
+        <script>
+            function sumIntervals(intervals){
+  //TODO
+  for(let i = 0; i < intervals.length; i++){
+    let small = intervals[i][0];
+    let big = intervals[i][1];
+
+      for(let j = 0; j < intervals.length; j++){
+        if(intervals[j][0] < intervals[i][0] && intervals[i][0] < intervals[j][1]){
+          intervals[i][0] = intervals[j][0];
+        }else if(intervals[j][0] < intervals[i][1] && intervals[i][1] < intervals[j][1]){
+          intervals[i][1] = intervals[j][1];
+        }
+        
+      }
+      console.log(intervals[i]);
+  }
+  for(let i = 0; i < intervals.length; i++){
+    let small = intervals[i][0];
+    let big = intervals[i][1];
+
+      for(let j = 0; j < intervals.length; j++){
+        if(intervals[j][0] < intervals[i][0] && intervals[i][0] < intervals[j][1]){
+          intervals[i][0] = intervals[j][0];
+        }else if(intervals[j][0] < intervals[i][1] && intervals[i][1] < intervals[j][1]){
+          intervals[i][1] = intervals[j][1];
+        }
+        
+      }
+      
+      }
+    
+      
+  
+  for(let i = 0; i < intervals.length - 1; i++){
+          if(intervals[i][0] == intervals[i + 1][0] && intervals[i][1] == intervals[i + 1][1]){
+             intervals = intervals.splice((i + 1),1);
+             
+             i--;
+          }
+        }
+
+      /*  let low = intervals[0][0];
+            let high = intervals[0][1];
+        for(let i = 0; i < intervals.length; i++){
+            
+            
+            if(low > intervals[i][0]) low = intervals[i][0];
+            if(high < intervals[i][1]) high = intervals[i][1];
+        }
+        let total = high - low;*/
+        let total = 0;
+        for(let i =0; i < intervals.length; i++){
+            total += intervals[i][1] - intervals[i][0];
+        }
+        
+        return total;
+
+  
+  
+}
+var test = [[1,2], [6,10], [11,15]];
+sumIntervals(test);
+        </script>
+    </body>
+</html>
+
+function sumIntervals(intervals){
+  //TODO
+  for(let i = 0; i < intervals.length; i++){
+    let small = intervals[i][0];
+    let big = intervals[i][1];
+      for(let j = 0; j < intervals.length; j++){
+        if(intervals[j][0] < small < intervals[j][1]){
+          intervals[i][0] = intervals[j][0];
+        }else if(intervals[j][0] < big < intervals[j][1]){
+          intervals[i][1] = intervals[j][1];
+        }
+      }
+  }
+}

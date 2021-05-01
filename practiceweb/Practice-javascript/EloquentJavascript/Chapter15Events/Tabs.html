@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head><style></style></head>
+    <body>
+        <tab-panel>
+            <div data-tabname="one">Tab one</div>
+            <div data-tabname="two">Tab two</div>
+            <div data-tabname="three">Tab three</div>
+          </tab-panel>
+        <script>
+            function asTabs(element){
+                element.style.display = 'flex';
+                let para = document.createElement('p');
+                para.id = 'tabbedText';
+                let children = Array.from(element.children);
+                console.log(children[0]);
+                console.log(children[0].getAttribute('data-tabname'));
+                for(let elm of children){
+                    let button = document.createElement('button');
+                    button.textContent = elm.textContent;
+                    button.addEventListener('click', buttonClick);
+                    button.setAttribute("data-tabname", `${elm.getAttribute('data-tabname')}`);
+                    element.replaceChild(button, elm);
+                }
+                para.textContent = `Tab ${document.querySelector('tab-panel button').getAttribute('data-tabname')}`
+                document.querySelector('tab-panel button').style.color = 'red';
+                document.body.appendChild(para);
+            }
+            function buttonClick(e){
+                console.log(e);
+                document.getElementById('tabbedText').textContent = `Tab ${e.target.getAttribute('data-tabname')}`;
+                let buttons = Array.from(document.querySelectorAll('button[data-tabname]'));
+                for(elm of buttons){
+                   elm.style.color = 'black';
+                }
+                e.target.style.color = 'red';
+            }
+            asTabs(document.querySelector('tab-panel'));
+        </script>
+    </body>
+</html>

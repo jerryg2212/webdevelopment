@@ -1,0 +1,144 @@
+html{
+    font-size: 10px;
+    background-color:lightgreen;
+}
+body{
+    width:66.5%;
+    margin:0 auto;
+    background-color: rgb(223, 205, 166);
+}
+main{
+   
+}
+section{
+    background-color:white;
+}
+.head{
+    display:flex;
+    
+}
+.head div:nth-of-type(1){
+    flex: 2.1;
+    
+}
+.head div:nth-of-type(2){
+    flex:1;
+    
+}
+.logo{
+    margin-left: 30px;
+}
+.images img{
+    padding: 0 6px;
+}
+nav ul{
+    display:inline-flex;
+}
+li{
+    padding:15px 10px;
+    font-size:1.7em;
+    color:brown;
+    list-style-type:none;
+}
+li:hover{
+    
+    color:white;
+}
+a:active{
+    background-color:green;
+}
+nav.secondnav{
+    background-color: rgb(133, 129, 72);
+    
+}
+
+nav.secondnav li{
+    display:inline;
+    color: rgb(223, 205, 166);
+    margin:0px;
+    padding: 15px 10px;
+}
+nav.secondnav li:hover{
+    background-color: rgb(73, 71, 36);
+    cursor:pointer;
+}
+ nav ul{
+    margin:0;
+    padding:0;
+}
+section.firstsection{
+    display:flex;
+    align-items:baseline;
+    align-items: flex-end;
+    
+    
+}
+section.sectiontwo{
+    background-color:white;
+    width:100%;
+}
+section.firstsection article{
+    flex: 1;
+    margin:14px;
+    
+    
+    
+    
+
+}
+div.space{
+    padding:6px;
+    background-color: lightgreen;
+}
+section.firstsection article div img{
+    width:100%;
+    height:auto;
+}
+div.space h4{
+    color:green;
+    font-size:2.4em;
+    margin:0px;
+    padding:0px;
+    margin-top: 15px;
+}
+div.space p{
+    font-size:1.6em;
+}
+aside{
+    float:right;
+    width:30%;
+    background-color:burlywood;
+    margin-right: 20px;
+    height: 500px;
+}
+
+iframe ~ p{
+    background-color:darkolivegreen;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color:white;
+    font-size: 2.2em;
+    margin:0px;
+    padding-left: 1em;
+    font-weight:bold;
+    padding-top: 12px;
+}
+iframe{
+    margin:0px;
+    padding:0px;
+    height: calc(auto + 2px);
+}
+section.first{
+    display:flex;
+}
+section.first article{
+    flex: 1;
+    margin:10px;
+    background-color:lightblue;
+}
+.fuck{
+    margin-bottom:-10px;
+    padding:0px;
+
+}
+

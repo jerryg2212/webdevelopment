@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <script>
+            function loop(value, update, test, body){
+                for(start = value; test(value); update(value), body(value));
+                
+            }
+        </script>
+    </body>
+</html>

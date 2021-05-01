@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+
+        </style>
+    </head>
+    <body>
+
+        <script>
+
+            function seven(x) {
+                function inside(b){
+                    return x * b;
+                }
+                return inside;
+            }
+
+            let newNumber = seven(10);
+            let total = newNumber(5);
+            console.log(total);
+            result1 = seven(3)(7);
+            console.log(result1);
+        </script>
+    </body>
+</html>

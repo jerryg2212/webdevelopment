@@ -1,0 +1,16 @@
+doctype html 
+html 
+    head 
+        link(rel="stylesheet" href="styles.css")
+    body(id="loginRegisterBody" class="bodyBackgroundColor")
+        h1 Login
+        form(action="/login" method="POST")
+            if messages.error
+                p(id="loginRegisterErrorText")= "*" + messages.error
+            label(id="emailLabel" for="emailInput") Email
+            input(type="email" name="email" class="textInput")
+            label(id="passwordLabel" for="passwordInput") Password 
+            input(type="password" name="password" class="textInput")
+            button(type="submit" class="submitButton") Login
+            a(href="/register") Register
+

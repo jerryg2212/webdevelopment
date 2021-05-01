@@ -1,0 +1,30 @@
+.float{
+    float:right;
+    width:275px;
+    font-size:130%;
+    font-style:italic;
+    font-family: Georgia, Times, serif;
+    margin: 0 0 10px 10px;
+    padding: 10px;
+    border-top: 1px solid #665544;
+    border-bottom: 1px solid #665544;
+}
+p{
+    width:230px;
+    float:left;
+    margin:5px;
+    padding: 5px;
+    background-color: #efefef;
+    text-align:justify;
+}
+    
+p.f{
+    clear: left;
+}
+body{
+    border: 5px solid black;
+   
+}
+.s{
+  display:block;
+}

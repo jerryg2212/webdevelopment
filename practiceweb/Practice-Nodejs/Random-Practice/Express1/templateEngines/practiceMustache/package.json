@@ -1,0 +1,14 @@
+{
+  "name": "practicemustache",
+  "version": "1.0.0",
+  "description": "I am trying to learn template engines and views",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "jerry Gensiejewski",
+  "license": "ISC",
+  "dependencies": {
+    "mustache": "^4.1.0"
+  }
+}

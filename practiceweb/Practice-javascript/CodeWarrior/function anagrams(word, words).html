@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+
+        <script>
+
+function anagrams(word, words) {
+  let temp = [];
+  let newWord = words;
+  let cut;
+  let wordj;
+  let cutIndex;
+  let cutAt;
+  for( let i = 0; i < words.length; i++){
+    cut = words[i];
+    console.log(cut);
+    for( let j = 0; j < word.length; j++){
+      wordj = word[j];
+      console.log(cut);
+      console.log(wordj);
+      cutIndex = cut.indexOf(wordj);
+      console.log(cutIndex);
+      cutAt = cut.charAt(cutIndex);
+      cut = cut.replace(cutAt, '');
+    }
+    if(cut == ''){
+    temp.push(newWord[i]);
+      }
+  }
+  console.log(temp);
+  return temp;
+}
+anagrams('abba',['bbaa', 'abab', 'fgfg']);
+        </script>
+    </body>
+</html>
+

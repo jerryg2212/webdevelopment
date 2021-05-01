@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Async Practice</title>
+        <style>
+            .container{
+                background-color:aquamarine;
+                width: 500px;
+                margin: 100px auto;
+            }
+            body{
+                width:100%;
+            }
+            .container p {
+                margin: 10px;
+            }
+        </style>
+    </head>
+    <body>
+
+        <section id="container" class="container">
+            <h1 id="h1" class="h1"></h1>
+            <p id="time1" class="time1"></p>
+            <p id="time2" class="time2"></p>
+            <p id="time3" class="time3"></p>
+            <h2 id="h2" class="h2"></h2>
+
+        </section>
+
+        <script>
+            // declaring the paragraphs
+            const time1 = document.getElementById('time1');
+            const time2 = document.getElementById('time2');
+            const time3 = document.getElementById('time3');
+
+            // h1
+            const h1 = document.getElementById('h1');
+            h1.textContent = 'begin';
+
+            // Main function
+            function mainFunction() {
+                console.log(i);
+                i++;
+                if(i > 10){
+                    clearInterval(goes);
+                }
+            }
+            let i = 0;
+            
+              const goes = setInterval(mainFunction, 1000);
+
+              
+              function black() {
+                const time2 = setInterval( () => {
+                    let i = 10;
+                    if(i > 0) {
+                        console.log(i);
+                        i--;
+                    } 
+                }, 1000);
+
+              }
+              black();
+              console.log(' i am a gafffit');
+              
+            
+            
+        </script>
+    </body>
+</html>

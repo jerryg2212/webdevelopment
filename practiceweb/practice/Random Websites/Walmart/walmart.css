@@ -1,0 +1,27 @@
+div{
+    background-color: lightblue;
+    height: 180px;
+    width: 540px;
+    margin: 100px auto;
+}
+input{
+    
+    padding:15px 140px;
+    border: white solid 1px;
+    border-radius:5px;
+    margin:-80px 60px;
+}
+label{
+    color:orange;
+    text-align:center;
+    font-size: 22px;
+    font-weight:700;
+}
+form{
+    margin:5px auto;
+    display:block;
+}
+p{
+    text-align:center;
+    padding-top: 20px;
+}

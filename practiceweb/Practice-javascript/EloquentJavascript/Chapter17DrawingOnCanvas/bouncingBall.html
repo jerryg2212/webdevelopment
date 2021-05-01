@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head><style>
+        #ball{
+            width: 5px;
+            height: 5px;
+            border-radius: 2px;
+            background-color: blue;
+            position: absolute;
+            top: 50%;
+            left: 10px;
+        }
+    </style></head>
+    <body>
+        <script>
+            function bouncingBall(){
+                let container = document.createElement('div');
+                container.id = 'container';
+                container.style.width = "500px";
+                container.style.height = '300px';
+                container.style.position = 'relative';
+                let ball = document.createElement('div');
+                ball.id = 'ball';
+                container.appendChild(ball);
+                document.body.appendChild(container);
+                let movement = 5;
+                let times = 1;
+                function moveBall(){
+                    if (times > 1000) return
+                    containerRight = document.getElementById('container').getBoundingClientRect().right;
+                    containerLeft = document.getElementById('container').getBoundingClientRect().left;
+                    ballRight = document.getElementById('ball').getBoundingClientRect().right;
+                    ballLeft = document.getElementById('ball').getBoundingClientRect().left;
+                    if(ballLeft < containerLeft + 5 || ballRight > containerRight - 5){
+                        console.log(`ballLeft: ${ballLeft} containerLeft: ${containerLeft} ballRight: ${ballRight} containerRight ${containerRight}`);
+                        console.log('switch');
+                        movement = movement * -1;
+                    }
+                    console.log(getComputedStyle(document.getElementById('ball')).left);
+                    let d = getComputedStyle(document.getElementById('ball')).left.match(/[0-9]*/);
+                    console.log(parseInt(d[0]) + movement); 
+                    ball.style.left = `${parseInt(d[0]) + movement}px`;
+                    times ++;
+                    window.requestAnimationFrame(moveBall);
+
+                    //console.log(containerRight);
+                }
+                moveBall();
+
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,26 @@
+img + p{
+    color: grey;
+    font-size:14px;
+}
+img{
+    padding: 0 5px;
+
+}
+.special{
+    display:inline;
+}
+div{
+    display:inline-flex
+}
+div p {
+    display:block
+}
+.flex{
+    display: flx;
+}
+tr td{
+    color: green;
+}
+ul{
+    display: block;
+}

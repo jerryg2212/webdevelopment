@@ -1,0 +1,743 @@
+
+
+<!doctype html>
+<html lang="en-US">
+<head data-template-path="https://hacks.mozilla.org/wp-content/themes/Hax">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-site-verification" content="w2ocEMd5yV9IsGCjhq-7ls67r4VH-Ob6oWdiZpqjN8U">
+
+  
+  <meta name="title" content="Using Feature Queries in CSS – Mozilla Hacks - the Web developer blog">
+  <meta name="description" content="There’s a tool in CSS that you might not have heard of yet. It&#8217;s powerful. It&#8217;s been there for a while. And it&#8217;ll likely become one of your favorite new ...">
+
+    <meta property="og:site_name" content="Mozilla Hacks &#8211; the Web developer blog">
+  <meta property="og:url" content="https://hacks.mozilla.org/2016/08/using-feature-queries-in-css">
+  <meta property="og:title" content="Using Feature Queries in CSS – Mozilla Hacks - the Web developer blog">
+  <meta property="og:description" content="There’s a tool in CSS that you might not have heard of yet. It&#8217;s powerful. It&#8217;s been there for a while. And it&#8217;ll likely become one of your favorite new ...">
+  <meta property="og:image" content="https://hacks.mozilla.org/wp-content/themes/Hax/img/hacks-meta-image.jpg">
+
+    <meta property="twitter:title" content="Using Feature Queries in CSS – Mozilla Hacks - the Web developer blog">
+  <meta property="twitter:description" content="There’s a tool in CSS that you might not have heard of yet. It&#8217;s powerful. It&#8217;s been there for a while. And it&#8217;ll likely become one of your favorite new ...">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta property="twitter:image" content="https://hacks.mozilla.org/wp-content/themes/Hax/img/hacks-meta-image.jpg">
+  <meta name="twitter:site" content="@mozhacks">
+
+  <link href='//fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,700italic' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://2r4s9p1yi1fa2jd7j43zph8r-wpengine.netdna-ssl.com/wp-content/themes/Hax/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://2r4s9p1yi1fa2jd7j43zph8r-wpengine.netdna-ssl.com/wp-content/themes/Hax/style.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/8.6.0/styles/solarized_light.min.css">
+
+  <script type="text/javascript">
+    window.hacks = {};
+    // http://cfsimplicity.com/61/removing-analytics-clutter-from-campaign-urls
+    var removeUtms  =   function(){
+        var l = window.location;
+        if( l.hash.indexOf( "utm" ) != -1 ){
+            var anchor = l.hash.match(/#(?!utm)[^&]+/);
+            anchor  =   anchor? anchor[0]: '';
+            if(!anchor && window.history.replaceState){
+                history.replaceState({},'', l.pathname + l.search);
+            } else {
+                l.hash = anchor;
+            }
+        };
+    };
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-35433268-8'],
+              ['_setAllowAnchor', true]);
+    _gaq.push (['_gat._anonymizeIp']);
+    _gaq.push(['_trackPageview']);
+    _gaq.push( removeUtms );
+    (function(d, k) {
+      var ga = d.createElement(k); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = 'https://ssl.google-analytics.com/ga.js';
+      var s = d.getElementsByTagName(k)[0]; s.parentNode.insertBefore(ga, s);
+    })(document, 'script');
+  </script>
+
+  <meta name="blog-name" content="Mozilla Hacks - the Web developer blog" />
+<link rel="alternate" hreflang="en" href="https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/" />
+
+	<!-- This site is optimized with the Yoast SEO plugin v14.1 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>Using Feature Queries in CSS - Mozilla Hacks - the Web developer blog</title>
+	<meta name="robots" content="index, follow" />
+	<meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+	<meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+	<link rel="canonical" href="https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://hacks.mozilla.org/#website","url":"https://hacks.mozilla.org/","name":"Mozilla Hacks - the Web developer blog","description":"hacks.mozilla.org","potentialAction":[{"@type":"SearchAction","target":"https://hacks.mozilla.org/?s={search_term_string}","query-input":"required name=search_term_string"}],"inLanguage":"en-US"},{"@type":"ImageObject","@id":"https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/#primaryimage","inLanguage":"en-US","url":"https://hacks.mozilla.org/files/2016/08/border-radius.png","width":950,"height":300,"caption":"a screenshot of border radius effect in old vs new browsers"},{"@type":"WebPage","@id":"https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/#webpage","url":"https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/","name":"Using Feature Queries in CSS - Mozilla Hacks - the Web developer blog","isPartOf":{"@id":"https://hacks.mozilla.org/#website"},"primaryImageOfPage":{"@id":"https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/#primaryimage"},"datePublished":"2016-08-17T13:00:26+00:00","dateModified":"2017-02-02T23:19:28+00:00","author":{"@id":"https://hacks.mozilla.org/#/schema/person/3d500d28665a22974d584da9a8677cf0"},"inLanguage":"en-US","potentialAction":[{"@type":"ReadAction","target":["https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/"]}]},{"@type":["Person"],"@id":"https://hacks.mozilla.org/#/schema/person/3d500d28665a22974d584da9a8677cf0","name":"Jen Simmons","image":{"@type":"ImageObject","@id":"https://hacks.mozilla.org/#personlogo","inLanguage":"en-US","url":"https://secure.gravatar.com/avatar/d83926c323d4f9289f947b4b4e76b939?s=96&d=mm&r=g","caption":"Jen Simmons"},"description":"Jen Simmons is a Designer and Developer Advocate at Mozilla, specializing in CSS and layout design on the web. She is a member of the CSS Working Group, and speaks at many conferences including An Event Apart, SXSW, Fluent, Smashing Conf and more.","sameAs":["https://twitter.com/jensimmons"]}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel='dns-prefetch' href='//blog.mozilla.org' />
+<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="Mozilla Hacks - the Web developer blog &raquo; Feed" href="https://hacks.mozilla.org/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Mozilla Hacks - the Web developer blog &raquo; Comments Feed" href="https://hacks.mozilla.org/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Mozilla Hacks - the Web developer blog &raquo; Using Feature Queries in CSS Comments Feed" href="https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/feed/" />
+<link rel='stylesheet' id='wp-block-library-css'  href='https://2r4s9p1yi1fa2jd7j43zph8r-wpengine.netdna-ssl.com/wp-includes/css/dist/block-library/style.min.css?ver=5.4.1' type='text/css' media='all' />
+<link rel='stylesheet' id='wpml-legacy-post-translations-0-css'  href='//blog.mozilla.org/hacks/wp-content/plugins/sitepress-multilingual-cms/templates/language-switchers/legacy-post-translations/style.css?ver=1' type='text/css' media='all' />
+<script type='text/javascript' src='https://2r4s9p1yi1fa2jd7j43zph8r-wpengine.netdna-ssl.com/wp-includes/js/jquery/jquery.js?ver=1.12.4-wp'></script>
+<script type='text/javascript' src='https://2r4s9p1yi1fa2jd7j43zph8r-wpengine.netdna-ssl.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<script type='text/javascript' src='https://2r4s9p1yi1fa2jd7j43zph8r-wpengine.netdna-ssl.com/wp-content/themes/Hax/js/analytics.js?ver=5.4.1'></script>
+<link rel='https://api.w.org/' href='https://hacks.mozilla.org/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://hacks.mozilla.org/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://hacks.mozilla.org/wp-includes/wlwmanifest.xml" /> 
+<link rel='shortlink' href='https://hacks.mozilla.org/?p=30136' />
+<link rel="alternate" type="application/json+oembed" href="https://hacks.mozilla.org/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fhacks.mozilla.org%2F2016%2F08%2Fusing-feature-queries-in-css%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://hacks.mozilla.org/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fhacks.mozilla.org%2F2016%2F08%2Fusing-feature-queries-in-css%2F&#038;format=xml" />
+<meta name="generator" content="WPML ver:4.3.11 stt:59,61,1,2;" />
+<link rel="shortcut icon" type="image/x-icon" href="https://2r4s9p1yi1fa2jd7j43zph8r-wpengine.netdna-ssl.com/wp-content/themes/Hax/favicon.ico" /><style>#wpadminbar #wp-admin-bar-site-name>.ab-item:before { content: none !important;}li#wp-admin-bar-site-name a { background: url( "https://2r4s9p1yi1fa2jd7j43zph8r-wpengine.netdna-ssl.com/wp-content/themes/Hax/favicon.ico" ) left center/20px no-repeat !important; padding-left: 21px !important; background-size: 20px !important; } li#wp-admin-bar-site-name { margin-left: 5px !important; } li#wp-admin-bar-site-name {} #wp-admin-bar-site-name div a { background: none !important; }
+</style></head>
+<body>
+  <div class="outer-wrapper">
+    <header class="section section--fullwidth header">
+      <div class="masthead row">
+        <div class="branding block block--3">
+          <h1>
+            <a href="https://hacks.mozilla.org">
+              <img class="branding__logo" src="https://2r4s9p1yi1fa2jd7j43zph8r-wpengine.netdna-ssl.com/wp-content/themes/Hax/img/mdn-logo-mono.svg">
+              <img class="branding__wordmark" src="https://2r4s9p1yi1fa2jd7j43zph8r-wpengine.netdna-ssl.com/wp-content/themes/Hax/img/wordmark.svg" alt="Mozilla">
+              <span class="branding__title">Hac<span class="logo-askew">k</span>s</span>
+            </a>
+          </h1>
+        </div>
+        <div class="search block block--2">
+          <form class="search__form" method="get" action="https://hacks.mozilla.org/">
+            <input type="search" name="s" class="search__input" placeholder="Search Mozilla Hacks" value="">
+            <i class="fa fa-search search__badge"></i>
+          </form>
+        </div>
+        <nav class="social">
+          <a class="social__link youtube" href="http://www.youtube.com/user/mozhacks" title="YouTube"><i class="fa fa-youtube" aria-hidden="true"></i><span>Hacks on YouTube</span></a>
+          <a class="social__link twitter" href="https://twitter.com/mozhacks" title="Twitter"><i class="fa fa-twitter" aria-hidden="true"></i><span>@mozhacks on Twitter</span></a>
+          <a class="social__link rss" href="https://hacks.mozilla.org/feed/" title="RSS Feed"><i class="fa fa-rss" aria-hidden="true"></i><span>Hacks RSS Feed</span></a>
+          <a class="fx-button" href="https://www.mozilla.org/firefox/download/thanks/?utm_source=hacks.mozilla.org&utm_medium=referral&utm_campaign=header-download-button&utm_content=header-download-button">Download Firefox</a>
+        </nav>
+      </div>
+    </header>
+
+  
+<div id="content-head" class="section">
+  <h1 class="post__title">Using Feature Queries in CSS</h1>
+  <div class="byline">
+    <h3 class="post__author">
+                      <img alt='Jen Simmons' src='https://2r4s9p1yi1fa2jd7j43zph8r-wpengine.netdna-ssl.com/files/2016/08/Jen-Simmons_avatar_1471386559-64x64.jpg' class='avatar avatar-64 photo' height='64' width='64' />        By
+                                        <a class="url" href="http://jensimmons.com" rel="external me">Jen Simmons</a>                            </h2>
+    <div class="post__meta">
+      Posted on
+      <abbr class="published" title="2016-08-17T06:00:26-07:00">
+        August 17, 2016      </abbr>
+      <span class="entry-cat">in
+        <a href="https://hacks.mozilla.org/category/css/" rel="category tag" title="View all posts in CSS" >CSS</a> and <a href="https://hacks.mozilla.org/category/featured/" rel="category tag" title="View all posts in Featured Article" >Featured Article</a>      </span>
+            <div class="socialshare" data-type="bubbles"></div>
+    </div>
+  </div>
+</div>
+
+<main id="content-main" class="section article">
+  <article class="post" role="article">
+    <p>There’s a tool in CSS that you might not have heard of yet. It&#8217;s powerful. It&#8217;s been there for a while. And it&#8217;ll likely become one of your favorite new things about CSS.</p>
+<p>Behold, the <code>@supports</code> rule. Also known as <a href="http://www.w3.org/TR/css3-conditional/#at-supports">Feature Queries</a>.</p>
+<p>With <code>@supports</code>, you can write a small test in your CSS to see whether or not a particular “feature” (CSS property or value) is supported, and apply a block of code (or not) based on the answer. Like this:</p>
+<pre><code>@supports (display: grid) {
+   // code that will only run if CSS Grid is supported by the browser 
+ }
+</code></pre>
+<p>If the browser understands <code>display: grid</code>, then all of the styling inside the brackets will be applied. Otherwise all of that styling will be skipped.</p>
+<p>Now, there seems to be a bit of confusion about what Feature Queries are for. This is not some kind of external verification that analyzes whether or not a browser has <em>properly</em> implemented a CSS property. If you are looking for that, <a href="http://testthewebforward.org">look elsewhere</a>. Feature Queries ask the browser to self-report on whether or not a certain CSS property/value is supported, and use the answer to decide whether or not to apply a block of CSS. If a browser has implemented a feature improperly or incompletely, <code>@supports</code> won’t help you. If the browser is misreporting what CSS it supports, <code>@supports</code> won’t help you. It’s not a magic wand for making browser bugs disappear.</p>
+<p>That said, I’ve found <code>@supports</code> to be incredibly helpful. The <code>@supports</code> rule has repeatedly let me use new CSS far earlier than I could without it. </p>
+<p>For years, developers have used <a href="https://modernizr.com">Modernizr</a> to do what Feature Queries do — but Modernizr requires JavaScript. While the scripts might be tiny, CSS architected with Modernizr requires the JavaScript file to download, to execute, and to complete before the CSS is applied. Involving JavaScript will always be slower than only using CSS. Requiring JavaScript opens up the possibility of failure — what happens if the JavaScript doesn’t execute? Plus, Modernizr requires an additional layer of complexity that many projects just can’t handle. Feature Queries are faster, more robust, and much simpler to use. </p>
+<p>You might notice the syntax of a Feature Query is a lot like a Media Query. I think of them as cousins.</p>
+<pre><code>@supports (display: grid) {
+  main {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+</code></pre>
+<p>Now most of the time, you do not need such a test in your CSS. For example, you can write this code without testing for support:</p>
+<pre><code>aside {
+  border: 1px solid black;
+  border-radius: 1em;
+}
+</code></pre>
+<p>If a browser understands <code>border-radius</code>, then it will put rounded corners on the <code>aside</code> box. If it doesn&#8217;t, it will skip that line of code and move on, leaving the edges of the box to be square. There is no reason to run a test or use a Feature Query. This is just how CSS works. It’s a fundamental principle in <a href="http://jensimmons.com/presentation/progressing-our-layouts">architecting solid, progressively-enhanced CSS</a>. Browsers simply skip over code they don’t understand, without throwing an error.</p>
+<figure>
+<img src="https://2r4s9p1yi1fa2jd7j43zph8r-wpengine.netdna-ssl.com/files/2016/08/border-radius.png" alt="a screenshot of border radius effect in  old vs new browsers" width="950" height="300" class="alignleft size-full wp-image-30137" srcset="https://hacks.mozilla.org/files/2016/08/border-radius.png 950w, https://hacks.mozilla.org/files/2016/08/border-radius-250x79.png 250w, https://hacks.mozilla.org/files/2016/08/border-radius-768x243.png 768w, https://hacks.mozilla.org/files/2016/08/border-radius-500x158.png 500w" sizes="(max-width: 950px) 100vw, 950px" /><figcaption>Most browsers will display <code>border-radius: 1em</code> as the result on the right. Internet Explorer 6, 7 and 8, however, will not round the corners, and you’ll see the result on the left. Check out this example at <a href="http://codepen.io/jensimmons/pen/EydmkK?editors=1100">codepen.io/jensimmons/pen/EydmkK</a> </figcaption></figure>
+<p>You do not need a Feature Query for this.</p>
+<p>So when do you want to use <code>@supports</code>? A Feature Query is a tool for bundling together CSS declarations so that they’ll run as a group under certain conditions. Use a Feature Query when you want to apply a mix of old and new CSS, but only when the new CSS is supported. </p>
+<p>Let’s look at an example using the Initial Letter property. This new property <code>initial-letter</code> tells the browser to make the element in question bigger — like for a drop cap. Here, the first letter of the first word in a paragraph is being told to be the size of four lines of text. Fabulous. Oh, but I would also like to make that letter bold, and put a bit of margin on its right side, and hey, let&#8217;s make it a nice orange color. Cool.</p>
+<pre><code>  p::first-letter {
+     -webkit-initial-letter: 4;
+     initial-letter: 4;
+     color: #FE742F;
+     font-weight: bold;
+     margin-right: 0.5em;
+  }
+</code></pre>
+<figure>
+<img src="https://2r4s9p1yi1fa2jd7j43zph8r-wpengine.netdna-ssl.com/files/2016/08/intial-letter-1.gif" alt="a screenshot of this example Initial Letter in Safari 9" width="870" height="348" class="alignleft size-full wp-image-30139" /><figcaption>Here’s what our initial-letter example looks like in Safari 9.</figcaption></figure>
+<p>Now let’s see what will happen in all the other browsers…</p>
+<figure>
+<img src="https://2r4s9p1yi1fa2jd7j43zph8r-wpengine.netdna-ssl.com/files/2016/08/intial-letter-2.png" alt="a screenshot of this Initial Letter example in other browsers" width="870" height="348" class="alignleft size-full wp-image-30140" srcset="https://hacks.mozilla.org/files/2016/08/intial-letter-2.png 870w, https://hacks.mozilla.org/files/2016/08/intial-letter-2-250x100.png 250w, https://hacks.mozilla.org/files/2016/08/intial-letter-2-768x307.png 768w, https://hacks.mozilla.org/files/2016/08/intial-letter-2-500x200.png 500w" sizes="(max-width: 870px) 100vw, 870px" /><figcaption>Oh, no. This looks terrible in all the other browsers.</figcaption></figure>
+<p>Well, that’s not acceptable. We don&#8217;t want to change the color of the letter, or add a margin, or make it bold unless it&#8217;s also going to be made bigger by the Initial Letter property. We need a way to test and see whether or not the browser understands <code>initial-letter</code>, and only apply the change to color, weight, and margin if it does. Enter the Feature Query. </p>
+<pre><code>@supports (initial-letter: 4) or (-webkit-initial-letter: 4) {
+  p::first-letter {
+     -webkit-initial-letter: 4;
+     initial-letter: 4;
+     color: #FE742F;
+     font-weight: bold;
+     margin-right: 0.5em;
+  }
+}
+</code></pre>
+<p>Notice, you do need to test a full string with both the property and value. This confused me at first. Why am I testing <code>initial-letter: 4</code> ? Is the value of 4 important? What if I put 17? Does it need to match the value that is further down in my code? </p>
+<p>The <code>@supports</code> rule tests a string that contains both the property and value because sometimes it’s the property that needs the test, and sometimes it’s the value. For the <code>initial-letter</code> example, it doesn’t really matter what you put for the value. But consider <code>@supports (display: grid)</code> and you’ll see the need for both. Every browser understands <code>display</code>. Only experimental browsers understand <code>display: grid</code> (at the moment). </p>
+<p>Back to our example: Currently <code>initial-letter</code> is only supported in Safari 9, and it requires a prefix. So I&#8217;ve written the prefix, making sure to also include the unprefixed version, and I&#8217;ve written the test to look for one or the other. Yes, you can have <code>or</code>, <code>and</code>, and <code>not</code> statements in your Feature Queries.</p>
+<p>Here’s the new result. The browsers that understand <code>initial-letter</code> show a giant bolded, orange drop-cap. The other browsers act like the drop cap doesn&#8217;t exist — the same way they would if I’d waited to use this feature until more browsers had support for it. (We are currently implementing Initial Letter in Firefox, by the way.)</p>
+<figure>
+<img src="https://2r4s9p1yi1fa2jd7j43zph8r-wpengine.netdna-ssl.com/files/2016/08/intial-letter-with-and-without.gif" alt="a before and after comparison " width="1740" height="590" class="alignleft size-full wp-image-30141" /><figcaption>The screenshot on the left is from Safari 9. All other browsers show the result on the right. You can see this code in action at <a href="http://codepen.io/jensimmons/pen/ONvdYL?editors=1100">codepen.io/jensimmons/pen/ONvdYL</a> </figcaption></figure>
+<h2>Organizing Your Code</h2>
+<p>Now you might be tempted to use this tool to cleanly fork your code into two branches. “Hey browser, if you understand Viewport Units, do this, and if you do not understand them, do this other thing.” That feels nice and tidy. </p>
+<pre><code>@supports (height: 100vh) {
+  // my layout that uses viewport height
+}
+@supports not (height: 100vh) {
+  // the alternative layout for older browsers
+}
+// WE MIGHT WISH. BUT THIS IS BAD CODE.
+</code></pre>
+<p>This is not a good idea — at least not yet. Do you see the problem? </p>
+<p>Well, not all browsers support Feature Queries. And the browsers that do not understand <code>@supports</code> will skip over both blocks of code. That’s probably bad.</p>
+<p>Does this mean we can’t use Feature Queries until 100% of browsers support them? Nope. We can, and we should use Feature Queries today. Simply do not write your code like the last example.</p>
+<p>How do we do this right? Well, in much the same way we used Media Queries before they were 100% supported. And well, actually it’s easier to use Feature Queries in this transitional period than it was to use Media Queries. You just have to be smart about it. </p>
+<p>You want to structure your code knowing that the oldest browsers won’t support Feature Queries or the feature you are testing for. I’ll show you how.</p>
+<p>(Of course, sometime in the far future, once 100% of the browsers have Feature Queries, we can make heavier use of <code>@supports not</code> and organize our code in that way. But it’ll be many years until we get there.)</p>
+<h2>Support for Feature Queries</h2>
+<p>So how far back are Feature Queries supported? </p>
+<p>Well <code>@supports</code> has worked in Firefox, Chrome, and Opera since mid&#8211;2013. It also works in every version of Edge. Safari shipped it in Fall 2015, in Safari 9. Feature Queries are not supported in any version of Internet Explorer, Opera Mini, Blackberry Browser, or UC Browser. </p>
+<figure>
+<a href="http://caniuse.com/#feat=css-featurequeries"><img src="https://2r4s9p1yi1fa2jd7j43zph8r-wpengine.netdna-ssl.com/files/2016/08/Can-I-Use-Feature-Queries.gif" alt="a screenshot from Can I Use showing support for Feature Queries" width="1098" height="794" class="alignleft size-full wp-image-30142" /></a><figcaption>Looking up support for <a href="http://caniuse.com/#feat=css-featurequeries">Feature Queries on Can I Use</a></figcaption></figure>
+<p>You might think the fact Internet Explorer doesn’t have support for Feature Queries is a big problem. Actually, it’s usually not. I’ll show you why in a moment. I believe the biggest hurdle is Safari 8. We need to keep an eye out for what happens there. </p>
+<p>Let’s look at another example. Say we have some layout code we want to apply that requires using <code>object-fit: cover</code> in order to work properly. For the browsers that don’t understand <code>object-fit</code>, we want to apply different layout CSS.</p>
+<figure>
+<a href="http://caniuse.com/#feat=object-fit"><img src="https://2r4s9p1yi1fa2jd7j43zph8r-wpengine.netdna-ssl.com/files/2016/08/Can-I-Use-Object-Fit.gif" alt="a screenshot from Can I Use showing support for Object-fit" width="1098" height="895" class="alignleft size-full wp-image-30138" /></a><figcaption>Looking up support for <a href="http://caniuse.com/#feat=object-fit">Object Fit on Can I Use</a></figcaption></figure>
+<p>So let’s write:</p>
+<pre><code>div {
+  width: 300px;
+  background: yellow;
+  // some complex code for a fallback layout
+}
+@supports (object-fit: cover) {
+  img {
+    object-fit: cover;
+  }
+  div {
+    width: auto;
+    background: green;
+   // some other complex code for the fancy new layout
+  }
+}
+</code></pre>
+<p>So what happens? Feature Queries is either supported or not, and the new feature <code>object-fit: cover</code> is either supported or not. Combine those, and we get four possibilities:</p>
+<table>
+<thead>
+<tr>
+<th>Feature Query Support?</th>
+<th>Feature support?</th>
+<th>What Happens?</th>
+<th>Is This What We Want?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Supports Feature Queries</td>
+<td>Supports the feature in question</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Supports Feature Queries</td>
+<td>Does not support the feature</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Does not support Feature Queries</td>
+<td>Does not support the feature</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Does not support Feature Queries</td>
+<td>Supports the feature in question</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3>Situation 1: Browsers that support Feature Queries, and support the feature in question</h3>
+<p>Firefox, Chrome, Opera, and Safari 9 all support <code>object-fit</code> and support <code>@supports</code>, so this test will run just fine, and the code inside this block will be applied. Our image will be cropped using <code>object-fit: cover</code>, and our <code>div</code> background will be green. </p>
+<h3>Situation 2: Browsers that support Feature Queries, and do not support the feature in question</h3>
+<p>Edge does not support <code>object-fit</code>, but it does support <code>@supports</code>, so this test will run and fail, preventing the code block from being applied. The image will not have <code>object-fit</code> applied, and the <code>div</code> will have a yellow background. </p>
+<p>This is what we want.</p>
+<h3>Situation 3: Browsers that do not support Feature Queries, and do not support the feature in question</h3>
+<p>This is where our classic nemesis Internet Explorer appears. IE does not understand <code>@supports</code> and it does not understand <code>object-fit</code>. You might think this means we can’t use a Feature Query — but that’s not true. </p>
+<p>Think about the result we want. We want IE to skip over this entire block of code. And that’s exactly what will happen. Why? Because when it reaches <code>@supports</code>, it doesn’t recognize the syntax, and it skips to the end. </p>
+<p>It might be skipping the code “for the wrong reasons” — it skips over the code because it doesn’t understand <code>@supports</code>, instead of because it doesn’t understand <code>object-fit</code> — but who cares! We still get exactly the result we want. </p>
+<p>This same thing happens with the Blackberry Browser and UC Browser for Android. They don’t understand <code>object-fit</code>, nor <code>@supports</code>, so we are all set. It works out great.</p>
+<p>The bottom line — anytime you use a Feature Query in a browser that does not support Feature Queries, it’s fine as long as that browser also does not support the feature you are testing. </p>
+<p>Think through the logic of your code. Ask yourself, what happens when the browser skips over this code? If that’s what you want, you are all set.</p>
+<h3>Situation 4: Browsers that support do not Feature Queries, yet do support the feature in question</h3>
+<p>The problem is this fourth combination — when the test proposed by a Feature Query doesn’t run, but the browser does support that feature and should run that code. </p>
+<p>For example, <code>object-fit</code> is supported by Safari 7.1 (on Mac) and 8 (Mac and iOS) — but neither browser supports Feature Queries. The same is true for Opera Mini — it will support <code>object-fit</code> but not <code>@supports</code>. </p>
+<p>What happens? Those browsers get to this block of code, and instead of using the code, applying <code>object-fit:cover</code> to the image and turning the background color of the <code>div</code> green, it skips the whole block of code, leaving yellow as the background color. </p>
+<p>And this is not really what we want. </p>
+<table>
+<thead>
+<tr>
+<th>Feature Query Support?</th>
+<th>Feature support?</th>
+<th>What Happens?</th>
+<th>Is This What We Want?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Supports Feature Queries</td>
+<td>Supports the feature in question</td>
+<td>CSS is applied</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Supports Feature Queries</td>
+<td>Does not support the feature</td>
+<td>CSS is not applied</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Does not support Feature Queries</td>
+<td>Does not support the feature</td>
+<td>CSS is not applied</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Does not support Feature Queries</td>
+<td>Supports the feature in question</td>
+<td>CSS is not applied</td>
+<td>No, likely not.</td>
+</tr>
+</tbody>
+</table>
+<p>Of course, it depends on the particular use case. Perhaps this is a result we can live with. The older browser gets an experience planned for older browsers. The web page still works. </p>
+<p>But much of the time, we will want that browser to be able to use any feature that it does support. This is why Safari 8 is likely the biggest problem when it comes to Feature Queries, not Internet Explorer. There are many newer properties that Safari 8 does support — like Flexbox. You probably don’t want to block Safari 8 from these properties. That’s why I rarely use <code>@supports</code> with Flexbox, or when I have, I’ve written at least three forks in my code, one with a <code>not</code>. (Which gets complicated fast, so I’m not even going to try to explain it here.) </p>
+<p>If you are using a feature that has better support in older browsers than Feature Queries, then think through all of the combinations as you write your code. Be sure not to exclude browsers from getting something you want them to get.</p>
+<p>Meanwhile, it’s easy to use <code>@supports</code> with the newest CSS features — CSS Grid for example, and Initial Letter. No browser will ever support CSS Grid without supporting Feature Queries. We don’t have to worry about our fourth, problematic combination with the newest features, which makes Feature Queries incredibly useful as we go forward.</p>
+<p>All of this means that while IE11 will likely be around for many years to come, we can use Feature Queries liberally with the newest advances in CSS.</p>
+<h2>Best Practices</h2>
+<p>So now we realize why we can’t write our code like this: </p>
+<pre><code>@supports not (display: grid) {
+    // code for older browsers
+    // DO NOT COPY THIS EXAMPLE
+}
+@supports (display: grid) {
+    // code for newer browsers
+    // DID I SAY THIS IS REALLY BAD?
+}
+</code></pre>
+<p>If we do, we’ll stop the older browsers from getting the code they need.</p>
+<p>Instead, structure your code like this:</p>
+<pre><code>// fallback code for older browsers
+
+@supports (display: grid) {
+    // code for newer browsers
+    // including overrides of the code above, if needed
+}
+</code></pre>
+<p>This is exactly the strategy we applied to using Media Queries when supporting old versions of IE. This strategy is what gave rise to the phrase “mobile first”. </p>
+<p>I expect CSS Grid to land in browsers in 2017, and I bet we will use Feature Queries quite a lot when implementing future layouts. It’s going to be much less of a hassle, and much faster, than involving JavaScript. And <code>@supports</code> will let us doing interesting and complex things for browsers that support CSS Grid, while providing layout options for the browser that don’t. </p>
+<p>Feature Queries have been around since mid&#8211;2013. With the imminent release of Safari 10, I believe it&#8217;s past time for us to add <code>@supports</code> to our toolbox.</p>
+    <section class="about">
+                                <h2 class="about__header">About
+                          <a class="url" href="http://jensimmons.com" rel="external me">
+                Jen Simmons              </a>
+                      </h3>
+                      <p>Jen Simmons is a  Designer and Developer Advocate at Mozilla, specializing in CSS and layout design on the web. She is a member of the CSS Working Group, and speaks at many conferences including An Event Apart, SXSW, Fluent, Smashing Conf and more.</p>
+                    <ul class="author-meta fa-ul"><li><i class="fa-li fa fa-globe"></i><a href="http://jensimmons.com" class="website" rel="me">jensimmons.com</a></li><li><i class="fa-li fa fa-twitter"></i><a href="http://twitter.com/jensimmons" class="twitter" rel="me">@jensimmons</a></li></ul>            <p><a class="url" href="https://hacks.mozilla.org/author/jsimmonsmozilla-com/">More articles by Jen Simmons&hellip;</a></p>
+                  </section>
+  </article>
+  <section class="promo">
+    <form id="newsletterForm" name="newsletter-form" class="newsletter block block--1 block--polite" action="https://www.mozilla.org/en-US/newsletter/" method="post">
+  <h2 class="heading">Discover great resources for web development</h2>
+  <p class="newsletter__description">Sign up for the Mozilla Developer Newsletter:</p>
+  <input id="fmt" name="fmt" value="H" type="hidden">
+  <input id="newsletterNewslettersInput" name="newsletters" value="app-dev" type="hidden">
+
+  <div id="newsletterErrors" class="newsletter__errors"></div>
+
+  <div id="newsletterEmail" class="form__row">
+    <label for="newsletterEmailInput" class="offscreen">E-mail</label>
+    <input id="newsletterEmailInput" name="email" class="newsletter__input" required="" placeholder="you@example.com" size="30" type="email">
+  </div>
+
+  <div id="newsletterPrivacy" class="form__row form__fineprint">
+    <input id="newsletterPrivacyInput" name="privacy" required="" type="checkbox">
+    <label for="newsletterPrivacyInput">
+      I'm okay with Mozilla handling my info as explained in this <a href="https://www.mozilla.org/privacy/">Privacy Policy</a>.
+    </label>
+  </div>
+  <button id="newsletter-submit" type="submit" class="button positive">Sign up now</button>
+</form>
+<div id="newsletterThanks" class="newsletter newsletter--thanks block block--1 block--polite hidden">
+  <h2 class="heading">Thanks! Please check your inbox to confirm your subscription.</h2>
+  <p>If you haven’t previously confirmed a subscription to a Mozilla-related newsletter you may have to do so. Please check your inbox or your spam filter for an email from us.
+  </p>
+</div>
+  </section>
+  
+
+<section class="discussion">
+  <hr class="dino">
+  <div class="comments">
+    <header class="comments__head">
+      <h3>16 comments</h3>
+    </header>
+
+          <ol class="comments__list" class="hfeed">
+      
+ <li id="comment-20109" class="comment even thread-even depth-1">
+      <b class="comment__title vcard">
+      <cite class="author fn">Flimm</cite>
+    </b>
+  
+    
+    <blockquote class="comment__body">
+      <p>Does this support nesting? Can you have media queries with @supports blocks?</p>
+    </blockquote>
+
+    <a class="comment__meta" href="https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/#comment-20109" rel="bookmark" title="Permanent link to this comment by Flimm"><abbr class="published" title="2016-08-17">August 17th, 2016</abbr> at 08:11</a>
+
+      <p class="comment__util"> </p>
+  <ol class="children">
+
+ <li id="comment-20112" class="comment byuser comment-author-jsimmonsmozilla-com bypostauthor odd alt depth-2">
+      <b class="comment__title vcard">
+      <cite class="author fn">Jen Simmons</cite>
+    </b>
+  
+    
+    <blockquote class="comment__body">
+      <p>As I was writing this article, I wondered if nesting worked — nesting a @supports inside another @supports. I didn&#8217;t take a moment to test it, however, to find out. And I didn&#8217;t test nesting @supports inside @media (Or @media inside @supports). I expect that they would all work. But testing is needed.</p>
+    </blockquote>
+
+    <a class="comment__meta" href="https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/#comment-20112" rel="bookmark" title="Permanent link to this comment by Jen Simmons"><abbr class="published" title="2016-08-18">August 18th, 2016</abbr> at 09:03</a>
+
+      <p class="comment__util"> </p>
+  </li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+
+ <li id="comment-20110" class="comment even thread-odd thread-alt depth-1">
+      <b class="comment__title vcard">
+      <cite class="author fn">Daniel Furze</cite>
+    </b>
+  
+    
+    <blockquote class="comment__body">
+      <p>What a great post Jen, really well written up :)</p>
+<p>I&#8217;ve been playing with @supports to implement basic grid layouts and provide fallbacks, so I&#8217;m really enjoying the way you show how to do this. I didn&#8217;t know about those quirks of Safari and that 4th situation you can get stuck in!</p>
+<p>Thank you!</p>
+    </blockquote>
+
+    <a class="comment__meta" href="https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/#comment-20110" rel="bookmark" title="Permanent link to this comment by Daniel Furze"><abbr class="published" title="2016-08-18">August 18th, 2016</abbr> at 01:22</a>
+
+      <p class="comment__util"> </p>
+  <ol class="children">
+
+ <li id="comment-20113" class="comment byuser comment-author-jsimmonsmozilla-com bypostauthor odd alt depth-2">
+      <b class="comment__title vcard">
+      <cite class="author fn">Jen Simmons</cite>
+    </b>
+  
+    
+    <blockquote class="comment__body">
+      <p>Thanks Daniel! I do think @supports will be heavily used as we transition to CSS Grid next year. And yay for Safari 8 fading away!</p>
+    </blockquote>
+
+    <a class="comment__meta" href="https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/#comment-20113" rel="bookmark" title="Permanent link to this comment by Jen Simmons"><abbr class="published" title="2016-08-18">August 18th, 2016</abbr> at 09:04</a>
+
+      <p class="comment__util"> </p>
+  </li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+
+ <li id="comment-20114" class="comment even thread-even depth-1">
+      <b class="comment__title vcard">
+      <cite class="author fn">Ahmed Mohaisen</cite>
+    </b>
+  
+    
+    <blockquote class="comment__body">
+      <p>Great post! </p>
+<p>Well structured, easy to understand and the best thing is (it makes sense). Please, Keep the amazing work coming :)</p>
+<p>Thank you!</p>
+    </blockquote>
+
+    <a class="comment__meta" href="https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/#comment-20114" rel="bookmark" title="Permanent link to this comment by Ahmed Mohaisen"><abbr class="published" title="2016-08-18">August 18th, 2016</abbr> at 22:02</a>
+
+      <p class="comment__util"> </p>
+  </li><!-- #comment-## -->
+
+ <li id="comment-20115" class="comment odd alt thread-odd thread-alt depth-1">
+      <b class="comment__title vcard">
+      <cite class="author fn">hans spiess</cite>
+    </b>
+  
+    
+    <blockquote class="comment__body">
+      <p>From a produktion perspektive, why would you want to implement two solutions (the fallback + the partially unsupported one) instead of rewriting your css when the project drops support for browsers not supporting a certain feature? I feel like the bloat outweights the win oft using some shiny new tools..</p>
+    </blockquote>
+
+    <a class="comment__meta" href="https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/#comment-20115" rel="bookmark" title="Permanent link to this comment by hans spiess"><abbr class="published" title="2016-08-20">August 20th, 2016</abbr> at 14:46</a>
+
+      <p class="comment__util"> </p>
+  <ol class="children">
+
+ <li id="comment-20118" class="comment byuser comment-author-jsimmonsmozilla-com bypostauthor even depth-2">
+      <b class="comment__title vcard">
+      <cite class="author fn">Jen Simmons</cite>
+    </b>
+  
+    
+    <blockquote class="comment__body">
+      <p>I always write my CSS with older browsers in mind. I want my designs to work for the largest audience possible. In over a decade of writing CSS, I&#8217;ve never gone back to a past project and removed code once an older browser doesn&#8217;t exist anymore. I don&#8217;t worry about &#8220;bloat&#8221;. A few kilobytes here and there will make no difference. And I don&#8217;t bother to figure out when to &#8220;drop support&#8221; for an older browser. I might not put much thought on a new project into how it works for someone with IE6, but why take time to go back into an old site and remove code that was written for IE6? There *are* still IE6 users out there. </p>
+<p>That&#8217;s the philosophy I&#8217;ve used in my work. Being able to use &#8216;new&#8217; CSS is important to me. Especially when &#8216;new&#8217; CSS could easily be five years old. The amount of time between when a new CSS property arrives in the first browser or two, and when the very last browser that doesn&#8217;t support that feature fades into the distance is usually 5-10 years. Progressive Enhancement techniques make it possible to use something and not use it at the same time — and work in browsers that support the feature and not support it at the same time. It&#8217;s key to making great websites. </p>
+<p>I guess the alternative is to never use any CSS until it&#8217;s supported in 100% of all browsers. But honestly, I wouldn&#8217;t want this career if that&#8217;s what I had to do. You&#8217;ll be stuck only using CSS that&#8217;s 7-10 years old. Ugh. Why?</p>
+    </blockquote>
+
+    <a class="comment__meta" href="https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/#comment-20118" rel="bookmark" title="Permanent link to this comment by Jen Simmons"><abbr class="published" title="2016-08-22">August 22nd, 2016</abbr> at 10:52</a>
+
+      <p class="comment__util"> </p>
+  </li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+
+ <li id="comment-20116" class="comment odd alt thread-even depth-1">
+      <b class="comment__title vcard">
+      <cite class="author fn">Ricardo Zea</cite>
+    </b>
+  
+    
+    <blockquote class="comment__body">
+      <p>But there&#8217;s no way to know all the properties and values that are and are not supported by all browsers&#8230;</p>
+<p>This is the issue that Autoprefixer + Caniuse.com solved.</p>
+<p>Great writing, thanks for sharing :)</p>
+    </blockquote>
+
+    <a class="comment__meta" href="https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/#comment-20116" rel="bookmark" title="Permanent link to this comment by Ricardo Zea"><abbr class="published" title="2016-08-21">August 21st, 2016</abbr> at 08:18</a>
+
+      <p class="comment__util"> </p>
+  </li><!-- #comment-## -->
+
+ <li id="comment-20136" class="comment even thread-odd thread-alt depth-1">
+      <b class="comment__title vcard">
+      <cite class="author fn">Colin Lord</cite>
+    </b>
+  
+    
+    <blockquote class="comment__body">
+      <p>Loved this post. Thank you for writing it up!</p>
+    </blockquote>
+
+    <a class="comment__meta" href="https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/#comment-20136" rel="bookmark" title="Permanent link to this comment by Colin Lord"><abbr class="published" title="2016-08-24">August 24th, 2016</abbr> at 11:49</a>
+
+      <p class="comment__util"> </p>
+  </li><!-- #comment-## -->
+
+ <li id="comment-20143" class="comment odd alt thread-even depth-1">
+      <b class="comment__title vcard">
+      <cite class="author fn">Patrik Illy</cite>
+    </b>
+  
+    
+    <blockquote class="comment__body">
+      <p>Do you know if autoprefixer can manage prefixes in @support condition? Thanks for great article&#8230;</p>
+    </blockquote>
+
+    <a class="comment__meta" href="https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/#comment-20143" rel="bookmark" title="Permanent link to this comment by Patrik Illy"><abbr class="published" title="2016-08-25">August 25th, 2016</abbr> at 00:47</a>
+
+      <p class="comment__util"> </p>
+  <ol class="children">
+
+ <li id="comment-20164" class="comment byuser comment-author-jsimmonsmozilla-com bypostauthor even depth-2">
+      <b class="comment__title vcard">
+      <cite class="author fn">Jen Simmons</cite>
+    </b>
+  
+    
+    <blockquote class="comment__body">
+      <p>I don&#8217;t know. That&#8217;s a great question. Luckily prefixes are going away — we will not have any new CSS Properties introduced with a prefix — which will make things a bit easier. (CSS Grid, for example, now has zero browsers shipping the new version of the specification with a prefix.)</p>
+    </blockquote>
+
+    <a class="comment__meta" href="https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/#comment-20164" rel="bookmark" title="Permanent link to this comment by Jen Simmons"><abbr class="published" title="2016-08-28">August 28th, 2016</abbr> at 13:36</a>
+
+      <p class="comment__util"> </p>
+  <ol class="children">
+
+ <li id="comment-20165" class="comment odd alt depth-3">
+      <b class="comment__title vcard">
+      <cite class="author fn">Patrik Illy</cite>
+    </b>
+  
+    
+    <blockquote class="comment__body">
+      <p>I looked into autoprefixer repo on github and there are some issues about @support and prefixes. So I think autoprefixer manage this conditions to.</p>
+    </blockquote>
+
+    <a class="comment__meta" href="https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/#comment-20165" rel="bookmark" title="Permanent link to this comment by Patrik Illy"><abbr class="published" title="2016-08-28">August 28th, 2016</abbr> at 14:16</a>
+
+      <p class="comment__util"> </p>
+  </li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+
+ <li id="comment-20174" class="comment even thread-odd thread-alt depth-1">
+      <b class="comment__title vcard">
+      <cite class="author fn">Tinny</cite>
+    </b>
+  
+    
+    <blockquote class="comment__body">
+      <p>I don&#8217;t know&#8230; How can I check if @support is supported? Isn&#8217;t this just moving the problem?</p>
+    </blockquote>
+
+    <a class="comment__meta" href="https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/#comment-20174" rel="bookmark" title="Permanent link to this comment by Tinny"><abbr class="published" title="2016-09-06">September 6th, 2016</abbr> at 03:26</a>
+
+      <p class="comment__util"> </p>
+  <ol class="children">
+
+ <li id="comment-20175" class="comment byuser comment-author-jsimmonsmozilla-com bypostauthor odd alt depth-2">
+      <b class="comment__title vcard">
+      <cite class="author fn">Jen Simmons</cite>
+    </b>
+  
+    
+    <blockquote class="comment__body">
+      <p>You can check to see what features, including @supports, are supported in any browser by looking at Can I Use. Feature Queries are not for finding out otherwise unknowable information. They are for bundling together CSS that will only run when a particular feature is supported. So no, it&#8217;s not moving the problem. It&#8217;s solving a different problem.</p>
+<p>If you need help figuring out what CSS is supported in what browsers, Can I Use is a great place for that: <a href="http://caniuse.com" rel="nofollow ugc">http://caniuse.com</a></p>
+    </blockquote>
+
+    <a class="comment__meta" href="https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/#comment-20175" rel="bookmark" title="Permanent link to this comment by Jen Simmons"><abbr class="published" title="2016-09-06">September 6th, 2016</abbr> at 06:45</a>
+
+      <p class="comment__util"> </p>
+  <ol class="children">
+
+ <li id="comment-20176" class="comment even depth-3">
+      <b class="comment__title vcard">
+      <cite class="author fn">Tinny</cite>
+    </b>
+  
+    
+    <blockquote class="comment__body">
+      <p>Yes, but take for example IE11 that&#8217;s not supporting the @support feature.<br />
+What happens when you use a @support condition inside IE11? It&#8217;s ignored? It&#8217;s parsed anyway?</p>
+    </blockquote>
+
+    <a class="comment__meta" href="https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/#comment-20176" rel="bookmark" title="Permanent link to this comment by Tinny"><abbr class="published" title="2016-09-06">September 6th, 2016</abbr> at 08:23</a>
+
+      <p class="comment__util"> </p>
+  <ol class="children">
+
+ <li id="comment-20177" class="comment byuser comment-author-jsimmonsmozilla-com bypostauthor odd alt depth-4">
+      <b class="comment__title vcard">
+      <cite class="author fn">Jen Simmons</cite>
+    </b>
+  
+    
+    <blockquote class="comment__body">
+      <p>Any browser that doesn&#8217;t understand @supports ignores everything inside the braces — it skips over all the code. I explained this very carefully and extensively in my article. You should read it.</p>
+    </blockquote>
+
+    <a class="comment__meta" href="https://hacks.mozilla.org/2016/08/using-feature-queries-in-css/#comment-20177" rel="bookmark" title="Permanent link to this comment by Jen Simmons"><abbr class="published" title="2016-09-06">September 6th, 2016</abbr> at 10:56</a>
+
+      <p class="comment__util"> </p>
+  </li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+</ol><!-- .children -->
+</li><!-- #comment-## -->
+      </ol>
+      </div>
+
+<p class="comments__closed"><b>Comments are closed for this article.</b></p>
+
+
+</main><!-- /#content-main -->
+
+  
+
+    <footer class="footer section section--fullwidth">
+      <div class="row">
+        <p class="block block--1">
+          Except where otherwise noted, content on this site is licensed
+          under the
+          <a href="https://creativecommons.org/licenses/by-sa/3.0/" rel="license external">Creative Commons Attribution Share-Alike License v3.0</a>
+          or any later version.
+        </p>
+        <img class="footer__logo" alt="the Mozilla dino logo" src="https://2r4s9p1yi1fa2jd7j43zph8r-wpengine.netdna-ssl.com/wp-content/themes/Hax/img/dino.svg">
+      </div>
+    </footer>
+  </div>
+  <link rel='stylesheet' id='hljstheme-css'  href='https://2r4s9p1yi1fa2jd7j43zph8r-wpengine.netdna-ssl.com/wp-content/plugins/wp-code-highlightjs/styles/solarized-light.css?ver=0.6.2' type='text/css' media='all' />
+<script type='text/javascript' src='https://2r4s9p1yi1fa2jd7j43zph8r-wpengine.netdna-ssl.com/wp-includes/js/wp-embed.min.js?ver=5.4.1'></script>
+<script type='text/javascript' src='https://2r4s9p1yi1fa2jd7j43zph8r-wpengine.netdna-ssl.com/wp-content/plugins/wp-code-highlightjs/highlight.common.pack.js?ver=0.6.2'></script>
+<script type='text/javascript' src='https://2r4s9p1yi1fa2jd7j43zph8r-wpengine.netdna-ssl.com/wp-content/plugins/wp-code-highlightjs/highlight.custom.pack.js?ver=0.6.2'></script>
+    <style>pre.hljs {padding: 5px;}
+pre.hljs code {}</style>
+    <script type="text/javascript">
+    (function($, window) {
+        var init_fn_flag = false;
+        var init_fn = (function() {
+            if (init_fn_flag)
+                return;
+            init_fn_flag = true;
+             hljs.configure({"tabReplace":"    "});
+            $('pre code').each(function(i, block) {
+                hljs.highlightBlock(block);
+            });
+        });
+        $(document).ready(init_fn);
+        $(window).on("load", init_fn);
+    })(jQuery, window);
+    </script>
+  <script>
+    // External links should open in a new tab.
+    (function () {
+      var postLinks = document.querySelectorAll('#content-main a');
+
+      var origin = location.origin;
+
+      for (var i = 0; i < postLinks.length; i++) {
+        var link = postLinks[i];
+        if (link.origin !== origin && !link.getAttribute('target')) {
+          link.setAttribute('target', '_blank');
+        }
+      }
+    })();
+
+    window.addEventListener('load', function () {
+      if (document.querySelector('#newsletterForm')) {
+        var script = document.createElement('script');
+        var path = document.head.getAttribute('data-template-path');
+        script.setAttribute('src', path + '/js/newsletter.js');
+        document.head.appendChild(script);
+      }
+    });
+  </script>
+</body>
+</html>

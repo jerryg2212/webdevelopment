@@ -1,0 +1,333 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+@font-face {
+    font-family: "header";
+    src: url("old_sans_black/OldSansBlack.ttf");
+}
+@font-face{
+    font-family: "body";
+    src: url("wilson_hawk/Wilson\ hawk.ttf");
+}
+div img{
+    padding: 0px;
+    margin: 0px;
+}
+div.logo{
+    border-bottom: 5px solid black;
+}
+.logo ul{
+    display:inline-flex;
+    float: right;
+    margin-top: 3.2%;
+}
+.logo ul li{
+    list-style-type: none;
+    background-color: rgb(207, 143, 33);
+    padding: 20px;
+    color: white;
+    text-decoration: none;
+}
+.logo ul a {
+    text-decoration: none;
+    
+}
+
+/* .opacity{
+    background: url(images.jpg);
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 600px;
+    height: 400px;
+    background-size: cover;
+    
+    opacity: .3;
+    border-top-left-radius: 200px 300px;
+    border-top-right-radius: 10px 50px;
+} */
+
+aside{
+    float:left;
+    width: 220px;
+    border-right: 2px solid lightgrey;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 20px;
+}
+a{
+    text-decoration: none;
+}
+
+.ulaside li{
+    padding: 20px 50px;
+  /*  background-color: rgb(250, 193, 94); */
+    background-color: rgba(207, 143, 33, .8);
+    color: white;
+    border-bottom: solid 2px white;
+    
+    text-align: center;
+    list-style-type: none;
+    font-size: 1.1em;
+    font-weight: 600;
+}
+.ulaside2 li{
+    padding: 10px;
+    border-bottom: 1px solid grey;
+  /*  background-color: rgb(248, 206, 134); */
+    background-color: rgba(207, 143, 33, .6);
+    color: black;
+    
+    list-style-type: none;
+    padding-left: 20px;
+}
+div.text{
+    margin: 50px auto 100px 300px;
+    width:1100px;
+    
+}
+.text p {
+    font-size: 1.2em;
+    margin-left: 50px;
+    border-left: 20px solid rgb(207, 143, 33);
+    border-bottom: 5px solid rgb(207, 143, 33);
+}
+p.one , p.two{
+    
+    font-size: 1.5em;
+    margin:40px 0px 40px 37%;
+    margin-left: 37%;
+    max-width: 600px;
+    line-height: 1.5em;
+    font-family: "header";
+    text-align: center;
+    padding: 15px;
+    
+
+    
+}
+div.three{
+    width: 100%;
+}
+img.hero{
+    max-width:30%;
+    float: right;
+    
+}
+div.innertext{
+    
+    overflow: auto;
+}
+div.quote{
+    font-size: 1.5em;
+   
+    display: flex;
+    justify-content: space-around;
+    background-color:  rgb(207, 143, 33);
+    padding: 20px;
+    color:white;
+    
+    
+}
+div.quote p {
+    align-self: center;
+    line-height:1.5em;
+    flex: .5;
+    text-align: center;   
+    max-width: 500px;
+    font-style: italic;
+    
+}
+div.quote img{
+    flex:1;
+    width: 200px;
+    justify-self: space-around;
+}
+
+/* Historic events styling
+
+*/
+#Hcontainer{
+    width: 70%;
+    margin: 10px auto;
+    margin-left: 22%;
+    background-color:rey;
+    display: flex;
+    flex-wrap: wrap;
+    box-shadow: 4px 4px 7px lightgrey,
+                -4px -4px 7px lightgrey;
+    position: relative;
+}
+
+h1.Hh1{
+    font-size: 4em;
+    font-family: "header";
+    margin: 30px auto;
+    margin-left: 40%;
+    flex-wrap: wrap;
+}
+#Hcontainer p{
+    font-family: "body";
+}
+#Hcontainer article{
+    
+    flex: 40% 1;
+    max-width: 49%;
+    
+    
+    
+    
+    
+}
+#Hcontainer article img{
+    margin: 15px auto;
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+    width:275px;
+    height: 183px;
+    margin-top: 60px;
+    
+}
+#Hcontainer article:nth-of-type(odd){
+    border-right: 3px solid black;
+}
+#Hcontainer h1 {
+    text-align:center;
+    font-size: 2em;
+    font-family: body;
+}
+#Hcontainer p{
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 1.2em;
+}
+#Hcontainer article p:nth-of-type(1){
+    color: rgb(207, 143, 33);
+}
+hr{
+    width: 60%;
+    color: rgb(207, 143, 33);
+    margin: 20px auto;    
+    
+}
+.logo div{
+    display: contents;
+}
+@media screen and (max-width: 910px) {
+    .ullogo{
+        visibility: hidden;
+    }
+    .quote{
+        display: flex;
+        flex-flow: column-reverse;
+    }
+    div.quote img.hero{
+        align-self: center;
+        max-width: 100%;
+        flex: 200px 1;
+    }
+    div.quote p{
+        flex: 200px 1;
+        justify-self: space-around;
+    }
+    .logo div{
+        display: flex;
+        justify-content: space-around;
+    }
+    .logo div img{
+        justify-self: space-around;
+    }
+}
+@media screen and (max-width: 600px){
+
+}
+
+
+/*Creating the slide ins for the dates */
+button.hello {
+    border: none;
+    background-color: white;
+    color: rgb(207, 143, 33);
+    font-family: 'body';
+    font-size: 1em;
+}
+button.hello:hover,
+.classbuild:hover{
+    color: grey !important;
+    cursor: pointer;
+}
+.original{
+    background-color: rgba(207, 143, 33, .85);
+    color: white;
+    position: absolute;
+    left: -1000px;
+    top: 80px;
+    width: 40%;
+    padding: 20px 15px 5px 15px;
+    transition: .6s;
+}
+#revslidein li{
+    font-family: 'body';
+    font-size: 1.2em;
+    list-style-type:none;
+    text-shadow: 1px 1px black;
+    text-align: center;
+}
+
+.slideinbutton{
+    border:none;
+    font-family: 'body';
+    margin: 5px auto;
+    color: white;
+    text-shadow: 1.5px 1.5px black;
+    font-size: 1.5em !important;
+}
+.notoriginal {
+    background-color: rgba(207, 143, 33, .85);
+    color: white;
+    width: 40%;
+    padding: 20px 15px 5px 15px;
+    position: absolute;
+    left: 30px;
+    top: 80px;
+    transition: .6s;
+}
+.slideinbutton:hover,
+.slideinbutton1:hover{
+    color: grey;
+    cursor: pointer;
+}
+#buildingslidein li{
+    font-family: 'body';
+    font-size: 1.2em;
+    list-style-type:none;
+    text-shadow: 1px 1px black;
+    text-align: center;
+}
+.buildnotoriginal {
+    background-color: rgba(207, 143, 33, .85);
+    color: white;
+    width: 40%;
+    padding: 20px 15px 5px 15px;
+    position: absolute;
+    left: 565px;
+    top: 80px;
+    transition: .6s;
+}
+.buildoriginal{
+    background-color: rgba(207, 143, 33, .85);
+    color: white;
+    position: absolute;
+    left: 2000px;
+    top: 80px;
+    width: 40%;
+    padding: 20px 15px 5px 15px;
+    transition: .6s;
+}
+#buildingslidein,
+#revslidein{
+    box-shadow: 5px 5px 20px black,
+                -5px -5px 20px black;
+}

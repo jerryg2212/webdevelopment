@@ -1,0 +1,14 @@
+doctype html
+html
+    head 
+        link(rel='stylesheet', href='styles.css')
+
+    
+    body(id="createFirstListBody" class="bodyBackgroundColor")
+        a(href="/delete" class="logOutLink") Log Out
+        div(id="wrapper")
+            h1 Please make a list
+            div(class="container")
+                form(id="firstListForm" action="/createList" method="POST")
+                    input(type="text" name="listTitle" class="textInput" placeholder="Name of list")
+                    button(type="submit" class="submitButton") Create List

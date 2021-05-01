@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+
+        <script>
+
+           var Book = function () {
+                var bookName = 'to';
+                var pageNumber = 0;
+                var changePage = function(val) {
+                    pageNumber += val;
+                }
+                return {
+                    turnPage: function () {
+                        changePage(2);
+                    },
+                    
+                    backPage: function () {
+                        changePage(-2);
+                    },
+
+                    pageStatus: function () {
+                        return pageNumber;
+                    }
+                }
+            }
+
+        </script>
+    </body>
+</html>
