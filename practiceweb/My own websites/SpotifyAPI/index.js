@@ -1,11 +1,26 @@
 const express = require('express');
 const app = express();
 const request = require('request');
-const queryString = require('querystring')
+const queryString = require('querystring');
+require('dotenv').config();
 
-const clientId = 'be4c5df5871a48f9b7b18205aa42be9b';
-const clientSecret = '7778c192590143dcae544c5a3a87f40a';
+const clientId = process.env.CLIENT_ID;
+const clientSecret = process.env.CLIENT_SECRET;
+const state = process.env.SECRET_CODE;
 const redirecturi = 'http://localhost:8000/callback';
+const scopes = {
+    // to read users top songs and artists
+    user_top_read : 'user-top-read',
+    user_read_currently_playing : 'user-read-currently-playing',
+    user_read_playback_state : 'user-read-playback-state',
+    user_modify_playback_state : 'user-modify-playback-state',
+    playlist_read_private : 'playlist-read-private',
+    playlist_read_collaborative : 'playlist-read-collaborative',
+    playlist_modify_public : 'playlist-modify-public',
+    playlist_modify_private : 'playlist-modify-private',
+    user_read_private : 'user-read-private',
+    user_read_email : 'user-read-email'
+}
 
 app.use(express.static('public'));
 
@@ -14,7 +29,56 @@ app.get('/', (req, res) => {
 });
 app.get('/authorize', (req, res) => {
     res.redirect('https://accounts.spotify.com/authorize?' + 
+    queryString.stringify({
+        response_type : 'code',
+        client_id : clientId,
+        show_dialog : 'true',
+        scope : `${encodeURIComponent(stringifyScopes(scopes))}`,
+        redirect_uri : redirecturi,
+        state : state
+    })
     )
+});
+app.get('/callback', (req,res) => {
+    let code = req.query.code;
+    console.log(`this is the code ${code}`);
+    if(req.query.error){
+        res.redirect('/');
+    }
+    request({
+        url: 'https://accounts.spotify.com/api/token',
+        method: 'POST',
+        form : {
+            grant_type: 'authorization_code',
+            code: `${code}`,
+            redirect_uri : redirecturi,
+            client_id : clientId,
+            client_secret : clientSecret
+        },
+        headers : {
+            "Content-type" : "application/x-www-form-urlencoded"
+        }
+    }, (err, response, body) => {
+        if(err){
+            res.redirect('/');
+        }
+        console.log(body);
+        body = JSON.parse(body);
+        console.log(response.statusCode);
+        console.log(`this is the access token ${body.access_token}`);
+        res.redirect(`/profile?access_token=${body.access_token}&refresh_token=${body.refresh_token}`);
+    })
+});
+app.get('/profile', (req, res) => {
+    res.sendFile('profile.html', {root : 'public'});
 })
 
-app.listen(8000, () => {console.log('listening on port 8000')})
+app.listen(8000, () => {console.log('listening on port 8000')});
+
+function stringifyScopes(Scopes){
+    let result = '';
+    for(let scope in Scopes){
+        result += ` ${Scopes[scope]}`
+    }
+    return result;
+}

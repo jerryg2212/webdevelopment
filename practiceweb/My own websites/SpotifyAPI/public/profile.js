@@ -401,7 +401,9 @@ class ProfilePage{
         let queryString = window.location.search;
         let urlSearchParams = new URLSearchParams(queryString);
         this.accessToken = urlSearchParams.get('access_token');
+        console.log(this.accessToken);
         this.refreshToken = urlSearchParams.get('refresh_token');
+        console.log(this.refreshToken);
     }
     // gets a refresh token after the access token expires
     getNewAccessToken(token){
@@ -449,6 +451,7 @@ class ProfilePage{
                console.log('needs a new access token')
             }
             else if(request.readyState == 4){
+                console.log('profile information rejects');
                 reject('Bad response from server');
             }
         }
