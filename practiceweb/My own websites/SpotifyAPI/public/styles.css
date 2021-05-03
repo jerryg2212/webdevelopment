@@ -5,11 +5,12 @@
 
 html{
     height: 100%;
+    min-height: 100%;
 }
 body{
-    height: 100%;
     padding: 0px;
     margin: 0px;
+    height: 100%;
 }
 
 #profilePageBody{
@@ -18,7 +19,7 @@ body{
 
     /* containe that stores the users profile and favorite music information */
     #userInformationContainer{
-        flex: 20;
+        flex: 17;
         background-color: lightblue;
         z-index: 2;
         box-shadow: 2px 0px 5px black;
@@ -33,7 +34,8 @@ body{
                 text-decoration: none;
                 padding: 0px;
                 margin: 0px;
-                color: #121B40
+                color: #121B40;
+                text-shadow: 1px 1px 1px black;
             }
             /* header that displays the users profile name */
             #profileInformationContainer h1{
@@ -53,6 +55,7 @@ body{
         /* container that holds the favorite musics information form and songs and artists */
         #favoriteMusicInformationContainer{
             margin-top: 20px;
+            text-align: center;
 
         }
             /* form where user changes how the favorite music information gets displayed */
@@ -60,7 +63,8 @@ body{
                 background-color: #121B40;
                 padding: 10px;
                 border-radius: 25px;
-                box-shadow: 2px 2px 5px black;
+                box-shadow: 3px 3px 7px black;
+                letter-spacing: .3px;
             }
                 /* container in the form that holds everything but the button */
                 #favoriteMusicSelectionsContainer{
@@ -68,22 +72,119 @@ body{
                     text-shadow: 1px 1px 1px black;
                     display: flex;
                     flex-wrap: wrap;
+                    justify-content: space-around;
                 }
-                    #favoriteMusicSelectionsContainer div{
-                        margin: 5px;
+                    #favoriteMusicSelectionsContainer label,
+                    #favoriteMusicSelectionsContainer select{
+                        margin: 3px;
                     }
+                #favoriteMusicSearchForm button{
+                    background-color: #121B40;
+                    box-shadow: 2.5px 2.5px 4px green,
+                    -1px -1px 3px black;
+                    color: lightblue;
+                    border: none;
+                    margin : 5px auto;
+                    padding: 7px;
+                    border-radius: 15px;
+                    display: block;
+                    border: 2px solid lightblue;
+                }
+            #favoriteMusicInformationContainer h1{
+                color: #121B40;
+                text-shadow: 1px 1px 1px black;
+            }
+            #favoriteMusicInformationContainer ul li{
+                list-style-type: none;
+            }
 
     /* container where user works */
     #workBenchContainer{
-        flex: 68;
+        flex: 64;
         background-color: #121B40;
         background-image: radial-gradient(#121B40 70%, #060D28)
     }
 
     /* container where user plays song and its displays information on the song */
     #playSongContainer{
-        flex: 12;
+        flex: 17;
         background-color: lightblue;
         z-index: 2;
         box-shadow: -2px 0px 5px black;
+        text-align: center;
+        padding: 5px;
+
     }
+        /* headers */
+        #playSongContainer h1{
+            color: #121B40;
+            text-shadow: 1px 1px 1px black;
+            margin: 10px;
+        }
+        /* header for the currently playing song*/
+        #playSongContainer #currentlyPlayingSongHeader{
+            margin-top: 30px;
+        }
+        /* search song input */
+        #playSongContainer input[type = text]{
+            background-color: pink;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border-radius: 30px;
+            border: 2px solid hotpink;
+            color: #121B40;
+            font-size: 16px;
+            letter-spacing: .3px;
+            box-shadow: 1px 1px 5px black;
+        }
+        /* the icon where user can pause or resume the song */
+        #playPauseSongIcon{
+            width: 30px;
+            display: block;
+            margin: 5px auto;
+        }
+        /* container that holds all the currently playing song information */
+        #currentlyPlayingSongInformationContainer{
+            margin-top: 20px;
+        }
+            /* album cover */
+            #currentlyPlayingSongInformationContainer img{
+                width: 90%;
+                min-width: 200px;
+            }
+            /* all the information paragraphs */
+            #currentlyPlayingSongInformationContainer p {
+                margin: 4px;
+                text-align : left;
+                letter-spacing: .3px;
+
+            }
+
+
+    
+
+
+
+/*/////    CLASSES    //////*/
+
+/* class for the buttons in the play song container */
+.playSongContainerButton{
+    margin: 5px;
+    padding: 7px;
+    background-color: lightblue;
+    border: 2px solid #121B40;
+    box-shadow: 1px 1px 2px black,
+    2px 2px 3px pink,
+    -1px -1px 3px black;
+    border-radius: 30px;
+    color: #121B40;
+    text-shadow: 1px 1px 1px black;
+    letter-spacing: .3px;
+}
+/* titles of the information of the currently playing song */
+.currentlyPlayingSongDescriptionTitle{
+    color: green;
+    text-shadow: 1px 1px 1px black;
+    font-weight: bold;
+}

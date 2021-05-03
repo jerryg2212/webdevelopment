@@ -8,6 +8,7 @@ const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 const state = process.env.SECRET_CODE;
 const redirecturi = 'http://localhost:8000/callback';
+const getTokenURL = 'https://accounts.spotify.com/api/token'
 const scopes = {
     // to read users top songs and artists
     user_top_read : 'user-top-read',
@@ -46,7 +47,7 @@ app.get('/callback', (req,res) => {
         res.redirect('/');
     }
     request({
-        url: 'https://accounts.spotify.com/api/token',
+        url: getTokenURL,
         method: 'POST',
         form : {
             grant_type: 'authorization_code',
@@ -71,6 +72,33 @@ app.get('/callback', (req,res) => {
 });
 app.get('/profile', (req, res) => {
     res.sendFile('profile.html', {root : 'public'});
+})
+
+app.get('/refreshToken', (req, res) => {
+    console.log(req.query.refresh_token);
+    request({
+        url: getTokenURL,
+        method : 'POST',
+        form : {
+            client_id : clientId,
+            client_secret: clientSecret,
+            grant_type : 'refresh_token',
+            refresh_token : req.query.refresh_token
+        },
+        headers : {
+            'Content-type' : 'application/x-www-form-urlencoded'
+        }
+    }, (err, response, body) => {
+        if(err){
+            res.redirect('/');
+        }
+        console.log(body);
+        body = JSON.parse(body);
+        console.log(response.statusCode);
+        console.log(`this is the access token ${body.access_token}`);
+        console.log( `and this is the refresh token ${body.refresh_token}`);
+        res.redirect(`/profile?access_token=${body.access_token}&refresh_token=${body.refresh_token}`);
+    })
 })
 
 app.listen(8000, () => {console.log('listening on port 8000')});

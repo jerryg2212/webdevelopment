@@ -268,6 +268,7 @@ class ProfilePage{
 
         playSongContainer.appendChild(this.playSongHeader());
         playSongContainer.appendChild(this.searchSongToPlayInput());
+        //playSongContainer.appendChild(this.playSongButton());
         playSongContainer.appendChild(this.currentlyPlayingSongHeader());
         playSongContainer.appendChild(this.playPauseSongIcon());
         playSongContainer.appendChild(this.updateCurrentlyPlayingSongInformationButton());
@@ -293,6 +294,7 @@ class ProfilePage{
         // header that says currently playing song
         currentlyPlayingSongHeader(){
             let h1 = document.createElement('h1');
+            h1.setAttribute('id', 'currentlyPlayingSongHeader');
             h1.textContent = 'Currently Playing Song';
             return h1;
         }
@@ -306,6 +308,7 @@ class ProfilePage{
         // button that is used to update the currently playing song information
         updateCurrentlyPlayingSongInformationButton(){
             let button = document.createElement('button');
+            button.setAttribute('class', 'playSongContainerButton');
             button.textContent = 'Update Information';
             return button;
         }
