@@ -13,11 +13,15 @@ class ProfilePage{
         this.body = profilePageBody;
         this.saveTokens();
         Promise.all([this.getUsersTopSongs(5, 'long_term'), this.getUsersTopArtists(5, 'long_term'), this.saveProfileInformation(), this.getCurrentlyPlayingSong()]).then((values) => {this.makeBody(values)}).catch((err) => {console.log(err)});
-        this.displayName;
-        this.linkToPage;
-        this.userEmail;
-        this.accountType;
-        this.numberOfFollowers;
+        // profile information
+            this.displayName;
+            this.linkToPage;
+            this.userEmail;
+            this.accountType;
+            this.numberOfFollowers;
+        // users top songs and artists
+            this.topSongs;
+            this.topArtists;
         // variables to keep track of the last displayed information on the favorite music form
             this.lastTimeRange = 'long_term';
             this.lastNumberOfSongs = 5;
@@ -30,8 +34,21 @@ class ProfilePage{
       //  this.makeRequestForTokens();
         //this.displayProfileInformation();
     }
+    saveAllInformation(values){
+        //top songs and artists
+            this.topSongs = values[0].items;
+            this.topArtists = values[1].items;
+        //profile information
+            this.displayName = values[2].display_name;
+            this.linkToPage = values[2].external_urls.spotify;
+            this.userEmail = values[2].email;
+            this.accountType = values[2].product;
+            this.numberOfFollowers = values[2].followers.total;
+        //currently playing song
+            
+    }
     makeBody(values){
-        console.log(values[3]);
+        //console.log(values[0]);
         // container that shows the users profile information and their favorite songs information
         this.body.appendChild(this.makeUserInformationContainer(values[0].items, values[1].items));
         // container where you can manipulate playlists and carryout other functionality with playlists and sonds
@@ -268,7 +285,7 @@ class ProfilePage{
 
         playSongContainer.appendChild(this.playSongHeader());
         playSongContainer.appendChild(this.searchSongToPlayInput());
-        //playSongContainer.appendChild(this.playSongButton());
+        playSongContainer.appendChild(this.playSongButton());
         playSongContainer.appendChild(this.currentlyPlayingSongHeader());
         playSongContainer.appendChild(this.playPauseSongIcon());
         playSongContainer.appendChild(this.updateCurrentlyPlayingSongInformationButton());
@@ -291,6 +308,13 @@ class ProfilePage{
             input.setAttribute('type', 'text');
             return input;
         }
+        // returns a button that when clicked will play the song in the user wants
+        playSongButton(){
+            let button = document.createElement('button');
+            button.setAttribute('class', 'playSongContainerButton');
+            button.textContent = 'Play Song';
+            return button;
+        }
         // header that says currently playing song
         currentlyPlayingSongHeader(){
             let h1 = document.createElement('h1');
@@ -310,10 +334,13 @@ class ProfilePage{
             let button = document.createElement('button');
             button.setAttribute('class', 'playSongContainerButton');
             button.textContent = 'Update Information';
+            // adding click event so it updates the current song if it switches
+            button.addEventListener('click', this.updateCurrentlyPlayingSongClickEvent.bind(this));
             return button;
         }
         // returns div that diplays currently playing song information
         displayCurrentlyPlayingSongInformation(currentlyPlayingSong){
+            console.log(currentlyPlayingSong);
             let div = document.createElement('div');
             div.setAttribute('id', 'currentlyPlayingSongInformationContainer');
             div.appendChild(this.currentlyPlayingSongAlbumCover(currentlyPlayingSong));
@@ -420,7 +447,12 @@ class ProfilePage{
         currentURL.pathname = '/refreshToken';
         currentURL.search = queryString.toString();
         console.log(currentURL.toString());
-
+        //access token is undefined because the last time this method was called spotify did not give us another one
+        if(!token){
+            currentURL.pathname = '/';
+            currentURL.search = '';
+            window.location = currentURL.toString();
+        }
         window.location = currentURL.toString();
     }
 
@@ -444,12 +476,13 @@ class ProfilePage{
             if(request.status == 200 && request.readyState == 4){
                 //console.log(`this is the request text : ${request.responseText}`);
                 let body = JSON.parse(request.responseText);
-                this.displayName = body.display_name;
+                /*this.displayName = body.display_name;
                 this.linkToPage = body.external_urls.spotify;
                 this.userEmail = body.email;
                 this.accountType = body.product;
                 this.numberOfFollowers = body.followers.total;
-                resolve(request.responseText);
+                resolve(request.responseText);*/
+                resolve(body);
             }
             else if(request.status == 401 && request.readyState == 4){
                resolve(this.getNewAccessToken(this.refreshToken));
@@ -576,6 +609,11 @@ class ProfilePage{
 
 
            // document.getElementById('topSongsContainer');
+        }
+
+        //click event for the update currently playing song button 
+        updateCurrentlyPlayingSongClickEvent(ev){
+            console.log('fuck you');
         }
 }
 
