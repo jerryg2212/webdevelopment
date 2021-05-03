@@ -94,7 +94,7 @@ app.get('/refreshToken', (req, res) => {
         }
         console.log(body);
         body = JSON.parse(body);
-        console.log(response.statusCode);
+        console.log(body);
         console.log(`this is the access token ${body.access_token}`);
         console.log( `and this is the refresh token ${body.refresh_token}`);
         res.redirect(`/profile?access_token=${body.access_token}&refresh_token=${body.refresh_token}`);

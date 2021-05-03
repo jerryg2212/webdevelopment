@@ -12,7 +12,7 @@ class ProfilePage{
     constructor(){
         this.body = profilePageBody;
         this.saveTokens();
-        Promise.all([this.getUsersTopSongs(5, 'long_term'), this.getUsersTopArtists(5, 'long_term'), this.saveProfileInformation(), this.getCurrentlyPlayingSong()]).then((values) => {this.makeBody(values)}).catch((err) => {console.log(err)});
+        Promise.all([this.getUsersTopSongs(5, 'long_term'), this.getUsersTopArtists(5, 'long_term'), this.saveProfileInformation(), this.getCurrentlyPlayingSong()]).then((values) => {this.saveAllInformation(values)}).then(() => {this.makeBody()}).catch((err) => {console.log(err)});
         // profile information
             this.displayName;
             this.linkToPage;
@@ -26,6 +26,15 @@ class ProfilePage{
             this.lastTimeRange = 'long_term';
             this.lastNumberOfSongs = 5;
             this.lastNumberOfArtists = 5;
+        //currently playing Song information
+        this.currentlyPlayingSongAlbumCover;
+        this.currentlyPlayingSongTitle;
+        this.currentlyPlayingSongArtists;
+        this.currentlyPlayingSongAlbumName;
+        this.currentlyPlayingSongAlbumReleaseDate;
+        this.currentlyPlayingSongPopularity;
+        this.currentlyPlayingSongId;
+        this.currentlyPlayingSongPlayingState;
     }
     loadPage(){
         this.makePage();
@@ -45,26 +54,43 @@ class ProfilePage{
             this.accountType = values[2].product;
             this.numberOfFollowers = values[2].followers.total;
         //currently playing song
-            
+        if(values[3] != '' && values[3] != 'Error'){
+            this.saveCurrentlyPlayingSongInformation(values[3].item)
+        }else{this.currentlyPlayingSongPlayingState = false;}
     }
-    makeBody(values){
+        // saves the currently playing song information
+        saveCurrentlyPlayingSongInformation(currentSong){
+            console.log('saveCurrentlyPlayingSonginformation ran');
+            //album cover url
+            this.currentlyPlayingSongAlbumCover = currentSong.album.images[1].url;
+            this.currentlyPlayingSongTitle = currentSong.name;
+            this.currentlyPlayingSongArtists = currentSong.artists;
+            this.currentlyPlayingSongAlbumName = currentSong.album.name;
+            this.currentlyPlayingSongAlbumReleaseDate = currentSong.album.release_date;
+            this.currentlyPlayingSongPopularity = currentSong.popularity;
+            this.currentlyPlayingSongId = currentSong.id;
+            this.currentlyPlayingSongPlayingState = true;
+        }
+
+
+    makeBody(){
         //console.log(values[0]);
         // container that shows the users profile information and their favorite songs information
-        this.body.appendChild(this.makeUserInformationContainer(values[0].items, values[1].items));
+        this.body.appendChild(this.makeUserInformationContainer());
         // container where you can manipulate playlists and carryout other functionality with playlists and sonds
         this.body.appendChild(this.makeWorkBenchContainer());
         // container where you can search a song and play it and displays information about the currently playing song
-        this.body.appendChild(this.makeSearchSongContainer(values[3]));
+        this.body.appendChild(this.makeSearchSongContainer());
         //this.body.appendChild(this.displayContainer());
     }
     //container that holds the users profile information and the users favorite music information
-    makeUserInformationContainer(songs, artists){
+    makeUserInformationContainer(){
         let userInformationContainer = document.createElement('div');
         userInformationContainer.setAttribute('id', 'userInformationContainer');
             // container that shows the users profile information
                 userInformationContainer.appendChild(this.displayProfileInformation());
             // container that shows the users favorite music information
-                userInformationContainer.appendChild(this.displayFavoriteMusicInformation(songs, artists));
+                userInformationContainer.appendChild(this.displayFavoriteMusicInformation());
 
         return userInformationContainer;
     }
@@ -113,7 +139,7 @@ class ProfilePage{
                 return followersP;
             }
         // container that shows the users favorite music information
-        displayFavoriteMusicInformation(songs, artists){
+        displayFavoriteMusicInformation(){
             let favoriteMusicInformationContainer = document.createElement('div');
             favoriteMusicInformationContainer.setAttribute('id', 'favoriteMusicInformationContainer');
             // the form for changing the time range and the amount of songs and artists to display
@@ -121,11 +147,11 @@ class ProfilePage{
             // header for top songs
                 favoriteMusicInformationContainer.appendChild(this.topSongsHeader());
             // top songs container
-                favoriteMusicInformationContainer.appendChild(this.makeTopSongsContainer(songs));
+                favoriteMusicInformationContainer.appendChild(this.makeTopSongsContainer());
             // header for the top Artists
                 favoriteMusicInformationContainer.appendChild(this.topArtistsHeader());
             // top artists container
-                favoriteMusicInformationContainer.appendChild(this.makeTopArtistsContainer(artists));
+                favoriteMusicInformationContainer.appendChild(this.makeTopArtistsContainer());
 
             return favoriteMusicInformationContainer
         }
@@ -211,7 +237,7 @@ class ProfilePage{
                         return button;
                     }
             // returns a container that holds a list of the users top songs
-            makeTopSongsContainer(songs){
+            makeTopSongsContainer(){
                 let topSongsContainer = document.createElement('div');
                 topSongsContainer.setAttribute('id', 'topSongsContainer');
 
@@ -219,7 +245,7 @@ class ProfilePage{
                     let listOfSongs = document.createElement('ul');
                     listOfSongs.setAttribute('id', 'usersTopSongsList');
                     let positionOfTopSong = 1;
-                    for( let song of songs){
+                    for( let song of this.topSongs){
                         let li = document.createElement('li');
                         let nameOfSong = document.createTextNode(`${positionOfTopSong}. ${trimSongName(song.name)}  --  `);
                         li.appendChild(nameOfSong);
@@ -241,13 +267,13 @@ class ProfilePage{
                 return header;
             }
             // returns a container that holds a list of the users top artists
-            makeTopArtistsContainer(artists){
+            makeTopArtistsContainer(){
                 let topArtistsContainer = document.createElement('div');
                 topArtistsContainer.setAttribute('id', 'topArtistsContainer');
                 let listOfArtists = document.createElement("ul");
                 listOfArtists.setAttribute('id', 'usersTopArtistsList');
                 let postiionOfTopArtists = 1;
-                for ( let artist of artists){
+                for ( let artist of this.topArtists){
                     let li = document.createElement('li');
                     li.textContent = `${postiionOfTopArtists}. ${artist.name}`;
                     listOfArtists.appendChild(li);
@@ -279,7 +305,7 @@ class ProfilePage{
         }
 
     // returns container where you can search for a song to play and it displays information about the currently playing song
-    makeSearchSongContainer(currentlyPlayingSong){
+    makeSearchSongContainer(){
         let playSongContainer = document.createElement('div');
         playSongContainer.setAttribute('id', 'playSongContainer');
 
@@ -289,8 +315,8 @@ class ProfilePage{
         playSongContainer.appendChild(this.currentlyPlayingSongHeader());
         playSongContainer.appendChild(this.playPauseSongIcon());
         playSongContainer.appendChild(this.updateCurrentlyPlayingSongInformationButton());
-        if(currentlyPlayingSong != ''){
-                    playSongContainer.appendChild(this.displayCurrentlyPlayingSongInformation(currentlyPlayingSong));
+        if(this.currentlyPlayingSongPlayingState){
+                    playSongContainer.appendChild(this.displayCurrentlyPlayingSongInformation());
         }
 
         return playSongContainer;
@@ -339,44 +365,43 @@ class ProfilePage{
             return button;
         }
         // returns div that diplays currently playing song information
-        displayCurrentlyPlayingSongInformation(currentlyPlayingSong){
-            console.log(currentlyPlayingSong);
+        displayCurrentlyPlayingSongInformation(){
             let div = document.createElement('div');
             div.setAttribute('id', 'currentlyPlayingSongInformationContainer');
-            div.appendChild(this.currentlyPlayingSongAlbumCover(currentlyPlayingSong));
-            div.appendChild(this.currentlyPlayingSongTitle(currentlyPlayingSong));
-            div.appendChild(this.currentlyPlayingSongArtist(currentlyPlayingSong));
-            div.appendChild(this.currentlyPlayingSongAlbumName(currentlyPlayingSong));
-            div.appendChild(this.currentlyPlayingSongAlbumReleaseDate(currentlyPlayingSong));
-            div.appendChild(this.currentlyPlayingSongPopularity(currentlyPlayingSong));
+            div.appendChild(this.makeCurrentlyPlayingSongAlbumCover());
+            div.appendChild(this.makeCurrentlyPlayingSongTitle());
+            div.appendChild(this.makeCurrentlyPlayingSongArtist());
+            div.appendChild(this.makeCurrentlyPlayingSongAlbumName());
+            div.appendChild(this.makeCurrentlyPlayingSongAlbumReleaseDate());
+            div.appendChild(this.makeCurrentlyPlayingSongPopularity());
             return div;
         }
             //returns an img of the currently playing songs album cover
-            currentlyPlayingSongAlbumCover(currentlyPlayingSong){
+            makeCurrentlyPlayingSongAlbumCover(){
                 let albumCover = document.createElement('img');
                 albumCover.setAttribute('id', 'currentlyPlayingSongAlbumCover');
-                albumCover.setAttribute('src', `${currentlyPlayingSong.item.album.images[1].url}`)
+                albumCover.setAttribute('src', `${this.currentlyPlayingSongAlbumCover}`)
                 return albumCover
             }
             /* returns a p element that shows the title of the song */
-            currentlyPlayingSongTitle(currentlyPlayingSong){
+            makeCurrentlyPlayingSongTitle(){
                 let p = document.createElement('p');
                 //span to hold the title description so we can color it
                 let span = document.createElement('span');
                 span.setAttribute('class', 'currentlyPlayingSongDescriptionTitle');
                 span.textContent = 'Title:  ';
                 p.appendChild(span);
-                let text = document.createTextNode(`${currentlyPlayingSong.item.name}`);
+                let text = document.createTextNode(`${this.currentlyPlayingSongTitle}`);
                 p.appendChild(text);
                 return p;
             }
             /* returns a pa element that shows the name of the artist that made the song */
-            currentlyPlayingSongArtist(currentlyPlayingSong){
+            makeCurrentlyPlayingSongArtist(){
                 let p = document.createElement('p');
                 let span = document.createElement('span');
                 span.setAttribute('class', 'currentlyPlayingSongDescriptionTitle');
                 let text = document.createTextNode('');
-                let artists = currentlyPlayingSong.item.artists;
+                let artists = this.currentlyPlayingSongArtists;
                 if(artists.length <= 1){
                     span.textContent = "Artist:  ";
                     text.textContent = `${artists[0].name}`;
@@ -391,34 +416,34 @@ class ProfilePage{
                 return p;
             }
             // returns a paragraph that shows the name of the album
-            currentlyPlayingSongAlbumName(currentlyPlayingSong){
+            makeCurrentlyPlayingSongAlbumName(){
                 let p = document.createElement('p');
                 let span = document.createElement('span');
                 span.setAttribute('class', 'currentlyPlayingSongDescriptionTitle');
                 span.textContent = 'Album Name:  ';
-                let text = document.createTextNode(`${currentlyPlayingSong.item.album.name}`);
+                let text = document.createTextNode(`${this.currentlyPlayingSongAlbumName}`);
                 p.appendChild(span);
                 p.appendChild(text);
                 return p;
             }
             // returns a p element that shows the release date of the album
-            currentlyPlayingSongAlbumReleaseDate(currentlyPlayingSong){
+            makeCurrentlyPlayingSongAlbumReleaseDate(){
                 let p = document.createElement('p');
                 let span = document.createElement('span');
                 span.setAttribute('class', 'currentlyPlayingSongDescriptionTitle');
                 span.textContent = 'Release Date:  ';
-                let text = document.createTextNode(`${currentlyPlayingSong.item.album.release_date}`);
+                let text = document.createTextNode(`${this.currentlyPlayingSongAlbumReleaseDate}`);
                 p.appendChild(span);
                 p.appendChild(text);
                 return p;
             }
             // returns a p that shows the popularity of the song
-            currentlyPlayingSongPopularity(currentlyPlayingSong){
+            makeCurrentlyPlayingSongPopularity(){
                 let p = document.createElement('p');
                 let span = document.createElement('span');
                 span.setAttribute('class', 'currentlyPlayingSongDescriptionTitle');
                 span.textContent = 'Song Popularity:  ';
-                let text = document.createTextNode(`${currentlyPlayingSong.item.popularity}`);
+                let text = document.createTextNode(`${this.currentlyPlayingSongPopularity}`);
                 p.appendChild(span);
                 p.appendChild(text);
                 return p;
@@ -612,8 +637,32 @@ class ProfilePage{
         }
 
         //click event for the update currently playing song button 
-        updateCurrentlyPlayingSongClickEvent(ev){
-            console.log('fuck you');
+        async updateCurrentlyPlayingSongClickEvent(ev){
+            let oldCurrentlyPlayingSongInformation = document.getElementById('currentlyPlayingSongInformationContainer');
+            let currentSong = await this.getCurrentlyPlayingSong();
+            console.log(currentSong);
+            // no currently playing song so either do nothing or delete the old information
+            if(currentSong == '' || currentSong == 'Error'){
+                console.log('empty');
+                if(oldCurrentlyPlayingSongInformation){
+                    oldCurrentlyPlayingSongInformation.remove();
+                }
+            }
+            // new song
+            else{
+                if(this.currentlyPlayingSongId == currentSong.item.id && oldCurrentlyPlayingSongInformation){
+                    console.log('ids are the same');
+                    return
+                }
+                else{
+                    console.log('new song');
+                    this.saveCurrentlyPlayingSongInformation(currentSong.item);
+                    if(oldCurrentlyPlayingSongInformation){
+                        oldCurrentlyPlayingSongInformation.remove();
+                    }
+                    document.getElementById('playSongContainer').appendChild(this.displayCurrentlyPlayingSongInformation());
+                }
+            }
         }
 }
 
