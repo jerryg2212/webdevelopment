@@ -333,13 +333,44 @@ class ProfilePage{
         searchSongToPlayInput(){
             let input = document.createElement('input');
             input.setAttribute('id', 'searchSongToPlayInput');
+            input.addEventListener('input', this.searchSongInputEvent.bind(this));
             input.setAttribute('type', 'text');
             return input;
         }
+            // when user searches songs this box will be made and populated with response
+            makeSearchSongResponsesBox(tracks){
+                //if their are no tracks populate track with default value
+                if(tracks.length == 0){
+                    tracks.push({name: 'No suggestions'})
+                }
+                //input element and its positions
+                    let input = document.getElementById('searchSongToPlayInput');
+                    let inputPosition = input.getBoundingClientRect();
+                console.log(inputPosition);
+                    //styles for the box container so it can be positioned properly
+                    let boxStyles = {
+                        top : `${inputPosition.bottom}px`,
+                        left : `${inputPosition.left + 15}px`,
+                        width : `${inputPosition.width - 30}px`
+                    }
+                let box = document.createElement('div');
+                let list = document.createElement('ul');
+                list.setAttribute('id', 'searchSongResponsesList');
+                box.setAttribute('id', 'searchSongResponsesBox');
+                for( let track of tracks){
+                    let li = document.createElement('li');
+                    li.textContent = track.name;
+                    list.appendChild(li);
+                }
+                Object.assign(box.style, boxStyles);
+                box.appendChild(list);
+                return box;
+            }
         // returns a button that when clicked will play the song in the user wants
         playSongButton(){
             let button = document.createElement('button');
             button.setAttribute('class', 'playSongContainerButton');
+            button.setAttribute('id', 'playSongContainerButton');
             button.textContent = 'Play Song';
             return button;
         }
@@ -715,58 +746,7 @@ class ProfilePage{
                     }
                 }
                 request.send();
-                
-               /*
-                // if the song is playing 
-                if(currentSong.is_playing){
-                    console.log('the song is playing');
-                    let request = new XMLHttpRequest();
-                    request.open('PUT', 'https://api.spotify.com/v1/me/player/pause', true);
-                    request.setRequestHeader('Authorization', `Bearer ${this.accessToken}`);
-                    request.onreadystatechange = () => {
-                        if(request.readyState == 4){
-                            if(request.status == 204){
-                                return;
-                            }
-                            if(request.status == 403){
-                                this.playPauseIconErrorMessage();
-                            }
-                            if(request.status == 401){
-                                this.getNewAccessToken(this.refreshToken);
-                            }
-                        }
-                    }
-                    request.send();
-                // current song is not playing
-                }else{
-                    let request = new XMLHttpRequest();
-                    request.open('PUT', 'https://api.spotify.com/v1/me/player/play', true);
-                    request.setRequestHeader('Authorization', `Bearer ${this.accessToken}`);
-                        request.onreadystatechange = () => {
-                            if(request.readyState == 4){
-                                // success
-                                if(request.status == 204){
-                                    return
-                                }
-                                // user does not have premium
-                                else if( request.status == 403){
-                                    this.playPauseIconErrorMessage();
-                                }
-                                // needs new access token
-                                else if (request.status == 401){
-                                    this.getNewAccessToken(this.refreshToken);
-                                }else {
-                                    return
-                                }
-                            }
-                        }
-                    request.send();
-                }
-                */
             }
-
-            console.log(currentSong);
-
         }
             // click event for the body after the play pause icon error message is shown
             playPauseIconErrorMessageBodyClickEvent(ev){
@@ -776,6 +756,38 @@ class ProfilePage{
                 document.getElementById('playPauseIconErrorMessage').remove();
 
             }
+
+        // search song input event
+        searchSongInputEvent(ev){
+            let value = ev.target.value;
+            
+            //making the request
+            let request = new XMLHttpRequest();
+            let url = 'https://api.spotify.com/v1/search?'
+            url += `q=${value}&type=track&limit=5`;
+            console.log(url);
+            request.open('GET', url, true);
+            request.setRequestHeader('Authorization', `Bearer ${this.accessToken}`);
+                request.onreadystatechange = () => {
+                    if(request.readyState == 4){
+                        if(request.status == 200){
+                            let tracks = JSON.parse(request.responseText);
+                            tracks = tracks.tracks.items;
+                            let box;
+                            if(box = document.getElementById('searchSongResponsesBox')){
+                                box.remove();
+                            }
+                            document.getElementById('playSongContainer')
+                            .insertBefore(this.makeSearchSongResponsesBox(tracks),document.getElementById('playSongContainerButton'));
+                        }
+                        if(request.status == 401){
+                            this.getNewAccessToken(this.accessToken);
+                        }
+                        else{return}
+                    }
+                }
+            request.send();
+        }
 }
 
 profilePage = new ProfilePage();

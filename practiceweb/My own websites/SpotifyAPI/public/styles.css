@@ -142,6 +142,36 @@ button:hover{
             box-shadow: 1px 1px 5px black;
             margin-bottom: 10px;
         }
+            /* box with responses when user is searching for a song */
+            #searchSongResponsesBox{
+                position: absolute;
+                z-index : 3;
+                background-color: white;
+                border: 2px solid hotpink;
+                border-top: none;
+            }
+                /* list inside of the container that holds the suggestions based on user input */
+                #searchSongResponsesList {
+                    margin: 0px;
+                    padding: 0px;
+                }
+                    #searchSongResponsesList li{
+                        list-style-type: none;
+                        text-align: left;
+                        padding: 7px 5px;
+                        font-size: 13px;
+                        color: white;
+                    }
+                    #searchSongResponsesList li:hover{
+                        cursor: pointer;
+                    }
+                    #searchSongResponsesList li:nth-child(even){
+                        background-color: #121B40
+                    }
+                    #searchSongResponsesList li:nth-child(odd){
+                        background-color: #060D28;
+                    }
+
         /* the icon where user can pause or resume the song */
         #playPauseSongIcon{
             width: 30px;
