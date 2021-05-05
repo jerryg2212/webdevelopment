@@ -690,6 +690,33 @@ class ProfilePage{
             let currentSong = await this.getCurrentlyPlayingSong();
             // if their is a current song
             if(currentSong){
+                
+                let request = new XMLHttpRequest();
+                // if the current song is playing we want to set the request to pause it
+                if(currentSong.is_playing){
+                    request.open('PUT', 'https://api.spotify.com/v1/me/player/pause', true);
+                }
+                // song is pause so we want to set the request to play
+                else{
+                    request.open('PUT', 'https://api.spotify.com/v1/me/player/play', true);
+                }
+                request.setRequestHeader('Authorization', `Bearer ${this.accessToken}`);
+                request.onreadystatechange = () => {
+                    if(request.readyState == 4){
+                        if(request.status == 204){
+                            return;
+                        }
+                        if(request.status == 403){
+                            this.playPauseIconErrorMessage();
+                        }
+                        if(request.status == 401){
+                            this.getNewAccessToken(this.refreshToken);
+                        }
+                    }
+                }
+                request.send();
+                
+               /*
                 // if the song is playing 
                 if(currentSong.is_playing){
                     console.log('the song is playing');
@@ -735,6 +762,7 @@ class ProfilePage{
                         }
                     request.send();
                 }
+                */
             }
 
             console.log(currentSong);
