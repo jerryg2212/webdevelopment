@@ -695,7 +695,7 @@ class ProfilePage{
                 // if the current song is playing we want to set the request to pause it
                 if(currentSong.is_playing){
                     request.open('PUT', 'https://api.spotify.com/v1/me/player/pause', true);
-                }
+                } 
                 // song is pause so we want to set the request to play
                 else{
                     request.open('PUT', 'https://api.spotify.com/v1/me/player/play', true);
