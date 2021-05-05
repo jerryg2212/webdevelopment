@@ -89,11 +89,12 @@ app.get('/refreshToken', (req, res) => {
             'Content-type' : 'application/x-www-form-urlencoded'
         }
     }, (err, response, body) => {
-        if(err){
+        body = JSON.parse(body);
+        if(err || body.access_token == undefined){
             res.redirect('/');
         }
         console.log(body);
-        body = JSON.parse(body);
+
         console.log(body);
         console.log(`this is the access token ${body.access_token}`);
         console.log( `and this is the refresh token ${body.refresh_token}`);

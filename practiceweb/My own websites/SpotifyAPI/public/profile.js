@@ -35,6 +35,8 @@ class ProfilePage{
         this.currentlyPlayingSongPopularity;
         this.currentlyPlayingSongId;
         this.currentlyPlayingSongPlayingState;
+        // binding that holds reference to body click event after the error message for the play pause icon shows
+        this.playPauseIconErrorMessageBodyClickEventHandler = this.playPauseIconErrorMessageBodyClickEvent.bind(this);
     }
     loadPage(){
         this.makePage();
@@ -353,12 +355,25 @@ class ProfilePage{
             let icon = document.createElement('img');
             icon.setAttribute('id', 'playPauseSongIcon');
             icon.setAttribute('src', 'icons/pause-play-button.svg');
+            icon.addEventListener('click', this.playPauseSongIconClickEvent.bind(this));
+            addStyleToStyleSheet('#playPauseSongIcon:hover {cursor: pointer;}')
             return icon;
         }
-        // button that is used to update the currently playing song information
+            // error message that is display 
+            // when the user clicks on the icon but does not have premium
+            playPauseIconErrorMessage(){
+                let errorMessage = document.createElement('p');
+                errorMessage.setAttribute('id', 'playPauseIconErrorMessage');
+                errorMessage.textContent = `This feature does not work without a premium account`;
+                document.getElementById('playSongContainer').insertBefore(errorMessage, document.getElementById('updateCurrentlyPlayingSongInformationButton'));
+                // adds a one time click event to the body that gets rid of the error message
+                document.body.addEventListener('click', this.playPauseIconErrorMessageBodyClickEventHandler, true);
+            }
+            // button that is used to update the currently playing song information
         updateCurrentlyPlayingSongInformationButton(){
             let button = document.createElement('button');
             button.setAttribute('class', 'playSongContainerButton');
+            button.setAttribute('id', 'updateCurrentlyPlayingSongInformationButton');
             button.textContent = 'Update Information';
             // adding click event so it updates the current song if it switches
             button.addEventListener('click', this.updateCurrentlyPlayingSongClickEvent.bind(this));
@@ -464,6 +479,7 @@ class ProfilePage{
     }
     // gets a refresh token after the access token expires
     getNewAccessToken(token){
+        console.log('getNewAccesstoken ran');
         //query string
         let queryString = new URLSearchParams();
         queryString.set('refresh_token', token);
@@ -473,7 +489,8 @@ class ProfilePage{
         currentURL.search = queryString.toString();
         console.log(currentURL.toString());
         //access token is undefined because the last time this method was called spotify did not give us another one
-        if(!token){
+        if(token == undefined){
+            console.log('there is no token')
             currentURL.pathname = '/';
             currentURL.search = '';
             window.location = currentURL.toString();
@@ -590,7 +607,10 @@ class ProfilePage{
         return promise;
     }
 
+
+
     ///// EVENTS /////\\\\\
+
         // submit event for the favorite music form
         favoriteMusicFormSubmitEvent(ev){
             ev.preventDefault();
@@ -664,6 +684,70 @@ class ProfilePage{
                 }
             }
         }
+
+        // click event for the play pause icon
+        async playPauseSongIconClickEvent(ev){
+            let currentSong = await this.getCurrentlyPlayingSong();
+            // if their is a current song
+            if(currentSong){
+                // if the song is playing 
+                if(currentSong.is_playing){
+                    console.log('the song is playing');
+                    let request = new XMLHttpRequest();
+                    request.open('PUT', 'https://api.spotify.com/v1/me/player/pause', true);
+                    request.setRequestHeader('Authorization', `Bearer ${this.accessToken}`);
+                    request.onreadystatechange = () => {
+                        if(request.readyState == 4){
+                            if(request.status == 204){
+                                return;
+                            }
+                            if(request.status == 403){
+                                this.playPauseIconErrorMessage();
+                            }
+                            if(request.status == 401){
+                                this.getNewAccessToken(this.refreshToken);
+                            }
+                        }
+                    }
+                    request.send();
+                // current song is not playing
+                }else{
+                    let request = new XMLHttpRequest();
+                    request.open('PUT', 'https://api.spotify.com/v1/me/player/play', true);
+                    request.setRequestHeader('Authorization', `Bearer ${this.accessToken}`);
+                        request.onreadystatechange = () => {
+                            if(request.readyState == 4){
+                                // success
+                                if(request.status == 204){
+                                    return
+                                }
+                                // user does not have premium
+                                else if( request.status == 403){
+                                    this.playPauseIconErrorMessage();
+                                }
+                                // needs new access token
+                                else if (request.status == 401){
+                                    this.getNewAccessToken(this.refreshToken);
+                                }else {
+                                    return
+                                }
+                            }
+                        }
+                    request.send();
+                }
+            }
+
+            console.log(currentSong);
+
+        }
+            // click event for the body after the play pause icon error message is shown
+            playPauseIconErrorMessageBodyClickEvent(ev){
+                document.body.removeEventListener('click', this.playPauseIconErrorMessageBodyClickEventHandler, true);
+                ev.stopPropagation();
+                console.log('play pause icon body click event ran');
+                document.getElementById('playPauseIconErrorMessage').remove();
+
+            }
 }
 
 profilePage = new ProfilePage();
@@ -683,54 +767,13 @@ function trimSongName(name){
     return name
 }
 
-/*    makeRequestForTokens(){
-        // gets the response sent in the url after authorization was requested
-        let authorizationResponse = this.getRequestedAuthorizationResponse();
-        if(authorizationResponse.error){
-            //change the path of the url to the homepage
-        }
-        else{
-            this.requestAccessTokens(authorizationResponse.code);
-        }
+// adds a css string to the style sheet
+function addStyleToStyleSheet(css){
+    let style = document.createElement('style');
+    if(style.styleSheet){
+        style.styleSheet.cssText = css;
+    }else{
+        style.appendChild(document.createTextNode(css));
     }
-
-        // gets the information in the url params from the request for authorization
-        // returns an object with the code,state, and error
-        getRequestedAuthorizationResponse(){
-            let result = {};
-            let queryString = window.location.search;
-            let searchParams = new URLSearchParams(queryString);
-            result.code = searchParams.get('code');
-            result.state = searchParams.get('state');
-            result.error = searchParams.get('error');
-            return result;
-        }
-        
-        // gets the access and refresh tokens
-        // params : authorization code
-        // returns : object with properties accessToken and refreshToken
-        requestAccessTokens(code){
-            let request = new XMLHttpRequest();
-            request.onreadystatechange = this.getAccessTokensFromResponse(request);
-            request.open('POST', 'https://accounts.spotify.com/api/token', true);
-            //setting the headers
-            request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            let body = this.makeAccessTokensRequestBody(code);
-            request.send(body);
-            
-
-        }
-            //gets the access tokens from the response from the server
-            getAccessTokensFromResponse(request){
-                if(request.readyState == 4 && request.status == 200){
-                    console.log(`this is the data send back ${request.responseText}`)
-                }
-                else{
-                    console.log('error processing data from the server');
-                }
-            }
-
-            // makes the body to send in when making the post request to get the access tokens
-            makeAccessTokensRequestBody(code){
-                return `grant_type=authorization_code&code=${code}&redirect_uri=${redirecturi}&client_id=${client_Id}&client_secret=${client_Secret}`;
-            } */
+    document.querySelector('head').appendChild(style);
+}
