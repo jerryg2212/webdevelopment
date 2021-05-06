@@ -8,8 +8,6 @@ const profilePageBody = document.getElementById('profilePageBody');
 
 
 
-class ProfilePage{
-    constructor(){
         this.body = profilePageBody;
         this.saveTokens();
         Promise.all([this.getUsersTopSongs(5, 'long_term'), this.getUsersTopArtists(5, 'long_term'), this.saveProfileInformation(), this.getCurrentlyPlayingSong()]).then((values) => {this.saveAllInformation(values)}).then(() => {this.makeBody()}).catch((err) => {console.log(err)});
@@ -35,18 +33,10 @@ class ProfilePage{
         this.currentlyPlayingSongPopularity;
         this.currentlyPlayingSongId;
         this.currentlyPlayingSongPlayingState;
-
-        //last song the user clicked in the search input
-        this.lastSearchedSongId = null;
-
-    // Event Bindings
         // binding that holds reference to body click event after the error message for the play pause icon shows
         this.playPauseIconErrorMessageBodyClickEventHandler = this.playPauseIconErrorMessageBodyClickEvent.bind(this);
         // binding that holds reference to body click event for when the search song box is visible
         this.searchSongBodyClickEventHandler = this.searchSongBodyClickEvent.bind(this);
-        // binding for the li element for the search responses box
-        this.searchSongResponsesBoxLiClickEventHandler = this.searchSongResponsesBoxLiClickEvent.bind(this);
-    }
     loadPage(){
         this.makePage();
     }
@@ -350,15 +340,15 @@ class ProfilePage{
             makeSearchSongResponsesBox(tracks){
                 //if their are no tracks populate track with default value
                 if(tracks.length == 0){
-                    tracks.push({name: 'No suggestions', artists: [{name: null}], id : null})
+                    tracks.push({name: 'No suggestions'})
                 }
                 //input element and its positions
                     let input = document.getElementById('searchSongToPlayInput');
                     let inputPosition = input.getBoundingClientRect();
-                    console.log(inputPosition);
+                console.log(inputPosition);
                     //styles for the box container so it can be positioned properly
                     let boxStyles = {
-                        top : `${inputPosition.bottom + window.scrollY}px`,
+                        top : `${inputPosition.bottom}px`,
                         left : `${inputPosition.left + 15}px`,
                         width : `${inputPosition.width - 30}px`
                     }
@@ -367,20 +357,8 @@ class ProfilePage{
                 list.setAttribute('id', 'searchSongResponsesList');
                 box.setAttribute('id', 'searchSongResponsesBox');
                 for( let track of tracks){
-                    let id = track.id;
-                    let name = track.name;
-                    let artist = track.artists[0].name;
                     let li = document.createElement('li');
-                    let text = document.createTextNode(`${name} - `);
-                    let span = document.createElement('span');
-                    span.setAttribute('class', 'italics');
-                    span.textContent = `${artist}`;
-                    li.name = name;
-                    li.artist = artist;
-                    li.songId = id;
-                    li.appendChild(text);
-                    li.appendChild(span);
-                    li.addEventListener('click', this.searchSongResponsesBoxLiClickEventHandler);
+                    li.textContent = track.name;
                     list.appendChild(li);
                 }
                 Object.assign(box.style, boxStyles);
@@ -393,7 +371,6 @@ class ProfilePage{
             button.setAttribute('class', 'playSongContainerButton');
             button.setAttribute('id', 'playSongContainerButton');
             button.textContent = 'Play Song';
-            button.addEventListener('click', this.playSongButtonClickEvent.bind(this), false);
             return button;
         }
         // header that says currently playing song
@@ -532,7 +509,7 @@ class ProfilePage{
     }
     // gets a refresh token after the access token expires
     getNewAccessToken(token){
-        console.log(`get access token ran and this is the refresh token ${token}`);
+        console.log('getNewAccesstoken ran');
         //query string
         let queryString = new URLSearchParams();
         queryString.set('refresh_token', token);
@@ -695,14 +672,12 @@ class ProfilePage{
             Promise.all([songsPromise, artistsPromise]).then((values) => {
                 // replaces the old top Songs container with the information from the new request
                 if(values[0]){
-                    this.topSongs = values[0].items
-                    favoriteInformationContainer.replaceChild(this.makeTopSongsContainer(), document.getElementById('topSongsContainer'));
+                    favoriteInformationContainer.replaceChild(this.makeTopSongsContainer(values[0].items), document.getElementById('topSongsContainer'));
                     document.getElementById('topSongsHeader').textContent = `Top ${this.lastNumberOfSongs} Songs`;
                 }
                 // replaces the old top artists container with the information from the new request
                 if(values[1]){
-                    this.topArtists = values[1].items;
-                    favoriteInformationContainer.replaceChild(this.makeTopArtistsContainer(), document.getElementById('topArtistsContainer'));
+                    favoriteInformationContainer.replaceChild(this.makeTopArtistsContainer(values[1].items), document.getElementById('topArtistsContainer'));
                     document.getElementById('topArtistsHeader').textContent = `Top ${this.lastNumberOfArtists} Artists`;
                 }
             })
@@ -789,6 +764,7 @@ class ProfilePage{
             let request = new XMLHttpRequest();
             let url = 'https://api.spotify.com/v1/search?'
             url += `q=${value}&type=track&limit=5`;
+            console.log(url);
             request.open('GET', url, true);
             request.setRequestHeader('Authorization', `Bearer ${this.accessToken}`);
                 request.onreadystatechange = () => {
@@ -816,6 +792,7 @@ class ProfilePage{
             searchSongBodyClickEvent(ev){
                 let input = document.getElementById('searchSongToPlayInput');
                 let searchResponsesBox = document.getElementById('searchSongResponsesBox');
+                console.log(ev);
                 // getting the locations of the search responses box and the input element
                     let inputBounding = input.getBoundingClientRect();
                         let inputTop = inputBounding.y;
@@ -832,46 +809,21 @@ class ProfilePage{
                         let totalBottom = boxBottom;
                         let totalRight = Math.max(boxRight, inputRight);
                         let totalLeft = Math.min(boxLeft, inputLeft);
+               // this.body.removeEventListener('click', this.searchSongBodyClickEventHandler, true);
+                console.log(document.getElementById('searchSongResponsesBox').getBoundingClientRect());
                 // if click is outside both input and search box remove the search box and body listener
                 if(ev.clientX > totalRight || ev.clientX < totalLeft || ev.clientY < totalTop || ev.clientY > totalBottom ){
                     this.body.removeEventListener('click', this.searchSongBodyClickEventHandler, true);
                     document.getElementById('searchSongResponsesBox').remove();
-                    input.value = '';
-                    this.lastSearchedSongId = null;
                 }
             }
 
-            // click event for the li elements in the search resposnes box
-            // when clicked with will load the name of the song and album in the input box
-            searchSongResponsesBoxLiClickEvent(ev){
-                let input = document.getElementById('searchSongToPlayInput');
-                ev.stopPropagation();
-                //saving the clicked song information
-                    let songName = ev.currentTarget.name;
-                    let songArtist = ev.currentTarget.artist;
-                    this.lastSearchedSongId = ev.currentTarget.songId;
-                //changing the value of the input to the clicked song
-                input.value = `${songName} - ${songArtist}`;
-                document.getElementById('searchSongResponsesBox').remove();
-                this.body.removeEventListener('click', this.searchSongBodyClickEventHandler, true);
-            }
-
-        // click event for the play song button
-        // it gets the song in the input box and plays it
-        playSongButtonClickEvent(ev){
-            console.log(ev);
-        }
-    
-    ///// END OF EVENTS /////
-}
-
-profilePage = new ProfilePage();
-profilePage.loadPage();
 
 
 
 
-///// FUNCTIONS /////\\\\\\
+
+///// RANDOM FUNCTIONS /////\\\\\\
 
 //gets a song name and trims it
 function trimSongName(name){

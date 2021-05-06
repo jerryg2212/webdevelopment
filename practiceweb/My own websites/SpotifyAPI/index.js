@@ -91,14 +91,19 @@ app.get('/refreshToken', (req, res) => {
     }, (err, response, body) => {
         body = JSON.parse(body);
         if(err || body.access_token == undefined){
+            console.log('should be redirected to the homepage');
             res.redirect('/');
+            res.end();
         }
-        console.log(body);
+        else{
+            console.log(body);
 
-        console.log(body);
-        console.log(`this is the access token ${body.access_token}`);
-        console.log( `and this is the refresh token ${body.refresh_token}`);
-        res.redirect(`/profile?access_token=${body.access_token}&refresh_token=${body.refresh_token}`);
+            console.log(body);
+            console.log(`this is the access token ${body.access_token}`);
+            console.log( `and this is the refresh token ${body.refresh_token}`);
+            res.redirect(`/profile?access_token=${body.access_token}&refresh_token=${body.refresh_token}`);
+        }
+
     })
 })
 

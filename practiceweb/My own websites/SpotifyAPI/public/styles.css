@@ -137,7 +137,7 @@ button:hover{
             border-radius: 30px;
             border: 2px solid hotpink;
             color: #121B40;
-            font-size: 16px;
+            font-size: 14px;
             letter-spacing: .3px;
             box-shadow: 1px 1px 5px black;
             margin-bottom: 10px;
@@ -223,4 +223,9 @@ button:hover{
     color: green;
     text-shadow: 1px 1px 1px black;
     font-weight: bold;
+}
+
+/* li elements in the song search box list */
+.italics{
+    font-style: italic;
 }
