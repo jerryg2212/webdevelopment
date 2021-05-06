@@ -37,6 +37,8 @@ class ProfilePage{
         this.currentlyPlayingSongPlayingState;
         // binding that holds reference to body click event after the error message for the play pause icon shows
         this.playPauseIconErrorMessageBodyClickEventHandler = this.playPauseIconErrorMessageBodyClickEvent.bind(this);
+        // binding that holds reference to body click event for when the search song box is visible
+        this.searchSongBodyClickEventHandler = this.searchSongBodyClickEvent.bind(this);
     }
     loadPage(){
         this.makePage();
@@ -779,6 +781,7 @@ class ProfilePage{
                             }
                             document.getElementById('playSongContainer')
                             .insertBefore(this.makeSearchSongResponsesBox(tracks),document.getElementById('playSongContainerButton'));
+                            document.body.addEventListener('click', this.searchSongBodyClickEventHandler, true );
                         }
                         if(request.status == 401){
                             this.getNewAccessToken(this.accessToken);
@@ -788,6 +791,35 @@ class ProfilePage{
                 }
             request.send();
         }
+            //click event for the body that when user clicks the input box closes
+            searchSongBodyClickEvent(ev){
+                let input = document.getElementById('searchSongToPlayInput');
+                let searchResponsesBox = document.getElementById('searchSongResponsesBox');
+                console.log(ev);
+                // getting the locations of the search responses box and the input element
+                    let inputBounding = input.getBoundingClientRect();
+                        let inputTop = inputBounding.y;
+                        let inputRight = inputBounding.x + inputBounding.width;
+                        let inputBottom = inputBounding.y + inputBounding.height;
+                        let inputLeft = inputBounding.x;
+                    let boxBounding = searchResponsesBox.getBoundingClientRect();
+                        let boxTop = boxBounding.y;
+                        let boxRight = boxBounding.x + boxBounding.width;
+                        let boxBottom = boxBounding.y + boxBounding.height;
+                        let boxLeft = boxBounding.x;
+                    // combining the area of the two elements
+                        let totalTop = inputTop;
+                        let totalBottom = boxBottom;
+                        let totalRight = Math.max(boxRight, inputRight);
+                        let totalLeft = Math.min(boxLeft, inputLeft);
+               // this.body.removeEventListener('click', this.searchSongBodyClickEventHandler, true);
+                console.log(document.getElementById('searchSongResponsesBox').getBoundingClientRect());
+                // if click is outside both input and search box remove the search box and body listener
+                if(ev.clientX > totalRight || ev.clientX < totalLeft || ev.clientY < totalTop || ev.clientY > totalBottom ){
+                    this.body.removeEventListener('click', this.searchSongBodyClickEventHandler, true);
+                    document.getElementById('searchSongResponsesBox').remove();
+                }
+            }
 }
 
 profilePage = new ProfilePage();

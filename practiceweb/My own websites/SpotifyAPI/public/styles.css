@@ -177,6 +177,8 @@ button:hover{
             width: 30px;
             display: block;
             margin: 5px auto;
+            border-radius: 17px;
+            box-shadow: 1px 1px 3px black;
         }
         /* container that holds all the currently playing song information */
         #currentlyPlayingSongInformationContainer{
