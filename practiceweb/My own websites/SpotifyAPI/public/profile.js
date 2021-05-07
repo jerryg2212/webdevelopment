@@ -38,6 +38,7 @@ class ProfilePage{
 
         //last song the user clicked in the search input
         this.lastSearchedSongId = null;
+        this.lastSearchedSongURI = null;
 
     // Event Bindings
         // binding that holds reference to body click event after the error message for the play pause icon shows
@@ -355,7 +356,6 @@ class ProfilePage{
                 //input element and its positions
                     let input = document.getElementById('searchSongToPlayInput');
                     let inputPosition = input.getBoundingClientRect();
-                    console.log(inputPosition);
                     //styles for the box container so it can be positioned properly
                     let boxStyles = {
                         top : `${inputPosition.bottom + window.scrollY}px`,
@@ -378,6 +378,7 @@ class ProfilePage{
                     li.name = name;
                     li.artist = artist;
                     li.songId = id;
+                    li.uri = track.uri;
                     li.appendChild(text);
                     li.appendChild(span);
                     li.addEventListener('click', this.searchSongResponsesBoxLiClickEventHandler);
@@ -396,6 +397,11 @@ class ProfilePage{
             button.addEventListener('click', this.playSongButtonClickEvent.bind(this), false);
             return button;
         }
+            // error message if user does not have premium
+            playSongButtonErrorMessage(){
+                let p = document.createElement('p');
+                p.textContent = 'This feature does not work without a premium account';
+            }
         // header that says currently playing song
         currentlyPlayingSongHeader(){
             let h1 = document.createElement('h1');
@@ -660,6 +666,42 @@ class ProfilePage{
         return promise;
     }
 
+    // adds a song to queue
+    // parameters : uri of the song
+    spotifyAddSongToQueue(uri){
+        let request = new XMLHttpRequest();
+        request.open('POST', `https://api.spotify.com/v1/me/player/queue?uri=${uri}`, true);
+        request.setRequestHeader('Authorization', `Bearer ${this.accessToken}`);
+        request.onreadystatechange = () => {
+            if(request.readyState == 4){
+                if(request.status == 204) {return}
+                if(request.status == 401){
+                    this.getNewAccessToken(this.refreshToken);
+                }
+                if(request.status == 403){
+                    this.playSongButtonErrorMessage();
+                }
+            }
+        }
+        request.send();
+    }
+
+    // skips to the next song in queue
+    spotifySkipToNextSong(){
+        let request = new XMLHttpRequest();
+        request.open('POST', 'https://api.spotify.com/v1/me/player/next', true);
+        request.setRequestHeader('Authorization', `Bearer ${this.accessToken}`);
+        request.onreadystatechange = () => {
+            if(request.readyState == 4){
+                if(request.status == 204){return}
+                if(request.status == 401){
+                    this.getNewAccessToken(this.accessToken);
+                }
+            }
+        }
+        request.send();
+    }
+
 
 
     ///// EVENTS /////\\\\\
@@ -838,6 +880,7 @@ class ProfilePage{
                     document.getElementById('searchSongResponsesBox').remove();
                     input.value = '';
                     this.lastSearchedSongId = null;
+                    this.lastSearchedSongURI = null;
                 }
             }
 
@@ -850,6 +893,7 @@ class ProfilePage{
                     let songName = ev.currentTarget.name;
                     let songArtist = ev.currentTarget.artist;
                     this.lastSearchedSongId = ev.currentTarget.songId;
+                    this.lastSearchedSongURI = ev.currentTarget.uri;
                 //changing the value of the input to the clicked song
                 input.value = `${songName} - ${songArtist}`;
                 document.getElementById('searchSongResponsesBox').remove();
@@ -859,6 +903,17 @@ class ProfilePage{
         // click event for the play song button
         // it gets the song in the input box and plays it
         playSongButtonClickEvent(ev){
+            // if user does not have premium then return and send error message
+            if(this.accountType != 'premium'){
+                this.playSongButtonErrorMessage();
+            }
+            console.log(this.lastSearchedSongId);
+            // add the song to queue
+            this.spotifyAddSongToQueue(this.lastSearchedSongURI);
+            this.spotifySkipToNextSong();
+            this.lastSearchedSongId = null;
+            this.lastSearchedSongURI = null;
+            document.getElementById('searchSongToPlayInput').value = '';
             console.log(ev);
         }
     

@@ -75,6 +75,7 @@ app.get('/profile', (req, res) => {
 })
 
 app.get('/refreshToken', (req, res) => {
+    console.log('got a new refresh token');
     console.log(req.query.refresh_token);
     request({
         url: getTokenURL,
