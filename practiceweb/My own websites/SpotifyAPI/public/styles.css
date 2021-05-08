@@ -171,7 +171,11 @@ button:hover{
                     #searchSongResponsesList li:nth-child(odd){
                         background-color: #060D28;
                     }
-
+        /* container for the queue and next song buttons */
+        #queueAndNextTrackButtonsContainer{
+            display: flex;
+            justify-content: space-evenly;
+        }
         /* the icon where user can pause or resume the song */
         #playPauseSongIcon{
             width: 30px;

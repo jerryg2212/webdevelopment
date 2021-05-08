@@ -2,6 +2,9 @@
 // spotify api keys
 /*const client_Id = process.env.CLIENT_ID;
 const client_Secret = process.env.CLIENT_SECRET;*/
+
+//const { request } = require("express");
+
 // redirect uri
 const redirecturi = 'http://localhost:8000/callback';
 const profilePageBody = document.getElementById('profilePageBody');
@@ -19,6 +22,7 @@ class ProfilePage{
             this.userEmail;
             this.accountType;
             this.numberOfFollowers;
+            this.availableDevices;
         // users top songs and artists
             this.topSongs;
             this.topArtists;
@@ -69,6 +73,7 @@ class ProfilePage{
         if(values[3] != '' && values[3] != 'Error'){
             this.saveCurrentlyPlayingSongInformation(values[3].item)
         }else{this.currentlyPlayingSongPlayingState = false;}
+
     }
         // saves the currently playing song information
         saveCurrentlyPlayingSongInformation(currentSong){
@@ -115,6 +120,7 @@ class ProfilePage{
             profileInformationContainer.appendChild(this.makeEmailHeader());
             profileInformationContainer.appendChild(this.makeFollowersHeader());
             profileInformationContainer.appendChild(this.makeAccountTypeHeader());
+            
 
             return profileInformationContainer;
         }
@@ -149,6 +155,13 @@ class ProfilePage{
                 let followersP = document.createElement('p');
                 followersP.textContent = `#Followers ${this.numberOfFollowers}`;
                 return followersP;
+            }
+            // makes the label and select element where user selects a device
+            makeCurrentDeviceLabelAndSelect(){
+                let label = document.createElement('label');
+                let text = document.createTextNode('Current Device');
+                let select = document.createElement('select');
+
             }
         // container that shows the users favorite music information
         displayFavoriteMusicInformation(){
@@ -323,7 +336,8 @@ class ProfilePage{
 
         playSongContainer.appendChild(this.playSongHeader());
         playSongContainer.appendChild(this.searchSongToPlayInput());
-        playSongContainer.appendChild(this.playSongButton());
+        playSongContainer.appendChild(this.queueAndNextTrackButtonsContainer());
+       //playSongContainer.appendChild(this.playSongButton());
         playSongContainer.appendChild(this.currentlyPlayingSongHeader());
         playSongContainer.appendChild(this.playPauseSongIcon());
         playSongContainer.appendChild(this.updateCurrentlyPlayingSongInformationButton());
@@ -387,6 +401,32 @@ class ProfilePage{
                 Object.assign(box.style, boxStyles);
                 box.appendChild(list);
                 return box;
+            }
+        // container that holds the queue song and next track button
+        queueAndNextTrackButtonsContainer(){
+            let container = document.createElement('div');
+            container.setAttribute('id', 'queueAndNextTrackButtonsContainer');
+            container.appendChild(this.makeQueueSongButton());
+            container.appendChild(this.makeNextTrackButton());
+            return container;
+        }
+            // makes the queue button
+            makeQueueSongButton(){
+                let button = document.createElement('button');
+                button.textContent = 'Queue';
+                button.setAttribute('id', 'queueSongButton');
+                button.setAttribute('class', 'playSongContainerButton');
+                button.addEventListener('click', this.queueButtonClickEvent.bind(this));
+                return button;
+            }
+            //makes the next track button
+            makeNextTrackButton(){
+                let button = document.createElement('button');
+                button.textContent = 'Next Track';
+                button.setAttribute('id', 'nextTrackButton');
+                button.setAttribute('class', 'playSongContainerButton');
+                button.addEventListener('click', this.nextTrackButtonClickEvent.bind(this));
+                return button
             }
         // returns a button that when clicked will play the song in the user wants
         playSongButton(){
@@ -702,6 +742,30 @@ class ProfilePage{
         request.send();
     }
 
+    // gets all users current available devices
+    spotifyGetDevices(){
+        let promise = new Promise((resolve, reject) => {
+            let request = new XMLHttpRequest();
+            request.open('GET', 'https://api.spotify.com/v1/me/player/devices', true);
+            request.setRequestHeader('Authorization', `Bearer ${this.accessToken}`);
+            request.onreadystatechange = () => {
+                if(request.readyState == 4){
+                    if(request.status == 200){
+                        resolve(JSON.parse(request.responseText));
+                    }
+                    if(request.status == 401){
+                        this.getNewAccessToken(this.refreshToken);
+                    }
+                    else{reject('could not get devices')}
+                }
+            }
+            request.send();
+        })
+
+        return promise;
+
+    }
+
 
 
     ///// EVENTS /////\\\\\
@@ -916,6 +980,17 @@ class ProfilePage{
             document.getElementById('searchSongToPlayInput').value = '';
             console.log(ev);
         }
+
+    // click event for the queue button that adds a song to the queue
+    queueButtonClickEvent(ev){
+        this.spotifyAddSongToQueue(this.lastSearchedSongURI);
+        this.lastSearchedSongURI = null;
+        document.getElementById('searchSongToPlayInput').value = '';
+    }
+    // click event for the next track button
+    nextTrackButtonClickEvent(ev){
+        this.spotifySkipToNextSong();
+    }
     
     ///// END OF EVENTS /////
 }
