@@ -15,7 +15,7 @@ class ProfilePage{
     constructor(){
         this.body = profilePageBody;
         this.saveTokens();
-        Promise.all([this.getUsersTopSongs(5, 'long_term'), this.getUsersTopArtists(5, 'long_term'), this.saveProfileInformation(), this.getCurrentlyPlayingSong()]).then((values) => {this.saveAllInformation(values)}).then(() => {this.makeBody()}).catch((err) => {console.log(err)});
+        Promise.all([this.getUsersTopSongs(5, 'long_term'), this.getUsersTopArtists(5, 'long_term'), this.saveProfileInformation(), this.getCurrentlyPlayingSong(), this.spotifyGetDevices()]).then((values) => {this.saveAllInformation(values)}).then(() => {this.makeBody()}).catch((err) => {console.log(err)});
         // profile information
             this.displayName;
             this.linkToPage;
@@ -23,6 +23,8 @@ class ProfilePage{
             this.accountType;
             this.numberOfFollowers;
             this.availableDevices;
+            this.currentDevice;
+            this.currentDeviceName;
         // users top songs and artists
             this.topSongs;
             this.topArtists;
@@ -51,6 +53,10 @@ class ProfilePage{
         this.searchSongBodyClickEventHandler = this.searchSongBodyClickEvent.bind(this);
         // binding for the li element for the search responses box
         this.searchSongResponsesBoxLiClickEventHandler = this.searchSongResponsesBoxLiClickEvent.bind(this);
+        // binding for the queue and next track button
+        this.queueAndNextTrackButtonsErrorMessageBodyClickEventHandler = this.queueAndNextTrackButtonsErrorMessageBodyClickEvent.bind(this);
+        // binding for the activate device error message body click event
+        this.activateDeviceErrorMessageBodyClickEventHandler = this.activateDeviceErrorMessageBodyClickEvent.bind(this);
     }
     loadPage(){
         this.makePage();
@@ -74,6 +80,10 @@ class ProfilePage{
             this.saveCurrentlyPlayingSongInformation(values[3].item)
         }else{this.currentlyPlayingSongPlayingState = false;}
 
+        this.currentDevice = getCurrentlyActiveDevice(values[4].devices);
+        console.log(`current devices ${this.currentDevice}`)
+        this.currentDeviceName = this.currentDevice ? this.currentDevice.name : undefined;
+
     }
         // saves the currently playing song information
         saveCurrentlyPlayingSongInformation(currentSong){
@@ -90,7 +100,7 @@ class ProfilePage{
         }
 
 
-    makeBody(){
+    async makeBody(){
         //console.log(values[0]);
         // container that shows the users profile information and their favorite songs information
         this.body.appendChild(this.makeUserInformationContainer());
@@ -99,6 +109,8 @@ class ProfilePage{
         // container where you can search a song and play it and displays information about the currently playing song
         this.body.appendChild(this.makeSearchSongContainer());
         //this.body.appendChild(this.displayContainer());
+        let t = await this.spotifyGetDevices();
+        console.log(t);
     }
     //container that holds the users profile information and the users favorite music information
     makeUserInformationContainer(){
@@ -267,12 +279,12 @@ class ProfilePage{
                 topSongsContainer.setAttribute('id', 'topSongsContainer');
 
                 //creating the list for the songs
-                    let listOfSongs = document.createElement('ul');
+                    let listOfSongs = document.createElement('ol');
                     listOfSongs.setAttribute('id', 'usersTopSongsList');
                     let positionOfTopSong = 1;
                     for( let song of this.topSongs){
                         let li = document.createElement('li');
-                        let nameOfSong = document.createTextNode(`${positionOfTopSong}. ${trimSongName(song.name)}  --  `);
+                        let nameOfSong = document.createTextNode(`${trimSongName(song.name)}  --  `);
                         li.appendChild(nameOfSong);
                         let nameOfArtist = document.createElement('span');
                         nameOfArtist.setAttribute('class', 'nameOfArtist');
@@ -295,12 +307,12 @@ class ProfilePage{
             makeTopArtistsContainer(){
                 let topArtistsContainer = document.createElement('div');
                 topArtistsContainer.setAttribute('id', 'topArtistsContainer');
-                let listOfArtists = document.createElement("ul");
+                let listOfArtists = document.createElement("ol");
                 listOfArtists.setAttribute('id', 'usersTopArtistsList');
                 let postiionOfTopArtists = 1;
                 for ( let artist of this.topArtists){
                     let li = document.createElement('li');
-                    li.textContent = `${postiionOfTopArtists}. ${artist.name}`;
+                    li.textContent = `${artist.name}`;
                     listOfArtists.appendChild(li);
                     postiionOfTopArtists++;
                 }
@@ -338,6 +350,7 @@ class ProfilePage{
         playSongContainer.appendChild(this.searchSongToPlayInput());
         playSongContainer.appendChild(this.queueAndNextTrackButtonsContainer());
        //playSongContainer.appendChild(this.playSongButton());
+       playSongContainer.appendChild(this.activeDeviceDisplayContainer());
         playSongContainer.appendChild(this.currentlyPlayingSongHeader());
         playSongContainer.appendChild(this.playPauseSongIcon());
         playSongContainer.appendChild(this.updateCurrentlyPlayingSongInformationButton());
@@ -428,6 +441,7 @@ class ProfilePage{
                 button.addEventListener('click', this.nextTrackButtonClickEvent.bind(this));
                 return button
             }
+                
         // returns a button that when clicked will play the song in the user wants
         playSongButton(){
             let button = document.createElement('button');
@@ -441,6 +455,33 @@ class ProfilePage{
             playSongButtonErrorMessage(){
                 let p = document.createElement('p');
                 p.textContent = 'This feature does not work without a premium account';
+            }
+        // container that holds the information about the active device
+        activeDeviceDisplayContainer(){
+            let div = document.createElement('div');
+            div.setAttribute('id', 'activeDeviceDisplayContainer');
+            div.appendChild(this.makeActiveDeviceNameP());
+            return div;
+        }
+            // paragraph that holds the name of the active device
+            makeActiveDeviceNameP(){
+                let p = document.createElement('p');
+                //span that holds the title of the name of the active device
+                    let span = document.createElement('span');
+                    span.classList.add('currentlyPlayingSongDescriptionTitle');
+                    span.textContent = 'Active Device -  ';
+                p.appendChild(span);
+                // text node to hold the actual name of the current device or a link to activate a device
+                    let name = (this.currentDeviceName) ? this.currentDeviceName : 'Activate';
+                    let text = document.createElement('span');
+                    let link = document.createElement('a');
+                    link.setAttribute('href', this.linkToPage);
+                    link.textContent = name;
+                    text.appendChild(link);
+                    text.classList.add('italics')
+                    text.classList.add('lightblueFont');
+                p.appendChild(text);
+                return p;
             }
         // header that says currently playing song
         currentlyPlayingSongHeader(){
@@ -483,11 +524,12 @@ class ProfilePage{
             let div = document.createElement('div');
             div.setAttribute('id', 'currentlyPlayingSongInformationContainer');
             div.appendChild(this.makeCurrentlyPlayingSongAlbumCover());
-            div.appendChild(this.makeCurrentlyPlayingSongTitle());
+            div.appendChild(this.makeCurrentlyPlayingSongFactsContainer());
+            /*div.appendChild(this.makeCurrentlyPlayingSongTitle());
             div.appendChild(this.makeCurrentlyPlayingSongArtist());
             div.appendChild(this.makeCurrentlyPlayingSongAlbumName());
             div.appendChild(this.makeCurrentlyPlayingSongAlbumReleaseDate());
-            div.appendChild(this.makeCurrentlyPlayingSongPopularity());
+            div.appendChild(this.makeCurrentlyPlayingSongPopularity());*/
             return div;
         }
             //returns an img of the currently playing songs album cover
@@ -497,71 +539,130 @@ class ProfilePage{
                 albumCover.setAttribute('src', `${this.currentlyPlayingSongAlbumCover}`)
                 return albumCover
             }
-            /* returns a p element that shows the title of the song */
-            makeCurrentlyPlayingSongTitle(){
-                let p = document.createElement('p');
-                //span to hold the title description so we can color it
-                let span = document.createElement('span');
-                span.setAttribute('class', 'currentlyPlayingSongDescriptionTitle');
-                span.textContent = 'Title:  ';
-                p.appendChild(span);
-                let text = document.createTextNode(`${this.currentlyPlayingSongTitle}`);
-                p.appendChild(text);
-                return p;
+            /* container that holds all the p elements that display the facts of the currently playing song */
+            makeCurrentlyPlayingSongFactsContainer(){
+                let div = document.createElement('div');
+                div.setAttribute('id', 'currentlyPlayingSongFactsContainer');
+                div.appendChild(this.makeCurrentlyPlayingSongTitle());
+                div.appendChild(this.makeCurrentlyPlayingSongArtist());
+                div.appendChild(this.makeCurrentlyPlayingSongAlbumName());
+                div.appendChild(this.makeCurrentlyPlayingSongAlbumReleaseDate());
+                div.appendChild(this.makeCurrentlyPlayingSongPopularity());
+                return div
             }
-            /* returns a pa element that shows the name of the artist that made the song */
-            makeCurrentlyPlayingSongArtist(){
-                let p = document.createElement('p');
-                let span = document.createElement('span');
-                span.setAttribute('class', 'currentlyPlayingSongDescriptionTitle');
-                let text = document.createTextNode('');
-                let artists = this.currentlyPlayingSongArtists;
-                if(artists.length <= 1){
-                    span.textContent = "Artist:  ";
-                    text.textContent = `${artists[0].name}`;
-                }else{
-                    text.textContent = `${artists[0].name}`;
-                    for(let i = 1; i < artists.length; i++){
-                        text.textContent += `, ${artists[i].name}`;
-                    }
+                /* returns a p element that shows the title of the song */
+                makeCurrentlyPlayingSongTitle(){
+                    let p = document.createElement('p');
+                    //span to hold the title description so we can color it
+                    let span = document.createElement('span');
+                    span.setAttribute('class', 'currentlyPlayingSongDescriptionTitle');
+                    span.textContent = 'Title:  ';
+                    p.appendChild(span);
+                    let text = document.createTextNode(`${this.currentlyPlayingSongTitle}`);
+                    p.appendChild(text);
+                    return p;
                 }
-                p.appendChild(span);
-                p.appendChild(text);
-                return p;
+                /* returns a pa element that shows the name of the artist that made the song */
+                makeCurrentlyPlayingSongArtist(){
+                    let p = document.createElement('p');
+                    let span = document.createElement('span');
+                    span.setAttribute('class', 'currentlyPlayingSongDescriptionTitle');
+                    let text = document.createTextNode('');
+                    let artists = this.currentlyPlayingSongArtists;
+                    if(artists.length <= 1){
+                        span.textContent = "Artist:  ";
+                        text.textContent = `${artists[0].name}`;
+                    }else{
+                        text.textContent = `${artists[0].name}`;
+                        for(let i = 1; i < artists.length; i++){
+                            text.textContent += `, ${artists[i].name}`;
+                        }
+                    }
+                    p.appendChild(span);
+                    p.appendChild(text);
+                    return p;
+                }
+                // returns a paragraph that shows the name of the album
+                makeCurrentlyPlayingSongAlbumName(){
+                    let p = document.createElement('p');
+                    let span = document.createElement('span');
+                    span.setAttribute('class', 'currentlyPlayingSongDescriptionTitle');
+                    span.textContent = 'Album Name:  ';
+                    let text = document.createTextNode(`${this.currentlyPlayingSongAlbumName}`);
+                    p.appendChild(span);
+                    p.appendChild(text);
+                    return p;
+                }
+                // returns a p element that shows the release date of the album
+                makeCurrentlyPlayingSongAlbumReleaseDate(){
+                    let p = document.createElement('p');
+                    let span = document.createElement('span');
+                    span.setAttribute('class', 'currentlyPlayingSongDescriptionTitle');
+                    span.textContent = 'Release Date:  ';
+                    let text = document.createTextNode(`${this.currentlyPlayingSongAlbumReleaseDate}`);
+                    p.appendChild(span);
+                    p.appendChild(text);
+                    return p;
+                }
+                // returns a p that shows the popularity of the song
+                makeCurrentlyPlayingSongPopularity(){
+                    let p = document.createElement('p');
+                    let span = document.createElement('span');
+                    span.setAttribute('class', 'currentlyPlayingSongDescriptionTitle');
+                    span.textContent = 'Song Popularity:  ';
+                    let text = document.createTextNode(`${this.currentlyPlayingSongPopularity}`);
+                    p.appendChild(span);
+                    p.appendChild(text);
+                    return p;
+                }
+
+
+
+
+    // COMMON FUNCITONS FOR ALL SECTIONS 
+    displayActivateDeviceErrorMessage(){
+        document.body.appendChild(this.activateDeviceErrorMessageContainer());
+        document.body.addEventListener('click', this.activateDeviceErrorMessageBodyClickEventHandler, true);
+    }
+        // container that holds the error message for when the user needs to activate a device
+        activateDeviceErrorMessageContainer(){
+            let div = document.createElement('div');
+            div.setAttribute('id', 'activateDeviceErrorMessageContainer');
+            div.appendChild(this.activateDeviceErrorMessageExitIcon());
+            div.appendChild(this.activateDeviceErrorMessageHeader());
+            let styles = {
+                top: `${window.pageYOffset + 100}px`,
+                left: `${window.screen.width / 2 - 200}px`
             }
-            // returns a paragraph that shows the name of the album
-            makeCurrentlyPlayingSongAlbumName(){
+            Object.assign(div.style, styles);
+            return div;
+        }
+            // exit icon
+            activateDeviceErrorMessageExitIcon(){
+                let img = document.createElement('img');
+                img.addEventListener('click', (ev) => {
+                    document.getElementById('activateDeviceErrorMessageContainer').remove();
+                })
+                img.setAttribute('id', 'activateDeviceErrorMessageExitIcon');
+                img.setAttribute('src', 'icons/exit.svg');
+                return img;
+            }  
+            // header 
+            activateDeviceErrorMessageHeader(){
                 let p = document.createElement('p');
-                let span = document.createElement('span');
-                span.setAttribute('class', 'currentlyPlayingSongDescriptionTitle');
-                span.textContent = 'Album Name:  ';
-                let text = document.createTextNode(`${this.currentlyPlayingSongAlbumName}`);
-                p.appendChild(span);
+                let text = document.createTextNode('To use this feature you must activate a device. To activate a device you must play a song on ');
+                let link = document.createElement('a');
+                link.textContent = 'your spotify account';
+                link.setAttribute('href', this.linkToPage);
                 p.appendChild(text);
-                return p;
-            }
-            // returns a p element that shows the release date of the album
-            makeCurrentlyPlayingSongAlbumReleaseDate(){
-                let p = document.createElement('p');
-                let span = document.createElement('span');
-                span.setAttribute('class', 'currentlyPlayingSongDescriptionTitle');
-                span.textContent = 'Release Date:  ';
-                let text = document.createTextNode(`${this.currentlyPlayingSongAlbumReleaseDate}`);
-                p.appendChild(span);
-                p.appendChild(text);
-                return p;
-            }
-            // returns a p that shows the popularity of the song
-            makeCurrentlyPlayingSongPopularity(){
-                let p = document.createElement('p');
-                let span = document.createElement('span');
-                span.setAttribute('class', 'currentlyPlayingSongDescriptionTitle');
-                span.textContent = 'Song Popularity:  ';
-                let text = document.createTextNode(`${this.currentlyPlayingSongPopularity}`);
-                p.appendChild(span);
-                p.appendChild(text);
-                return p;
-            }
+                p.appendChild(link);
+                return p
+            } 
+
+
+
+
+    // END OF COMMON FUNCTIONS FOR ALL SECTIONS
 
 
 
@@ -709,37 +810,52 @@ class ProfilePage{
     // adds a song to queue
     // parameters : uri of the song
     spotifyAddSongToQueue(uri){
-        let request = new XMLHttpRequest();
-        request.open('POST', `https://api.spotify.com/v1/me/player/queue?uri=${uri}`, true);
-        request.setRequestHeader('Authorization', `Bearer ${this.accessToken}`);
-        request.onreadystatechange = () => {
-            if(request.readyState == 4){
-                if(request.status == 204) {return}
-                if(request.status == 401){
-                    this.getNewAccessToken(this.refreshToken);
-                }
-                if(request.status == 403){
-                    this.playSongButtonErrorMessage();
+        let promise = new Promise((resolve, reject) => {
+            let request = new XMLHttpRequest();
+            request.open('POST', `https://api.spotify.com/v1/me/player/queue?uri=${uri}`, true);
+            request.setRequestHeader('Authorization', `Bearer ${this.accessToken}`);
+            request.onreadystatechange = () => {
+                if(request.readyState == 4){
+                    if(request.status == 204) {
+                        resolve()
+                    }
+                    if(request.status == 401){
+                        this.getNewAccessToken(this.refreshToken);
+                        resolve();
+                    }
+                    if(request.status == 403){
+                        reject();
+                    }else{reject()}
                 }
             }
-        }
-        request.send();
+            request.send();
+        })
+        return promise;
     }
 
     // skips to the next song in queue
     spotifySkipToNextSong(){
-        let request = new XMLHttpRequest();
-        request.open('POST', 'https://api.spotify.com/v1/me/player/next', true);
-        request.setRequestHeader('Authorization', `Bearer ${this.accessToken}`);
-        request.onreadystatechange = () => {
-            if(request.readyState == 4){
-                if(request.status == 204){return}
-                if(request.status == 401){
-                    this.getNewAccessToken(this.accessToken);
+        let promise = new Promise((resolve, reject) => {
+            let request = new XMLHttpRequest();
+            request.open('POST', 'https://api.spotify.com/v1/me/player/next', true);
+            request.setRequestHeader('Authorization', `Bearer ${this.accessToken}`);
+            request.onreadystatechange = () => {
+                if(request.readyState == 4){
+                    if(request.status == 204){
+                        resolve();
+                    }
+                    if(request.status == 401){
+                        this.getNewAccessToken(this.accessToken);
+                        resolve();
+                    }
+                    if(request.status == 403){
+                        reject();
+                    }else{ resolve()}
                 }
             }
-        }
-        request.send();
+            request.send();
+        })
+        return promise;
     }
 
     // gets all users current available devices
@@ -770,6 +886,7 @@ class ProfilePage{
 
     ///// EVENTS /////\\\\\
 
+    // USER INFORMATION CONTAINER
         // submit event for the favorite music form
         favoriteMusicFormSubmitEvent(ev){
             ev.preventDefault();
@@ -817,11 +934,17 @@ class ProfilePage{
            // document.getElementById('topSongsContainer');
         }
 
+
+    // PLAY SONG CONTAINER EVENTS
+
         //click event for the update currently playing song button 
         async updateCurrentlyPlayingSongClickEvent(ev){
+            // if there is no currently active device
+            if(!this.currentDevice){
+                this.displayActivateDeviceErrorMessage();
+            }
             let oldCurrentlyPlayingSongInformation = document.getElementById('currentlyPlayingSongInformationContainer');
             let currentSong = await this.getCurrentlyPlayingSong();
-            console.log(currentSong);
             // no currently playing song so either do nothing or delete the old information
             if(currentSong == '' || currentSong == 'Error'){
                 console.log('empty');
@@ -848,6 +971,10 @@ class ProfilePage{
 
         // click event for the play pause icon
         async playPauseSongIconClickEvent(ev){
+            // if there is no currently active device
+            if(!this.currentDevice){
+                this.displayActivateDeviceErrorMessage();
+            }
             let currentSong = await this.getCurrentlyPlayingSong();
             // if their is a current song
             if(currentSong){
@@ -981,16 +1108,64 @@ class ProfilePage{
             console.log(ev);
         }
 
-    // click event for the queue button that adds a song to the queue
-    queueButtonClickEvent(ev){
-        this.spotifyAddSongToQueue(this.lastSearchedSongURI);
-        this.lastSearchedSongURI = null;
-        document.getElementById('searchSongToPlayInput').value = '';
-    }
-    // click event for the next track button
-    nextTrackButtonClickEvent(ev){
-        this.spotifySkipToNextSong();
-    }
+        // click event for the queue button that adds a song to the queue
+        async queueButtonClickEvent(ev){
+            // if there is no currently active device
+            if(!this.currentDevice){
+                this.displayActivateDeviceErrorMessage();
+            }
+            // if there is no last searched song return
+            if(this.lastSearchedSongURI == null){return}
+
+            try{
+            await this.spotifyAddSongToQueue(this.lastSearchedSongURI);
+            }
+            catch(err){
+                let error = new ErrorMessage('This feature does not work without a premium account', 'queueAndNextTrackButtonsErrorMessage');
+                error.insertBefore(document.getElementById('playSongContainer'), document.getElementById('currentlyPlayingSongHeader'));
+                document.body.addEventListener('click', this.queueAndNextTrackButtonsErrorMessageBodyClickEventHandler, true);
+            }
+            finally{
+                this.lastSearchedSongURI = null;
+                document.getElementById('searchSongToPlayInput').value = '';
+            }
+        }
+        // click event for the next track button
+        async nextTrackButtonClickEvent(ev){
+            // if there is no currently active device
+            if(!this.currentDevice){
+                this.displayActivateDeviceErrorMessage();
+            }
+            try{
+                await this.spotifySkipToNextSong();
+            }
+            catch(err){
+                console.log('it caught the error');
+                let error = new ErrorMessage('This feature does not work without a premium account', 'queueAndNextTrackButtonsErrorMessage');
+                error.insertBefore(document.getElementById('playSongContainer'), document.getElementById('currentlyPlayingSongHeader'));
+                document.body.addEventListener('click', this.queueAndNextTrackButtonsErrorMessageBodyClickEventHandler, true);
+            }
+        }
+            // error message for the queue and next track button click events
+            queueAndNextTrackButtonsErrorMessageBodyClickEvent(ev){
+                ev.stopPropagation();
+                document.getElementById('queueAndNextTrackButtonsErrorMessage').remove();
+                document.body.removeEventListener('click', this.queueAndNextTrackButtonsErrorMessageBodyClickEventHandler, true);
+            }
+
+
+
+    // COMMON EVENTS /////
+        activateDeviceErrorMessageBodyClickEvent(ev){
+            ev.stopPropagation();
+            let messageContainer = document.getElementById('activateDeviceErrorMessageContainer');
+            let loc = messageContainer.getBoundingClientRect();
+            if(ev.clientX > loc.left && ev.clientX < loc.right && ev.clientY > loc.top && ev.clientY < loc.bottom){
+                return;
+            }
+            messageContainer.remove();
+            document.body.removeEventListener('click', this.activateDeviceErrorMessageBodyClickEventHandler, true);
+        }
     
     ///// END OF EVENTS /////
 }
@@ -1021,4 +1196,12 @@ function addStyleToStyleSheet(css){
         style.appendChild(document.createTextNode(css));
     }
     document.querySelector('head').appendChild(style);
+}
+
+// given an array of devices it returns the device object that is currently active
+function getCurrentlyActiveDevice(devices){
+    for(let device of devices){
+        if(device.is_active){return device}
+    }
+    return undefined;
 }
