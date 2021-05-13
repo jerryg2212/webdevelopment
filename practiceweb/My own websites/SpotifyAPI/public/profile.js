@@ -80,11 +80,15 @@ class ProfilePage{
             this.saveCurrentlyPlayingSongInformation(values[3].item)
         }else{this.currentlyPlayingSongPlayingState = false;}
 
-        this.currentDevice = getCurrentlyActiveDevice(values[4].devices);
-        console.log(`current devices ${this.currentDevice}`)
-        this.currentDeviceName = this.currentDevice ? this.currentDevice.name : undefined;
+        // saves the information about the currently active device
+        this.saveCurrentlyActiveDeviceInformation(values[4].devices);
 
     }
+        // saves the currently active device information
+        saveCurrentlyActiveDeviceInformation(devices){
+            this.currentDevice = getCurrentlyActiveDevice(devices);
+            this.currentDeviceName = this.currentDevice ? this.currentDevice.name : undefined;
+        }
         // saves the currently playing song information
         saveCurrentlyPlayingSongInformation(currentSong){
             console.log('saveCurrentlyPlayingSonginformation ran');
@@ -941,7 +945,15 @@ class ProfilePage{
         async updateCurrentlyPlayingSongClickEvent(ev){
             // if there is no currently active device
             if(!this.currentDevice){
-                this.displayActivateDeviceErrorMessage();
+                let devices = await this.spotifyGetDevices();
+                this.saveCurrentlyActiveDeviceInformation(devices);
+                if(this.currentDevice == undefined){
+                    this.displayActivateDeviceErrorMessage();
+                    return;
+                }else{
+                    this.activeDeviceDisplayContainer();
+                }
+
             }
             let oldCurrentlyPlayingSongInformation = document.getElementById('currentlyPlayingSongInformationContainer');
             let currentSong = await this.getCurrentlyPlayingSong();
