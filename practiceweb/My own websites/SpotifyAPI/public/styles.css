@@ -134,7 +134,50 @@ button:hover{
         background-color: #121B40;
         background-image: radial-gradient(#121B40 70%, #060D28);
         min-height: 500px;
+        position: relative;
     }
+        /* containe that holds the select element that lets the user choose what they want to do */
+        #workBenchNavBarContainer{
+            padding: 5px;
+            background-color: lightblue;
+            margin: 0px;
+            text-align:center;
+            z-index: 1000;
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0px;
+            width: inherit;
+            border-radius: 0px 0px 60px 60px;
+            box-shadow: 1px 1px 5px whitesmoke;
+            color: #121B40;
+        }
+            /* label element in the nav bar */
+            #workBenchNavBarContainer label{
+                font-size: 18px;
+                font-weight: bold;
+                text-shadow: 1px 1px 1px black;
+            }
+            /* select element in the nav bar */
+            #workBenchNavBarContainer select{
+                margin-left: 10px;
+                padding:  5px;
+            }
+        /* ** NOT IN USE    //header for the work bench */
+        #workBenchContainerHeader{
+            padding: 5px;
+            background-color: lightblue;
+            margin: 0px;
+            text-align:center;
+            z-index: 1000;
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0px;
+            width: inherit;
+            border-radius: 0px 0px 60px 60px;
+            box-shadow: 1px 1px 5px whitesmoke;
+            color: #121B40;
+            text-shadow: 1px 1px 1px black;
+        }
 
     /* container where user plays song and its displays information on the song */
     #playSongContainer{

@@ -46,6 +46,9 @@ class ProfilePage{
         this.lastSearchedSongId = null;
         this.lastSearchedSongURI = null;
 
+        // holds array of all the things you can do in the workbench
+        this.workBenchActionsSelectOptions = [{ name:'    ', action : this.actionsSelectDefault.bind(this)},{name: 'Display All Playlists', action : this.actionsSelectDisplayAllPlaylists.bind(this)}];
+
     // Event Bindings
         // binding that holds reference to body click event after the error message for the play pause icon shows
         this.playPauseIconErrorMessageBodyClickEventHandler = this.playPauseIconErrorMessageBodyClickEvent.bind(this);
@@ -335,12 +338,44 @@ class ProfilePage{
     makeWorkBenchContainer(){
         let workBenchContainer = document.createElement('div');
         workBenchContainer.setAttribute('id', 'workBenchContainer');
-        workBenchContainer.appendChild(this.makeWorkBenchContainerTemporaryHeader());
+        workBenchContainer.appendChild(this.makeWorkBenchNavBarContainer());
+        workBenchContainer.appendChild(this.workBenchActionContainer());
         return workBenchContainer;
     }
-        // tempory header
+        // container that holds the select element that the user uses to select somthing to work on
+        makeWorkBenchNavBarContainer(){
+            let container = document.createElement('div');
+            container.setAttribute('id', 'workBenchNavBarContainer');
+            container.appendChild(this.workOnLabelAndSelect());
+            return container;
+        }
+        // returns a label that holds a select element that has options of stuff the user can do
+        workOnLabelAndSelect(){
+            // create the label that will hold the select element
+                let label = document.createElement('label');
+                label.textContent = 'What would you like to do?';
+            // select element
+                let select = document.createElement('select');
+                select.addEventListener('change', this.workBenchActionsSelectChangeEvent.bind(this));
+                for (let action of this.workBenchActionsSelectOptions){
+                    let option = document.createElement('option');
+                    option.value = action.name;
+                    option.textContent = action.name;
+                    select.appendChild(option);
+                }
+            label.appendChild(select);
+            return label;
+        }
+        // container that holds the action
+        workBenchActionContainer(){
+            let container = document.createElement('div');
+            container.setAttribute('id', 'workBenchActionContainer');
+            return container;
+        }
+        // **NOT IN USE    //tempory header
         makeWorkBenchContainerTemporaryHeader(){
             let h1 = document.createElement('h1');
+            h1.setAttribute('id', 'workBenchContainerHeader');
             h1.textContent = 'Work Area';
             return h1;
         }
@@ -846,6 +881,7 @@ class ProfilePage{
             request.onreadystatechange = () => {
                 if(request.readyState == 4){
                     if(request.status == 204){
+                        console.log('skipped');
                         resolve();
                     }
                     if(request.status == 401){
@@ -884,6 +920,32 @@ class ProfilePage{
 
         return promise;
 
+    }
+
+    // gets users playlists
+    // parameters limit = number of playlists to return max 50 offset = number playlist to start searching from
+    spotifyGetPlaylists(limit = 50, offset = 0){
+        // limit cannot be over 50
+        if(limit > 50){return}
+        let promise = new Promise((resolve, reject) => {
+            let request = new XMLHttpRequest();
+            request.open('GET', `https://api.spotify.com/v1/me/playlists?limit=${limit}&offset=${offset}`, true);
+            request.setRequestHeader('Authorization', `Bearer ${this.accessToken}`);
+            request.onreadystatechange = () => {
+                if(request.readyState == 4){
+                    if(request.status == 200){
+                        resolve(request.responseText);
+                    }
+                    else if(request.status == 401){
+                        this.getNewAccessToken(this.refreshToken(this.refreshToken));
+                        resolve('');
+                    }
+                    else{reject('error getting playlists');}
+                }
+            }
+            request.send();
+        })
+        return promise;
     }
 
 
@@ -937,6 +999,31 @@ class ProfilePage{
 
            // document.getElementById('topSongsContainer');
         }
+
+
+    // END USER INFORMATION CONTAINER EVENTS
+
+
+
+    // WORK BENCH CONTAINER EVENTS
+
+
+        // change event for the actions select element
+        workBenchActionsSelectChangeEvent(ev){
+            let actionValue = ev.target.value;
+            for (const action of this.workBenchActionsSelectOptions){
+                if(actionValue == action.name){
+                    action.action();
+                }
+            }
+            
+
+        }
+
+
+
+    // END WORK BENCH CONTAINER EVENTS
+
 
 
     // PLAY SONG CONTAINER EVENTS
@@ -1148,8 +1235,39 @@ class ProfilePage{
             if(!this.currentDevice){
                 this.displayActivateDeviceErrorMessage();
             }
+
+
+
             try{
                 await this.spotifySkipToNextSong();
+                let oldCurrentlyPlayingSongInformation = document.getElementById('currentlyPlayingSongInformationContainer');
+               // let currentSong;
+               //using set timeout so spotify has time to switch songs
+                setTimeout( async () => {
+                    let currentSong;
+                    currentSong = await this.getCurrentlyPlayingSong();
+                    if(currentSong == '' || currentSong == 'Error'){
+                        console.log('empty');
+                        if(oldCurrentlyPlayingSongInformation){
+                            oldCurrentlyPlayingSongInformation.remove();
+                        }
+                    }
+                    // new song
+                    else{
+                        if(this.currentlyPlayingSongId == currentSong.item.id && oldCurrentlyPlayingSongInformation){
+                            console.log('ids are the same');
+                            return
+                        }
+                        else{
+                            console.log('new song');
+                            this.saveCurrentlyPlayingSongInformation(currentSong.item);
+                            if(oldCurrentlyPlayingSongInformation){
+                                oldCurrentlyPlayingSongInformation.remove();
+                            }
+                            document.getElementById('playSongContainer').appendChild(this.displayCurrentlyPlayingSongInformation());
+                        }
+                    }
+                }, 300);
             }
             catch(err){
                 console.log('it caught the error');
@@ -1180,6 +1298,20 @@ class ProfilePage{
         }
     
     ///// END OF EVENTS /////
+
+    ///// ACTIONS SELECT ELEMENT OPTION FUNCTIONS /////
+
+        // for the default
+        actionsSelectDefault(){
+            document.getElementById('workBenchActionContainer').innerHTML = '';
+        }
+        // for the display all playlists option
+        async actionsSelectDisplayAllPlaylists(){
+            console.log(this);
+            let playlists = await this.spotifyGetPlaylists();
+            playlists = JSON.parse(playlists);
+            console.log(playlists);
+        }
 }
 
 profilePage = new ProfilePage();
