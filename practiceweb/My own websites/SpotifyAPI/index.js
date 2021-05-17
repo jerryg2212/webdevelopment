@@ -4,6 +4,8 @@ const request = require('request');
 const queryString = require('querystring');
 require('dotenv').config();
 
+const port = process.env.PORT || 5000;
+
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 const state = process.env.SECRET_CODE;
@@ -108,7 +110,7 @@ app.get('/refreshToken', (req, res) => {
     })
 })
 
-app.listen(8000, () => {console.log('listening on port 8000')});
+app.listen(port, () => {console.log(`listening on port: ${port}`)});
 
 function stringifyScopes(Scopes){
     let result = '';
