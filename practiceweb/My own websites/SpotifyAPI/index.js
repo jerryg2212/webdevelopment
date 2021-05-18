@@ -28,6 +28,7 @@ const scopes = {
 app.use(express.static('public'));
 
 app.get('/', (req, res) => {
+    console.log('homepage html should be up');
     res.sendFile('homepage.html', {root : 'public'});
 });
 app.get('/authorize', (req, res) => {
