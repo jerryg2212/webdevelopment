@@ -4,12 +4,12 @@ const request = require('request');
 const queryString = require('querystring');
 require('dotenv').config();
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 5000;
 
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 const state = process.env.SECRET_CODE;
-const redirecturi = 'http://localhost:8000/callback';
+const redirecturi = 'http://localhost:5000/callback';
 const getTokenURL = 'https://accounts.spotify.com/api/token'
 const scopes = {
     // to read users top songs and artists

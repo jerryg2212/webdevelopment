@@ -6,7 +6,9 @@ const client_Secret = process.env.CLIENT_SECRET;*/
 //const { request } = require("express");
 
 // redirect uri
-const redirecturi = 'http://localhost:8000/callback';
+//const redirecturi = 'http://localhost:8000/callback';
+const redirecturi = window.location.href + '/callback';
+console.log(window.location);
 const profilePageBody = document.getElementById('profilePageBody');
 
 
