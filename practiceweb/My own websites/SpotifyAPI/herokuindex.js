@@ -34,6 +34,7 @@ app.get('/', (req, res) => {
     console.log('homepage html should be up');
     res.sendFile('homepage.html', {root : 'public'});
 });
+/*
 app.get('/authorize', (req, res) => {
     res.redirect('https://accounts.spotify.com/authorize?' + 
     queryString.stringify({
@@ -113,7 +114,7 @@ app.get('/refreshToken', (req, res) => {
 
     })
 })
-
+*/
 app.listen(port, () => {console.log(`listening on port: ${port}`)});
 
 function stringifyScopes(Scopes){
