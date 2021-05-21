@@ -91,7 +91,9 @@ class ProfilePage{
     }
         // saves the currently active device information
         saveCurrentlyActiveDeviceInformation(devices){
+            console.log(devices);
             this.currentDevice = getCurrentlyActiveDevice(devices);
+            console.log(this.currentDevice);
             this.currentDeviceName = this.currentDevice ? this.currentDevice.name : undefined;
         }
         // saves the currently playing song information
@@ -504,6 +506,16 @@ class ProfilePage{
             div.appendChild(this.makeActiveDeviceNameP());
             return div;
         }
+            //updates the active device container if there is one
+            updateActiveDeviceDisplayContainer(){
+                if(document.getElementById('activeDeviceDisplayContainer')){
+                    document.getElementById('activeDeviceDisplayContainer').remove();
+                }
+                let div = document.createElement('div');
+                div.setAttribute('id', 'activeDeviceDisplayContainer');
+                div.appendChild(this.makeActiveDeviceNameP());
+                document.getElementById('playSongContainer').insertBefore(div, document.getElementById('currentlyPlayingSongHeader'));
+            }
             // paragraph that holds the name of the active device
             makeActiveDeviceNameP(){
                 let p = document.createElement('p');
@@ -682,8 +694,10 @@ class ProfilePage{
             activateDeviceErrorMessageExitIcon(){
                 let img = document.createElement('img');
                 img.addEventListener('click', (ev) => {
+                    ev.stopPropagation();
                     document.getElementById('activateDeviceErrorMessageContainer').remove();
-                })
+                    document.body.removeEventListener('click', this.activateDeviceErrorMessageBodyClickEventHandler, true);
+                }, false);
                 img.setAttribute('id', 'activateDeviceErrorMessageExitIcon');
                 img.setAttribute('src', 'icons/exit.svg');
                 return img;
@@ -1032,18 +1046,17 @@ class ProfilePage{
 
         //click event for the update currently playing song button 
         async updateCurrentlyPlayingSongClickEvent(ev){
-            // if there is no currently active device
-            if(!this.currentDevice){
+            // updates information regarding the current device
+            this.updateActiveDeviceDisplayContainer();
+                //saving the current device if any
                 let devices = await this.spotifyGetDevices();
-                this.saveCurrentlyActiveDeviceInformation(devices);
+                this.saveCurrentlyActiveDeviceInformation(devices.devices);
                 if(this.currentDevice == undefined){
                     this.displayActivateDeviceErrorMessage();
-                    return;
-                }else{
-                    this.activeDeviceDisplayContainer();
+
                 }
 
-            }
+            
             let oldCurrentlyPlayingSongInformation = document.getElementById('currentlyPlayingSongInformationContainer');
             let currentSong = await this.getCurrentlyPlayingSong();
             // no currently playing song so either do nothing or delete the old information
@@ -1072,10 +1085,10 @@ class ProfilePage{
 
         // click event for the play pause icon
         async playPauseSongIconClickEvent(ev){
-            // if there is no currently active device
+            /*// if there is no currently active device
             if(!this.currentDevice){
                 this.displayActivateDeviceErrorMessage();
-            }
+            }*/
             let currentSong = await this.getCurrentlyPlayingSong();
             // if their is a current song
             if(currentSong){
@@ -1206,11 +1219,13 @@ class ProfilePage{
             this.lastSearchedSongId = null;
             this.lastSearchedSongURI = null;
             document.getElementById('searchSongToPlayInput').value = '';
-            console.log(ev);
         }
 
         // click event for the queue button that adds a song to the queue
         async queueButtonClickEvent(ev){
+            //saves current devices if any
+            let devices = await this.spotifyGetDevices();
+            this.saveCurrentlyActiveDeviceInformation(devices.devices);
             // if there is no currently active device
             if(!this.currentDevice){
                 this.displayActivateDeviceErrorMessage();
@@ -1233,6 +1248,9 @@ class ProfilePage{
         }
         // click event for the next track button
         async nextTrackButtonClickEvent(ev){
+            //saves current devices if any
+            let devices = await this.spotifyGetDevices();
+            this.saveCurrentlyActiveDeviceInformation(devices.devices);
             // if there is no currently active device
             if(!this.currentDevice){
                 this.displayActivateDeviceErrorMessage();
@@ -1289,17 +1307,26 @@ class ProfilePage{
 
     // COMMON EVENTS /////
         activateDeviceErrorMessageBodyClickEvent(ev){
-            ev.stopPropagation();
+            // the div element that holds the error message
             let messageContainer = document.getElementById('activateDeviceErrorMessageContainer');
+            // if the user clicks the exit icon do not stop the propagation so the icons click event runs
+            if(ev.target.id != 'activateDeviceErrorMessageExitIcon'){
+                ev.stopPropagation();
+            }
+            // if user clicks inside the error container do nothing,
+            // if user clicks outside the error container remove it 
             let loc = messageContainer.getBoundingClientRect();
             if(ev.clientX > loc.left && ev.clientX < loc.right && ev.clientY > loc.top && ev.clientY < loc.bottom){
                 return;
             }
             messageContainer.remove();
             document.body.removeEventListener('click', this.activateDeviceErrorMessageBodyClickEventHandler, true);
+            
+
         }
     
     ///// END OF EVENTS /////
+
 
     ///// ACTIONS SELECT ELEMENT OPTION FUNCTIONS /////
 
@@ -1346,8 +1373,12 @@ function addStyleToStyleSheet(css){
 
 // given an array of devices it returns the device object that is currently active
 function getCurrentlyActiveDevice(devices){
-    for(let device of devices){
-        if(device.is_active){return device}
+    if(devices.length > 0){
+        for(let device of devices){
+            if(device.is_active){
+                return device
+            }
+        }
     }
     return undefined;
 }
