@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <script>
+            let practice = {
+                values : [0,2,4,6,8,10,12,14,16,18,20],
+                [Symbol.iterator] : () => {console.log(practice);return practice},
+                countIndex : 0,
+                next : () => {
+                    return {
+                        value : practice.values[practice.countIndex],
+                        done : practice.countIndex++ === practice.values.length
+                    }
+                }
+            };
+
+
+            /*for(val of practice){
+                console.log(val);
+            }*/
+           // console.log(practice.values.entries());
+            /*for(val of Array.from(practice).entries()){
+                console.log(val);
+            }*/
+            function exposeCriminal () {
+                if(this instanceof Criminal == false){console.log(`${this.name} is not a criminal`); return}
+                console.log(`${this.name}'s last crime was ${this.lastCrime}`);
+            }
+
+            class Person {
+                constructor(name, job, age){
+                    this.name = name;
+                    this.job = job,
+                    this.age = age
+                }
+                showInformation(){
+                    console.log(`${this.name} is ${this.age} years old and is a ${this.job}`);
+                }
+                
+            }
+
+            class Criminal extends Person{
+                constructor(name, job, age, lastCrime){
+                    super(name, job, age);
+                    this.lastCrime = lastCrime;
+                }
+            }
+        </script>
+    </body>
+</html>
