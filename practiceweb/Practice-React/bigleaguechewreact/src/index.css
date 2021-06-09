@@ -5,9 +5,38 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: blue;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* nav bar container */
+#navBarContainer{
+  display: flex;
+  justify-content: space-between;
+  padding: 30px 70px;
+  background-color: white;
+  align-items: center;
+}
+/* logo in the nav bar */
+#logo{
+  width: 250px;
+}
+ul{
+  display: flex;
+  margin: 0px;
+  padding: 0px;
+}
+li{
+  list-style-type: none;
+  padding: 5px 0px;
+  color: blue;
+  font-weight: bold;
+  margin: 0px 15px;
+}
+.navBarListElementColor{
+  color: grey;
 }
