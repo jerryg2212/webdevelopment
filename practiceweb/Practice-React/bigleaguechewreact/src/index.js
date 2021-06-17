@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import logo from './logo.png';
@@ -9,7 +9,7 @@ class NavBarContainer extends React.Component {
     super(props);
   }
   render(){
-    return <div id={this.props.navBarContainerId}><NavBarLogo logoId="logo"/><NavBarList childOne={<NavBarListElement text="home"/>}/></div>
+    return <div id={this.props.navBarContainerId}><NavBarLogo logoId="logo"/><NavBarList id="navBarList"/></div>
   }
 }
 
@@ -27,25 +27,39 @@ class NavBarLogo extends React.Component {
 class NavBarList extends React.Component {
   constructor(props){
     super(props);
-    this.state = {hover : false}
+    this.state = {
+      elms : [{text : "Home", hover : false}, {text : "About", hover : false}, {text : "Products", hover : false},
+              {text : "Buy/Sell", hover : false}, {text : "News", hover : false}, {text : "Contact", hover : false}]
+    }
   }
-  onMouseOverEvent = () => {
-    this.setState({hover : true});
-    this.render();
+  onMouseOverEvent = (e) => {
+    //console.log(e.target);
+    let ul = Array.from(document.getElementById('navBarList').childNodes);
+    let allElms = this.state.elms;
+    for(let elm of allElms){
+      (allElms.indexOf(elm) === ul.indexOf(e.target)) ? elm.hover = false : elm.hover = true;
+    }
+
+    //if(ul.includes(e.target)){    allElms[ul.indexOf(e.target)].hover = true;}
+    this.setState({elm : allElms});
   }
   onMouseOutEvent = () => {
-    this.state.hover = false;
-    console.log(`on mouse out ran and the hover is ${this.state.hover}`);
-    this.render();
-
+    console.log("on mouse out ran");
+    this.setState({elms : [{text : "Home", hover : false}, {text : "About", hover : false}, {text : "Products", hover : false},
+    {text : "Buy/Sell", hover : false}, {text : "News", hover : false}, {text : "Contact", hover : false}]});
   }
   render(){
-    console.log(`render ran and the hover is ${this.state.hover}`);
-    return  <ul onMouseOver={this.onMouseOverEvent} onMouseOut={this.onMouseOutEvent}>
+    let lis = [];
+    for (let i = 0; i < this.state.elms.length; i++){
+      lis.push(<NavBarListElement text={this.state.elms[i].text} hover={this.state.elms[i].hover}/>);
+    }
+    return React.createElement("ul", {onMouseOver : this.onMouseOverEvent, onMouseOut : this.onMouseOutEvent, id : this.props.id}, ...lis);
+
+    {/*return  (<ul onMouseOver={this.onMouseOverEvent} onMouseOut={this.onMouseOutEvent} id={this.props.id}>
               <NavBarListElement text="Home" hover={this.state.hover}/><NavBarListElement text="About" hover={this.state.hover}/>
               <NavBarListElement text="Products" hover={this.state.hover}/><NavBarListElement text="Buy/Sell" hover={this.state.hover}/>
               <NavBarListElement text="News" hover={this.state.hover}/><NavBarListElement text="Contact" hover={this.state.hover}/>
-            </ul>
+    </ul>)*/}
   }
 }
 
@@ -53,19 +67,19 @@ class NavBarList extends React.Component {
 class NavBarListElement extends React.Component{
   constructor(props){
     super(props);
-    console.log(`this is list elements constructor and hover is ${this.props.hover}`);
+    console.log('li rerenders');
     if(this.props.hover){
       this.state = {class : 'navBarListElementColor'}
     }else{
       this.state = {class : ''}
     }
   }
-  /*static getDerivedStateFromProps(props, state){
+  static getDerivedStateFromProps(props, state){
     if(props.hover){
       return {class : "navBarListElementColor"}
     }
-    else return
-  }*/
+    else return {class : ''}
+  }
   render(){
     return <li className={this.state.class}>{this.props.text}</li>
   }
