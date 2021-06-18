@@ -46,3 +46,4 @@ slotMachine.display();
 
 slotMachine.spin();
 slotMachine.display();
+console.log('shit head');
