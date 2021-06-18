@@ -92,6 +92,7 @@ letter-spacing: 1.1px;
             border-radius: 20px;
             max-width: 300px;
             flex: 1 1 100px;
+            box-shadow: 2px 2px 5px black;
         }
         /* header inside the landscaping and hardscaping boxes */
         #servicesSection .servicesBox h3{
