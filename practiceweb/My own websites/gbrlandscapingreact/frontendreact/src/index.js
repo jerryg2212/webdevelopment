@@ -20,6 +20,7 @@ class Wrapper extends React.Component{
             <HomeSection id="homeSection"></HomeSection>
             <ServicesSection id="servicesSection"></ServicesSection>
             <AboutSection id="aboutSection"></AboutSection>
+            <ProjectsSection id="projectsSection"></ProjectsSection>
             </div>)
     }
 }
@@ -148,15 +149,65 @@ class Wrapper extends React.Component{
                 }
             }
 
+        // projects section
+        class ProjectsSection extends React.Component{
+            constructor(props){
+                super(props);
+            }
+            render(){
+                return (
+                    <section id={this.props.id}>
+                        <ProjectsSectionHeader></ProjectsSectionHeader>
+                        <ProjectsSectionContainer id="projectsSectionContainer"></ProjectsSectionContainer>
+                    </section>
+                )
+            }
+        }
+            // projects section header
+            class ProjectsSectionHeader extends React.Component{
+                constructor(props){
+                    super(props);
+                }
+                render(){
+                    return (
+                        <h2>Our Work</h2>
+                    )
+                }
+            }
+            // container in the projects section that holds the images
+            class ProjectsSectionContainer extends React.Component{
+                constructor(props){
+                    super(props);
+                }
+                render(){
+                    let imagesSrc = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg','7.jpg','8.jpg','9.jpg'];
+                    let images = imagesSrc.map((img, index) => {
+                        return <CommonImage key={index.toString()} src={`ImageCollage/${img}`}></CommonImage>
+                    });
+                    return <div id={this.props.id}>{images}</div>
+
+                }
+            }
+
     // universal
-    class SectionHeader extends React.Component{
-        constructor(props){
-            super(props);
+        // header for each section
+        class SectionHeader extends React.Component{
+            constructor(props){
+                super(props);
+            }
+            render(){
+                return <h1 id={this.props.id || ''}>{this.props.text}</h1>
+            }
         }
-        render(){
-            return <h1 id={this.props.id || ''}>{this.props.text}</h1>
+        // common img element
+        class CommonImage extends React.Component{
+            constructor(props){
+                super(props);
+            }
+            render(){
+                return <img src={this.props.src}></img>
+            }
         }
-    }
 
 
 
