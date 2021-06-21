@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import  projectImages from './images';
 
 // global variables
 //all landscaping services to appear in the services section
@@ -182,7 +183,7 @@ class Wrapper extends React.Component{
                 render(){
                     let imagesSrc = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg','7.jpg','8.jpg','9.jpg'];
                     let images = imagesSrc.map((img, index) => {
-                        return <CommonImage key={index.toString()} src={`ImageCollage/${img}`}></CommonImage>
+                        return <CommonImage key={index.toString()} src={`${projectImages[index]}`}></CommonImage>
                     });
                     return <div id={this.props.id}>{images}</div>
 
