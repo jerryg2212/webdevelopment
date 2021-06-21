@@ -22,6 +22,7 @@ class Wrapper extends React.Component{
             <ServicesSection id="servicesSection"></ServicesSection>
             <AboutSection id="aboutSection"></AboutSection>
             <ProjectsSection id="projectsSection"></ProjectsSection>
+            <ContactSection id="contactSection"></ContactSection>
             </div>)
     }
 }
@@ -150,43 +151,105 @@ class Wrapper extends React.Component{
                 }
             }
 
-        // projects section
-        class ProjectsSection extends React.Component{
+    // projects section
+    class ProjectsSection extends React.Component{
+        constructor(props){
+            super(props);
+        }
+        render(){
+            return (
+                <section id={this.props.id}>
+                    <ProjectsSectionHeader></ProjectsSectionHeader>
+                    <ProjectsSectionContainer id="projectsSectionContainer"></ProjectsSectionContainer>
+                </section>
+            )
+        }
+    }
+        // projects section header
+        class ProjectsSectionHeader extends React.Component{
             constructor(props){
                 super(props);
             }
             render(){
                 return (
-                    <section id={this.props.id}>
-                        <ProjectsSectionHeader></ProjectsSectionHeader>
-                        <ProjectsSectionContainer id="projectsSectionContainer"></ProjectsSectionContainer>
-                    </section>
+                    <h2>Our Work</h2>
                 )
             }
         }
-            // projects section header
-            class ProjectsSectionHeader extends React.Component{
+        // container in the projects section that holds the images
+        class ProjectsSectionContainer extends React.Component{
+            constructor(props){
+                super(props);
+            }
+            render(){
+                let imagesSrc = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg','7.jpg','8.jpg','9.jpg'];
+                let images = imagesSrc.map((img, index) => {
+                    return <CommonImage key={index.toString()} src={`${projectImages[index]}`}></CommonImage>
+                });
+                return <div id={this.props.id}>{images}</div>
+
+            }
+        }
+
+    // contact section
+    class ContactSection extends React.Component{
+        constructor(props){
+            super(props);
+        }
+        render(){
+            return <section id={this.props.id}>
+                <ContactSectionContainer id="contactSectionContainer"></ContactSectionContainer>
+            </section>
+        }
+    }
+        // flex container for the contact section
+        class ContactSectionContainer extends React.Component{
+            constructor(props){
+                super(props);
+            }
+            render(){
+                return (
+                    <div id={this.props.id}>
+                        <ContactInfo id="contactInfoContainer"></ContactInfo>
+                        <ContactFormContainer></ContactFormContainer>
+                    </div>
+                )
+            }
+        }
+            // div that holds the contact info
+            class ContactInfo extends React.Component{
+                constructor(props){
+                    super(props);
+                }
+                render(){
+                    return (<div id={this.props.id}>
+                        <h2>Contact</h2>
+                        <p className="contactDescription">Please fill out the form with your proper information so we can get an accurate description of what you need, and we will get back to you as soon as possible</p>
+                        <h4>Address</h4>
+                        <p>435 Street Road, Newton PA, 19790-005</p>
+                        <p><span className="contactHeader">Phone:</span> 215-800-8932</p>
+                        <p><span className="contactHeader">Fax:</span> 23-576-9908</p>
+                    </div>)
+                }
+            }
+            // div that holds the contact form
+            class ContactFormContainer extends React.Component{
                 constructor(props){
                     super(props);
                 }
                 render(){
                     return (
-                        <h2>Our Work</h2>
+                        <div id="contactFormContainer">
+                            <form id="contactFormElement">
+                                <label for="nameInput">Name:</label>
+                                <input type="text" for="nameInput"></input>
+                                <label for="emailInput">Email:</label>
+                                <input type="email" id="emailInput"></input>
+                                <label for="messageInput">Message:</label>
+                                <textarea id="messageInput"></textarea>
+                            </form>
+                        </div>
                     )
-                }
-            }
-            // container in the projects section that holds the images
-            class ProjectsSectionContainer extends React.Component{
-                constructor(props){
-                    super(props);
-                }
-                render(){
-                    let imagesSrc = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg','7.jpg','8.jpg','9.jpg'];
-                    let images = imagesSrc.map((img, index) => {
-                        return <CommonImage key={index.toString()} src={`${projectImages[index]}`}></CommonImage>
-                    });
-                    return <div id={this.props.id}>{images}</div>
-
                 }
             }
 
