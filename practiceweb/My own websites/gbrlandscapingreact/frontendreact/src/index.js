@@ -2,27 +2,45 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import  projectImages from './images';
+import companyLogo from './imagesAndIcons/logo.png';
+import hamburgerIcon from './imagesAndIcons/hamburger.svg';
 
-// global variables
-//all landscaping services to appear in the services section
-let landscapingServices = ['Designs', 'New Installation', 'Mulching', 'Tree planting', 'Maintenance', 'Shrub planting', 'Leaf cleanup', 'Topsoil','Fertilization','Irrigation Systems'];
-//all hardscaping services to appear in the services section
-let hardscapingServices = ['Stone or Concrete Walkways', 'Decks', 'Retaining walls', 'Patios', 'Potting containers', 'Landscape lighting', 'Pavillions', 'Fences', 'Wooden gazebos', 'Wooden arbors'];
+// global variables 
 
+    //all landscaping services to appear in the services section
+    let landscapingServices = ['Designs', 'New Installation', 'Mulching', 'Tree planting', 'Maintenance', 'Shrub planting', 'Leaf cleanup', 'Topsoil','Fertilization','Irrigation Systems'];
+    //all hardscaping services to appear in the services section
+    let hardscapingServices = ['Stone or Concrete Walkways', 'Decks', 'Retaining walls', 'Patios', 'Potting containers', 'Landscape lighting', 'Pavillions', 'Fences', 'Wooden gazebos', 'Wooden arbors'];
+
+    //creating the media query variable for the nav
+    const navMediaQuery = window.matchMedia('(max-width: 850px)');
+    //creating a media query for the slide in animations
+    const slideinMediaQuery = window.matchMedia('(min-width: 800px)');
 
 
     //wrapper for the whole project
 class Wrapper extends React.Component{
     constructor(props){
         super(props);
+        //if the nav media queary matches
+        this.state = {navQuery : navMediaQuery.matches}
+        // adding change event to the nav media query
+        navMediaQuery.addEventListener('change', this.navMediaQueryChange);
+    }
+    // event handles for when the nav media query changes
+    navMediaQueryChange = (e) => {
+        this.setState({navQuery : e.matches});
     }
     render(){
+        let navBar = (this.state.navQuery) ? <AlternativeNavBar></AlternativeNavBar> : <NavBar></NavBar>;
         return (<div id="Wrapper">
             <HomeSection id="homeSection"></HomeSection>
+            {navBar}
             <ServicesSection id="servicesSection"></ServicesSection>
             <AboutSection id="aboutSection"></AboutSection>
             <ProjectsSection id="projectsSection"></ProjectsSection>
             <ContactSection id="contactSection"></ContactSection>
+            <Footer></Footer>
             </div>)
     }
 }
@@ -252,6 +270,112 @@ class Wrapper extends React.Component{
                     )
                 }
             }
+
+    // Footer
+    class Footer extends React.Component{
+        constructor(props){
+            super(props);
+        }
+        render(){
+            return (
+                <footer id="footer">
+                <p id="copyrightP">Copyright - <span className="footerCompany">GBR Landscaping</span>. 2021. All Rights Reserved.</p>
+                <p>Designed by - <span className="footerCompany">Triple G Develops</span></p>
+                </footer>
+            )
+        }
+    }
+
+    // Nav Bars
+        // nav bar that renders when viewport is
+        // greater than 850px
+        class NavBar extends React.Component{
+            constructor(props){
+                super(props);
+            }
+            render(){
+               return (
+                <nav id="originalNav">
+                    <div id="navLogoContainer">
+                        <img src={companyLogo}></img>
+                    </div>
+                    <ListOfLinks id="navListContainer"></ListOfLinks>
+                </nav>
+                )
+            }
+        }
+
+        //Nav bar that appears when the screen is 
+        // less than 850px
+        class AlternativeNavBar extends React.Component{
+            constructor(props){
+                super(props);
+                this.state = {open : false}
+            }
+            hamburgerIconClick(e){
+                if(document.getElementById('slideDownNavContainer')){
+                    this.setState({open : false});
+                }else{
+                    this.setState({open : true});
+                }
+            }
+            linkClickEventHandler = (e) => {
+                this.setState({open : false});
+            }
+            render(){
+                return (
+                    <nav id="alternateNav">
+                    <div id="alternateNavContainer">
+                        <div id="alternateNavLogoContainer">
+                            <img id="alternateNavLogo" src={companyLogo}></img>
+                        </div>
+                        <div id="alternateNavHamburgerContainer" onClick={this.hamburgerIconClick.bind(this)}>
+                            <img id="alternateNavHamburger" src={hamburgerIcon}></img>
+                        </div>
+                    </div>
+                    {this.slideDownNav()}
+                    </nav>
+                )
+            }
+            // slide down part of the nav bar
+            slideDownNav(){
+                if(this.state.open){
+                    return <ListOfLinks id="slideDownNavContainer" linkClickEventHandler={this.linkClickEventHandler}></ListOfLinks>
+                }else{
+                    return ""
+                }
+
+            }
+        }
+
+        // Common nav bar components
+            // div that holds all the links
+            class ListOfLinks extends React.Component{
+                constructor(props){
+                    super(props);
+                }
+                render(){
+                    return (
+                        <div id={this.props.id}>
+                            <NavBarListElement href="#homeSection" text="Home" clickEventHandler={this.props.linkClickEventHandler}></NavBarListElement>
+                            <NavBarListElement href="#servicesSection" text="Services" clickEventHandler={this.props.linkClickEventHandler}></NavBarListElement>
+                            <NavBarListElement href="#aboutSection" text="About" clickEventHandler={this.props.linkClickEventHandler}></NavBarListElement>
+                            <NavBarListElement href="#projectsSection" text="Projects" clickEventHandler={this.props.linkClickEventHandler}></NavBarListElement>
+                            <NavBarListElement href="#contactSection" text="Contact" clickEventHandler={this.props.linkClickEventHandler}></NavBarListElement> 
+                        </div>
+                    )
+                }
+            }
+                // nav bar list element
+                class NavBarListElement extends React.Component{
+                    constructor(props){
+                        super(props);
+                    }
+                    render(){
+                        return <a href={this.props.href} onClick={this.props.clickEventHandler}>{this.props.text}</a>
+                    }
+                }
+
 
     // universal
         // header for each section
