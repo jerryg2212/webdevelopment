@@ -308,10 +308,13 @@ class Wrapper extends React.Component{
                 constructor(props){
                     super(props);
                 }
+                formSubmitEvent(e){
+                    e.preventDefault();
+                }
                 render(){
                     return (
                         <div id="contactFormContainer">
-                            <form id="contactFormElement">
+                            <form id="contactFormElement" onSubmit={this.formSubmitEvent}>
                                 <label for="nameInput">Name:</label>
                                 <input type="text" for="nameInput"></input>
                                 <label for="emailInput">Email:</label>
