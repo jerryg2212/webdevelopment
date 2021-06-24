@@ -4,6 +4,9 @@ import './index.css';
 import  projectImages from './images';
 import companyLogo from './imagesAndIcons/logo.png';
 import hamburgerIcon from './imagesAndIcons/hamburger.svg';
+import {whoWeAre as whoWeAreImg} from './images';
+import {theProcess as theProcessImg} from './images';
+import {ourMission as ourMissionImg} from './images';
 
 // global variables 
 
@@ -16,6 +19,26 @@ import hamburgerIcon from './imagesAndIcons/hamburger.svg';
     const navMediaQuery = window.matchMedia('(max-width: 850px)');
     //creating a media query for the slide in animations
     const slideinMediaQuery = window.matchMedia('(min-width: 800px)');
+
+    //making the Intersecting observer for the appear on scroll
+    //creating the options
+    const appearOnScrollOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: .38
+    };
+//creating the object
+    const appearOnScrollObserver = new IntersectionObserver(appearOnScroll, appearOnScrollOptions);
+
+//making the Intersection Observer for the slidein elements
+//creating the options
+    const slideinOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: .35
+    }
+//creating the object
+    const slideinObserver = new IntersectionObserver(slidein, slideinOptions);
 
 
     //wrapper for the whole project
@@ -51,7 +74,13 @@ class Wrapper extends React.Component{
             super(props);
         }
         render(){
-            return <section id={this.props.id}><GetQuoteButton id="getQuoteButton"></GetQuoteButton></section>
+            return <section id={this.props.id}><GetQuoteButton id="getQuoteButton" clickHandler={this.getQuoteButtonClick}></GetQuoteButton></section>
+        }
+        getQuoteButtonClick(e){
+            let contact = document.getElementById('contactSection');
+            // window.scrollTo(0, 1175);
+            //auto scrolls to the contact section
+            window.scrollTo(0,contact.getBoundingClientRect().y);
         }
     }
         //get Quote Button
@@ -60,7 +89,7 @@ class Wrapper extends React.Component{
                 super(props);
             }
             render(){
-                return <button id={this.props.id}>Get Quote</button>
+                return <button id={this.props.id} onClick={this.props.clickHandler}>Get Quote</button>
             }
         }
 
@@ -94,10 +123,16 @@ class Wrapper extends React.Component{
                     super(props);
                 }
                 render(){
-                    return <div id={this.props.id}>
+                    return (<div id={this.props.id}>
                         <ServicesDisplayContainer headerText="Landscaping" services={landscapingServices}></ServicesDisplayContainer>
                         <ServicesDisplayContainer headerText="Hardscaping" services={hardscapingServices}></ServicesDisplayContainer>
-                    </div>
+                    </div>)
+                }
+                componentDidMount(){
+                    let children = document.getElementById('servicesGridContainer').children;
+                    for(let i = 0; i < children.length; i++){
+                        appearOnScrollObserver.observe(children[i]);
+                    }
                 }
             }
                 // services display that show the services 
@@ -108,7 +143,7 @@ class Wrapper extends React.Component{
                     render(){
                         let services = this.props.services.map((service, index) => <li key={index}>{service}</li>)
                         return (
-                           <div className="servicesBox">
+                           <div className="servicesBox appearElement">
                                <h3>{this.props.headerText}</h3>
                                <ul>{services}</ul>
                            </div> 
@@ -121,10 +156,13 @@ class Wrapper extends React.Component{
                 super(props);
             }
             render(){
-                return <div id={this.props.id}>
+                return <div id={this.props.id} className="slideinRightOriginal">
                     <img src="https://drscdn.500px.org/photo/220920477/m%3D900/v2?sig=151cdf5d5571cdbb83a55d4b9f9c3325a6371a84c5bcedc62c8900d9942f4b71"></img>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum at diam nunc. Vestibulum tempor mi id erat euismod, sed ultricies velit mattis. Praesent mollis ultricies condimentum. Phasellus ut ipsum blandit, consectetur felis id, bibendum nibh. Maecenas aliquam ut velit non euismod. Phasellus et elit velit.</p>
                 </div>
+            }
+            componentDidMount(){
+                slideinObserver.observe(document.getElementById(this.props.id));
             }
         }
 
@@ -147,10 +185,24 @@ class Wrapper extends React.Component{
             }
             render(){
                 return <div id={this.props.id}>
-                    <AboutDisplayContainer intersectionClass="slideinLeftOriginal" imgSrc="imagesAndIcons/whoWeAre.svg" headerText="Who We Are" pText="Proin lorem metus, gravida a vehicula at, feugiat at lacus. Fusce suscipit molestie libero nec tristique. Vivamus varius mauris venenatis ipsum lobortis sagittis. Mauris vestibulum magna viverra nisl dignissim, accumsan posuere ipsum placerat. Praesent ornare enim posuere urna luctus mattis. Mauris nec lobortis nisl, sed viverra mauris. Proin mi libero, porta non leo et, efficitur elementum enim. Quisque elementum elit sit amet viverra venenatis. Suspendisse viverra neque turpis, nec aliquam nunc bibendum quis. Cras condimentum vel libero vitae iaculis. Mauris purus lectus, laoreet vitae dapibus et, pretium sed ante. Nunc lacinia tristique pretium. Proin nec consectetur tellus. Maecenas vel gravida dui. Nam nec vulputate dui."></AboutDisplayContainer>
-                    <AboutDisplayContainer intersectionClass="appearElement" imgSrc="imagesAndIcons/theProcess.svg" headerText="The Process" pText="Suspendisse fringilla lacinia ante eu luctus. Pellentesque efficitur lacus nec fermentum tristique. Fusce tincidunt molestie sapien id consequat. Nunc scelerisque at lectus vitae sodales. Vestibulum vitae pharetra ante, a ornare ex. Vivamus mi enim, placerat in placerat at, volutpat lacinia lacus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos."></AboutDisplayContainer>
-                    <AboutDisplayContainer intersectionClass="appearElement" imgSrc="imagesAndIcons/ourMission.svg" headerText="Our Mission" pText="Sed id nisl scelerisque, tincidunt lorem eu, elementum magna. Sed venenatis tempor dui, sed vulputate velit consectetur a. Quisque sollicitudin ullamcorper tellus ut elementum. Mauris vel ornare purus. Integer id est at justo auctor lobortis sit amet eget tellus. Aenean dapibus risus sit amet quam ultricies ornare. Cras ultrices, sem laoreet suscipit convallis, nisi massa faucibus ipsum, quis vulputate nibh est eget tortor. Vestibulum eget mi sed est tincidunt luctus eget sit amet nulla. Etiam aliquam aliquam quam nec sagittis. Sed id rhoncus metus."></AboutDisplayContainer>
+                    <AboutDisplayContainer intersectionClass="slideinLeftOriginal" imgSrc={whoWeAreImg} headerText="Who We Are" pIntersect="appear" imgIntersect="slidein" pText="Proin lorem metus, gravida a vehicula at, feugiat at lacus. Fusce suscipit molestie libero nec tristique. Vivamus varius mauris venenatis ipsum lobortis sagittis. Mauris vestibulum magna viverra nisl dignissim, accumsan posuere ipsum placerat. Praesent ornare enim posuere urna luctus mattis. Mauris nec lobortis nisl, sed viverra mauris. Proin mi libero, porta non leo et, efficitur elementum enim. Quisque elementum elit sit amet viverra venenatis. Suspendisse viverra neque turpis, nec aliquam nunc bibendum quis. Cras condimentum vel libero vitae iaculis. Mauris purus lectus, laoreet vitae dapibus et, pretium sed ante. Nunc lacinia tristique pretium. Proin nec consectetur tellus. Maecenas vel gravida dui. Nam nec vulputate dui."></AboutDisplayContainer>
+                    <AboutDisplayContainer intersectionClass="appearElement" imgSrc={theProcessImg} headerText="The Process" pIntersect="appear" imgIntersect="appear" pText="Suspendisse fringilla lacinia ante eu luctus. Pellentesque efficitur lacus nec fermentum tristique. Fusce tincidunt molestie sapien id consequat. Nunc scelerisque at lectus vitae sodales. Vestibulum vitae pharetra ante, a ornare ex. Vivamus mi enim, placerat in placerat at, volutpat lacinia lacus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos."></AboutDisplayContainer>
+                    <AboutDisplayContainer intersectionClass="slideinRightOriginal" imgSrc={ourMissionImg} headerText="Our Mission" pIntersect="appear" imgIntersect="slidein" pText="Sed id nisl scelerisque, tincidunt lorem eu, elementum magna. Sed venenatis tempor dui, sed vulputate velit consectetur a. Quisque sollicitudin ullamcorper tellus ut elementum. Mauris vel ornare purus. Integer id est at justo auctor lobortis sit amet eget tellus. Aenean dapibus risus sit amet quam ultricies ornare. Cras ultrices, sem laoreet suscipit convallis, nisi massa faucibus ipsum, quis vulputate nibh est eget tortor. Vestibulum eget mi sed est tincidunt luctus eget sit amet nulla. Etiam aliquam aliquam quam nec sagittis. Sed id rhoncus metus."></AboutDisplayContainer>
                 </div>
+            }
+            componentDidMount(){
+                let container = document.getElementById(this.props.id);
+                let children = container.children;
+                for(let i = 0; i < children.length; i++){
+                    for(let j = 0; j < children[i].children.length; j++){
+                        if(children[i].children[j].getAttribute("intersect") == 'appear'){
+                            appearOnScrollObserver.observe(children[i].children[j]);
+                        }
+                        if(children[i].children[j].getAttribute("intersect") == 'slidein'){
+                            slideinObserver.observe(children[i].children[j]);
+                        }
+                    }
+                }
             }
         }
             // display container that holds a section in the about section
@@ -162,8 +214,8 @@ class Wrapper extends React.Component{
                     return (
                         <div className="aboutInformationContainerDivs">
                         <h2 className="aboutH2">{this.props.headerText}</h2>
-                        <p className="aboutInformationP" className="appearElement">{this.props.pText}</p>
-                        <img src={this.props.imgSrc} className="aboutInformationImg" className={this.props.intersectionClass}></img>
+                        <p className="aboutInformationP appearElement" intersect={this.props.pIntersect}>{this.props.pText}</p>
+                        <img src={this.props.imgSrc} className={`aboutInformationImg ${this.props.intersectionClass}`} intersect={this.props.imgIntersect}></img>
                         </div>
                     )
                 }
@@ -402,3 +454,25 @@ class Wrapper extends React.Component{
 
     ReactDOM.render(<Wrapper id="Wrapper"></Wrapper>, document.getElementById('root'));
 
+
+// functions
+
+        //functions for Intersection Observers
+    //function for the elements that fade in (appear)
+    function appearOnScroll(entries, observer){
+        entries.forEach(entry => {
+            if(entry.isIntersecting){
+                entry.target.classList.add('appear');
+            }
+        });
+    }
+
+//function for the elements that slidein
+    function slidein(entries, observer){
+        console.log('call');
+        entries.forEach(entry => {
+            if(entry.isIntersecting){
+                entry.target.classList.add('slideinAfter');
+            }
+        });
+    }
