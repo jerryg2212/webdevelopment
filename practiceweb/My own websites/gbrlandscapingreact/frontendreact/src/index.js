@@ -269,6 +269,7 @@ class Wrapper extends React.Component{
         render(){
             return <section id={this.props.id}>
                 <ContactSectionContainer id="contactSectionContainer"></ContactSectionContainer>
+                <ContactFormSubmitButton></ContactFormSubmitButton>
             </section>
         }
     }
@@ -322,6 +323,16 @@ class Wrapper extends React.Component{
                     )
                 }
             }
+        class ContactFormSubmitButton extends React.Component{
+            constructor(props){
+                super(props);
+            }
+            render(){
+                return (
+                    <button type="submit" form="contactFormElement">Submit</button>
+                )
+            }
+        }
 
     // Footer
     class Footer extends React.Component{
