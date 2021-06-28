@@ -315,11 +315,11 @@ class Wrapper extends React.Component{
                     return (
                         <div id="contactFormContainer">
                             <form id="contactFormElement" onSubmit={this.formSubmitEvent}>
-                                <label for="nameInput">Name:</label>
-                                <input type="text" for="nameInput"></input>
-                                <label for="emailInput">Email:</label>
+                                <label htmlFor="nameInput">Name:</label>
+                                <input type="text" id="nameInput"></input>
+                                <label htmlFor="emailInput">Email:</label>
                                 <input type="email" id="emailInput"></input>
-                                <label for="messageInput">Message:</label>
+                                <label htmlFor="messageInput">Message:</label>
                                 <textarea id="messageInput"></textarea>
                             </form>
                         </div>
