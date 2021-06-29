@@ -1,0 +1,492 @@
+/*34, 189, 70*/
+/*#22bd46*/
+*{
+    padding: 0px;
+    margin: 0px;
+}
+body{
+width: 100%;
+margin: 0px auto;
+overflow-x: hidden;
+font-family: 'BodyFont';
+letter-spacing: 1.1px;
+}
+/*wrapper that holds all the content so their is no overflow for mobile devices*/
+#Wrapper{
+    overflow-x: hidden;
+}
+/* home section styleing */
+    /* section element */
+        #homeSection{
+            width: 100%;
+            max-width: 1500px;
+            height: 100vh;
+            margin: auto;
+            background-image: linear-gradient(to bottom, rgba(1,1,1,.5), rgba(1,1,1,.2))
+            ,url("imagesAndIcons/homeSectionBackgroundImage.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            display:flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+    /* quote button */
+        #homeSection button{
+            background: rgba(255,255,255,.2);
+            padding: 50px 100px;
+            border: 5px solid rgb(85, 146, 100);
+            font-size: 40px;
+            border-radius: 15px;
+            box-shadow: 2px 2px 5px black;
+        }
+        /*hover*/
+            #homeSection button:hover{
+                cursor: pointer;
+            }
+
+/*services Section */
+    #servicesSection{
+        width: 100%;
+        margin-top: 150px;
+        margin-bottom: 150px;
+        padding: 20px 0px;
+        /*background-color: rgb(49, 206, 85);*/
+        background-color: rgb(34, 189, 70);
+    }
+    /* h1 element in the services section */
+        #servicesSection h1{
+            text-align: center;
+            margin-bottom: 20px;
+            color:white;
+            text-shadow: 1px 1px 2px black;
+            font-size: 40px;
+        }
+    /* container in services section that is flex */
+        #servicesSectionContainer{
+            /*display: grid;
+            grid-template-columns: 2fr 3fr;
+            grid-gap: 20px;*/
+            display: flex;
+            flex-wrap: wrap;
+        }
+    /* grid container for the landscaping and hardscaping services containers */
+        #servicesGridContainer{
+            width: 100%;
+            /*display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-gap: 20px;
+            align-items: center;
+            */
+            display:flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            margin-left: 20px;
+            margin-right: 20px;
+            flex: 1 1 400px;
+        }
+        /* landscaping and hardscaping div containers */
+        #servicesSection .servicesBox{
+            background-color: rgba(4, 65, 19, 0.6);
+            padding: 10px 20px 20px 20px;
+            margin: 15px;
+            border-radius: 20px;
+            max-width: 300px;
+            flex: 1 1 100px;
+            box-shadow: 2px 2px 5px black;
+        }
+        /* header inside the landscaping and hardscaping boxes */
+        #servicesSection .servicesBox h3{
+            text-align: center;
+            text-decoration: rgb(238, 238, 238);
+            color: white;
+            font-size: 20px;
+            text-shadow: 2px 2px 3px black;
+        }
+        /* list element inside each service box */
+        #servicesSection .servicesBox ul{
+        
+        }
+            /*list elements*/
+            #servicesSection .servicesBox ul li{
+                color: white;
+                font-weight: bold;
+                padding: 5px;
+                text-shadow: 1px 1px 2px black;
+            }
+    /* container that is a flex item that holds the img and the p */
+        #servicesSectionPAndImgContainer{
+            flex: 1 1 700px;
+            min-width: 100px;
+            padding: 15px;
+        }
+
+        /* image element in the services section */
+            #servicesSection img{
+                max-width: 95%;
+                min-width: 100px;
+                display: block;
+                margin: 10px auto;
+
+            }
+        /* paragraph element in services section under the header*/
+            #servicesSection p {
+                color: white;
+                max-width: 90%;
+                min-width: 50px;
+                text-align: center;
+                font-weight: bold;
+                margin: 10px auto;
+                font-size: 19px;
+                text-shadow: 1px 1px 1px black;
+
+            }
+
+/* about section */
+    #aboutSection{
+        width: 100%;
+        padding: 20px 0px;
+        background-color: #63b4c4;
+        margin-bottom: 100px;
+        /*background-image: linear-gradient(to bottom, rgb(49, 206, 85), rgb(3, 87, 0));*/
+    }
+    /*h1 header element */
+        #aboutSection h1{
+            text-align: center;
+            margin-bottom: 20px;
+            color: #025969;
+            text-shadow: 1px 1px 2px black;
+            font-size: 40px;
+        }
+    /* container that is a grid for the three sections */
+        #aboutInformationContainer{
+            display: flex;
+           /* grid-template-columns: 1fr 1fr 1fr;
+            grid-gap: 20px;*/
+            flex-wrap: wrap;
+
+        }
+        /* grid elements to the container */
+            .aboutInformationContainerDivs{
+                border-right: 2px solid #22bd46;
+                padding: 20px;
+                flex: 1 1 300px;
+            }
+            .aboutInformationContainerDivs:last-child(){
+                border:none;
+            }
+            /* h2 elements in the div */
+                .aboutH2{
+                    color: white;
+                    text-align:center;
+                    text-shadow: 1px 1px 1px black;
+                    padding: 5px;
+                }
+            /* p elements in the div*/
+                .aboutInformationP{
+                    color: #087286;
+                    text-align:center;
+                    font-size: 18px;
+                    text-shadow: 1px 1px 1px black;
+                    line-height: 1.5;
+                }
+            /* img elements in the div */
+                .aboutInformationImg{
+                    max-width: 30%;
+                    display: block;
+                    margin: 20px auto;
+                }
+
+/* projects section*/
+    #projectsSection{
+        width: 100%;
+    }
+    /* header*/
+        #projectsSection h2{
+            text-align: center;
+            color:rgb(34,189,70);
+            text-shadow: 1px 1px 10px grey;
+            font-size: 40px;
+        }
+    /* container that holds all the images*/
+        #projectsSectionContainer{
+            width: 100%;
+            margin: 10px auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        /* images elements */
+            #projectsSectionContainer img{
+                max-width: 400px;
+                padding: 10px;
+                box-sizing: border-box;
+                flex: 1 1 400px;
+            }
+            /*hover for the imgs*/
+                #projectsSectionContainer img:hover{
+                    transform: scale(1.05);
+                    transition: .8s;
+                }
+/*contact Section styleing*/
+    #contactSection{
+        width: 100%;
+
+    }
+    /* contact section container*/
+        #contactSectionContainer{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 100px;
+            align-items: center;
+        }
+        /* flex items of contact section container*/
+            #contactSectionContainer > div{
+                max-width: 500px;
+                flex: 1 1 400px;
+                margin: 20px;
+            }
+            /*h2 element */
+                #contactSectionContainer > div h2{
+                    padding: 10px;
+                    color:rgb(49, 206, 85);
+                    text-shadow: 1px 1px 1px black;
+                    font-size: 35px;
+                }
+            /* p elements */
+                #contactSectionContainer > div p{
+                    font-size: 18px;
+                    padding: 10px;
+                }
+            /* contact description*/
+                .contactDescription{
+                    font-size: 20px;
+                    max-width: 90%;
+                    min-width: 100px;
+                    line-height: 1.2;
+                    color:rgba(4, 65, 19, 0.8);
+                }
+            /* contact headers*/
+                .contactHeader{
+                    color:rgba(4, 65, 19, 0.6);
+                    font-size: 20px;
+                }
+            /* address header*/
+                #contactSectionContainer > div h4{
+                    color:rgba(4, 65, 19, 0.8);
+                    padding: 10px 10px 0px 10px;
+                    font-size: 20px;
+                }
+    /*contact form*/
+        #contactSection form{
+            margin-top: 10px;
+            text-align:center;
+            border: 2px solid rgb(34,189,70);
+            padding-bottom: 20px;
+        }
+        /*labels*/
+            #contactSection form label{
+                display: block;
+                padding: 5px;
+                margin-top: 15px;
+                color:rgba(4, 65, 19, 0.8);
+                font-size: 17px;
+            }
+        /*inputs*/
+            #contactSection form input,
+            #contactSection form textarea{
+                width: 50%;
+                padding: 10px;
+                border: 1px solid rgb(34, 189, 70);
+                min-width: 100px;
+                background-color: rgb(34, 189, 70);
+                color: white;
+                text-shadow: 1px 1px 1px black;
+                border-radius: 10px;
+                font-size: 18px;
+                box-shadow: 1px 1px 5px grey;
+            }
+    /*submit button*/
+        #contactSection button{
+            display: block;
+            margin: 10px auto;
+            margin-top: 20px;
+            padding: 15px;
+            color: white;
+            background-color: rgb(34, 189, 70);
+            font-size: 20px;
+            width: 200px;
+            border-radius: 0px 10px;
+            border: none;
+            text-shadow: 1px 1px 1px;
+            box-shadow: 2px 2px 3px black,
+                        -1px -1px 2px grey;
+        }
+/* styleing for the footer*/
+    footer{
+        margin-top: 70px;
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        background-color: rgb(1, 31, 8);
+        min-height: 100px;
+    }
+    /* paragraphs in footer */
+        footer p{
+            padding: 10px;
+            color:rgba(69, 80, 71, 0.9);
+        }
+    /* copyright paragraph*/
+    #copyrightP{
+    
+    }
+    /*class that colors the name of the companies differently*/
+    .footerCompany{
+        color:rgb(3, 155, 41);
+    }
+
+
+/* universal styleing */
+    /* nav bar styleing */
+        /* style for the whole nav element */
+            #originalNav{
+                max-width: 100%;
+                width: 100%;
+                max-height: 70px;
+                position: fixed;
+                z-index: 1;
+                top: 0px;
+                left: 0px;
+                display: flex;
+                flex-wrap: wrap;
+                background-color: rgb(34, 189, 70);
+                background-image: linear-gradient(to right,rgb(34,189,70) 20%,70%, rgb(255,255,255) 90%);
+            }
+            /*flex items divs*/
+                nav > div{
+                   /* flex: 1 1 1px;*/
+                }
+            /*logo container*/
+                #navLogoContainer{
+                    flex: 1 1 1px
+                }
+            /*list container*/
+                #navListContainer{
+                    display: flex;
+                    align-items: stretch;
+                    max-height: 100%;
+                    padding-right: 15px;
+                    justify-content: center;
+                    justify-self:space-around;
+                    max-width:100%;
+                }
+            /*link elements*/
+                #originalNav a{
+                    text-decoration: none;
+                    color:rgb(34, 189, 70);
+                    text-shadow: 1px 1px 1px black;
+                    padding: 0px 10px;
+                    height: 100%;
+                    margin: 0px;
+                    box-sizing: border-box;
+                    font-size: 18px;
+                    display:flex;
+                    align-items: center;
+                }
+        /* hover for the li's */
+            #originalNav a:hover{
+                transition: 1s;
+                background-color: rgba(34, 189, 70, .65);
+                color: white;
+            }
+        /* container for the list inside the nav */
+         /*   #listContainerDiv{
+                text-align: right;
+                display: flex;
+                align-items: center;
+                justify-content: right;
+            }*/
+    /*alternate nav bar style*/
+        #alternateNav{
+            width: 100%;
+            position:fixed;
+            top: 0px;
+            left: 0px;
+            z-index: 1;
+        }
+        /*div container in the nav*/
+            #alternateNavContainer{
+                width: 100%;
+                background-color: rgb(34, 189, 70);
+                background-image: linear-gradient(to right,rgb(34,189,70) 20%,70%, rgb(255,255,255) 90%);
+                display:flex;
+                justify-content: space-around;
+            }
+            /* container for the logo*/
+                #alternateNavLogoContainer{
+                    flex: 1 1 1px;
+                }
+            /* container for the hamburger icon*/
+                #alternateNavHamburgerContainer{
+                }
+                /* logo*/
+                    #alternateNavLogo{
+                        padding: 0px;
+                        max-width:100%;
+                    }
+            /*hamburger icon*/
+                #alternateNavHamburger{
+                    max-width: 100%;
+                    padding: 5px;
+                }
+        /*alternate nav slide down menu*/
+            #slideDownNavContainer{
+                width: 100%;
+                background-color: red;
+                display: flex;
+                flex-wrap: wrap;
+            }
+            /* list elements*/
+                #slideDownNavContainer a{
+                    width: 100%;             
+                    text-decoration: none;
+                    text-align:center;
+                    padding: 10px;
+                    background-color: #025969;  
+                    border-bottom: 3px solid #63b4c4; 
+                    color: white;
+                }
+                    #slideDownNavContainer a:last-child{
+                        border: none;
+                    }
+
+
+    /* observer styling*/
+        /* styling for fade in elements*/
+            .appearElement{
+                opacity: 0;
+            }
+            .appear{
+                opacity: 1;
+                transition: 2s;
+            }
+        /* styling for slidein elements*/
+            .slideinRightOriginal{
+                opacity: 0;
+                transform: translate(200px, 0px);
+            }
+            .slideinLeftOriginal{
+                opacity: 0;
+                transform: translate(-200px, 0px);
+            }
+            .slideinAfter{
+                opacity: 1;
+                transform: none;
+                transition: 1.5s;
+            }
+@font-face{
+    font-family: 'BodyFont';
+    src: url(fonts/made_tommy/use.otf);
+}

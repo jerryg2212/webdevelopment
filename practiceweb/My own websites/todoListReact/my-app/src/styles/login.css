@@ -1,0 +1,49 @@
+
+
+/* Login/Register Pages */
+#loginRegisterBody{
+    text-align: center;
+}
+    /* form element */
+    #loginRegisterBody form{
+        display: block;
+        background-color: #89FF00;
+        width: 100%;
+        max-width: 500px;
+        min-width: 300px;
+        margin: 50px auto 20px auto;
+        padding: 20px;
+        box-shadow: rgba(1, 1, 1, .7) 2px 2px 6px;
+        border-radius: 10px;
+        position: relative;
+        box-sizing: border-box;
+    }
+        #loginRegisterBody label{
+            display: block;
+            margin: 10px auto;
+        }
+        #loginRegisterBody input{
+            display: block;
+            margin: 10px auto;
+            width : 90%;
+            max-width: 200px;
+            min-width: 100px;
+        }
+        #loginRegisterBody button{
+            display: block;
+            margin: 10px auto;
+        }
+        /* error p text */
+        #loginRegisterErrorText{
+            position: absolute;
+            width: 160px;
+            margin: 0px;
+            top: 0px;
+            left: 50%;
+            margin-left: -80px;
+            padding: 5px;
+            color: red;
+            font-weight: bold;
+            text-shadow: black 1px 1px 1px; 
+            font-size: 15px;
+        }

@@ -1,0 +1,34 @@
+{
+  "files": {
+    "main.css": "/static/css/main.ca127641.chunk.css",
+    "main.js": "/static/js/main.870fb66b.chunk.js",
+    "main.js.map": "/static/js/main.870fb66b.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.36fa7c4d.js",
+    "runtime-main.js.map": "/static/js/runtime-main.36fa7c4d.js.map",
+    "static/js/2.7b14cc86.chunk.js": "/static/js/2.7b14cc86.chunk.js",
+    "static/js/2.7b14cc86.chunk.js.map": "/static/js/2.7b14cc86.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.ca127641.chunk.css.map": "/static/css/main.ca127641.chunk.css.map",
+    "static/js/2.7b14cc86.chunk.js.LICENSE.txt": "/static/js/2.7b14cc86.chunk.js.LICENSE.txt",
+    "static/media/1.9ece6f38.jpg": "/static/media/1.9ece6f38.jpg",
+    "static/media/2.1258a60a.jpg": "/static/media/2.1258a60a.jpg",
+    "static/media/3.8fbae663.jpg": "/static/media/3.8fbae663.jpg",
+    "static/media/4.ba60d94e.jpg": "/static/media/4.ba60d94e.jpg",
+    "static/media/5.2dce585d.jpg": "/static/media/5.2dce585d.jpg",
+    "static/media/6.3f752c3a.jpg": "/static/media/6.3f752c3a.jpg",
+    "static/media/7.bb5eeb5a.jpg": "/static/media/7.bb5eeb5a.jpg",
+    "static/media/8.5ad6bc46.jpg": "/static/media/8.5ad6bc46.jpg",
+    "static/media/9.07036db4.jpg": "/static/media/9.07036db4.jpg",
+    "static/media/hamburger.94c20f9c.svg": "/static/media/hamburger.94c20f9c.svg",
+    "static/media/index.css": "/static/media/use.101be848.otf",
+    "static/media/ourMission.bce71831.svg": "/static/media/ourMission.bce71831.svg",
+    "static/media/theProcess.1cfcdb47.svg": "/static/media/theProcess.1cfcdb47.svg",
+    "static/media/whoWeAre.d89776ee.svg": "/static/media/whoWeAre.d89776ee.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.36fa7c4d.js",
+    "static/js/2.7b14cc86.chunk.js",
+    "static/css/main.ca127641.chunk.css",
+    "static/js/main.870fb66b.chunk.js"
+  ]
+}

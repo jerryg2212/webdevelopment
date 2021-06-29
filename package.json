@@ -5,6 +5,7 @@
     "mongodb": "^3.6.5",
     "mustache": "^4.1.0",
     "node-tesseract-ocr": "^2.0.0",
+    "react-router-dom": "^5.2.0",
     "tesseract-ocr": "^1.0.0"
   }
 }
