@@ -1,7 +1,8 @@
 import React from "react";
 import { render } from "react-dom";
 import Home from "./pages/home.js";
-import Login from "./pages/login.js";
+import LoginRegister from "./pages/loginRegister.js";
+import CreateFirstList from "./pages/createFirstList.js";
 import "./styles/all.css";
 import {
   BrowserRouter as Router,
@@ -19,7 +20,9 @@ class App extends React.Component{
     return (
       <Router>
         <Switch>
-          <Route path="/login"><Login></Login></Route>
+          <Route path="/register"><LoginRegister action="/register" link="/login"></LoginRegister></Route>
+          <Route path="/login"><LoginRegister action="/login" link="/register"></LoginRegister></Route>
+          <Route path="/createFirstList"><CreateFirstList></CreateFirstList></Route>
           <Route path="/"><Home></Home></Route>
         </Switch>
       </Router>
