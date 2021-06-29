@@ -18,12 +18,13 @@ app.use(express.static(path.join(__dirname, "build")));
 app.use(express.urlencoded({extended: false}));
 
 app.get('/', (req, res) => {
-    res.redirect('/login');
+    res.sendFile(path.join(__dirname, "build", "index.html"));
     //res.sendFile(path.resolve(__dirname, "../my-app/src", "index.html"));
+});
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, "build", "index.html"));
 })
-app.get('/login', (req, res) => {
-    res.json({page : "Login"});
-})
+
 app.get('/api', (req, res) => {
     console.log("on the api page");
     res.send('shit');
