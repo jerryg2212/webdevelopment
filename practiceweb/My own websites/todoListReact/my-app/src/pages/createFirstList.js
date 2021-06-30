@@ -1,5 +1,6 @@
 import React from "react";
 import "../styles/createFirstList.css";
+import requestAuthentication from "./authenticationRequest.js";
 
 class CreateFirstList extends React.Component{
     constructor(props){
@@ -20,7 +21,8 @@ class CreateFirstList extends React.Component{
         )
     }
     componentDidMount(){
-        document.body.classList.add('bodyBackgroundColor')
+        document.body.classList.add('bodyBackgroundColor');
+        requestAuthentication(true);
     }
 }
 

@@ -1,5 +1,17 @@
 
 /* /////     ELEMENTS     ///// */
+    html{
+        height: 100%;
+        width:100%;
+        padding: 0px;
+        margin: 0px;
+    }
+    body{
+        height: 100%;
+        width: 100%;
+        padding: 0px;
+        margin: 0px;
+    }
     h1{
         text-align : center;
     }
@@ -38,7 +50,7 @@
         background-color: #89FF00;
         width: 70%;
         max-width: 700px;
-        min-width: 350px;
+        min-width: 325px;
         text-align:center;
         margin: 10px auto;
         padding: 10px;
@@ -51,3 +63,53 @@
         top: 10px;
         right: 10px;
     }
+    /* for the check mark and delte icons */
+    .checkDeleteIcons{
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        width: 16px;
+        padding: 5px;
+    }
+
+    /* for headers */
+    .whiteHeader{
+        color: white;
+        font-family: 'headerFont';
+        text-shadow:rgba(1, 1, 1, .7) 1px 1px 1px;
+
+    }
+    /* pascal case */
+    .pascalCase{
+        text-transform: capitalize;
+    }
+
+        /* for the error boxes */
+        .errorBox{
+            background-color: white;
+            padding: 0px;
+            margin: 0px auto;
+            width: -moz-fit-content;
+            width: fit-content;
+        }
+    /* for the input elements when input is invalid */
+        .invalidInput{
+            margin-bottom: 0px !important;
+        }
+        /*p element inside the div wrapper */
+        #errorMessageP{
+            margin: 0px;
+            padding: 0px;
+            width: -moz-fit-content;
+            width: fit-content;            
+        }
+
+        
+    /*class for when the list element is being hovered over*/
+        .listElementHover{
+            background-color: red;
+        }
+    /*class for when the list element is clicked to be deleted*/
+        .listElementDelete{
+            background-color: red;
+        }

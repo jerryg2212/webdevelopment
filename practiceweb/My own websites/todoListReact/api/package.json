@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
-  "scripts": {
-
-  },
+  "scripts": {},
   "author": "Jerry Gensiejewski",
   "license": "ISC",
   "dependencies": {
@@ -14,7 +12,7 @@
     "express-flash": "^0.0.2",
     "express-session": "^1.17.2",
     "mongodb": "^3.6.9",
-    "nodemon": "^2.0.7",
+    "nodemon": "^2.0.8",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "react-router-dom": "^5.2.0"
