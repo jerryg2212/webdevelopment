@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <h1>hello</h1>
+        <script>
+            console.log('shite');
+           /* class Clock{
+                constructor(hour = 0, minute = 0){
+                    this.hour = hour;
+                    this.minute = minute;
+                }
+                getTime(hour, minute){
+                    return `${hour}:${minute}`;
+                }
+                setTime(hour, minute){
+                    this.hour = hour;
+                    this.minute = minute;
+                }
+            }
+          /*  class ClockIterator{
+                constructor(clock){
+                    this.hour = clock.hour;
+                    this.minute = clock.minute;
+                    this.clock = clock;
+                }
+                next(){
+                    if(this.hour == 24){
+                        return {done: true}}
+                        let value = {
+                            hour: this.hour,
+                            minute: this.minute,
+                            value: this.clock.getTime(this.hour, this.minute)
+                        }
+                        this.minute++;
+                        if(this.minute == 60){
+                            this.minute = 0;
+                            this.hour++;
+                        }
+                        return {value, done:false}
+                    
+                }
+            }
+           /* Clock.prototype[Symbol.iterator] = function() {
+                return new ClockIterator(this);
+            }
+            let clock = new Clock(0,0);
+          /*  for (let {hour, minute, value} of clock){
+                console.log(value);
+            }*/
+
+
+
+            </script>
+    </body>
+</html>
