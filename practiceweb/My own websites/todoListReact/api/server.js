@@ -86,13 +86,17 @@ passport.use(new LocalStrategy({usernameField: 'email'}, async (email, password,
 //     Paths     /////
 
     // GET //
-        app.get('/', (req, res) => {
-            res.sendFile(path.join(__dirname, "build", "index.html"));
+        app.get('/', checkAuthenticated, (req, res) => {
+            //res.sendFile(path.join(__dirname, "build", "index.html"));
             //res.sendFile(path.resolve(__dirname, "../my-app/src", "index.html"));
+            res.redirect(createListOrFirstList(req));
         });
         // for authentication
         app.get('/authenticate', (req, res, next) => {
+            console.log(req.originalUrl);
             let result;
+            console.log(req.query.checkAuthenticated);
+            console.log(req.query);
             console.log('authenticate ran');
             if(req.query.checkAuthenticated){
                 console.log("checkAuthenticated");
@@ -103,9 +107,14 @@ passport.use(new LocalStrategy({usernameField: 'email'}, async (email, password,
             }
             res.send(result);
         })
+        app.get('/login', (req, res) => {
+
+            res.send('kljlkj');
+        })
         app.get('/*', (req, res) => {
             console.log('bullshit ran');
-            res.sendFile(path.join(__dirname, "build", "index.html"));
+            //res.sendFile(path.join(__dirname, "build", "index.html"));
+            res.redirect('/');
         })
 
 
@@ -116,7 +125,7 @@ passport.use(new LocalStrategy({usernameField: 'email'}, async (email, password,
             failureRedirect : '/login',
             failureFlash: true
         }), (req, res) =>{
-            res.redirect('/specificlistpage');
+            res.redirect(createListOrFirstList());
         })
 
 app.listen(port, () => {console.log(`listening on port: ${port}`)});
@@ -125,19 +134,32 @@ app.listen(port, () => {console.log(`listening on port: ${port}`)});
 function checkAuthenticated(req, res, next){
     if(req.isAuthenticated()){
         console.log('the user is authenticated');
-        return true
+        return next();
     }
     else{
         console.log('the user is not authenticated');
-        return false
+        return res.redirect('/login');
     }
 }
 
 function checkNotAuthenticated(req, res, next){
     if(req.isAuthenticated()){
-        return res.redirect(routeFunctions.createListOrFirstList(req))
+        return res.redirect(createListOrFirstList(req))
     }
     else{
-        return next()
+        return next(); 
     }
 }
+
+    //function that returns the route to either the create first list page or the users first list in the database
+    // parameters : req object
+    //returns : route 
+    function createListOrFirstList (req) {
+        if(!req.user.lists || req.user.lists.length === 0){
+            return '/createFirstList'
+        }
+        if(req.user.lists.length > 0){
+            return `/list/${req.user.lists[0].title}`
+        }
+        return `/createFirstList`
+    }

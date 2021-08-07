@@ -1,5 +1,6 @@
 import React from 'react';
-import requestAuthentication from "./authenticationRequest.js";
+import checkAuthenticated from './authenticationRequest.js';
+//import requestAuthentication from "./authenticationRequest.js";
 class Home extends React.Component{
     constructor(props){
         super(props);
@@ -12,6 +13,7 @@ class Home extends React.Component{
         )
     }
     componentDidMount(){
+        window.location = '/login';
     }
 }
 export default Home;
