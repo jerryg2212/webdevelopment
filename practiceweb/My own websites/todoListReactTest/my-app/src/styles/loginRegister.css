@@ -33,6 +33,20 @@
             display: block;
             margin: 10px auto;
         }
+        /* error span text */
+        #validationErrorBox{
+            position: absolute;
+            width: 160px;
+            margin: 0px;
+            top: 0px;
+            left: 50%;
+            margin-left: -80px;
+            padding: 5px;
+            color: red;
+            font-weight: bold;
+            text-shadow: black 1px 1px 1px; 
+            font-size: 15px;
+        }
         /* error p text */
         #loginRegisterErrorText{
             position: absolute;

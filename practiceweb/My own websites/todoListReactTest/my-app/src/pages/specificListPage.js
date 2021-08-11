@@ -4,6 +4,7 @@ import deleteIcon from "../icons/delete.svg";
 import checkmarkIcon from "../icons/checkmark.svg";
 import requestAuthentication from "./authenticationRequest.js";
 import getData from './databaseRequests.js';
+import { deleteButtonClickEvent } from "./universalFunctions";
 
 const specificListContext = React.createContext({
     currentListTitle: '',
@@ -28,7 +29,7 @@ class SpecificListPage extends React.Component{
             <specificListContext.Provider value={this.state}>
             <deleteCheckmarkIconsContext.Provider value={{deleteIcon : deleteIcon, checkmarkIcon: checkmarkIcon}}>
             <div id="specificListBody">
-                <a href="/delete" className="logOutLink">Log Out</a>
+                <a href="#" className="logOutLink" onClick={deleteButtonClickEvent}>Log Out</a>
                 <SideNavListsContainer></SideNavListsContainer>
                 <Wrapper listTitle={this.state.currentListTitle} listItems={this.state.currentListItems}></Wrapper>
             </div>
@@ -44,7 +45,7 @@ class SpecificListPage extends React.Component{
        url.pathname =  `api${window.location.pathname}`;
 
       // let request = new XMLHttpRequest();
-       let response = await getData(url);
+     /*  let response = await getData(url);
       /*  request.onreadystatechange = () => {
             if(request.readyState == 4){
                 response = JSON.parse(request.responseText);
@@ -52,12 +53,12 @@ class SpecificListPage extends React.Component{
                 console.log(`${response.listTitle}  ${response.items}  ${response.lists}`)
 
             }
-        }*/
+        }*/  /*
         this.setState({
             currentListTitle: response.listTitle,
             currentListItems: response.items,
             listOfLists: response.lists
-        })
+        })*/
         console.log(`specific list page request should of sent this is the url ${url}`);
       /* request.open("GET", url, true);
        request.send();*/
@@ -107,6 +108,7 @@ class SpecificListPage extends React.Component{
         class ListsContainer extends React.Component{
             constructor(props){
                 super(props);
+                this.state = {listOfLists: []}
             }
             static contextType = deleteCheckmarkIconsContext;
             
@@ -119,10 +121,16 @@ class SpecificListPage extends React.Component{
                     </div>
                 )
             }
+            async componentDidMount(){
+                let url = new URL(window.location);
+                url.pathname = '/api/lists';
+                let lists = await getData(url);
+                this.setState({listOfLists: lists.lists});
+                
+            }
             populateListOfLists(){
-                console.log(`this is the lists of lists ${this.props.listOfLists}`);
                 let listOfLists = document.getElementById('sideNavUl');
-                for(let list of this.props.listOfLists){
+                for(let list of this.state.listOfLists){
                     let li = document.createElement('li');
                     li.textContent = list;
                     listOfLists.appendChild(li);
@@ -143,12 +151,17 @@ class SpecificListPage extends React.Component{
     class Wrapper extends React.Component{
         constructor(props){
             super(props);
+            let url = new URL(window.location);
+            let search = new URLSearchParams(url.search);
+            this.state = {
+                listTitle: search.get('list')
+            }
         }
         render(){
             return (
                 <div id="wrapper">
-                    <h1 className="pascalCase whiteHeader">{this.props.listTitle}</h1>
-                    <ListContainer listItems={this.props.listItems} listTitle={this.props.listTitle}></ListContainer>
+                    <h1 className="pascalCase whiteHeader">{this.state.listTitle}</h1>
+                    <ListContainer listItems={this.props.listItems} listTitle={this.state.listTitle}></ListContainer>
                 </div>
                 )
         }
@@ -157,6 +170,7 @@ class SpecificListPage extends React.Component{
         class ListContainer extends React.Component{
             constructor(props){
                 super(props);
+                this.state = {listItems : []}
             }
             static contextType = deleteCheckmarkIconsContext;
             render(){
@@ -173,9 +187,15 @@ class SpecificListPage extends React.Component{
                     </div>
                 )
             }
+            async componentDidMount(){
+                let url = new URL(window.location);
+                url.pathname = `/api/${this.props.listTitle}/items`;
+                let itemsResponse = await getData(url);
+                this.setState({listItems : itemsResponse.items})
+            }
             populateListOfItems(){
                 let ul = document.getElementById('tasksList');
-                for(let item of this.props.listItems){
+                for(let item of this.state.listItems){
                     let li = document.createElement('li');
                     li.textContent = item;
                     ul.appendChild(li);

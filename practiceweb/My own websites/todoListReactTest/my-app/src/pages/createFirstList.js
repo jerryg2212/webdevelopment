@@ -1,6 +1,7 @@
 import React from "react";
 import "../styles/createFirstList.css";
 import requestAuthentication from "./authenticationRequest.js";
+import { deleteButtonClickEvent } from "./universalFunctions";
 
 class CreateFirstList extends React.Component{
     constructor(props){
@@ -8,7 +9,7 @@ class CreateFirstList extends React.Component{
     }
     render(){
         return (<div id="createFirstListBody">
-            <a href="/delete" className="logOutLink">Log Out</a>
+            <a href="#" className="logOutLink" onClick={deleteButtonClickEvent}>Log Out</a>
             <div id="wrapper">
                 <h1>Please make a list</h1>
                 <div className="container">
@@ -20,9 +21,10 @@ class CreateFirstList extends React.Component{
         </div>
         )
     }
-    componentDidMount(){
+    async componentDidMount(){
         document.body.classList.add('bodyBackgroundColor');
-       // requestAuthentication(true);
+         await requestAuthentication(true, '/login');
+
     }
 }
 

@@ -49,41 +49,7 @@ passport.deserializeUser( async (id, done) => {
         done(err, false);
     }
 });
-//local strategy
-//passportAuthentication.authentication();
 
-//strategy
-/*
-passport.use(new LocalStrategy({usernameField: 'email'}, async (email, password, done) => {
-    try{
-        console.log('local strategy is running and the connect url is ' + url);
-        const client = await mongoClient.connect(url);
-        console.log('connected with the database');
-        const collection = await client.db('todoListV2').collection('users');
-        const user = await collection.findOne({email : email});
-        console.log(`user ${JSON.stringify(user)}`);
-        if(user == null){
-            console.log('user is null');
-            return done(null, false, {message: 'User Not Found'});
-        }
-        if(await !bcrypt.compare(password, user.password)){
-            console.log('passwords did not match');
-            return done(null, false, {message: "Incorrect Password"})
-        }/*
-        if(user.password != password){
-           return done(null, false, {message : "Incorrect Password"});
-        }*/
-    /*    else{
-            console.log('success');
-           return done(null, user);
-        }
-    }
-    catch(err){
-        console.log(`the Error has been found on the local strategy ${err}`);
-        return done(null, false, {message: "Problem with the server"});
-    }
-    //return done(null,false);
-}))*/
 
 //////  ROUTES  /////
 /*app.get('/login', (req, res) => {
@@ -100,62 +66,22 @@ app.get('/', (req, res) => {
 })
 
 
-app.get('/authenticate', (req, res, next) => {
-    console.log(req.query.checkAuthenticated);
-    if(req.query.checkAuthenticated === 'true'){
-        console.log('is authenticated');
-        if(checkAuthenticated(req, res, next)){
-            console.log('should continue');
-            res.json({authorized: true})
-        }else{
-            console.log('should redirect to /login');
-            res.json({authorized: false, callback_url : req.query.callback_url})
-        }
-    }else{
-        console.log('is not authenticated');
-        if(checkNotAuthenticated(req, res, next)){
-            res.json({authorized: false, callback_url : req.query.callback_url})
-        }else{
-            console.log('should continue');
-            res.json({authorized: true});
+app.get('/authenticate', routeFunctions.authenticate)
 
-        }
-    }
-})
-app.get('/api/list/:listTitle', async (req, res) => {
-    try{
-        console.log('sending data from the database to client');
-        let listTitle = req.params.listTitle;
-        const client = await mongoClient.connect(url);
-        const collection = await client.db('todoListV2').collection('users');
-        const user = await collection.findOne({_id : new ObjectId(req.user._id)})
-        let currentList = user.lists[0];
-        for(list of user.lists){
-            if(listTitle == list.title){currentList = list}
-        }
+// returns the list items of the specified list
+app.get('/api/:listTitle/items', routeFunctions.getListItems)
 
-        res.json({
-            listTitle: listTitle,
-            items: currentList.items,
-            lists: user.listsTitles
-        })
-    }catch(err){
-        res.json({error: 'could not fetch data from the server'})
-    }
+// returns the list of all the users lists
+app.get('/api/lists', routeFunctions.getListOfLists)
 
-})
+// returns the current list title
+app.get('/api/:listTitle/title', routeFunctions.getListTitle)
 
 // returns json data of the route that should be the call back url
-app.get('/api/get-callback-url', (req, res) => {
-    let callback_url = '/'
-    if(checkAuthenticated(req, res)){
-        callback_url = createListOrFirstList(req);
-    }else{
-        callback_url = '/login';
-    }
-    console.log(`this is the callback url ${callback_url}`);
-    res.json(callback_url)
-})
+app.get('/api/get-callback-url', routeFunctions.getCallbackUrl)
+
+// logs user out
+app.get('/delete', routeFunctions.logOut);
 
 
 /////   POST     /////
@@ -165,23 +91,13 @@ app.post('/login', passport.authenticate('local', {
 }), (req, res )=> {
     res.redirect(createListOrFirstList(req));
 })
+app.post('/register', routeFunctions.register);
 
 // /list/:listTitle
-app.post('/list/:listTitle', routeFunctions.addNewItemPost/*async (req, res) => {
-    let currentListTitle = req.params.listTitle;
-    let newItem = req.body.newItem;
-    console.log(newItem);
-    let client = await mongoClient.connect(url);
-    let collection = await client.db('todoListV2').collection('users');
+app.post('/list/:listTitle', routeFunctions.addNewItemPost)
 
-    //updates the new item
-    let currentList = findList(currentListTitle, req.user.lists);
-    currentList.push(newItem);
-    collection.updateOne({_id : new ObjectId(req.user._id)}, {$set: {"lists" : req.user.lists}})
-
-    res.redirect(`/list/${currentListTitle}`);
-
-}*/)
+// creats a new list
+app.post('/createlist', routeFunctions.createList);
 
 
 
@@ -219,7 +135,7 @@ function checkNotAuthenticated(req, res, next){
             return '/createFirstList'
         }
         if(req.user.lists.length > 0){
-            return `/list/${req.user.lists[0].title}`
+            return `/list/${req.user.lists[0].title}?list=${req.user.lists[0].title}`
         }
         return `/createFirstList`
     }

@@ -11,6 +11,7 @@ class LoginRegister extends React.Component{
             <div id="loginRegisterBody">
                 <h1>{this.props.title}</h1>
                 <form action={this.props.action} method="POST">
+                    <span id="validationErrorBox"></span>
                     <label id="emailLabel" for="emailInput">Email</label>
                     <input type="email" name="email" className="textInput"></input>
                     <label id="passwordLabel" for="passwordInput">Password</label>
