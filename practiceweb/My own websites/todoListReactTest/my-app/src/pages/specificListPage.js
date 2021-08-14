@@ -3,7 +3,7 @@ import "../styles/specificListPage.css";
 import deleteIcon from "../icons/delete.svg";
 import checkmarkIcon from "../icons/checkmark.svg";
 import requestAuthentication from "./authenticationRequest.js";
-import getData from './databaseRequests.js';
+import {getData, postData} from './databaseRequests.js';
 import { deleteButtonClickEvent } from "./universalFunctions";
 
 const specificListContext = React.createContext({

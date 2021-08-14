@@ -1,7 +1,26 @@
 const mongoClient = require("mongodb").MongoClient;
+const express = require('express');
+const app = express();
 const {ObjectId} = require("mongodb");
+const bodyParser = require('body-parser');
+const multer = require('multer');
+const upload = multer();
 const bcrypt = require('bcrypt');
 const url = process.env.MONGODB_URI || "mongodb+srv://jerryg2212:Baseball22@cluster0.cirov.mongodb.net/todoListV2?retryWrites=true&w=majority";
+
+//so we can read data from the body of forms
+//app.use(express.urlencoded({extended: false}));
+
+// for parsing application/json
+//app.use(bodyParser.json()); 
+// for parsing application/xwww-
+//app.use(bodyParser.urlencoded({ extended: true })); 
+//form-urlencoded
+
+// for parsing multipart/form-data
+/*app.use(upload.array()); 
+app.use(express.static('public'));*/
+
 ///// GET METHODS     //////
 
     // authentication function that returns true or false 
@@ -92,6 +111,11 @@ const url = process.env.MONGODB_URI || "mongodb+srv://jerryg2212:Baseball22@clus
 
     // Route: /register
         exports.register = async (req, res) => {
+
+            console.log('post register ran');
+            console.log(`this is the body ${req.body}`);
+            const body = req.body;
+            console.log(`this is the email: ${body.email} and this is the password ${body.password}`);
             let newEmail = req.body.email;
             let newPassword = await bcrypt.hash(req.body.password, 10);
             const collection = await getMongoCollection(url, 'todoListV2', 'users');
@@ -100,11 +124,14 @@ const url = process.env.MONGODB_URI || "mongodb+srv://jerryg2212:Baseball22@clus
                 // there is already a user with that email so send error to user
                     if(oldUserResult != null){
                         console.log('already registered');
-                        res.redirect('/register')}
+                        res.json({error: 'User is already register',
+                                        callback_url: '/register'});
+                    }
             //saving the new user data
             let newUserInformation = await collection.insertOne({email: newEmail, password: newPassword, lists: [], listsTitles: []});
             console.log(`The new users email is ${newUserInformation} and password: ${newUserInformation.result}`);
-            res.redirect('/login');
+            res.json({error: null,
+                        callback_url: '/login'});
         }
 
     // Route: /list/:listTitle

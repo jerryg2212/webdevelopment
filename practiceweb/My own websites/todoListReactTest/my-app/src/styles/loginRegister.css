@@ -36,12 +36,9 @@
         /* error span text */
         #validationErrorBox{
             position: absolute;
-            width: 160px;
-            margin: 0px;
+            width: 100%;
             top: 0px;
-            left: 50%;
-            margin-left: -80px;
-            padding: 5px;
+            left: 0px;
             color: red;
             font-weight: bold;
             text-shadow: black 1px 1px 1px; 
@@ -50,12 +47,9 @@
         /* error p text */
         #loginRegisterErrorText{
             position: absolute;
-            width: 160px;
-            margin: 0px;
-            top: 0px;
-            left: 50%;
-            margin-left: -80px;
-            padding: 5px;
+            width: 100%;
+            top: -10px;
+            left: 0px;
             color: red;
             font-weight: bold;
             text-shadow: black 1px 1px 1px; 

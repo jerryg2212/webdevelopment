@@ -17,7 +17,8 @@ const url = process.env.MONGODB_URI || "mongodb+srv://jerryg2212:Baseball22@clus
 app.use(express.static(path.join(__dirname, "build")));
 
 //so we can read data from the body of forms
-app.use(express.urlencoded({extended: false}));
+//app.use(express.urlencoded({extended: false}));
+app.use(express.json());
 
 passportAuthentication.loadAuthentication(passport);
 app.use(session({
