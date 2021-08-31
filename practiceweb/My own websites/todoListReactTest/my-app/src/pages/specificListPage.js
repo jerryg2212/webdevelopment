@@ -6,6 +6,7 @@ import requestAuthentication from "./authenticationRequest.js";
 import {getData, postData} from './databaseRequests.js';
 import { deleteButtonClickEvent } from "./universalFunctions";
 
+
 const specificListContext = React.createContext({
     currentListTitle: '',
     currentListItems: [],

@@ -24,12 +24,15 @@ export default (checkAuthenticated, callback_url) => {
             
             if(!response.authorized){
                 window.location = response.callback_url;
-            }else{console.log('should continue to page it was supposed to');}
+            }else{
+                console.log('should continue to page it was supposed to');
+                //window.location = response.callback_url;
+        }
             //console.log(`the request wenth through and the response is ${request.responseText}`);
-            /*if(request.responseText === false){
+            if(request.responseText === false){
                 console.log('should be redirected to /login');
                 window.location =  '/login';
-            }*/
+            }
         }
     }
     console.log(`this is the url ${url}`);

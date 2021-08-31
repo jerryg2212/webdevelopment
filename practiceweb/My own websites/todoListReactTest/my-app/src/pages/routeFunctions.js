@@ -7,6 +7,7 @@ const multer = require('multer');
 const upload = multer();
 const bcrypt = require('bcrypt');
 const url = process.env.MONGODB_URI || "mongodb+srv://jerryg2212:Baseball22@cluster0.cirov.mongodb.net/todoListV2?retryWrites=true&w=majority";
+const serverUniversalFunctions = require('./serverUniversalFunctions');
 
 //so we can read data from the body of forms
 //app.use(express.urlencoded({extended: false}));
@@ -26,22 +27,22 @@ app.use(express.static('public'));*/
     // authentication function that returns true or false 
     // Route: /authenticate
         exports.authenticate = (req, res, next) => {
-            console.log(req.query.checkAuthenticated);
+            // user should be logged in
             if(req.query.checkAuthenticated === 'true'){
-                console.log('is authenticated');
+                //user is logged in so continue to correct page
                 if(checkAuthenticated(req, res, next)){
-                    console.log('should continue');
                     res.json({authorized: true})
+                // user is not loggen in so redirect to the login page
                 }else{
-                    console.log('should redirect to /login');
-                    res.json({authorized: false, callback_url : req.query.callback_url})
+                    res.json({authorized: false, callback_url : '/login'})
                 }
+            // user should not be logged in
             }else{
-                console.log('is not authenticated');
+                // user is logged in so redirect to the page the user was on before
                 if(checkNotAuthenticated(req, res, next)){
                     res.json({authorized: false, callback_url : req.query.callback_url})
+                // user is not logged in which is expected so continue to user desired page
                 }else{
-                    console.log('should continue');
                     res.json({authorized: true});
         
                 }
@@ -51,9 +52,11 @@ app.use(express.static('public'));*/
     // returns json data of the route that should be the call back url
     // Route: /api/get-callback-url
         exports.getCallbackUrl = (req, res) => {
+           // console.log(`getcallbackurl called and the list is ${req.query.list}`);
             let callback_url = '/'
             if(checkAuthenticated(req, res)){
                 callback_url = createListOrFirstList(req);
+                callback_url += `?list=${req.user.lists[0].title}`;
             }else{
                 callback_url = '/login';
             }
@@ -111,9 +114,9 @@ app.use(express.static('public'));*/
 
     // Route: /register
         exports.register = async (req, res) => {
-
             console.log('post register ran');
-            console.log(`this is the body ${req.body}`);
+            console.log(`this is the body ${JSON.stringify(req.body)}`);
+
             const body = req.body;
             console.log(`this is the email: ${body.email} and this is the password ${body.password}`);
             let newEmail = req.body.email;
@@ -124,14 +127,18 @@ app.use(express.static('public'));*/
                 // there is already a user with that email so send error to user
                     if(oldUserResult != null){
                         console.log('already registered');
-                        res.json({error: 'User is already register',
-                                        callback_url: '/register'});
+                        res.redirect('/login?errorMSG=User is already registered');
                     }
-            //saving the new user data
-            let newUserInformation = await collection.insertOne({email: newEmail, password: newPassword, lists: [], listsTitles: []});
-            console.log(`The new users email is ${newUserInformation} and password: ${newUserInformation.result}`);
-            res.json({error: null,
-                        callback_url: '/login'});
+                // password is not valid
+                    if(!serverUniversalFunctions.registrationPasswordValidation(req.body.password)){
+                        console.log('password not valid');
+                        res.redirect('/register?errorMSG=Password must be at least 8 characters long');
+                    }
+                //saving the new user data
+                let newUserInformation = await collection.insertOne({email: newEmail, password: newPassword, lists: [], listsTitles: []});
+                console.log(`The new users email is ${JSON.stringify(newUserInformation)} and password: ${newUserInformation.result}`);
+                res.send({error: null,
+                            callback_url: '/login'});
         }
 
     // Route: /list/:listTitle

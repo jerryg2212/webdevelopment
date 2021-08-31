@@ -6,3 +6,4 @@ export async function deleteButtonClickEvent(ev){
     let result = await getData('/delete');
     window.location = '/login';
 }
+

@@ -22,7 +22,7 @@ class App extends React.Component{
       <Router>
         <Switch>
           <Route path="/register"><LoginRegister action="/register" link="/login" title="Register" linkTitle="Login"></LoginRegister></Route>
-          <Route path="/login"><LoginRegister action="/login" link="/register" title="Login" linkTitle="Register"></LoginRegister></Route>
+          <Route path="/login"><LoginRegister action="/login" link="/register" title="Login" linkTitle="Register" messages={messages}></LoginRegister></Route>
           <Route path="/createfirstlist"><CreateFirstList></CreateFirstList></Route>
           <Route path="/list"><SpecificListPage></SpecificListPage></Route>
           <Route exact path="/"><Home></Home></Route>

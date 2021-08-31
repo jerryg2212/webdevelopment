@@ -17,10 +17,10 @@ const url = process.env.MONGODB_URI || "mongodb+srv://jerryg2212:Baseball22@clus
 app.use(express.static(path.join(__dirname, "build")));
 
 //so we can read data from the body of forms
-//app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
-passportAuthentication.loadAuthentication(passport);
+
 app.use(session({
     secret : 'secret',
     resave : false,
@@ -50,6 +50,39 @@ passport.deserializeUser( async (id, done) => {
         done(err, false);
     }
 });
+//passportAuthentication.loadAuthentication(passport);
+passport.use(new LocalStrategy({usernameField: 'email'}, async (email, password, done) => {
+    try{
+
+        console.log('local strategy is running and the connect url is ' + url);
+        const client = await mongoClient.connect(url);
+        console.log('connected with the database');
+        const collection = await client.db('todoListV2').collection('users');
+        const user = await collection.findOne({email : email});
+        console.log(`user ${JSON.stringify(user)}`);
+       // console.log(`bcrypt compare returns ${await !bcrypt.compare(password, user.password)}`);
+        if(user == null){
+            console.log('user is null');
+            return done(null, false, {message: 'User Not Found'});
+        }
+        if(await !bcrypt.compare(password, user.password)){
+            console.log('passwords did not match');
+            return done(null, false, {message: "Incorrect Password"})
+        }/*
+        if(user.password != password){
+           return done(null, false, {message : "Incorrect Password"});
+        }*/
+        else{
+            console.log('success');
+           return done(null, user);
+        }
+    }
+    catch(err){
+        console.log(`the Error has been found on the local strategy ${err}`);
+        return done(null, false, {message: "Problem with the server"});
+    }
+    //return done(null,false);
+}))
 
 
 //////  ROUTES  /////
@@ -85,11 +118,13 @@ app.get('/api/get-callback-url', routeFunctions.getCallbackUrl)
 app.get('/delete', routeFunctions.logOut);
 
 
+
 /////   POST     /////
 app.post('/login', passport.authenticate('local', {
-    failureRedirect : '/login',
+    failureRedirect : `/login`,
     failureFlash : true
 }), (req, res )=> {
+    console.log('the login post is successful');
     res.redirect(createListOrFirstList(req));
 })
 app.post('/register', routeFunctions.register);
