@@ -1,12 +1,12 @@
-body{
+ body{
     background-color: #121B40;
     text-align: center;
 }
-h1{
+#loginBody h1{
     color: lightblue;
     text-shadow: 1px 1px 1px black;
 }
-a{
+#loginBody a{
     background-color: #121B40;
     box-shadow: 2.5px 2.5px 4px green,
     -1px -1px 3px black;
@@ -20,4 +20,8 @@ a{
     width: -moz-fit-content;
     width: fit-content;
     text-decoration: none;
+}
+#loginContainer{
+    text-align: center;
+    width:100%;
 }

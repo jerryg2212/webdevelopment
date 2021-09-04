@@ -1,0 +1,377 @@
+/* background-image: radial-gradient(#121B40 70%, #060D28) 
+** lighter #121B40
+** darker #060D28
+*/
+
+
+html{
+    height: 100%;
+    min-height: 100%;
+}
+body{
+    padding: 0px;
+    margin: 0px;
+    min-height: 100%;
+}
+#pageContainer{
+    display: flex;
+    flex-wrap: wrap;
+}
+button:hover{
+    cursor: pointer;
+}
+/* container that displays when the user receivers an error beause no device is active */
+#activateDeviceErrorMessageContainer{
+    width: 400px;
+    height: 250px;
+    position: absolute;
+    color: #060D28;
+    z-index: 100;
+    border-radius: 60px;
+    background-color: lightblue;
+    padding: 20px;
+    box-shadow: 5px 5px 10px black,
+                -1px -1px 2px white;
+}
+    /* exit icon */
+    #activateDeviceErrorMessageContainer img{
+        width: 20px;
+        float: right;
+    }
+    #activateDeviceErrorMessageContainer p {
+        font-size: 18px;
+        margin: 20px;
+        line-height: 25px;
+    }
+
+
+    /* containe that stores the users profile and favorite music information */
+    #userInformationContainer{
+        flex: 17;
+        background-color: lightblue;
+        z-index: 2;
+        box-shadow: 2px 0px 5px black;
+        padding: 10px;
+        box-sizing: border-box;
+    }
+        /* container that holds the users profile information */
+        #accountInformationContainer{
+            text-align: center;
+        }
+            /* link to users spotify page */
+            #accountInformationContainer a{
+                padding: 0px;
+                margin: 0px;
+                color: #121B40;
+                text-shadow: 1px 1px 1px black;
+            }
+            #accountInformationContainer a:hover{
+                color: green;
+            }
+            /* header that displays the users profile name */
+            #accountInformationContainer h1{
+                padding: 0px;
+                margin: 5px;
+            }
+            /* header that displays the users account email */
+            #accountInformationContainer h3{
+                padding : 2px;
+                margin: 5px;
+                font-size: 16px;
+            }
+            #accountInformationContainer p{
+                margin: 2px; padding: 2px;
+                color: #121B40;
+            }
+        /* container that holds the favorite musics information form and songs and artists */
+        #favoriteMusicInformationContainer{
+            margin-top: 20px;
+            text-align: center;
+
+        }
+            /* form where user changes how the favorite music information gets displayed */
+            #favoriteMusicSearchForm{
+                background-color: #121B40;
+                padding: 10px;
+                border-radius: 25px;
+                box-shadow: 3px 3px 7px black;
+                letter-spacing: .3px;
+                max-width: 500px;
+            }
+                /* container in the form that holds everything but the button */
+                #favoriteMusicSelectionsContainer{
+                    color: lightblue;
+                    text-shadow: 1px 1px 1px black;
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: space-around;
+                }
+                    #favoriteMusicSelectionsContainer label,
+                    #favoriteMusicSelectionsContainer select{
+                        margin: 3px;
+                    }
+                #favoriteMusicSearchForm button{
+                    background-color: #121B40;
+                    box-shadow: 2.5px 2.5px 4px green,
+                    -1px -1px 3px black;
+                    color: lightblue;
+                    border: none;
+                    margin : 5px auto;
+                    padding: 7px;
+                    border-radius: 15px;
+                    display: block;
+                    border: 2px solid lightblue;
+                }
+            #favoriteMusicInformationContainer h1{
+                color: #121B40;
+                text-shadow: 1px 1px 1px black;
+            }
+            #favoriteMusicInformationContainer ol{
+                padding: 5px;
+            }
+
+    /* container where user works */
+    #workBenchContainer{
+        flex: 64;
+        background-color: #121B40;
+        background-image: radial-gradient(#121B40 70%, #060D28);
+        min-height: 500px;
+        position: relative;
+    }
+        /* containe that holds the select element that lets the user choose what they want to do */
+        #workBenchNavBarContainer{
+            padding: 5px;
+            background-color: lightblue;
+            margin: 0px;
+            text-align:center;
+            z-index: 1000;
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0px;
+            width: inherit;
+            border-radius: 0px 0px 60px 60px;
+            box-shadow: 1px 1px 5px whitesmoke;
+            color: #121B40;
+        }
+            /* label element in the nav bar */
+            #workBenchNavBarContainer label{
+                font-size: 18px;
+                font-weight: bold;
+                text-shadow: 1px 1px 1px black;
+            }
+            /* select element in the nav bar */
+            #workBenchNavBarContainer select{
+                margin-left: 10px;
+                padding:  5px;
+            }
+        /* ** NOT IN USE    //header for the work bench */
+        #workBenchContainerHeader{
+            padding: 5px;
+            background-color: lightblue;
+            margin: 0px;
+            text-align:center;
+            z-index: 1000;
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0px;
+            width: inherit;
+            border-radius: 0px 0px 60px 60px;
+            box-shadow: 1px 1px 5px whitesmoke;
+            color: #121B40;
+            text-shadow: 1px 1px 1px black;
+        }
+
+    /* container where user plays song and its displays information on the song */
+    #playSongContainer{
+        flex: 17;
+        background-color: lightblue;
+        z-index: 2;
+        box-shadow: -2px 0px 5px black;
+        text-align: center;
+        padding: 5px;
+        box-sizing: border-box;
+
+    }
+        /* headers */
+        #playSongContainer h1{
+            color: #121B40;
+            text-shadow: 1px 1px 1px black;
+            margin: 10px;
+        }
+        /* header for the currently playing song*/
+        #playSongContainer #currentlyPlayingSongHeader{
+            margin-top: 20px;
+        }
+        /* search song input */
+        #playSongContainer input[type = text]{
+            background-color: pink;
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border-radius: 30px;
+            border: 2px solid hotpink;
+            color: #121B40;
+            font-size: 14px;
+            letter-spacing: .3px;
+            box-shadow: 1px 1px 5px black;
+            margin-bottom: 10px;
+        }
+            /* box with responses when user is searching for a song */
+            #searchSongResponsesBox{
+                position: absolute;
+                z-index : 3;
+                background-color: white;
+                border: 2px solid hotpink;
+                border-top: none;
+            }
+                /* list inside of the container that holds the suggestions based on user input */
+                #searchSongResponsesList {
+                    margin: 0px;
+                    padding: 0px;
+                }
+                    #searchSongResponsesList li{
+                        list-style-type: none;
+                        text-align: left;
+                        padding: 7px 5px;
+                        font-size: 13px;
+                        color: white;
+                    }
+                    #searchSongResponsesList li:hover{
+                        cursor: pointer;
+                    }
+                    #searchSongResponsesList li:nth-child(even){
+                        background-color: #121B40
+                    }
+                    #searchSongResponsesList li:nth-child(odd){
+                        background-color: #060D28;
+                    }
+        /* container for the queue and next song buttons */
+        #queueAndNextTrackButtonsContainer{
+            display: flex;
+            justify-content: space-evenly;
+        }
+        /* div container that holds the paragraph with the actice device */
+        #activeDeviceDisplayContainer{
+            padding: 7px;
+            padding-left: 10px;
+            text-align: left;
+            background-color: #121B40;
+            margin: 3px;
+            margin-right: -5px;
+            margin-top: 10px;
+            border-radius: 20px 0px 0px 20px;
+        }
+            /* paragraph element inside active device container */
+            #activeDeviceDisplayContainer p{
+                margin: 0px;
+                padding: 0px;
+            }
+            /* link to users page inside the active device container */
+            #activeDeviceDisplayContainer a{
+                color:lightblue;
+            }
+        /* the icon where user can pause or resume the song */
+        #playPauseSongIcon{
+            width: 30px;
+            display: block;
+            margin: 5px auto;
+            border-radius: 17px;
+            box-shadow: 1px 1px 3px black;
+        }
+        /* container that holds all the currently playing song information */
+        #currentlyPlayingSongInformationContainer{
+            margin-top: 20px;
+        }
+            /* album cover */
+            #currentlyPlayingSongInformationContainer img{
+                width: 90%;
+                min-width: 200px;
+                max-width: 300px;
+            }
+            /* container that holds p elements that display the facts on the currently playing song */
+            #currentlyPlayingSongFactsContainer{
+                margin: 15px auto;
+                width: -moz-fit-content;
+                width: fit-content;
+            }
+                /* all the information paragraphs */
+                #currentlyPlayingSongInformationContainer p {
+                    margin: 4px;
+                    text-align : left;
+                    letter-spacing: .3px;
+
+                }
+
+
+    
+
+
+
+/*/////    CLASSES    //////*/
+
+/* class for the buttons in the play song container */
+.playSongContainerButton{
+    margin: 5px;
+    padding: 7px;
+    background-color: lightblue;
+    border: 2px solid #121B40;
+    box-shadow: 1px 1px 2px black,
+    2px 2px 3px pink,
+    -1px -1px 3px black;
+    border-radius: 30px;
+    color: #121B40;
+    text-shadow: 1px 1px 1px black;
+    letter-spacing: .3px;
+}
+/* titles of the information of the currently playing song */
+.currentlyPlayingSongDescriptionTitle{
+    color: green;
+    text-shadow: 1px 1px 1px black;
+    font-weight: bold;
+}
+
+/* li elements in the song search box list */
+.italics{
+    font-style: italic;
+}
+
+.lightblueFont{
+    color: lightblue;
+    text-shadow: .5px .5px 0px;
+}
+
+
+
+/*  MEDIA QUERIES */
+
+@media screen and (max-width: 1100px){
+    #userInformationContainer{
+        flex: 50%;
+       order: 1;
+    }
+    #playSongContainer{
+        flex: 50%;
+        order: 1;
+    }
+    #workBenchContainer{
+        flex: 1;
+        min-width: 100%;
+        order: 2;
+    }
+}
+
+@media screen and (max-width: 500px){
+    #userInformationContainer{
+        flex: 100%;
+       order: 3;
+    }
+    #playSongContainer{
+        flex: 100%;
+        order: 1;
+    }
+    #workBenchContainer{
+        flex: 1;
+        min-width: 100%;
+        order: 2;
+    }
+}
