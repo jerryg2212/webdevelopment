@@ -5,14 +5,58 @@ import {spotifyAPIRequest, trimSongName} from '../helper-functions.js';
 class ProfileInformation extends React.Component{
     constructor(props){
         super(props);
+        this.state = {
+            songsTimeRange : 'medium_term',
+            songsLimit : 5,
+            artistsTimeRange : 'medium_term',
+            artistsLimit : 5,
+            topSongs : [],
+            topArtists : []
+        }
     }
     render(){
         return (
             <div id="userInformationContainer">
                 <AccountInformation accessToken={this.props.accessToken}/>
-                <MusicInformation />
+                <MusicInformation topSongs={this.state.topSongs}/>
             </div>
         )
+    }
+    componentDidMount(){
+        this.getUsersTopSongs();
+    }
+   /* shouldComponentUpdate(nextProps, nextState){
+        if(nextProps.accessToken === this.props.accessToken && nextState == this.state) return false;
+        return true;
+    }
+    componentDidUpdate(){
+        // no access token so return
+        if(this.props.accessToken == undefined){return}
+        // getting the users top songs and artists
+        this.getUsersTopSongs();
+    }*/
+    // functions that returns a list of users top songs
+    async getUsersTopSongs(){
+        // constructing the url
+            let url = new URL('https://api.spotify.com/v1/me/top/tracks');
+            let searchParams = new URLSearchParams()
+            searchParams.set('time_range', this.state.songsTimeRange);
+            searchParams.set('limit', this.state.songsLimit);
+            url.search = searchParams.toString();
+        try{
+            let topSongsResponse = await spotifyAPIRequest(url.toString(), this.props.accessToken);
+            let topSongs = JSON.parse(topSongsResponse);
+            console.log(`this is the users top ${this.state.songsLimit} songs: ${topSongs}`)
+            let topSongTitles = [];
+            for(let track of topSongs.items){
+                topSongTitles.push(track);
+            }
+            this.setState({
+                topSongs: topSongTitles
+            })
+        }catch(err){
+            console.log(`there was an error getting users top songs ${err}`)
+        }
     }
 }
 
@@ -29,6 +73,7 @@ export default ProfileInformation
                 numberOfFollowers : '',
                 accountType : ''
             }
+            console.log('rendered');
             this.profileInformationRequestURL = 'https://api.spotify.com/v1/me';
         }
         render(){
@@ -43,9 +88,29 @@ export default ProfileInformation
                 </div>                
             )
         }
+        async componentDidMount(){
+            try{
+                let profileInformationResponse = await spotifyAPIRequest(this.profileInformationRequestURL, this.props.accessToken);
+                let profileInformation = JSON.parse(profileInformationResponse);
+               this.setState({
+                    linkToUserPage : profileInformation.external_urls.spotify,
+                    profileName : profileInformation.display_name,
+                    userEmail : profileInformation.email,
+                    numberOfFollowers : profileInformation.followers.total,
+                    accountType: profileInformation.product
+                })
+               }catch(err){
+                    window.location = '/';
+               }
+        }
+      /*  shouldComponentUpdate(nextProps, nextState){
+            if(this.props.accessToken == nextProps.accessToken){return false}
+            return true;
+        }
        async componentDidUpdate(prevProps){
            // we have no access token so return
            //if(this.props.accessToken == undefined)  { window.location = '/'}
+           try{
             let profileInformationResponse = await spotifyAPIRequest(this.profileInformationRequestURL, this.props.accessToken);
             let profileInformation = JSON.parse(profileInformationResponse);
            this.setState({
@@ -55,7 +120,10 @@ export default ProfileInformation
                 numberOfFollowers : profileInformation.followers.total,
                 accountType: profileInformation.product
             })
-        }
+           }catch(err){
+
+           }
+        }*/
     }
 
     // holds users favorite music information
@@ -68,7 +136,7 @@ export default ProfileInformation
                 <div id="favoriteMusicInformationContainer">
                     <FavoriteMusicInformationForm />
                     <h1 id="topSongsHeader">Top Songs</h1>
-                    <TopSongsContainer />
+                    <TopSongsContainer topSongs={this.props.topSongs} />
                     <h1 id="topArtistsHeader">Top Artists</h1>
                     <TopArtistsContainer />
                 </div>
@@ -102,7 +170,7 @@ export default ProfileInformation
                 render(){
                     return(
                         <div>
-                            <label for={this.props.forAttribute} id={this.props.labelId}>{this.props.labelText}</label>
+                            <label htmlFor={this.props.forAttribute} id={this.props.labelId}>{this.props.labelText}</label>
                             <FavoriteMusicSelectElement id={this.props.selectId} />
                         </div>
                     )
@@ -131,7 +199,7 @@ export default ProfileInformation
                     makeOptions(){
                         let options = [];
                         for(let i = 5; i <= 50; i = i + 5){
-                            options.push(<option value={i}>{i}</option>);
+                            options.push(<option value={i} key={i}>{i}</option>);
                         }
                         return options;
                     }
@@ -142,16 +210,17 @@ export default ProfileInformation
                 super(props);
             }
             render(){
-                let songs = [] //this.listOfSongs();
+                let songs = this.listOfSongs();
                 return (
                     <div id="topSongsContainer">
-                        <ol id="usersTopSongsList"></ol>
+                        <ol id="usersTopSongsList">{songs}</ol>
                     </div>
                 )
             }
             listOfSongs(){
                 let songs = [];
-                for( let song of this.state.topSongs){
+                console.log(this.props.topSongs);
+                for( let song of this.props.topSongs){
                     songs.push(<li>{trimSongName(song.name)}  --  <span className="nameOfArtist">{song.artists[0].name}</span></li>)
                 }
                 return songs;

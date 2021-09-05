@@ -101,12 +101,12 @@ app.post('/token', (req, res) => {
    data.append('redirect_uri', 'http://localhost:3000/');
    data.append('client_id', `${clientId}`);
    data.append('client_secret', `${clientSecret}`);
-    console.log(`the code is ${code}`);
+   // console.log(`the code is ${code}`);
     axios.post(getTokenURL, data).then(response => {
-        console.log(`this is the response ${Object.keys(response.data)}`);
+      //  console.log(`this is the response ${Object.keys(response.data)}`);
         res.json(response.data);
-    }).catch(err => res.json(err));
-})
+    }).catch(err => res.status(400).send({message : 'failure to get data from server'}));
+});
 
 
 
