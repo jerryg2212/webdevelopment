@@ -15,10 +15,10 @@ exports.spotifyAPIRequest = (requestURL, accessToken) => {
         request.onreadystatechange = () => {
             if(request.readyState === 4){
                 if(request.status == 200){
-                    console.log(`the responseText is ${request.responseText} and the response is ${request.response}`);
+                   // console.log(`the responseText is ${request.responseText} and the response is ${request.response}`);
                     resolve(request.responseText);
                 }else{
-                    console.log(request.resopnseText);
+                    //console.log(request.resopnseText);
                     reject(request.responseText);
                 }
             }

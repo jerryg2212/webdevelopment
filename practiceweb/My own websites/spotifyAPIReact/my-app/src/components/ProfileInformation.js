@@ -1,11 +1,12 @@
 import React from 'react';
 import {spotifyAPIRequest, trimSongName} from '../helper-functions.js';
 
-
+let accessTokenContext = React.createContext(undefined);
 class ProfileInformation extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            accountInformation : {},
             songsTimeRange : 'medium_term',
             songsLimit : 5,
             artistsTimeRange : 'medium_term',
@@ -16,37 +17,47 @@ class ProfileInformation extends React.Component{
     }
     render(){
         return (
+            <accessTokenContext.Provider value={this.props.accessToken}>
             <div id="userInformationContainer">
-                <AccountInformation accessToken={this.props.accessToken}/>
-                <MusicInformation topSongs={this.state.topSongs}/>
+                <AccountInformation />
+                <MusicInformation />
             </div>
+            </accessTokenContext.Provider>
         )
     }
     componentDidMount(){
-        this.getUsersTopSongs();
+    //    this.setAccountInformation();
+    //    this.setUsersTopSongs();
+    //    this.setUsersTopArtists();
     }
-   /* shouldComponentUpdate(nextProps, nextState){
-        if(nextProps.accessToken === this.props.accessToken && nextState == this.state) return false;
-        return true;
+    /*async setAccountInformation(){
+        try{
+            let profileInformationResponse = await spotifyAPIRequest('https://api.spotify.com/v1/me', this.props.accessToken);
+            let profileInformation = JSON.parse(profileInformationResponse);
+            this.setState({
+                accountInformation : {
+                    linkToUserPage : profileInformation.external_urls.spotify,
+                    profileName : profileInformation.display_name,
+                    userEmail : profileInformation.email,
+                    numberOfFollowers : profileInformation.followers.total,
+                    accountType : profileInformation.product
+                }
+            })
+           }catch(err){
+                window.location = '/';
+           }
     }
-    componentDidUpdate(){
-        // no access token so return
-        if(this.props.accessToken == undefined){return}
-        // getting the users top songs and artists
-        this.getUsersTopSongs();
-    }*/
     // functions that returns a list of users top songs
-    async getUsersTopSongs(){
+    async setUsersTopSongs(){
         // constructing the url
             let url = new URL('https://api.spotify.com/v1/me/top/tracks');
-            let searchParams = new URLSearchParams()
+            let searchParams = new URLSearchParams();
             searchParams.set('time_range', this.state.songsTimeRange);
             searchParams.set('limit', this.state.songsLimit);
             url.search = searchParams.toString();
         try{
             let topSongsResponse = await spotifyAPIRequest(url.toString(), this.props.accessToken);
             let topSongs = JSON.parse(topSongsResponse);
-            console.log(`this is the users top ${this.state.songsLimit} songs: ${topSongs}`)
             let topSongTitles = [];
             for(let track of topSongs.items){
                 topSongTitles.push(track);
@@ -58,6 +69,29 @@ class ProfileInformation extends React.Component{
             console.log(`there was an error getting users top songs ${err}`)
         }
     }
+    async setUsersTopArtists(){
+        // construction the url
+            let url = new URL('https://api.spotify.com/v1/me/top/artists');
+            let searchParams = new URLSearchParams();
+            searchParams.set('time_range', this.state.songsTimeRange);
+            searchParams.set('limit', this.state.songsLimit);
+            url.search = searchParams.toString();
+        try{
+            let topArtistsResponse = await spotifyAPIRequest(url.toString(), this.props.accessToken);
+            let topArtists = JSON.parse(topArtistsResponse);
+            console.log(topArtists);
+            let topArtistsNames = [];
+            for(let artist of topArtists.items){
+                topArtistsNames.push(artist.name);
+            }
+            this.setState({
+                topArtists : topArtistsNames
+            })
+        }catch(err){
+            console.log('there was an error getting the users top artists');
+        }
+        
+    }*/
 }
 
 export default ProfileInformation
@@ -73,8 +107,6 @@ export default ProfileInformation
                 numberOfFollowers : '',
                 accountType : ''
             }
-            console.log('rendered');
-            this.profileInformationRequestURL = 'https://api.spotify.com/v1/me';
         }
         render(){
             return (
@@ -89,77 +121,149 @@ export default ProfileInformation
             )
         }
         async componentDidMount(){
+            this.setAccountInformation();
+        }
+        async setAccountInformation(){
             try{
-                let profileInformationResponse = await spotifyAPIRequest(this.profileInformationRequestURL, this.props.accessToken);
+                let profileInformationResponse = await spotifyAPIRequest('https://api.spotify.com/v1/me', this.context);
                 let profileInformation = JSON.parse(profileInformationResponse);
-               this.setState({
-                    linkToUserPage : profileInformation.external_urls.spotify,
-                    profileName : profileInformation.display_name,
-                    userEmail : profileInformation.email,
-                    numberOfFollowers : profileInformation.followers.total,
-                    accountType: profileInformation.product
+                this.setState({
+                        linkToUserPage : profileInformation.external_urls.spotify,
+                        profileName : profileInformation.display_name,
+                        userEmail : profileInformation.email,
+                        numberOfFollowers : profileInformation.followers.total,
+                        accountType : profileInformation.product
                 })
-               }catch(err){
-                    window.location = '/';
-               }
-        }
-      /*  shouldComponentUpdate(nextProps, nextState){
-            if(this.props.accessToken == nextProps.accessToken){return false}
-            return true;
-        }
-       async componentDidUpdate(prevProps){
-           // we have no access token so return
-           //if(this.props.accessToken == undefined)  { window.location = '/'}
-           try{
-            let profileInformationResponse = await spotifyAPIRequest(this.profileInformationRequestURL, this.props.accessToken);
-            let profileInformation = JSON.parse(profileInformationResponse);
-           this.setState({
-                linkToUserPage : profileInformation.external_urls.spotify,
-                profileName : profileInformation.display_name,
-                userEmail : profileInformation.email,
-                numberOfFollowers : profileInformation.followers.total,
-                accountType: profileInformation.product
-            })
            }catch(err){
-
+                window.location = '/';
            }
-        }*/
+        }
+        static contextType = accessTokenContext;
     }
 
     // holds users favorite music information
     class MusicInformation extends React.Component{
         constructor(props){
             super(props);
+            this.state = {
+                timeRange : 'medium_term',
+                songsLimit: 5,
+                artistsLimit : 5,
+                topSongs : [],
+                topArtists : []
+            }
+            this.favoriteMusicInformationFormSubmitHandler = this.favoriteMusicInformationFormSubmitHandler.bind(this);
         }
         render(){
             return (
                 <div id="favoriteMusicInformationContainer">
-                    <FavoriteMusicInformationForm />
+                    <FavoriteMusicInformationForm formSubmitHandler={this.favoriteMusicInformationFormSubmitHandler} />
                     <h1 id="topSongsHeader">Top Songs</h1>
-                    <TopSongsContainer topSongs={this.props.topSongs} />
+                    <TopSongsContainer topSongs={this.state.topSongs} />
                     <h1 id="topArtistsHeader">Top Artists</h1>
-                    <TopArtistsContainer />
+                    <TopArtistsContainer topArtists={this.state.topArtists} />
                 </div>
             )
         }
+        async componentDidMount(){
+            this.setUsersTopSongs();
+            this.setUsersTopArtists();
+        }
+       /* shouldComponentUpdate(nextProps, nextState){
+            if(this.state.timeRange === nextState.timeRange && this.state.songsLimit === nextState.songsLimit && this.state.artistsLimit === nextState.artistsLimit){return false}
+            return true
+        }
+        async componentDidUpdate(){
+            this.setUsersTopSongs();
+            this.setUsersTopArtists();
+        }*/
+        favoriteMusicInformationFormSubmitHandler(newState){
+            this.setState(newState, () => {
+                this.setUsersTopSongs();
+                this.setUsersTopArtists();
+            });
+            console.log('ha state reset');
+            console.log(` this is the new song limit ${this.state.songsLimit}`);
+            console.log(newState);
+
+        }
+        async setUsersTopSongs(){
+                // constructing the url
+                let url = new URL('https://api.spotify.com/v1/me/top/tracks');
+                let searchParams = new URLSearchParams();
+                searchParams.set('time_range', this.state.timeRange);
+                searchParams.set('limit', this.state.songsLimit);
+                url.search = searchParams.toString();
+            try{
+                let topSongsResponse = await spotifyAPIRequest(url.toString(), this.context);
+                let topSongs = JSON.parse(topSongsResponse);
+                let topSongTitles = [];
+                for(let track of topSongs.items){
+                    topSongTitles.push(track);
+                }
+                this.setState({
+                    topSongs: topSongTitles
+                })
+            }catch(err){
+                console.log(`there was an error getting users top songs ${err}`)
+            }
+        }
+        async setUsersTopArtists(){
+                // construction the url
+                let url = new URL('https://api.spotify.com/v1/me/top/artists');
+                let searchParams = new URLSearchParams();
+                searchParams.set('time_range', this.state.timeRange);
+                searchParams.set('limit', this.state.artistsLimit);
+                url.search = searchParams.toString();
+            try{
+                let topArtistsResponse = await spotifyAPIRequest(url.toString(), this.context);
+                let topArtists = JSON.parse(topArtistsResponse);
+                let topArtistsNames = [];
+                for(let artist of topArtists.items){
+                    topArtistsNames.push(artist.name);
+                }
+                this.setState({
+                    topArtists : topArtistsNames
+                })
+            }catch(err){
+                console.log('there was an error getting the users top artists');
+            }
+        }
+        static contextType = accessTokenContext;
     }
 
         // form that has select elements for the time range and the number of songs and artists
         class FavoriteMusicInformationForm extends React.Component{
             constructor(props){
                 super(props);
+                this.state = {
+                    timeRange : 'medium_term',
+                    numberOfSongs : 5,
+                    numberOfArtists : 5
+                }
+                this.formSubmitHandler = this.formSubmitHandler.bind(this);
             }
             render(){
                 return(
-                    <form id="favoriteMusicSearchForm">
+                    <form id="favoriteMusicSearchForm" onSubmit={this.formSubmitHandler}>
                         <div id="favoriteMusicSelectionsContainer">
-                            <FavoriteMusicSelectElementsContainer forAttribute="timeRangeDropDown" labelId="timeRangeDropDownLabel" labelText="Time Range" />
-                            <FavoriteMusicSelectElementsContainer forAttribute="amountOfSongsDropDown" labelId="amountOfSongsLabel" labelText="# Songs" selectId="amountOfSongsDropDown" />
-                            <FavoriteMusicSelectElementsContainer forAttribute="amountOfArtistsDropDown" labelId="amountOfArtistsLabel" labelText="# Artists" selectId="amountOfArtistsDropDown" />
+                            <FavoriteMusicSelectElementsContainer forAttribute="timeRangeDropDown" labelId="timeRangeDropDownLabel" labelText="Time Range" selectId="timeRangeDropDown" selectElement={<TimeRangeSelectElement id="timeRangeDropDown"></TimeRangeSelectElement>} />
+                            <FavoriteMusicSelectElementsContainer forAttribute="amountOfSongsDropDown" labelId="amountOfSongsLabel" labelText="# Songs" selectId="amountOfSongsDropDown" selectElement={<FavoriteMusicSelectElement id="amountOfSongsDropDown" />} />
+                            <FavoriteMusicSelectElementsContainer forAttribute="amountOfArtistsDropDown" labelId="amountOfArtistsLabel" labelText="# Artists" selectId="amountOfArtistsDropDown" selectElement={<FavoriteMusicSelectElement id="amountOfArtistsDropDown" />} />
                         </div>
                         <button type="Submit" id="favoriteMusicSubmitButton">Display</button>
                     </form>
                 )
+            }
+            formSubmitHandler(ev){
+                ev.preventDefault();
+                let formElements = ev.target.elements;
+                console.log(`these are the form elements ${formElements}`);
+                let timeRangeValue = formElements.namedItem("timeRangeDropDown").value;
+                let numberOfSongsValue = formElements.namedItem("amountOfSongsDropDown").value;
+                let numberOfArtistsValue = formElements.namedItem('amountOfArtistsDropDown').value;
+                console.log(`the time range is ${timeRangeValue} the number of songs is ${numberOfSongsValue} the number of artsits ${numberOfArtistsValue}`);
+                this.props.formSubmitHandler({timeRange : timeRangeValue, songsLimit : numberOfSongsValue, artistsLimit : numberOfArtistsValue});
             }
         }
             // container that holds the select elements and labels for each of the selections in the form
@@ -171,11 +275,35 @@ export default ProfileInformation
                     return(
                         <div>
                             <label htmlFor={this.props.forAttribute} id={this.props.labelId}>{this.props.labelText}</label>
-                            <FavoriteMusicSelectElement id={this.props.selectId} />
+                            {this.props.selectElement}
                         </div>
                     )
                 }
             }
+                // time range select element 
+                class TimeRangeSelectElement extends React.Component{
+                    constructor(props){
+                        super(props);
+                        this.state = {range: 'medium_term'}
+                        this.handleChange = this.handleChange.bind(this);
+                    }
+                    render(){
+                        let options = this.makeOptions();
+                        return (
+                            <select id={this.props.id} value={this.state.range} onChange={this.handleChange}>{options}</select>
+                        )
+                    }
+                    handleChange(ev){
+                        this.setState({range: ev.target.value});
+                    }
+                    makeOptions(){
+                        let optionsLength = [{value : 'short_term', text : 'Short Term'}, {value: 'medium_term', text : 'Medium Term'}, {value: 'long_term', text : 'Long Term'}];
+                        let options = optionsLength.map((elm, index, arr) => {
+                            return <option value={elm.value} key={elm.value}>{elm.text}</option>
+                        });
+                        return options
+                    }
+                }
                 // select element with the options 5-50
                 class FavoriteMusicSelectElement extends React.Component{
                     constructor(props){
@@ -196,8 +324,7 @@ export default ProfileInformation
                             value: ev.target.value
                         })
                     }
-                    makeOptions(){
-                        let options = [];
+                    makeOptions(options = []){
                         for(let i = 5; i <= 50; i = i + 5){
                             options.push(<option value={i} key={i}>{i}</option>);
                         }
@@ -221,7 +348,7 @@ export default ProfileInformation
                 let songs = [];
                 console.log(this.props.topSongs);
                 for( let song of this.props.topSongs){
-                    songs.push(<li>{trimSongName(song.name)}  --  <span className="nameOfArtist">{song.artists[0].name}</span></li>)
+                    songs.push(<li key={song.name}>{trimSongName(song.name)}  --  <span className="nameOfArtist">{song.artists[0].name}</span></li>)
                 }
                 return songs;
             }
@@ -232,17 +359,17 @@ export default ProfileInformation
                 super(props);
             }
             render(){
-               // let artists = this.listOfArtists();
+                let artists = this.listOfArtists();
                 return (
                     <div id="topArtistsContainer">
-                        <ol id="usersTopArtists"></ol>
+                        <ol id="usersTopArtists">{artists}</ol>
                     </div>
                 )
             }
             listOfArtists(){
                 let artists = [];
-                for( let artist of this.state.artists){
-                    artists.push(<li>{artist.name}</li>)
+                for( let artist of this.props.topArtists){
+                    artists.push(<li key={artist}>{artist}</li>)
                 }
                 return artists
             }
