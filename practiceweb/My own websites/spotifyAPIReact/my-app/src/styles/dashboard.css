@@ -12,6 +12,11 @@ body{
     padding: 0px;
     margin: 0px;
     min-height: 100%;
+    height:100%;
+}
+#root{
+    min-height: 100%;
+    height:100%;
 }
 #pageContainer{
     display: flex;
@@ -22,7 +27,7 @@ button:hover{
     cursor: pointer;
 }
 /* container that displays when the user receivers an error beause no device is active */
-#activateDeviceErrorMessageContainer{
+#popupErrorMessageContainer{
     width: 400px;
     height: 250px;
     position: absolute;
@@ -35,11 +40,11 @@ button:hover{
                 -1px -1px 2px white;
 }
     /* exit icon */
-    #activateDeviceErrorMessageContainer img{
+    #popupErrorMessageContainer img{
         width: 20px;
         float: right;
     }
-    #activateDeviceErrorMessageContainer p {
+    #popupErrorMessageContainer p {
         font-size: 18px;
         margin: 20px;
         line-height: 25px;
@@ -279,6 +284,7 @@ button:hover{
             border-radius: 17px;
             box-shadow: 1px 1px 3px black;
         }
+        #playPauseSongIcon:hover {cursor: pointer;}
         /* container that holds all the currently playing song information */
         #currentlyPlayingSongInformationContainer{
             margin-top: 20px;

@@ -107,7 +107,20 @@ app.post('/token', (req, res) => {
         res.json(response.data);
     }).catch(err => res.status(400).send({message : 'failure to get data from server'}));
 });
-
+// gets a new access token 
+app.post('/refreshToken', (req, res) => {
+    console.log('refreshToken path hit');
+    let refreshToken = req.body.refreshToken;
+    console.log(`this is the refresh token ${refreshToken}`);
+    let data = new URLSearchParams();
+    data.append('grant_type', 'refresh_token');
+    data.append('refresh_token', `${refreshToken}`);
+    data.append('client_id', `${clientId}`);
+    data.append('client_secret', `${clientSecret}`);
+    axios.post(getTokenURL, data).then(response => {
+        res.json(response.data);
+    }).catch(err => res.status(400).send({message : 'failure to get new access token from the server'}));
+})
 
 
 app.listen(port, () => {console.log(`server listening on port: ${port}`)});

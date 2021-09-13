@@ -1,5 +1,6 @@
 import React from 'react';
-import {spotifyAPIRequest, trimSongName} from '../helper-functions.js';
+import {spotifyAPIRequest, trimSongName, spotifyAPIRequestPost} from '../helper-functions.js';
+import { SpotifyAPIBase } from './helper-components.js';
 
 let accessTokenContext = React.createContext(undefined);
 class ProfileInformation extends React.Component{
@@ -19,85 +20,18 @@ class ProfileInformation extends React.Component{
         return (
             <accessTokenContext.Provider value={this.props.accessToken}>
             <div id="userInformationContainer">
-                <AccountInformation />
-                <MusicInformation />
+                <AccountInformation rootThis={this.props.rootThis} />
+                <MusicInformation rootThis={this.props.rootThis}/>
             </div>
             </accessTokenContext.Provider>
         )
     }
-    componentDidMount(){
-    //    this.setAccountInformation();
-    //    this.setUsersTopSongs();
-    //    this.setUsersTopArtists();
-    }
-    /*async setAccountInformation(){
-        try{
-            let profileInformationResponse = await spotifyAPIRequest('https://api.spotify.com/v1/me', this.props.accessToken);
-            let profileInformation = JSON.parse(profileInformationResponse);
-            this.setState({
-                accountInformation : {
-                    linkToUserPage : profileInformation.external_urls.spotify,
-                    profileName : profileInformation.display_name,
-                    userEmail : profileInformation.email,
-                    numberOfFollowers : profileInformation.followers.total,
-                    accountType : profileInformation.product
-                }
-            })
-           }catch(err){
-                window.location = '/';
-           }
-    }
-    // functions that returns a list of users top songs
-    async setUsersTopSongs(){
-        // constructing the url
-            let url = new URL('https://api.spotify.com/v1/me/top/tracks');
-            let searchParams = new URLSearchParams();
-            searchParams.set('time_range', this.state.songsTimeRange);
-            searchParams.set('limit', this.state.songsLimit);
-            url.search = searchParams.toString();
-        try{
-            let topSongsResponse = await spotifyAPIRequest(url.toString(), this.props.accessToken);
-            let topSongs = JSON.parse(topSongsResponse);
-            let topSongTitles = [];
-            for(let track of topSongs.items){
-                topSongTitles.push(track);
-            }
-            this.setState({
-                topSongs: topSongTitles
-            })
-        }catch(err){
-            console.log(`there was an error getting users top songs ${err}`)
-        }
-    }
-    async setUsersTopArtists(){
-        // construction the url
-            let url = new URL('https://api.spotify.com/v1/me/top/artists');
-            let searchParams = new URLSearchParams();
-            searchParams.set('time_range', this.state.songsTimeRange);
-            searchParams.set('limit', this.state.songsLimit);
-            url.search = searchParams.toString();
-        try{
-            let topArtistsResponse = await spotifyAPIRequest(url.toString(), this.props.accessToken);
-            let topArtists = JSON.parse(topArtistsResponse);
-            console.log(topArtists);
-            let topArtistsNames = [];
-            for(let artist of topArtists.items){
-                topArtistsNames.push(artist.name);
-            }
-            this.setState({
-                topArtists : topArtistsNames
-            })
-        }catch(err){
-            console.log('there was an error getting the users top artists');
-        }
-        
-    }*/
 }
 
 export default ProfileInformation
 
     // holds users account information
-    class AccountInformation extends React.Component{
+    class AccountInformation extends SpotifyAPIBase{
         constructor(props){
             super(props);
             this.state = {
@@ -105,12 +39,14 @@ export default ProfileInformation
                 profileName : '',
                 userEmail : '',
                 numberOfFollowers : '',
-                accountType : ''
+                accountType : '',
             }
         }
         render(){
+            let error = this.returnCorrectErrorMessage();
             return (
                 <div>
+                    {error}
                     <div id="accountInformationContainer">
                         <a href={this.state.linkToUserPage}><h1>{this.state.profileName}</h1></a>
                         <h3 id="userEmailHeader">{this.state.userEmail}</h3>
@@ -127,7 +63,7 @@ export default ProfileInformation
             try{
                 let profileInformationResponse = await spotifyAPIRequest('https://api.spotify.com/v1/me', this.context);
                 let profileInformation = JSON.parse(profileInformationResponse);
-                this.setState({
+                    this.setState({
                         linkToUserPage : profileInformation.external_urls.spotify,
                         profileName : profileInformation.display_name,
                         userEmail : profileInformation.email,
@@ -135,14 +71,14 @@ export default ProfileInformation
                         accountType : profileInformation.product
                 })
            }catch(err){
-                window.location = '/';
+                this.handleResponseForErrors(err);
            }
         }
         static contextType = accessTokenContext;
     }
 
     // holds users favorite music information
-    class MusicInformation extends React.Component{
+    class MusicInformation extends SpotifyAPIBase{
         constructor(props){
             super(props);
             this.state = {
@@ -155,8 +91,10 @@ export default ProfileInformation
             this.favoriteMusicInformationFormSubmitHandler = this.favoriteMusicInformationFormSubmitHandler.bind(this);
         }
         render(){
+            let error = this.returnCorrectErrorMessage();
             return (
                 <div id="favoriteMusicInformationContainer">
+                    {error}
                     <FavoriteMusicInformationForm formSubmitHandler={this.favoriteMusicInformationFormSubmitHandler} />
                     <h1 id="topSongsHeader">Top Songs</h1>
                     <TopSongsContainer topSongs={this.state.topSongs} />
@@ -182,9 +120,6 @@ export default ProfileInformation
                 this.setUsersTopSongs();
                 this.setUsersTopArtists();
             });
-            console.log('ha state reset');
-            console.log(` this is the new song limit ${this.state.songsLimit}`);
-            console.log(newState);
 
         }
         async setUsersTopSongs(){
@@ -197,14 +132,15 @@ export default ProfileInformation
             try{
                 let topSongsResponse = await spotifyAPIRequest(url.toString(), this.context);
                 let topSongs = JSON.parse(topSongsResponse);
-                let topSongTitles = [];
-                for(let track of topSongs.items){
-                    topSongTitles.push(track);
-                }
-                this.setState({
-                    topSongs: topSongTitles
-                })
+                    let topSongTitles = [];
+                    for(let track of topSongs.items){
+                        topSongTitles.push(track);
+                    }
+                    this.setState({
+                        topSongs: topSongTitles
+                    })
             }catch(err){
+                this.handleResponseForErrors(err);
                 console.log(`there was an error getting users top songs ${err}`)
             }
         }
@@ -218,14 +154,15 @@ export default ProfileInformation
             try{
                 let topArtistsResponse = await spotifyAPIRequest(url.toString(), this.context);
                 let topArtists = JSON.parse(topArtistsResponse);
-                let topArtistsNames = [];
-                for(let artist of topArtists.items){
-                    topArtistsNames.push(artist.name);
-                }
-                this.setState({
-                    topArtists : topArtistsNames
-                })
+                    let topArtistsNames = [];
+                    for(let artist of topArtists.items){
+                        topArtistsNames.push(artist.name);
+                    }
+                    this.setState({
+                        topArtists : topArtistsNames
+                    })
             }catch(err){
+                this.handleResponseForErrors(err);
                 console.log('there was an error getting the users top artists');
             }
         }
@@ -346,7 +283,6 @@ export default ProfileInformation
             }
             listOfSongs(){
                 let songs = [];
-                console.log(this.props.topSongs);
                 for( let song of this.props.topSongs){
                     songs.push(<li key={song.name}>{trimSongName(song.name)}  --  <span className="nameOfArtist">{song.artists[0].name}</span></li>)
                 }

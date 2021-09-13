@@ -14,10 +14,11 @@ class Dashboard extends React.Component{
         }
     }
     render(){
-        return (this.state.access_token) ? <div id="pageContainer">
-        <ProfileInformation accessToken={this.state.access_token}/>
-        <WorkBench></WorkBench>
-        <SongControlSideBar></SongControlSideBar>
+        return (this.state.access_token) ? 
+        <div id="pageContainer">
+        <ProfileInformation accessToken={this.state.access_token} getNewAccessToken={this.getNewAccessToken.bind(this)} rootThis={this}/>
+        <WorkBench rootThis={this}></WorkBench>
+        <SongControlSideBar accessToken={this.state.access_token} rootThis={this}></SongControlSideBar>
         </div> : <div></div>
     }
     async componentDidMount(){
@@ -33,7 +34,10 @@ class Dashboard extends React.Component{
     componentDidUpdate(){
         // we have no access token so go back to homepage
        if(this.state.access_token == undefined)  { window.location = '/'}
-    
+    }
+    async getNewAccessToken(){
+        let accessTokenResponse = await axios.post('/refreshToken', {refreshToken : this.state.refresh_token});
+        this.setState({access_token : accessTokenResponse.data.access_token});
     }
 }
 

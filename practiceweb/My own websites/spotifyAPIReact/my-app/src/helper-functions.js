@@ -1,4 +1,3 @@
-
 exports.stringifyScopes = function(Scopes){
     let result = '';
     for(let scope in Scopes){
@@ -19,7 +18,7 @@ exports.spotifyAPIRequest = (requestURL, accessToken) => {
                     resolve(request.responseText);
                 }else{
                     //console.log(request.resopnseText);
-                    reject(request.responseText);
+                    reject(request);
                 }
             }
         }
@@ -29,6 +28,51 @@ exports.spotifyAPIRequest = (requestURL, accessToken) => {
     })
     return response;
 }
+
+exports.spotifyAPIRequestPost = (requestURL, accessToken) => {
+    let response = new Promise((resolve, reject) => {
+        let request = new XMLHttpRequest();
+        request.open("POST", requestURL, true);
+        request.onreadystatechange = () => {
+            if(request.readyState === 4){
+                if(request.status == 200){
+                   // console.log(`the responseText is ${request.responseText} and the response is ${request.response}`);
+                    resolve(request.responseText);
+                }else{
+                    //console.log(request.resopnseText);
+                    reject(request);
+                }
+            }
+        }
+        request.setRequestHeader('Authorization', `Bearer ${accessToken}`);
+        request.setRequestHeader('Content-type', 'application/json');
+        request.send();
+    })
+    return response;
+}
+// put request to spotify api
+exports.spotifyAPIRequestPut = (requestURL, accessToken) => {
+    let response = new Promise((resolve, reject) => {
+        let request = new XMLHttpRequest();
+        request.open("PUT", requestURL, true);
+        request.onreadystatechange = () => {
+            if(request.readyState === 4){
+                if(request.status > 199 && request.status < 299){
+                   // console.log(`the responseText is ${request.responseText} and the response is ${request.response}`);
+                    resolve(request.responseText);
+                }else{
+                    //console.log(request.resopnseText);
+                    reject(request);
+                }
+            }
+        }
+        request.setRequestHeader('Authorization', `Bearer ${accessToken}`);
+        request.setRequestHeader('Content-type', 'application/json');
+        request.send();
+    })
+    return response;
+}
+
 
 // function given spotify api song trims down the name into display format
 exports.trimSongName = (name) => {
