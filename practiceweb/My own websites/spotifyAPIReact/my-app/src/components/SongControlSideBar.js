@@ -3,24 +3,95 @@ import { spotifyAPIRequest, spotifyAPIRequestPost, spotifyAPIRequestPut } from '
 import playPauseSongIconPNG from '../icons/pause-play-button.png';
 import {SpotifyAPIBase} from '../components/helper-components.js';
 let accessTokenContext = React.createContext('');
-class SongControlSideBar extends React.Component{
+class SongControlSideBar extends SpotifyAPIBase{
     constructor(props){
         super(props);
+        this.state = {
+            activeDevice : 'Activate',
+            linkToPage : '',
+            isCurrentlyPlayingSong : false,
+            currentlyPlayingSongTitle : '',
+            artists : [],
+            albumName : '',
+            releaseDate : '',
+            albumCoverSrc : '',
+            songPopularity : ''
+        }
+        this.refreshInformationButtonClickEventHandler = this.refreshInformationButtonClickEvent.bind(this);
     }
     render(){
+        let {activeDevice, linkToPage, ...currentlyPlayingSongInformation} = this.state;
+        let error = this.returnCorrectErrorMessage();
         return (
             <accessTokenContext.Provider value={this.props.accessToken}>
                 <div id="playSongContainer">
+                    {error}
                 <h1>Search Song</h1>
                 <SearchSongControl rootThis={this.props.rootThis}/>
-                <ActiveDeviceDisplayContainer rootThis={this.props.rootThis}/>
+                <ActiveDeviceDisplayContainer rootThis={this.props.rootThis} activeDevice={this.state.activeDevice} linkToPage={this.state.linkToPage}/>
                 <h1 id="currentlyPlayingSongHeader">Currently Playing Song</h1>
                 <PlayPauseSongIcon rootThis={this.props.rootThis} />
-                <UpdateCurrentlyPlayingSongInformationButton rootThis={this.props.rootThis} />
-                <CurrentlyPlayingSongInformation rootThis={this.props.rootThis}/>
+                <UpdateCurrentlyPlayingSongInformationButton rootThis={this.props.rootThis} clickEventHandler={this.refreshInformationButtonClickEventHandler}/>
+                <CurrentlyPlayingSongInformation rootThis={this.props.rootThis} current={currentlyPlayingSongInformation}/>
             </div>
             </accessTokenContext.Provider>
         )
+    }
+    componentDidMount(){
+        this.getLinkToPage();
+        this.setActiveDevice();
+        this.saveCurrentlyPlayingSongInformation();
+    }
+    refreshInformationButtonClickEvent(ev){
+        this.getLinkToPage();
+        this.setActiveDevice();
+        this.saveCurrentlyPlayingSongInformation();
+    }
+    async getLinkToPage(){
+        try{
+            let linkToPageResponse = await spotifyAPIRequest('https://api.spotify.com/v1/me', this.props.accessToken);
+            let linkToPage = JSON.parse(linkToPageResponse);
+                this.setState({
+                    linkToPage : linkToPage.external_urls.spotify
+            })
+       }catch(err){
+        this.handleResponseForErrors(err);
+            //window.location = '/';
+       }
+    }
+    async setActiveDevice(){
+        try{
+            let activeDeviceResponse = await spotifyAPIRequest('https://api.spotify.com/v1/me/player/devices', this.props.accessToken);
+            let activeDevice = JSON.parse(activeDeviceResponse);
+                for(let device of activeDevice.devices){
+                    if(device.is_active){
+                        this.setState({activeDevice : device.name})
+                    }
+                }
+        }catch(err){
+            this.handleResponseForErrors(err);
+            console.log(err);
+        }
+    }
+    async saveCurrentlyPlayingSongInformation(){
+        try{
+            let response = await spotifyAPIRequest('https://api.spotify.com/v1/me/player/currently-playing', this.props.accessToken);
+            response = JSON.parse(response);
+            this.setState({
+                isCurrentlyPlayingSong : response.is_playing,
+                currentlyPlayingSongTitle : response.item.name,
+                artists : response.item.artists,
+                albumName : response.item.album.name,
+                releaseDate : response.item.album.release_date,
+                albumCoverSrc : response.item.album.images[1].url,
+                songPopularity : response.item.popularity
+                
+            })
+        }catch(err){
+            this.handleResponseForErrors(err);
+            console.log(err);
+        }
+        
     }
 }   
     // holds UI where user searches song and adds it to queue and can skip to the next track
@@ -195,65 +266,16 @@ class SongControlSideBar extends React.Component{
     class ActiveDeviceDisplayContainer extends SpotifyAPIBase{
         constructor(props){
             super(props);
-            this.state = {
-                activeDevice : 'Activate',
-                linkToPage: '',
-                devices : [],
-                activeDeviceId : undefined,
-                activeDeviceName : ''
-            }
         }
         render() {
             let error = this.returnCorrectErrorMessage();
-            let options = this.makeOptions();
-                        //                     <p><span className="currentlyPlayingSongDescriptionTitle">Active Device -  <span className="italics lightblueFont"><a href={`${this.state.linkToPage}`} >{this.state.activeDevice}</a></span></span></p>
-
             return (
                 <div id="activeDeviceDisplayContainer">
                     {error}
-                    <p><span className="currentlyPlayingSongDescriptionTitle">Active Device -  <span className="italics lightblueFont"><a href={`${this.state.linkToPage}`} >{this.state.activeDevice}</a></span></span></p>
+                    <p><span className="currentlyPlayingSongDescriptionTitle">Active Device -  <span className="italics lightblueFont"><a href={`${this.props.linkToPage}`} >{this.props.activeDevice}</a></span></span></p>
                 </div>
             )
         }
-        componentDidMount(){
-            this.getLinkToPage();
-            this.getActiveDevice();
-        }
-        async getLinkToPage(){
-            try{
-                let linkToPageResponse = await spotifyAPIRequest('https://api.spotify.com/v1/me', this.context);
-                let linkToPage = JSON.parse(linkToPageResponse);
-                    this.setState({
-                        linkToPage : linkToPage.external_urls.spotify
-                })
-           }catch(err){
-            this.handleResponseForErrors(err);
-                //window.location = '/';
-           }
-        }
-        async getActiveDevice(){
-            try{
-                let activeDeviceResponse = await spotifyAPIRequest('https://api.spotify.com/v1/me/player/devices', this.context);
-                let activeDevice = JSON.parse(activeDeviceResponse);
-                let devices = [];
-                let currentDevice;
-                    for(let device of activeDevice.devices){
-                        devices.push({id : device.id, name : device.name});
-                        if(device.is_active){
-                            this.setState({activeDevice : device.name})
-                        }
-                    }
-            }catch(err){
-                this.handleResponseForErrors(err);
-                console.log(err);
-            }
-        }
-        makeOptions(){
-            return this.state.devices.map((elm, ind, arr) => {
-                return (<option value={elm.id} key={elm.id}>{elm.name}</option>)
-            })
-        }
-        static contextType = accessTokenContext
     }
     class PlayPauseSongIcon extends SpotifyAPIBase{
         constructor(props){
@@ -314,69 +336,40 @@ class SongControlSideBar extends React.Component{
             super(props);
         }
         render(){
-            return    <button className="playSongContainerButton" id="updateCurrentlyPlayingSongInformationButton">Update Information</button>
+            return    <button className="playSongContainerButton" id="updateCurrentlyPlayingSongInformationButton" onClick={this.props.clickEventHandler}>Update Information</button>
         }
     }
     class CurrentlyPlayingSongInformation extends SpotifyAPIBase{
         constructor(props){
             super(props);
-            this.state = {
-                isCurrentlyPlayingSong : false,
-                currentlyPlayingSongTitle : '',
-                artists : [],
-                albumName : '',
-                releaseDate : '',
-                albumCoverSrc : '',
-                songPopularity : ''
-            }
         }
         render(){
             let error = this.returnCorrectErrorMessage();
-            let body = (this.state.isCurrentlyPlayingSong) ? (<div id="currentlyPlayingSongInformationContainer">
+            let body = (this.props.current.isCurrentlyPlayingSong) ? (<div id="currentlyPlayingSongInformationContainer">
                 {error}
-                <img id="currentlyPlayingSongAlbumCover" src={this.state.albumCoverSrc}></img>
+                <img id="currentlyPlayingSongAlbumCover" src={this.props.current.albumCoverSrc}></img>
                 <div id="currentlyPlayingSongFactsContainer">
-                    <p><span className="currentlyPlayingSongDescription">Title:  </span>{this.state.currentlyPlayingSongTitle}</p>
-                    <p><span className="currentlyPlayingSongDescription">{(this.state.artists.length > 1) ? 'Artists:  ' : 'Artist:  '}</span>{this.displayArtists()}</p>
-                    <p><span className="currentlyPlayingSongDescriptionTitle">Album Name:  </span>{this.state.albumName}</p>
-                    <p><span className="currentlyPlayingSongDescriptionTitle">Release Date:  </span>{this.state.releaseDate}</p>
-                    <p><span className="currentlyPlayingSongDescriptionTitle">Song Popularity:  </span>{this.state.songPopularity}</p>
+                    <p><span className="currentlyPlayingSongDescription">Title:  </span>{this.props.current.currentlyPlayingSongTitle}</p>
+                    <p><span className="currentlyPlayingSongDescription">{(this.props.current.artists.length > 1) ? 'Artists:  ' : 'Artist:  '}</span>{this.displayArtists()}</p>
+                    <p><span className="currentlyPlayingSongDescriptionTitle">Album Name:  </span>{this.props.current.albumName}</p>
+                    <p><span className="currentlyPlayingSongDescriptionTitle">Release Date:  </span>{this.props.current.releaseDate}</p>
+                    <p><span className="currentlyPlayingSongDescriptionTitle">Song Popularity:  </span>{this.props.current.songPopularity}</p>
                 </div>
             </div>) : <div>{error}</div>
             return body
         }
-        async componentDidMount(){
-            try{
-                let response = await spotifyAPIRequest('https://api.spotify.com/v1/me/player/currently-playing', this.context);
-                response = JSON.parse(response);
-                this.setState({
-                    isCurrentlyPlayingSong : response.is_playing,
-                    currentlyPlayingSongTitle : response.item.name,
-                    artists : response.item.artists,
-                    albumName : response.item.album.name,
-                    releaseDate : response.item.album.release_date,
-                    albumCoverSrc : response.item.album.images[1].url,
-                    songPopularity : response.item.popularity
-                    
-                })
-            }catch(err){
-                this.handleResponseForErrors(err);
-                console.log(err);
-            }
-            
-        }
         // returns text bases on the artists
         displayArtists(){
             function displayMultipleArtists(){
-                let result = `${this.state.artists[0].name}`;
-                for(let i = 1; i < this.state.artists.length; i++){
-                    result += `, ${this.state.artists[i].name}`;
+                let result = `${this.props.current.artists[0].name}`;
+                for(let i = 1; i < this.props.current.artists.length; i++){
+                    result += `, ${this.props.current.artists[i].name}`;
                 }
                 return result
             }
-            return (!this.state.artists.length > 1) ? `${this.state.artists[0].name}` : displayMultipleArtists.apply(this);
+            return (!this.props.current.artists.length > 1) ? `${this.props.current.artists[0].name}` : displayMultipleArtists.apply(this);
         }
-        static contextType = accessTokenContext
+       // static contextType = accessTokenContext
     }
 
 export default SongControlSideBar;
