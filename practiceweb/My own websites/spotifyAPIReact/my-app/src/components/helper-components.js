@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import exitIcon from '../icons/exit.svg';
+import { spotifyAPIRequest, spotifyAPIRequestPost } from '../helper-functions';
 //import { response } from 'express';
 
 // base component for the spotify api that provides functionality for all components
@@ -9,8 +10,10 @@ class SpotifyAPIBase extends React.Component{
         super(props);
         this.state = {
             activateDeviceErrorMessage : false,
-            mustHavePremiumAccount : false
+            mustHavePremiumAccount : false,
+            cannotAccessSongBank : false
                     }
+        this.userId = undefined;
     }
     // given a response it handles errors and sets correct error messages and returns true if there is an error
     handleResponseForErrors(response){
@@ -27,6 +30,9 @@ class SpotifyAPIBase extends React.Component{
         if(this.state.mustHavePremiumAccount){
             error = this.mustHavePremiumAccount();
         }
+        if(this.state.cannotAccessSongBank){
+            error = this.cannotAccessSongBank();
+        }
         return error
 
     }
@@ -35,6 +41,9 @@ class SpotifyAPIBase extends React.Component{
     }
     mustHavePremiumAccount(){
         return <MustHavePremiumAccount thisOfParent={this} />
+    }
+    cannotAccessSongBank(){
+        return <CannotAccessSongBank thisOfParent={this} />
     }
     // given the response from the server it will check for errors and return true if their is one
     checkResponseForError(response){
@@ -55,6 +64,19 @@ class SpotifyAPIBase extends React.Component{
         if(response.status == 404){
             // user needs an active device
             this.setState({activateDeviceErrorMessage : true})
+        }
+        if(response.status == 410){
+            // cannot access the song bank
+            this.setState({cannotAccessSongBank : true});
+        }
+    }
+    // function given an access token sets the users id
+    async setUserId(accessToken){
+        try{
+            let userIdResponse = await spotifyAPIRequest('https://api.spotify.com/v1/me', accessToken);
+            this.userId = JSON.parse(userIdResponse).id;
+        }catch(err){
+            this.handleResponseForErrors(err);
         }
     }
 }
@@ -78,10 +100,10 @@ class ErrorMessage extends React.Component{
        // document.getElementById('popupErrorMessageContainer').remove();
     }
     componentDidMount(){
-        document.body.addEventListener('click', this.bodyClickEventHandler, true);
+        document.body.addEventListener('click', this.bodyClickEventHandler, false);
     }
     componentWillUnmount(){
-        document.body.removeEventListener('click', this.bodyClickEventHandler, true);
+        document.body.removeEventListener('click', this.bodyClickEventHandler, false);
     }
     bodyClickEvent(ev){
         ev.stopPropagation();
@@ -115,6 +137,19 @@ class ErrorMessage extends React.Component{
             render(){
                 return(
                     <ErrorMessage message="You Must Have a Premium Account To Use This Functionality" thisOfParent={this.props.thisOfParent} error="mustHavePremiumAccount"/>
+                )
+            }
+        }
+
+    // error message that is a subclass of the general error message
+    // it comes up for when their is an error with the song bank
+        class CannotAccessSongBank extends React.Component{
+            constructor(props){
+                super(props);
+            }
+            render(){
+                return(
+                    <ErrorMessage message="There was an error accessing the Song Bank" thisOfParent={this.props.thisOfParent} error="cannotAccessSongBank" />
                 )
             }
         }

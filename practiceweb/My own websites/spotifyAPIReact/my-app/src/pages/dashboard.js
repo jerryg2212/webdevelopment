@@ -5,6 +5,7 @@ import WorkBench from '../components/WorkBench.js';
 import SongControlSideBar from '../components/SongControlSideBar.js';
 import '../styles/dashboard.css';
 
+
 class Dashboard extends React.Component{
     constructor(props){
         super(props);
@@ -17,7 +18,7 @@ class Dashboard extends React.Component{
         return (this.state.access_token) ? 
         <div id="pageContainer">
         <ProfileInformation accessToken={this.state.access_token} getNewAccessToken={this.getNewAccessToken.bind(this)} rootThis={this}/>
-        <WorkBench rootThis={this}></WorkBench>
+        <WorkBench rootThis={this} accessToken={this.state.access_token}></WorkBench>
         <SongControlSideBar accessToken={this.state.access_token} rootThis={this}></SongControlSideBar>
         </div> : <div></div>
     }

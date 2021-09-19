@@ -6,6 +6,9 @@ require('dotenv').config();
 const cors = require('cors');
 const { urlencoded } = require('express');
 const axios = require('axios');
+const MongoClient = require('mongodb').MongoClient;
+
+let mongodbUrl = 'mongodb+srv://jerryg2212:Baseball22@cluster0.cirov.mongodb.net/spotifyAPI?retryWrites=true&w=majority';
 
 app.use(cors());
 app.use(express.urlencoded({
@@ -90,6 +93,37 @@ app.get('/api/callback', (req, res) => {
         refresh_token = body.refresh_token;
         res.redirect('/profile');
     })
+})
+
+// uses user id sent by query parameters to get users banked songs from mongodb database
+app.get('/api/addSongToSongBank', async (req, res) => {
+    let userId = req.query.userId;
+    let songUri = req.query.songUri;
+    try{
+        // getting the proper collection to search from
+            let client = await MongoClient.connect(mongodbUrl);
+            let collection = await client.db('spotifyAPI').collection('songBank');
+        // quering to find the user based off the user id
+        let user = await collection.findOne({userId : userId});
+        // user is null so create user
+        if(user == null){
+            // create user
+            collection.insertOne({
+                userId : userId,
+                songBank : [songUri]
+            })
+        }else{
+            songBank = user.songBank;
+            songBank.push(songUri);
+            collection.updateOne({userId : userId},{
+                $set : {userId : userId, songBank : songBank}
+            })
+        }
+        res.send(user.songBank);
+    }catch(err){
+        console.log(err);
+        res.status(410).send({message : 'error accessing the database'});
+    }
 })
 
 app.post('/token', (req, res) => {

@@ -1,3 +1,5 @@
+const { default: axios } = require("axios");
+
 exports.stringifyScopes = function(Scopes){
     let result = '';
     for(let scope in Scopes){
@@ -13,7 +15,7 @@ exports.spotifyAPIRequest = (requestURL, accessToken) => {
         request.open("GET", requestURL, true);
         request.onreadystatechange = () => {
             if(request.readyState === 4){
-                if(request.status == 200){
+                if(request.status > 199 && request.status < 299){
                    // console.log(`the responseText is ${request.responseText} and the response is ${request.response}`);
                     resolve(request.responseText);
                 }else{
@@ -35,7 +37,7 @@ exports.spotifyAPIRequestPost = (requestURL, accessToken) => {
         request.open("POST", requestURL, true);
         request.onreadystatechange = () => {
             if(request.readyState === 4){
-                if(request.status == 200){
+                if(request.status > 199 && request.status < 299){
                    // console.log(`the responseText is ${request.responseText} and the response is ${request.response}`);
                     resolve(request.responseText);
                 }else{
@@ -71,6 +73,28 @@ exports.spotifyAPIRequestPut = (requestURL, accessToken) => {
         request.send();
     })
     return response;
+}
+
+// function that given user id makes a request to server that returns users song bank or error
+exports.addSongToSongBankRequest = (userId, songUri) => {
+    let response = new Promise((resolve, reject) => {
+        let request = new XMLHttpRequest();
+        request.onreadystatechange = () => {
+            if(request.readyState == 4){
+                console.log(`server response from song bank request ${request.responseText}`);
+                if(request.status != 410){
+                    resolve(request.responseText)
+                }else{
+                    console.log('rejected');
+                    reject(request)
+                }
+            }
+
+        }
+        request.open('GET', `/api/addSongToSongBank?userId=${userId}&songUri=${songUri}`, true);
+        request.send();
+    })
+    return response
 }
 
 

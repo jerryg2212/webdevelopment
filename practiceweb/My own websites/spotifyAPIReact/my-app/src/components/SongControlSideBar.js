@@ -1,5 +1,5 @@
 import React from 'react';
-import { spotifyAPIRequest, spotifyAPIRequestPost, spotifyAPIRequestPut } from '../helper-functions';
+import { spotifyAPIRequest, spotifyAPIRequestPost, spotifyAPIRequestPut, addSongToSongBankRequest } from '../helper-functions';
 import playPauseSongIconPNG from '../icons/pause-play-button.png';
 import {SpotifyAPIBase} from '../components/helper-components.js';
 let accessTokenContext = React.createContext('');
@@ -41,6 +41,7 @@ class SongControlSideBar extends SpotifyAPIBase{
         this.getLinkToPage();
         this.setActiveDevice();
         this.saveCurrentlyPlayingSongInformation();
+       // this.setUserId(this.props.accessToken);
     }
     refreshInformationButtonClickEvent(ev){
         this.getLinkToPage();
@@ -76,6 +77,7 @@ class SongControlSideBar extends SpotifyAPIBase{
     async saveCurrentlyPlayingSongInformation(){
         try{
             let response = await spotifyAPIRequest('https://api.spotify.com/v1/me/player/currently-playing', this.props.accessToken);
+            if(response == '') return;
             response = JSON.parse(response);
             this.setState({
                 isCurrentlyPlayingSong : response.is_playing,
@@ -219,6 +221,7 @@ class SongControlSideBar extends SpotifyAPIBase{
                 super(props);
                 this.queueSongButtonClickEventHandler = this.queueSongButtonClickEvent.bind(this);
                 this.nextTrackButtonClickEventHandler = this.nextTrackButtonClickEvent.bind(this);
+                this.bankSongButtonClickEventHandler = this.bankSongButtonClickEvent.bind(this);
                 this.state = {activateDeviceErrorMessage : false}
             }
             render(){
@@ -228,8 +231,12 @@ class SongControlSideBar extends SpotifyAPIBase{
                         {errorMessage}
                         <button id="queueSongButton" className="playSongContainerButton" onClick={this.queueSongButtonClickEventHandler}>Queue</button>
                         <button id="nextTrackButton" className="playSongContainerButton" onClick={this.nextTrackButtonClickEventHandler}>Next Track</button>
+                        <button id="bankSongButton" className="playSongContainerButton" onClick={this.bankSongButtonClickEventHandler} >Bank Song</button>
                     </div>
                 )
+            }
+            componentDidMount(){
+                this.setUserId(this.context);
             }
             // click event for the queue button
             async queueSongButtonClickEvent(ev){
@@ -237,7 +244,7 @@ class SongControlSideBar extends SpotifyAPIBase{
                 if(!this.props.activeSongUri){
                     return
                 }
-                console.log(this.props.activeSongUri);
+               // console.log(this.props.activeSongUri);
                 try{
                     let response = await spotifyAPIRequestPost(`https://api.spotify.com/v1/me/player/queue?uri=${this.props.activeSongUri}`, this.context);
                 }catch(err){
@@ -258,6 +265,22 @@ class SongControlSideBar extends SpotifyAPIBase{
                 }catch(err){
                     this.handleResponseForErrors(err);
                     console.log(err);
+                }
+            }
+            // adds the active song to the users song bank
+            async bankSongButtonClickEvent(ev){
+                // if no active Song Uri return
+                if(!this.props.activeSongUri) return
+                try{
+                    let songBank = await addSongToSongBankRequest(this.userId, this.props.activeSongUri);
+                }catch(err){
+                    this.handleResponseForErrors(err);
+                    console.log(err);
+                }finally{
+                    // get the search song input and remove its value and focus it
+                     let input = document.getElementById('searchSongToPlayInput');
+                     input.value = '';
+                     input.focus();
                 }
             }
             static contextType = accessTokenContext

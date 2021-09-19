@@ -1,0 +1,10 @@
+#parentContainer{
+  font-size:30px;
+}
+
+#paragraph{
+  font-size: inherit;
+}
+body{
+  font-size: 12px;
+}

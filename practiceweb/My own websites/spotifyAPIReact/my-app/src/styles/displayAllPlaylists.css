@@ -1,0 +1,33 @@
+/* background-image: radial-gradient(#121B40 70%, #060D28) 
+** lighter #121B40
+** darker #060D28
+*/
+
+
+/* container that holds all the playlists */
+#displayAllPlaylistsContainer{
+    padding: 10px;
+    display: grid;
+    justify-content: space-around;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-gap: 10px;
+    margin-top: 30px;
+}
+    /* container that holds the playlist image and name */
+    .playlistContainer{
+        padding: 10px;
+        background-color: lightblue;
+        display: flex;
+        border-radius: 15px;
+        box-shadow: .5px .5px 3px pink;
+        overflow: hidden;
+    }
+    #displayAllPlaylistsContainer img{
+        width: 75px;
+        height: 75px;
+        box-shadow: 1px 1px 3px black;
+    }
+    #displayAllPlaylistsContainer p{
+        margin: auto;
+        padding-left: 3px;
+    }
