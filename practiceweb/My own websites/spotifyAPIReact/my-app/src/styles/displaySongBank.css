@@ -1,0 +1,32 @@
+/* background-image: radial-gradient(#121B40 70%, #060D28) 
+** lighter #121B40
+** darker #060D28
+*/
+/* header container that holds the button options container and the title of the active operation */
+#displaySongBankHeader{
+    margin-top: 20px;
+    position: relative;
+    display: flex;
+    justify-content: start;
+    background-color: lightblue;
+    padding: 10px;
+    max-width: 90%;
+    border-radius: 50px;
+    margin: 20px auto 0px auto;
+    color: #121B40;
+    text-shadow: 1px 1px 1px black;
+}
+    /* container that holds the operations button options */
+    #operationsContainer{
+        /*position: absolute;
+        top: 50%;
+        transform: translateY(-50%);*/
+    }
+    /* title of the current operation */
+    #displaySongBankHeader h1{
+        margin: 0px;
+    }
+    .playSongContainerButton.active{
+    color: red;
+    border-color: red;
+}

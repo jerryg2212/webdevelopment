@@ -1,4 +1,5 @@
 import React from 'react';
+import  ReactDOM  from 'react-dom';
 import axios from 'axios';
 import exitIcon from '../icons/exit.svg';
 import { spotifyAPIRequest, spotifyAPIRequestPost } from '../helper-functions';
@@ -70,14 +71,19 @@ class SpotifyAPIBase extends React.Component{
             this.setState({cannotAccessSongBank : true});
         }
     }
+    // returns a promise so the component that calls this can make sure it waits to use the access token
     // function given an access token sets the users id
     async setUserId(accessToken){
-        try{
-            let userIdResponse = await spotifyAPIRequest('https://api.spotify.com/v1/me', accessToken);
-            this.userId = JSON.parse(userIdResponse).id;
-        }catch(err){
-            this.handleResponseForErrors(err);
-        }
+        return new Promise( async (resolve, reject) => {
+            try{
+                let userIdResponse = await spotifyAPIRequest('https://api.spotify.com/v1/me', accessToken);
+                this.userId = JSON.parse(userIdResponse).id;
+                resolve();
+            }catch(err){
+                this.handleResponseForErrors(err);
+                reject();
+            }
+        })
     }
 }
 // general error message component that displays in the middle of screen with message
@@ -88,12 +94,16 @@ class ErrorMessage extends React.Component{
         this.bodyClickEventHandler = this.bodyClickEvent.bind(this);
     }
     render(){
-        return (
+        return ReactDOM.createPortal(<div id="popupErrorMessageContainer" style={{top: `${window.pageYOffset + 100}px`, left : `${window.screen.width / 2 -200}px`}}>
+        <img src={exitIcon} onClick={this.imgClickEventHandler}></img>
+        <p>{this.props.message}</p>
+        </div>, document.body);
+        /*return (
             <div id="popupErrorMessageContainer" style={{top: `${window.pageYOffset + 100}px`, left : `${window.screen.width / 2 -200}px`}}>
             <img src={exitIcon} onClick={this.imgClickEventHandler}></img>
             <p>{this.props.message}</p>
-        </div>
-        )
+            </div>
+        )*/
     }
     imgClickEvent(ev){
         this.props.thisOfParent.setState({[this.props.error] : false});

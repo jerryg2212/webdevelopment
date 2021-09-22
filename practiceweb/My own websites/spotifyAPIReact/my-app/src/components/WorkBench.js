@@ -3,6 +3,7 @@ import DummyComponent from './workbenchOptionComponents/dummy-component.js';
 import DisplayAllPlaylists from './workbenchOptionComponents/displayAllPlaylists.js';
 import DisplayAllSongsInPlaylist from './workbenchOptionComponents/displayAllSongsInPlaylist.js';
 import CompareTwoPlaylists from './workbenchOptionComponents/compareTwoPlaylists.js';
+import DisplaySongBank from './workbenchOptionComponents/displaySongBank.js';
 
 class WorkBench extends React.Component{
     constructor(props){
@@ -16,7 +17,8 @@ class WorkBench extends React.Component{
             DummyComponent : DummyComponent,
             DisplayAllPlaylists : DisplayAllPlaylists,
             DisplayAllSongsInPlaylist : DisplayAllSongsInPlaylist,
-            CompareTwoPlaylists : CompareTwoPlaylists
+            CompareTwoPlaylists : CompareTwoPlaylists,
+            DisplaySongBank : DisplaySongBank
         }
         this.taskSelectChangeEventHandler = this.taskSelectChangeEvent.bind(this);
         this.activateOperationButtonClickEventHandler = this.activateOperationButtonClickEvent.bind(this);
@@ -49,7 +51,7 @@ class WorkBench extends React.Component{
         class WorkBenchTaskSelect extends React.Component{
             constructor(props){
                 super(props);
-                this.tasks = [{name: '     ', operationComponent : undefined}, {name : 'Display All Playlists', operationComponent : 'DisplayAllPlaylists'}, {name : 'Display All Songs In Playlist', operationComponent : 'DisplayAllSongsInPlaylist'}, {name : 'Compare Two Playlists', operationComponent : 'CompareTwoPlaylists'}];
+                this.tasks = [{name: '     ', operationComponent : undefined}, {name : 'Display All Playlists', operationComponent : 'DisplayAllPlaylists'}, {name : 'Display All Songs In Playlist', operationComponent : 'DisplayAllSongsInPlaylist'}, {name : 'Compare Two Playlists', operationComponent : 'CompareTwoPlaylists'}, {name : 'Song Bank', operationComponent : 'DisplaySongBank'}];
             }
             render(){
                 let options = this.makeOptions();

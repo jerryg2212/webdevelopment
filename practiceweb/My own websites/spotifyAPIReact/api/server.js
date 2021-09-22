@@ -98,7 +98,8 @@ app.get('/api/callback', (req, res) => {
 // uses user id sent by query parameters to get users banked songs from mongodb database
 app.get('/api/addSongToSongBank', async (req, res) => {
     let userId = req.query.userId;
-    let songUri = req.query.songUri;
+   // let songUri = req.query.songUri;
+    let songId = req.query.songId;
     try{
         // getting the proper collection to search from
             let client = await MongoClient.connect(mongodbUrl);
@@ -110,16 +111,36 @@ app.get('/api/addSongToSongBank', async (req, res) => {
             // create user
             collection.insertOne({
                 userId : userId,
-                songBank : [songUri]
+                songBank : [songId]
             })
         }else{
             songBank = user.songBank;
-            songBank.push(songUri);
+            songBank.push(songId);
             collection.updateOne({userId : userId},{
                 $set : {userId : userId, songBank : songBank}
             })
         }
         res.send(user.songBank);
+    }catch(err){
+        console.log(err);
+        res.status(410).send({message : 'error accessing the database'});
+    }
+})
+// returns the songs the user has in song bank
+app.get('/api/getSongsFromSongBank', async (req, res) => {
+    let userId = req.query.userId;
+    let songIds = []
+    try{
+        // getting the proper collection to search from
+            let client = await MongoClient.connect(mongodbUrl);
+            let collection = await client.db('spotifyAPI').collection('songBank');
+        // quering to find the user based off the user id
+        let user = await collection.findOne({userId : userId});
+        // user is null so create user
+        if(user != null){
+            songIds = user.songBank;
+        }
+        res.send(songIds);
     }catch(err){
         console.log(err);
         res.status(410).send({message : 'error accessing the database'});

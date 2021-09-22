@@ -75,8 +75,8 @@ exports.spotifyAPIRequestPut = (requestURL, accessToken) => {
     return response;
 }
 
-// function that given user id makes a request to server that returns users song bank or error
-exports.addSongToSongBankRequest = (userId, songUri) => {
+// function that given user id makes a request to server that adds a song to users song bank or error
+exports.addSongToSongBankRequest = (userId, songId) => {
     let response = new Promise((resolve, reject) => {
         let request = new XMLHttpRequest();
         request.onreadystatechange = () => {
@@ -91,7 +91,28 @@ exports.addSongToSongBankRequest = (userId, songUri) => {
             }
 
         }
-        request.open('GET', `/api/addSongToSongBank?userId=${userId}&songUri=${songUri}`, true);
+        request.open('GET', `/api/addSongToSongBank?userId=${userId}&songId=${songId}`, true);
+        request.send();
+    })
+    return response
+}
+// function that given userId makes a request to server that returns the users songbank
+exports.getSongsFromSongBankRequest = (userId) => {
+    let response = new Promise((resolve, reject) => {
+        let request = new XMLHttpRequest();
+        request.onreadystatechange = () => {
+            if(request.readyState == 4){
+                console.log(`server response from song bank request ${request.responseText}`);
+                if(request.status != 410){
+                    resolve(request.responseText)
+                }else{
+                    console.log('rejected');
+                    reject(request)
+                }
+            }
+
+        }
+        request.open('GET', `/api/getSongsFromSongBank?userId=${userId}`, true);
         request.send();
     })
     return response

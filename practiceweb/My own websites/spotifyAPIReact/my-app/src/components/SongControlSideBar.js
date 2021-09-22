@@ -100,7 +100,7 @@ class SongControlSideBar extends SpotifyAPIBase{
     class SearchSongControl extends SpotifyAPIBase{
         constructor(props){
             super(props);
-            this.state = {songInput : '', searchedSongs : [],  activeSongUri: undefined}
+            this.state = {songInput : '', searchedSongs : [],  activeSongUri: undefined, activeSongId : undefined}
             this.searchSongOnInputHandler = this.searchSongOnInput.bind(this);
             this.searchSongResponseListItemClickEventHandler = this.searchSongResponseListItemClickEvent.bind(this);
             this.onFocusSearchSongEventHandler = this.onFocusSearchSongEvent.bind(this);
@@ -113,7 +113,7 @@ class SongControlSideBar extends SpotifyAPIBase{
                     {error}
                     <SearchSongToPlayInput rootThis={this.props.rootThis} inputOnInputHandler={this.searchSongOnInputHandler} onFocusSearchSongEventHandler={this.onFocusSearchSongEventHandler} />
                     {songResponsesBox}
-                    <QueueAndNextTrackButtonsContainer rootThis={this.props.rootThis} activeSongUri={this.state.activeSongUri} />
+                    <QueueAndNextTrackButtonsContainer rootThis={this.props.rootThis} activeSongUri={this.state.activeSongUri} activeSongId={this.state.activeSongId} />
                 </div>
             )
         }
@@ -137,11 +137,11 @@ class SongControlSideBar extends SpotifyAPIBase{
             });
         }
         // click event for the song response list item
-        searchSongResponseListItemClickEvent(songName, artistName, songUri, ev){
+        searchSongResponseListItemClickEvent(songName, artistName, songUri, songId, ev){
             // getting the input element and changing its value
             document.getElementById('searchSongToPlayInput').value = `${songName} - ${artistName}`;
             // setting the state so the search resonse box does not render and saves the activeSongId
-            this.setState({searchedSongs : [], activeSongUri : songUri});
+            this.setState({searchedSongs : [], activeSongUri : songUri, activeSongId : songId});
         }
         // on focus event for the input that removes the value of the active song state
         onFocusSearchSongEvent(ev){
@@ -190,7 +190,7 @@ class SongControlSideBar extends SpotifyAPIBase{
                 }
                 makeListOfSearchedSongs(){
                     return this.props.searchedSongs.map((elm, index, arr) => {
-                        return <SearchSongResponseListElement key={elm.id} songUri={elm.uri} songName={elm.name} artistName={elm.artist} clickEvent={this.props.searchSongResponseListItemClickEvent}/>
+                        return <SearchSongResponseListElement key={elm.id} songUri={elm.uri} songId={elm.id} songName={elm.name} artistName={elm.artist} clickEvent={this.props.searchSongResponseListItemClickEvent}/>
                     })
                 }
                 clickOutsideEvent(ev){
@@ -210,7 +210,7 @@ class SongControlSideBar extends SpotifyAPIBase{
                         super(props);
                     }
                     render(){
-                        return (<li onClick={this.props.clickEvent.bind(this, this.props.songName, this.props.artistName, this.props.songUri)}>
+                        return (<li onClick={this.props.clickEvent.bind(this, this.props.songName, this.props.artistName, this.props.songUri, this.props.songId)}>
                             {this.props.songName} - <span className="italics">{this.props.artistName}</span>
                         </li>)
                     }
@@ -235,8 +235,8 @@ class SongControlSideBar extends SpotifyAPIBase{
                     </div>
                 )
             }
-            componentDidMount(){
-                this.setUserId(this.context);
+            async componentDidMount(){
+                await this.setUserId(this.context);
             }
             // click event for the queue button
             async queueSongButtonClickEvent(ev){
@@ -270,9 +270,9 @@ class SongControlSideBar extends SpotifyAPIBase{
             // adds the active song to the users song bank
             async bankSongButtonClickEvent(ev){
                 // if no active Song Uri return
-                if(!this.props.activeSongUri) return
+                if(!this.props.activeSongId) return
                 try{
-                    let songBank = await addSongToSongBankRequest(this.userId, this.props.activeSongUri);
+                    let songBank = await addSongToSongBankRequest(this.userId, this.props.activeSongId);
                 }catch(err){
                     this.handleResponseForErrors(err);
                     console.log(err);
