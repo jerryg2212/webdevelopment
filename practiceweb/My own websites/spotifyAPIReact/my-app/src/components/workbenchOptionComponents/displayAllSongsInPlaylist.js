@@ -4,6 +4,7 @@ import '../../styles/displayAllSongsInPlaylist.css';
 import DispalyAllPlaylists from './displayAllPlaylists';
 import { spotifyAPIRequestPut, spotifyAPIRequestPost, spotifyAPIRequest } from '../../helper-functions';
 import SongListColumn from '../songListColumn';
+import SongListContainer from '../songListContainer.js';
 
 
 class DisplayAllSongsInPlaylist extends SpotifyAPIBase{
@@ -81,23 +82,10 @@ class DisplayAllSongsInPlaylist extends SpotifyAPIBase{
     }
     // returns container that holds all the songs in the users active playlist
     activePlaylistSongsList(){
+        console.log(this.amountOfColumns());
         return (
-            <div id="activePlaylistSongsListContainer">
-                {this.splitSongs(this.amountOfColumns()).map((elm, ind, arr) => (
-                    <SongListColumn key={ind} songs={elm}/>
-                ))}
-            </div>
+            <SongListContainer songList={this.state.activePlaylistTracks} columns={this.amountOfColumns()} />
         )
-    }
-    // returns array with arrays of songs split evenly
-    splitSongs(columns){
-        let songs = this.state.activePlaylistTracks;
-        let seperator = Math.ceil(songs.length / columns);
-        let result = [];
-        for(let i = 0; i < columns; i++){
-            result.push(songs.splice(0, seperator));
-        }
-        return result;
     }
     // returns the number of columns wanted based on how many songs their are in the active playlist
     amountOfColumns(){

@@ -49,18 +49,21 @@ class DisplaySongBank extends SpotifyAPIBase{
     }
     // makes the request to spotify to get the songs information
     async setSongsFromSongBank(){
+        // gets the array of song ids from the database
         let songIds = await this.getSongIds();
-        console.log(`this is the length of the songsIds ${songIds.length}`);
         let songs = [];
         while(songIds.length != 0){
             let maxLengthRequest = Math.min(songIds.length, 50);
             let url = this.getSongsRequestUrl(songIds.slice(0, maxLengthRequest));
-            songIds = songIds.splice(maxLengthRequest - 1);
+            songIds.splice(0, maxLengthRequest);
             let songsResponse = await spotifyAPIRequest(url, this.props.accessToken);
             songsResponse = JSON.parse(songsResponse);
-            songs = songs.concat(songsResponse);
+            console.log(songsResponse);
+            console.log(`thst was the resposne`);
+            songs = songs.concat(songsResponse.tracks);
         }
-        console.log(`this is the length of the songs ${songs.length}`);
+        console.log(songs);
+        this.setState({songsFromSongBank : songs});
     }
     // makes request to server to get the array of song ids from the database and returns the array of song ids
     async getSongIds(){
@@ -101,9 +104,11 @@ class DisplaySongBank extends SpotifyAPIBase{
     returnActiveOperationBody(){
         let body = <div></div>
         Object.values(this.state.operations).forEach((elm, ind, arr) => {
+            console.log(this.state.songsFromSongBank);
+            console.log(`active operation body ran`);
             if(elm.active){
                 let Body = BodyComponents[elm.display];
-                body = <Body />
+                body = <Body songs={this.state.songsFromSongBank} />
             }
         })
         return body;
