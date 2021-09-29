@@ -330,6 +330,19 @@ button:hover{
     text-shadow: 1px 1px 1px black;
     letter-spacing: .3px;
 }
+.secondaryButtonStyle{
+    margin: 5px;
+    padding: 7px;
+    background-color: #121B40;
+    border: 2px solid lightblue;
+    box-shadow: 1px 1px 2px black,
+    2.5px 2.5px 4px green,
+    -1px -1px 3px black;
+    border-radius: 30px;
+    color: lightblue;
+    text-shadow: 1px 1px 1px black;
+    letter-spacing: .3px;
+}
 /* titles of the information of the currently playing song */
 .currentlyPlayingSongDescriptionTitle{
     color: green;
@@ -345,6 +358,11 @@ button:hover{
 .lightblueFont{
     color: lightblue;
     text-shadow: .5px .5px 0px;
+}
+
+/* absolute postion element class */
+.positionAbsolute{
+    position : absolute;
 }
 
 

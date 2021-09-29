@@ -6,8 +6,6 @@ class SongListColumn extends React.Component{
         super(props);
     }
     render(){
-        console.log(this.props.songs);
-        console.log('that was the songs in songlist column');
        // console.log(Object.keys(this.props.songs.track).length > 0)
        // let body = (Object.keys(this.props.songs.track).length > 0) ?  this.goThroughTrackDisplay.bind(this) : this.trackDisplay.bind(this);
          let body = (this.props.songs[0].track != undefined) ? this.goThroughTrackDisplay.bind(this) : this.trackDisplay.bind(this);

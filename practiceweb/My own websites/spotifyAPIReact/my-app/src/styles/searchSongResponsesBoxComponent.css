@@ -1,0 +1,10 @@
+
+
+/* container that holds the list */
+.searchSongResponsesBoxComponent{
+    position: absolute;
+    z-index : 3;
+    background-color: white;
+    border: 2px solid hotpink;
+    border-top: none;
+}

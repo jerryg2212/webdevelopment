@@ -81,7 +81,7 @@ class SpotifyAPIBase extends React.Component{
                 resolve();
             }catch(err){
                 this.handleResponseForErrors(err);
-                reject();
+                reject(err);
             }
         })
     }

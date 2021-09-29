@@ -6,8 +6,7 @@
 #displaySongBankHeader{
     margin-top: 20px;
     position: relative;
-    display: flex;
-    justify-content: start;
+    text-align: center;
     background-color: lightblue;
     padding: 10px;
     max-width: 90%;
@@ -15,13 +14,8 @@
     margin: 20px auto 0px auto;
     color: #121B40;
     text-shadow: 1px 1px 1px black;
+    box-shadow: 1px 1px 1px black;
 }
-    /* container that holds the operations button options */
-    #operationsContainer{
-        /*position: absolute;
-        top: 50%;
-        transform: translateY(-50%);*/
-    }
     /* title of the current operation */
     #displaySongBankHeader h1{
         margin: 0px;
@@ -29,4 +23,9 @@
     .playSongContainerButton.active{
     color: red;
     border-color: red;
+}
+
+/* container for the add songs body */
+#addSongsToSongBankBody{
+    margin-top: 30px;
 }

@@ -1,0 +1,17 @@
+
+
+/* search input for searching songs */
+.searchSongInput{
+    background-color: pink;
+    width: 100%;
+    max-width: 400px;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 30px;
+    border: 2px solid hotpink;
+    color: #121B40;
+    font-size: 14px;
+    letter-spacing: .3px;
+    box-shadow: 1px 1px 5px black;
+    margin-bottom: 10px;
+}

@@ -3,6 +3,7 @@ import { NavLink, Switch, Route} from 'react-router-dom';
 import Login from './pages/login.js';
 import Profile from './pages/profile';
 import Dashboard from './pages/dashboard.js';
+import './styles/generalElements.css';
 
 const code = new URLSearchParams(window.location.search).get('code');
 console.log(`this is the code ${code}`);

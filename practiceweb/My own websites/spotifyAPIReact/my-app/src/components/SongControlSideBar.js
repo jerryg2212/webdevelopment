@@ -107,7 +107,7 @@ class SongControlSideBar extends SpotifyAPIBase{
         }
         render(){
             let error = this.returnCorrectErrorMessage();
-            let songResponsesBox = (this.state.searchedSongs.length > 0) ? <SearchSongResponsesBox rootThis={this.props.rootThis} searchedSongs={this.state.searchedSongs} searchSongResponseListItemClickEvent={this.searchSongResponseListItemClickEventHandler}/> : undefined;
+            let songResponsesBox = (this.state.searchedSongs.length > 0) ? <SearchSongResponsesBox rootThis={this.props.rootThis} searchedSongs={this.state.searchedSongs} searchSongResponseListItemClickEvent={this.searchSongResponseListItemClickEventHandler} positionElement={document.getElementById('searchSongToPlayInput')}/> : undefined;
                 return (
                 <div>
                     {error}
@@ -165,7 +165,8 @@ class SongControlSideBar extends SpotifyAPIBase{
             class SearchSongResponsesBox extends React.Component{
                 constructor(props){
                     super(props);
-                    let searchInputPosition = document.getElementById('searchSongToPlayInput').getBoundingClientRect();
+                  // let searchInputPosition = document.getElementById('searchSongToPlayInput').getBoundingClientRect();
+                    let searchInputPosition = this.props.positionElement.getBoundingClientRect();
                     this.responseBoxStyles = {
                         top : `${searchInputPosition.bottom + window.scrollY}px`,
                         left : `${searchInputPosition.left + 15}px`,

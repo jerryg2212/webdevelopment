@@ -6,6 +6,7 @@ import '../styles/songListContainer.css';
 class SongListContainer extends React.Component{
     constructor(props){
         super(props);
+      //  this.songs = this.props.songList;
     }
     render(){
         return (
@@ -18,11 +19,13 @@ class SongListContainer extends React.Component{
     }
     // returns array with arrays of songs split evenly
     splitSongs(){
-        let songs = this.props.songList;
-        let seperator = Math.ceil(songs.length / this.props.columns);
+        let seperator = Math.ceil(this.props.songList.length / this.props.columns);
         let result = [];
+        let tem;
         for(let i = 0; i < this.props.columns; i++){
-            result.push(songs.splice(0, seperator));
+           // result.push(this.songs.splice(0, seperator));
+           tem = this.props.songList.slice(i * seperator, (i * seperator + seperator));
+           result.push(tem);
         }
         return result;
     }

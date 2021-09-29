@@ -1,7 +1,7 @@
 import React from 'react';
 import { SpotifyAPIBase } from '../helper-components';
 import '../../styles/displaySongBank.css';
-import SongListColumn from '../songListColumn';
+import WorkbenchOptionsComponent from '../workbenchOptionsComponent';
 import DisplaySongBankBody from './songBankOperations/displaySongBankBody';
 import AddSongsToSongBankBody from './songBankOperations/addSongsToSongBankBody';
 import DeleteSongsFromSongBankBody from './songBankOperations/deleteSongsFromSongBankBody';
@@ -19,24 +19,21 @@ class DisplaySongBank extends SpotifyAPIBase{
     constructor(props){
         super(props);
         this.state = {
-            operations : {add : {active : false, title : 'Add Songs', headerTitle : 'Add Songs To Song Bank', display: "AddSongsToSongBankBody", id : 'addSongToSongBankButton'}, delete : {active : false, title : 'Delete Songs', headerTitle : 'Delete Songs From Song Bank', display : "DeleteSongsFromSongBankBody", id : 'removeSongFromSongBankButton'}, display : {active : true, title : 'Display Songs', headerTitle : 'Display Songs In Song Bank', display : "DisplaySongBankBody", id : 'displaySongBankButton'}},
-            songsFromSongBank : []
+            songsFromSongBank : [],
+            operations : [{active : false, title : 'Add Songs', headerTitle : 'Add Songs To Song Bank', clickEventHandler : this.operationClickEvent.bind(this), display : "AddSongsToSongBankBody", id : 'addSongToSongBankButton'}, {active : false, title : 'Delete Songs', headerTitle : 'Delete Songs From Song Bank', clickEventHandler : this.operationClickEvent.bind(this), display : 'DeleteSongsFromSongBankBody', id : 'removeSongFromSongBankButton'}, {active : true, title : 'Display Songs', headerTitle : 'Display Songs In Song Bank', clickEventHandler : this.operationClickEvent.bind(this), display : 'DisplaySongBankBody', id : 'displaySongBankButton'}]
         }
-        this.operationButtonClickEventHandler = this.activateCorrectOperation.bind(this);
     }
     render(){
         let error = this.returnCorrectErrorMessage();
+        let operations = <WorkbenchOptionsComponent operations={this.state.operations}/>
         return (
             <>
             {error}
             <div id="displaySongBankHeader">
-                <div id="operationsContainer">
-                {Object.values(this.state.operations).map((elm, ind, arr) => (
-                    <button className={`playSongContainerButton ${(elm.active) ? 'active' : ''}`} id={elm.id} key={elm.title} onClick={this.operationButtonClickEventHandler}>{elm.title}</button>
-                ))}
-                </div>
                 <h1>{this.displayActiveOperationTitle()}</h1>
             </div>
+            {operations}
+
             <div id="displaySongBankBody">
                 {this.returnActiveOperationBody()}
             </div>
@@ -49,21 +46,26 @@ class DisplaySongBank extends SpotifyAPIBase{
     }
     // makes the request to spotify to get the songs information
     async setSongsFromSongBank(){
-        // gets the array of song ids from the database
-        let songIds = await this.getSongIds();
-        let songs = [];
-        while(songIds.length != 0){
+        try{
+            console.log('setsongsfromsongbankran');
+            // gets the array of song ids from the database
+            let songIds = await this.getSongIds();
+            let songs = [];
+            while(songIds.length != 0){
             let maxLengthRequest = Math.min(songIds.length, 50);
             let url = this.getSongsRequestUrl(songIds.slice(0, maxLengthRequest));
             songIds.splice(0, maxLengthRequest);
             let songsResponse = await spotifyAPIRequest(url, this.props.accessToken);
             songsResponse = JSON.parse(songsResponse);
-            console.log(songsResponse);
-            console.log(`thst was the resposne`);
             songs = songs.concat(songsResponse.tracks);
+            this.setState({
+                songsFromSongBank : songs,
+                passOnSongBank : songs
+            });
         }
-        console.log(songs);
-        this.setState({songsFromSongBank : songs});
+        }catch(err){
+            this.handleResponseForErrors(err);
+        }
     }
     // makes request to server to get the array of song ids from the database and returns the array of song ids
     async getSongIds(){
@@ -87,32 +89,39 @@ class DisplaySongBank extends SpotifyAPIBase{
         })
         return title;
     }
-    // given newly active element this function will change the state to represent the newly active state
-    activateCorrectOperation(button){
-        button = button.target;
-        if(button.id == 'addSongToSongBankButton'){
-            this.setState({operations : {add : {active : true, title : 'Add Songs', headerTitle : 'Add Songs To Song Bank', display : "AddSongsToSongBankBody", id : 'addSongToSongBankButton'}, delete : {active : false, title : 'Delete Songs', headerTitle : 'Delete Songs From Song Bank', display : "DeleteSongsFromSongBankBody", id : 'removeSongFromSongBankButton'}, display : {active : false, title : 'Display Songs', headerTitle : 'Display Songs In Song Bank', display : "DisplaySongBankBody", id : 'displaySongBankButton'}}});
+    operationClickEvent(ev){
+        let operations = [];
+        let stateOperations = this.state.operations;
+      //  let songsFromSongBank = this.state.songsFromSongBank;
+        
+        for(let operation of stateOperations){
+            if(operation.title == ev.target.textContent){
+                operation.active = true;
+            }else{
+                operation.active = false;
+            }
+            operations.push(operation);
         }
-        if(button.id == 'removeSongFromSongBankButton'){
-            this.setState({operations : {add : {active : false, title : 'Add Songs', headerTitle : 'Add Songs To Song Bank', display : "AddSongsToSongBankBody", id : 'addSongToSongBankButton'}, delete : {active : true, title : 'Delete Songs', headerTitle : 'Delete Songs From Song Bank', display : "DeleteSongsFromSongBankBody", id : 'removeSongFromSongBankButton'}, display : {active : false, title : 'Display Songs', headerTitle : 'Display Songs In Song Bank', display : "DisplaySongBankBody", id : 'displaySongBankButton'}}});
-        }
-        if(button.id == 'displaySongBankButton'){
-            this.setState({operations : {add : {active : false, title : 'Add Songs', headerTitle : 'Add Songs To Song Bank', display : "AddSongsToSongBankBody", id : 'addSongToSongBankButton'}, delete : {active : false, title : 'Delete Songs', headerTitle : 'Delete Songs From Song Bank', display : "DeleteSongsFromSongBankBody", id : 'removeSongFromSongBankButton'}, display : {active : true, title : 'Display Songs', headerTitle : 'Display Songs In Song Bank', display : "DisplaySongBankBody", id : 'displaySongBankButton'}}});
-        }
+        
+        this.setState({
+            operations : operations,
+            songsFromSongBank : this.state.songsFromSongBank
+        });
     }
     // returns correct body operation based on the active operation
     returnActiveOperationBody(){
-        let body = <div></div>
-        Object.values(this.state.operations).forEach((elm, ind, arr) => {
-            console.log(this.state.songsFromSongBank);
-            console.log(`active operation body ran`);
+        let Body = <div></div>
+        for(let elm of this.state.operations){
             if(elm.active){
-                let Body = BodyComponents[elm.display];
-                body = <Body songs={this.state.songsFromSongBank} />
+                 Body = BodyComponents[elm.display];
             }
-        })
-        return body;
+        }
+        return <Body songs={this.state.songsFromSongBank} updateState={this.setSongsFromSongBank.bind(this)} rootThis={this.props.rootThis} accessToken={this.props.accessToken}/>;
     }
+   /* returnActiveOperationBody(){
+        let Body = BodyComponents[this.state.activeOperation];
+        return <Body songs={this.state.songsFromSongBank} />
+    }*/
     // function that given an array of song ids returns the url needed to request to spotify to receive the list of tracks
     getSongsRequestUrl(songs){
         let baseUrl = 'https://api.spotify.com/v1/tracks?ids=';
@@ -120,7 +129,6 @@ class DisplaySongBank extends SpotifyAPIBase{
             baseUrl += `${song},`;
         }
         baseUrl = baseUrl.slice(0, -1);
-        console.log(baseUrl);
         return baseUrl
 
 
