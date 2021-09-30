@@ -117,6 +117,30 @@ exports.getSongsFromSongBankRequest = (userId) => {
     })
     return response
 }
+// function that given userId makes a request to server and deletes the specified songs from the users song bank
+    // userId = users spotify userId
+    // deletableSongs = array of ids of songs to be deleted from the songBank in the database
+exports.deleteSongsFromSongBankRequest = (userId, deleteableSongs) => {
+    let response = new Promise((resolve, reject) => {
+        let request = new XMLHttpRequest();
+        request.onreadystatechange = () => {
+            if(request.readyState == 4){
+                if(request.status != 410){
+                    resolve(request.responseText)
+                }else{
+                    console.log('rejected');
+                    reject(request)
+                }
+            }
+
+        }
+        let deleteableSongsString = deleteableSongs.join(',');
+        console.log(`this is the deleteableSongsString ${deleteableSongsString}`);
+        request.open('GET', `/api/deleteSongsFromSongBank?userId=${userId}&deleteableSongs=${deleteableSongsString}`, true);
+        request.send();
+    })
+    return response
+}
 
 
 // function given spotify api song trims down the name into display format

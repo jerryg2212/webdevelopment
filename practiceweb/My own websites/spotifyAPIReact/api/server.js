@@ -115,10 +115,14 @@ app.get('/api/addSongToSongBank', async (req, res) => {
             })
         }else{
             songBank = user.songBank;
-            songBank.push(songId);
-            collection.updateOne({userId : userId},{
-                $set : {userId : userId, songBank : songBank}
-            })
+            let newSet = new Set(songBank);
+            // if the song is already in the song bank do not add it to the song bank
+            if(!newSet.has(songId)){
+                songBank.push(songId);
+                collection.updateOne({userId : userId},{
+                    $set : {userId : userId, songBank : songBank}
+                })
+            }
         }
         res.send(user.songBank);
     }catch(err){
@@ -126,6 +130,33 @@ app.get('/api/addSongToSongBank', async (req, res) => {
         res.status(410).send({message : 'error accessing the database'});
     }
 })
+
+// deletes the songs from the song bank
+app.get('/api/deleteSongsFromSongBank', async (req, res) => {
+    let userId = req.query.userId;
+    let deleteableSongs = req.query.deleteableSongs.split(',');
+    try{
+        // gets the mongo collection
+        let collection = await getMongoCollection();
+        // finds the user
+        let user = await collection.findOne({userId : userId});
+        // accesses the song bank
+        let songBank = user.songBank;
+        // interate through the deleteableSongs array and remove the proper songs from the song bank
+        deleteableSongs.forEach((element, index, array) => {
+            songBank.splice(songBank.indexOf(element), 1);
+        })
+        // updating the database
+        collection.updateOne({userId : userId},{
+            $set : {userId : userId, songBank : songBank}
+        })
+        res.send();
+    }catch(err){
+        console.log(err);
+        res.status(410).send({message : 'error accessing the database'});
+    }
+})
+
 // returns the songs the user has in song bank
 app.get('/api/getSongsFromSongBank', async (req, res) => {
     let userId = req.query.userId;
@@ -179,6 +210,12 @@ app.post('/refreshToken', (req, res) => {
 
 
 app.listen(port, () => {console.log(`server listening on port: ${port}`)});
+
+async function getMongoCollection(){
+    const client = await MongoClient.connect(mongodbUrl);
+    let collection = await client.db('spotifyAPI').collection('songBank');
+    return collection;
+}
 
 function stringifyScopes(Scopes){
     let result = '';

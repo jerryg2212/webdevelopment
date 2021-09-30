@@ -8,6 +8,7 @@ import {SpotifyAPIBase} from './helper-components.js'
 
 // class that holds the input element and the add button
 // props : 
+// rootThis - reference to the root component for the purposes of the spotifyAPIBase component
 // submitEventHandler - function to run when the submit button is clicked
 class SearchSongControlComponent extends SpotifyAPIBase{
     constructor(props){

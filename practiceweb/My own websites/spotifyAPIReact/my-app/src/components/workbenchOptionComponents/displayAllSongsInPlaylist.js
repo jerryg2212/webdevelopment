@@ -93,7 +93,7 @@ class DisplayAllSongsInPlaylist extends SpotifyAPIBase{
         
     }
     changePlaylistButtonClickEvent(ev){
-        this.setState({activePlaylist : false})
+        this.setState({activePlaylist : false, activePlaylistTracks : []})
     }
 }
 

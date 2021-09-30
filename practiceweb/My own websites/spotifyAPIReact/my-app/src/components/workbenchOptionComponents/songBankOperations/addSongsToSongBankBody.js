@@ -21,7 +21,6 @@ class AddSongsToSongBankBody extends SpotifyAPIBase{
                 {(this.props.songs.length > 1) && <SongListContainer songList={this.props.songs} columns={this.amountOfColumns(this.props.songs)}/> }
             </div>
             )
-            
     }
     async componentDidMount(){
         try{
@@ -35,13 +34,9 @@ class AddSongsToSongBankBody extends SpotifyAPIBase{
         await addSongToSongBankRequest(this.userId, this.searchSongInputRef.current.state.activeSongId);
         await this.props.updateState();
     }
-    listElementClickEvent(ev){
-
-    }
     // returns the number of columns wanted based on how many songs their are in the active playlist
     amountOfColumns(songs){
         return  Math.min(Math.ceil(songs.length / 40), 3);
-        
     }
 }
 

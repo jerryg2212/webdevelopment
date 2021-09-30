@@ -2,6 +2,8 @@ import React from 'react';
 import { spotifyAPIRequest, spotifyAPIRequestPost, spotifyAPIRequestPut, addSongToSongBankRequest } from '../helper-functions';
 import playPauseSongIconPNG from '../icons/pause-play-button.png';
 import {SpotifyAPIBase} from '../components/helper-components.js';
+import searchSongResponsesBoxComponent from './searchSongsResponsesBoxComponent.js';
+import SearchSongResponsesBoxComponent from './searchSongsResponsesBoxComponent.js';
 let accessTokenContext = React.createContext('');
 class SongControlSideBar extends SpotifyAPIBase{
     constructor(props){
@@ -107,7 +109,8 @@ class SongControlSideBar extends SpotifyAPIBase{
         }
         render(){
             let error = this.returnCorrectErrorMessage();
-            let songResponsesBox = (this.state.searchedSongs.length > 0) ? <SearchSongResponsesBox rootThis={this.props.rootThis} searchedSongs={this.state.searchedSongs} searchSongResponseListItemClickEvent={this.searchSongResponseListItemClickEventHandler} positionElement={document.getElementById('searchSongToPlayInput')}/> : undefined;
+            let songResponsesBox = (this.state.searchedSongs.length > 0) ? <SearchSongResponsesBoxComponent searchedSongs={this.state.searchedSongs} searchSongResponseListItemClickEvent={this.searchSongResponseListItemClickEventHandler} positionElement={document.getElementById('searchSongToPlayInput')} /> : undefined;
+            // let songResponsesBox = (this.state.searchedSongs.length > 0) ? <SearchSongResponsesBox rootThis={this.props.rootThis} searchedSongs={this.state.searchedSongs} searchSongResponseListItemClickEvent={this.searchSongResponseListItemClickEventHandler} positionElement={document.getElementById('searchSongToPlayInput')}/> : undefined;
                 return (
                 <div>
                     {error}
@@ -161,7 +164,7 @@ class SongControlSideBar extends SpotifyAPIBase{
                 )
             }
         }
-            // box that contains songs that user is searching for
+          /*  // box that contains songs that user is searching for
             class SearchSongResponsesBox extends React.Component{
                 constructor(props){
                     super(props);
@@ -215,7 +218,7 @@ class SongControlSideBar extends SpotifyAPIBase{
                             {this.props.songName} - <span className="italics">{this.props.artistName}</span>
                         </li>)
                     }
-                }
+                }*/
         // containe that holds the queue song and next track button
         class QueueAndNextTrackButtonsContainer extends SpotifyAPIBase{
             constructor(props){
@@ -237,7 +240,11 @@ class SongControlSideBar extends SpotifyAPIBase{
                 )
             }
             async componentDidMount(){
-                await this.setUserId(this.context);
+                try{
+                    await this.setUserId(this.context);
+                }catch(err){
+                    this.handleResponseForErrors(err);
+                }
             }
             // click event for the queue button
             async queueSongButtonClickEvent(ev){
@@ -247,6 +254,7 @@ class SongControlSideBar extends SpotifyAPIBase{
                 }
                // console.log(this.props.activeSongUri);
                 try{
+                    console.log(`queuer song uri ${this.props.activeSongUri}`);
                     let response = await spotifyAPIRequestPost(`https://api.spotify.com/v1/me/player/queue?uri=${this.props.activeSongUri}`, this.context);
                 }catch(err){
                     this.handleResponseForErrors(err);

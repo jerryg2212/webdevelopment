@@ -41,8 +41,12 @@ class DisplaySongBank extends SpotifyAPIBase{
         )
     }
     async componentDidMount(){
-        await this.setUserId(this.props.accessToken);
-        this.setSongsFromSongBank();
+        try{
+            await this.setUserId(this.props.accessToken);
+            this.setSongsFromSongBank();
+        }catch(err){
+            this.handleResponseForErrors(err);
+        }
     }
     // makes the request to spotify to get the songs information
     async setSongsFromSongBank(){

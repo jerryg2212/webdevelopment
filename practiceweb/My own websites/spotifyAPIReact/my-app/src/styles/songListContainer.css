@@ -1,4 +1,9 @@
-    /* container that holds the columns that display all the tracks in the playlist */
+/* background-image: radial-gradient(#121B40 70%, #060D28) 
+** lighter #121B40
+** darker #060D28
+*/
+
+ /* container that holds the columns that display all the tracks in the playlist */
     .activePlaylistSongsListContainer{
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -40,3 +45,12 @@
                     margin-left: 4px;
                     font-size: 11px;
                 }
+
+    /* class for the songListContainers that are active to be removed */
+    .removeableSongListContainer{
+        background-color: pink;
+        text-shadow: 1px 1px 1px black;
+    }
+        .removeableSongListContainer .trackArtist{
+            color: #121B40;
+        }

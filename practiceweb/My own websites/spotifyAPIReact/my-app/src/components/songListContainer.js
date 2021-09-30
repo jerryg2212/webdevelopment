@@ -12,7 +12,7 @@ class SongListContainer extends React.Component{
         return (
             <div className="activePlaylistSongsListContainer">
                 {this.splitSongs().map((elm, ind, arr) => (
-                    <SongListColumn key={ind} songs={elm}/>
+                    <SongListColumn key={ind} songs={elm} listItemClickEventHandler={this.props.listItemClickEventHandler}/>
                 ))}
             </div>
         )
