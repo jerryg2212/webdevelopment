@@ -27,7 +27,7 @@ class DisplayAllSongsInPlaylist extends SpotifyAPIBase{
      let body = (this.state.activePlaylist) ? this.changePlaylistSectionHeader.bind(this) : this.choosePlaylistSectionHeader.bind(this)
         return (
             <React.Fragment>
-                <div id="displayAllSongsInPlaylistHeaderContainer">
+                <div className="workbenchOperationDescriptiveHeader">
                     {body()}
                 </div>
                 {this.state.activePlaylistTracks.length > 1 && this.activePlaylistSongsList()}

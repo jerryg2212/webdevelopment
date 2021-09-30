@@ -1,0 +1,36 @@
+
+
+/* container for the whole section */
+#createNewPlaylistContainer{
+
+}
+    #createNewPlaylistContainer form{
+        border: 2px solid lightblue;
+        display: inline-block;
+        padding: 40px 30px;
+        border-radius: 30px;
+        box-shadow: 2px 2px 5px green,
+                    -1px -1px 2px green;
+    }
+        #createNewPlaylistContainer input[type="text"]{
+            background-color: pink;
+            padding: 1px 10px;
+            box-sizing: border-box;
+            border-radius: 10px;
+            border: 2px solid hotpink;
+            color: #121B40;
+            font-size: 14px;
+            letter-spacing: .3px;
+            box-shadow: 1px 1px 5px black;
+            margin-bottom: 5px;
+        }
+        #createNewPlaylistContainer .createNewPlaylistLabelHeader{
+            font-size:20px;
+            margin-top: 15px;
+        }
+        #createNewPlaylistContainer label{
+            display: inline-block;
+            color: lightblue;
+            text-shadow: .2px .2px 0px;
+            margin: 4px;
+        }
