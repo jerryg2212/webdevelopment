@@ -2,6 +2,9 @@
 ** lighter #121B40
 ** darker #060D28
 */
+input:focus{
+    outline: none;
+}
 
 /* search input for searching songs */
 .searchSongInput{
@@ -18,6 +21,10 @@
     box-shadow: 1px 1px 5px black;
     margin-bottom: 10px;
 }
+    /* style for when their is an error with the user input */
+    .inputErrorStyle{
+        border: 2px solid red !important;
+    }
 
 /* descriptive header for the workbench operation components */
 .workbenchOperationDescriptiveHeader{

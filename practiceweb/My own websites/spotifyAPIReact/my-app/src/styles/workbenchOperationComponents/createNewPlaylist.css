@@ -5,6 +5,7 @@
 
 }
     #createNewPlaylistContainer form{
+        position: relative;
         border: 2px solid lightblue;
         display: inline-block;
         padding: 40px 30px;
@@ -24,6 +25,10 @@
             box-shadow: 1px 1px 5px black;
             margin-bottom: 5px;
         }
+        #createNewPlaylistContainer input[type="radio"]{
+            height: 18px;
+            width: 18px;
+        }
         #createNewPlaylistContainer .createNewPlaylistLabelHeader{
             font-size:20px;
             margin-top: 15px;
@@ -33,4 +38,13 @@
             color: lightblue;
             text-shadow: .2px .2px 0px;
             margin: 4px;
+        }
+        /* error message for when user tries to make a playlist collaborative and public */
+        #createNewPlaylistFormPublicCollaborativeErrorMessage{
+            position : absolute;
+            color: red;
+            font-size: 10px;
+            width: 95%;
+            margin: 2.5%;
+            left: 0%;
         }

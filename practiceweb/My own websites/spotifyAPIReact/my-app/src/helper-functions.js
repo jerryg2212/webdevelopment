@@ -31,7 +31,7 @@ exports.spotifyAPIRequest = (requestURL, accessToken) => {
     return response;
 }
 
-exports.spotifyAPIRequestPost = (requestURL, accessToken) => {
+exports.spotifyAPIRequestPost = (requestURL, accessToken, requestBody = {}) => {
     let response = new Promise((resolve, reject) => {
         let request = new XMLHttpRequest();
         request.open("POST", requestURL, true);
@@ -48,7 +48,8 @@ exports.spotifyAPIRequestPost = (requestURL, accessToken) => {
         }
         request.setRequestHeader('Authorization', `Bearer ${accessToken}`);
         request.setRequestHeader('Content-type', 'application/json');
-        request.send();
+        console.log(requestBody);
+        request.send(requestBody);
     })
     return response;
 }
