@@ -24,11 +24,11 @@ class DisplayAllSongsInPlaylist extends SpotifyAPIBase{
        // let body = (this.state.activePlaylist) ? <DispalyAllPlaylists /> : <DispalyAllPlaylists />
      //  let body = (this.state.activePlaylist) ? this.changePlaylistSection : this.choosePlaylistSection;
      //                     {(this.state.activePlaylist) ? this.changePlaylistSection() : this.choosePlaylistSection()}
-     let body = (this.state.activePlaylist) ? this.changePlaylistSectionHeader.bind(this) : this.choosePlaylistSectionHeader.bind(this)
+     let header = (this.state.activePlaylist) ? this.changePlaylistSectionHeader.bind(this) : this.choosePlaylistSectionHeader.bind(this)
         return (
             <React.Fragment>
                 <div className="workbenchOperationDescriptiveHeader">
-                    {body()}
+                    {header()}
                 </div>
                 {this.state.activePlaylistTracks.length > 1 && this.activePlaylistSongsList()}
                 { !this.state.activePlaylist && <DispalyAllPlaylists rootThis={this.props.rootThis} playlistClickEvent={this.playlistClickEventHandler} accessToken={this.props.accessToken} />}
@@ -37,7 +37,7 @@ class DisplayAllSongsInPlaylist extends SpotifyAPIBase{
     }
     choosePlaylistSectionHeader(){
         return (
-                <p>Choose playlist to display songs from</p>
+                <h1>Choose playlist to display songs from</h1>
         )
     }
      changePlaylistSectionHeader(){

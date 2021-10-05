@@ -41,6 +41,7 @@ class DeleteSongsFromSongBankBody extends SpotifyAPIBase{
         if(ev.currentTarget.classList.contains('removeableSongListContainer')){
             ev.currentTarget.classList.remove('removeableSongListContainer');
             this.removeableSongs.delete(songId);
+            console.log(this.removeableSongs);
         }
         // songs is not already clicked so add it to the lsit of songs to remove
         else{
@@ -53,6 +54,7 @@ class DeleteSongsFromSongBankBody extends SpotifyAPIBase{
         try{
             let response = await deleteSongsFromSongBankRequest(this.userId, this.convertSetToArray(this.removeableSongs));
             await this.props.updateState();
+            this.removeableSongs.clear();
         }catch(err){
             this.handleResponseForErrors(err);
         }

@@ -31,7 +31,7 @@ class CreateNewPlaylist extends SpotifyAPIBase{
             <div id="createNewPlaylistContainer">
                 {error}
                 <header className="workbenchOperationDescriptiveHeader">
-                    <p>Create New Playlist</p>
+                    <h1>Create New Playlist</h1>
                 </header>
                 <form style={{marginTop : '30px'}} onSubmit={this.createNewPlaylistFormSubmitEventHandler}>
                     <label className={`createNewPlaylistLabelHeader`} style={{marginTop: "0px"}}>Playlist Name</label><br/>

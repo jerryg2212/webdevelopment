@@ -5,6 +5,7 @@ import DisplayAllSongsInPlaylist from './workbenchOptionComponents/displayAllSon
 import CompareTwoPlaylists from './workbenchOptionComponents/compareTwoPlaylists.js';
 import DisplaySongBank from './workbenchOptionComponents/displaySongBank.js';
 import CreateNewPlaylist from './workbenchOptionComponents/createNewPlaylist.js';
+import ManipulateAPlaylist from './workbenchOptionComponents/manipulateAPlaylist.js';
 
 class WorkBench extends React.Component{
     constructor(props){
@@ -20,7 +21,8 @@ class WorkBench extends React.Component{
             DisplayAllSongsInPlaylist : DisplayAllSongsInPlaylist,
             CompareTwoPlaylists : CompareTwoPlaylists,
             DisplaySongBank : DisplaySongBank,
-            CreateNewPlaylist : CreateNewPlaylist
+            CreateNewPlaylist : CreateNewPlaylist,
+            ManipulateAPlaylist : ManipulateAPlaylist
         }
         this.taskSelectChangeEventHandler = this.taskSelectChangeEvent.bind(this);
         this.activateOperationButtonClickEventHandler = this.activateOperationButtonClickEvent.bind(this);
@@ -53,7 +55,7 @@ class WorkBench extends React.Component{
         class WorkBenchTaskSelect extends React.Component{
             constructor(props){
                 super(props);
-                this.tasks = [{name: '     ', operationComponent : undefined}, {name : 'Display All Playlists', operationComponent : 'DisplayAllPlaylists'}, {name : 'Display All Songs In Playlist', operationComponent : 'DisplayAllSongsInPlaylist'}, {name : 'Compare Two Playlists', operationComponent : 'CompareTwoPlaylists'}, {name : 'Song Bank', operationComponent : 'DisplaySongBank'}, {name : 'Create New Playlist', operationComponent : 'CreateNewPlaylist'}];
+                this.tasks = [{name: '     ', operationComponent : undefined}, {name : 'Display All Playlists', operationComponent : 'DisplayAllPlaylists'}, {name : 'Display All Songs In Playlist', operationComponent : 'DisplayAllSongsInPlaylist'}, {name : 'Compare Two Playlists', operationComponent : 'CompareTwoPlaylists'}, {name : 'Song Bank', operationComponent : 'DisplaySongBank'}, {name : 'Create New Playlist', operationComponent : 'CreateNewPlaylist'}, {name : 'Manipulate A Playlist', operationComponent : 'ManipulateAPlaylist'}];
             }
             render(){
                 let options = this.makeOptions();
