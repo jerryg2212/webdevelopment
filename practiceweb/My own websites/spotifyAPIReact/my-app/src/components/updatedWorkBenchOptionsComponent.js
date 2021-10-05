@@ -2,7 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import '../styles/updatedWorkBenchOptionsComponent.css';
 
-
+// Notes
+    // parent element should have a value in the state thats value is the active operation component. And the updateParentState function passed to this component should update that value
 // class that returns a list of buttons that display the options for the current operation on the workbench
 // properties
     // updateParentState = a function that is called to update the parents state in order to render the newly active option

@@ -2,6 +2,7 @@ import React from 'react';
 import { SpotifyAPIBase } from '../helper-components';
 import '../../styles/displaySongBank.css';
 import WorkbenchOptionsComponent from '../workbenchOptionsComponent';
+import UpdatedWorkbenchOptionsComponent from '../updatedWorkBenchOptionsComponent';
 import DisplaySongBankBody from './songBankOperations/displaySongBankBody';
 import AddSongsToSongBankBody from './songBankOperations/addSongsToSongBankBody';
 import DeleteSongsFromSongBankBody from './songBankOperations/deleteSongsFromSongBankBody';
@@ -20,7 +21,8 @@ class DisplaySongBank extends SpotifyAPIBase{
         super(props);
         this.state = {
             songsFromSongBank : [],
-            operations : [{active : false, title : 'Add Songs', headerTitle : 'Add Songs To Song Bank', clickEventHandler : this.operationClickEvent.bind(this), display : "AddSongsToSongBankBody", id : 'addSongToSongBankButton'}, {active : false, title : 'Delete Songs', headerTitle : 'Delete Songs From Song Bank', clickEventHandler : this.operationClickEvent.bind(this), display : 'DeleteSongsFromSongBankBody', id : 'removeSongFromSongBankButton'}, {active : true, title : 'Display Songs', headerTitle : 'Display Songs In Song Bank', clickEventHandler : this.operationClickEvent.bind(this), display : 'DisplaySongBankBody', id : 'displaySongBankButton'}]
+            operations : [{active : false, title : 'Add Songs', headerTitle : 'Add Songs To Song Bank', clickEventHandler : this.operationClickEvent.bind(this), display : "AddSongsToSongBankBody", id : 'addSongToSongBankButton'}, {active : false, title : 'Delete Songs', headerTitle : 'Delete Songs From Song Bank', clickEventHandler : this.operationClickEvent.bind(this), display : 'DeleteSongsFromSongBankBody', id : 'removeSongFromSongBankButton'}, {active : true, title : 'Display Songs', headerTitle : 'Display Songs In Song Bank', clickEventHandler : this.operationClickEvent.bind(this), display : 'DisplaySongBankBody', id : 'displaySongBankButton'}],
+            activeOptionComponent : "DisplaySongBankBody"
         }
     }
     render(){
@@ -121,6 +123,9 @@ class DisplaySongBank extends SpotifyAPIBase{
             }
         }
         return <Body songs={this.state.songsFromSongBank} updateState={this.setSongsFromSongBank.bind(this)} rootThis={this.props.rootThis} accessToken={this.props.accessToken}/>;
+    }
+    updateActiveOptionComponent(newOptionComponent){
+        this.setState({activeOptionComponent : newOptionComponent});
     }
    /* returnActiveOperationBody(){
         let Body = BodyComponents[this.state.activeOperation];
