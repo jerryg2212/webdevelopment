@@ -1,0 +1,35 @@
+
+
+#manipulateAPlaylistBody{
+    margin-top: 20px;
+}
+
+/* flex container for the add songs from song bank option */
+#manipulateAPlaylistAddSongsFromSongBankOption{
+    display: flex;
+    flex-wrap: wrap;
+}
+    /* container that holds the song bank songs */
+    #manipulateAPlaylistAddSongsFromSongBankSongBankSongs{
+        flex: 1 1 33%;
+        text-align: center;
+        box-shadow: 2px 0px lightblue;
+    }
+        /* label for the checkbox to select all songs */
+        #manipulateAPlaylistAddSongsFromSongBankSongBankSongs label{
+            display: block;
+            margin-top: 5px;
+            color: lightblue;
+            font-size: 18px;
+        }
+        /* checkbox to select all songs */
+        #manipulateAPlaylistAddSongsFromSongBankSongBankSongs input[type="checkbox"]{
+            width: 18px;
+            height: 18px;
+            margin-left: 5px;
+        }
+    /* container that holds the playlist songs */
+    #manipulateAPlaylistAddSongsFromSongBankPlaylistSongs{
+        flex: 1 1 67%;
+        text-align: center;
+    }

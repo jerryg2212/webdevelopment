@@ -10,7 +10,7 @@ import '../styles/updatedWorkBenchOptionsComponent.css';
     // activeOptionComponent = the active option
     // options = an array of objects describing the options
         // the objects in the array of options have the following properties 
-        //{id = id of button, textContent = buttons text, active = boolean whether or not the option is active}
+        //{optionComponent = name of the component the option should render when active, textContent = buttons text}
 class UpdatedWorkbenchOptionsComponent extends React.Component{
     constructor(props){
         super(props);

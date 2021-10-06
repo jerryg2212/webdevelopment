@@ -10,6 +10,7 @@ import {SpotifyAPIBase} from './helper-components.js'
 // props : 
 // rootThis - reference to the root component for the purposes of the spotifyAPIBase component
 // submitEventHandler - function to run when the submit button is clicked
+// accessToken = the access token
 class SearchSongControlComponent extends SpotifyAPIBase{
     constructor(props){
         super(props);
@@ -67,7 +68,7 @@ class SearchSongControlComponent extends SpotifyAPIBase{
     addSongToSongBankButtonSubmitEvent(ev){
         if(this.state.activeSongId == ''){return}
         this.inputElementRef.current.focus();
-        this.props.submitEventHandler();
+        this.props.submitEventHandler(this.state.activeSongUri);
         this.setState({
             activeSongUri : '',
             activeSongId : '',

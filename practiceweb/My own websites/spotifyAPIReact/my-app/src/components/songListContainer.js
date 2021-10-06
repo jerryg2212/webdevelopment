@@ -2,7 +2,10 @@ import React from 'react';
 import SongListColumn from './songListColumn';
 import '../styles/songListContainer.css';
 
-
+// properties
+    // songList = array of song objects
+    // columns = amount of columns to display
+    // listItemClickEventHandler = function to run when each song container is clicked
 class SongListContainer extends React.Component{
     constructor(props){
         super(props);

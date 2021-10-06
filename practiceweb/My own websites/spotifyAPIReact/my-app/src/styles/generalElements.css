@@ -82,6 +82,16 @@ input:focus{
     letter-spacing: .3px;
 }
 
+/* headers */
+.primaryHeader{
+    color: #121B40;
+}
+.secondaryHeader{
+    color: lightblue;
+    text-shadow: .5px .5px .5px black;
+    margin: 5px;
+}
+
 /* absolute postion element class */
 .positionAbsolute{
     position : absolute;

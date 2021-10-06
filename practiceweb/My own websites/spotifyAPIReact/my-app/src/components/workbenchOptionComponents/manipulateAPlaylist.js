@@ -1,8 +1,14 @@
 import React from 'react';
+import '../../styles/workbenchOperationComponents/manipulateAPlaylist.css';
 import { SpotifyAPIBase } from '../helper-components';
 import DispalyAllPlaylists from './displayAllPlaylists';
 import {spotifyAPIRequest} from '../../helper-functions.js';
 import UpdatedWorkbenchOptionsComponent from '../updatedWorkBenchOptionsComponent';
+import DisplaySongsOption from './manipulateAPlaylistOptions/displaySongsOption';
+import AddSongsOption from './manipulateAPlaylistOptions/addSongsOption';
+import AddSongsFromSongBankOption from './manipulateAPlaylistOptions/addSongsFromSongBankOption';
+import DeleteSongsOption from './manipulateAPlaylistOptions/deleteSongsOption';
+import MoveSongsOption from './manipulateAPlaylistOptions/moveSongsOption';
 
 /* component that gives user the ability to add songs to a playlist by searching and from song bank, delete songs, display songs and later delete songs */
 class ManipulateAPlaylist extends SpotifyAPIBase{
@@ -36,7 +42,7 @@ class ManipulateAPlaylist extends SpotifyAPIBase{
                 {header()}
                 {this.state.activePlaylist && <UpdatedWorkbenchOptionsComponent updateParentState={this.updateActiveOperationComponentState.bind(this)} activeOptionComponent={this.state.activeOptionComponent} options={[{optionComponent : 'DisplaySongsOption', textContent : "Display Songs"}, {optionComponent : 'AddSongsOption', textContent : 'Add Songs'}, {optionComponent : 'AddSongsFromSongBankOption', textContent : "Add Songs From Song Bank"}, {optionComponent : 'DeleteSongsOption', textContent : "DeleteSongs"}, {optionComponent : 'MoveSongsOption', textContent : 'Move Songs'}]} />}
                 { !this.state.activePlaylist && <DispalyAllPlaylists rootThis={this.props.rootThis} playlistClickEvent={this.playlistClickEventHandler} accessToken={this.props.accessToken} />}
-                { this.state.activePlaylist && <div id="manipulateAPlaylistBody"><ActiveOptionComponent/></div>}
+                { this.state.activePlaylist && <div id="manipulateAPlaylistBody"><ActiveOptionComponent playlistTracks={this.state.activePlaylistTracks} updateParentsTracks={this.updateActivePlaylistTracks.bind(this)} rootThis={this.props.rootThis} accessToken={this.props.accessToken} playlistId={this.state.activePlaylistId}/></div>}
             </div>
         )
     }
@@ -102,71 +108,14 @@ class ManipulateAPlaylist extends SpotifyAPIBase{
     updateActiveOperationComponentState(newActiveOption){
         this.setState({activeOptionComponent : newActiveOption})
     }
-    // returns the number of columns wanted based on how many songs their are in the active playlist
-    amountOfColumns(){
-        return  Math.min(Math.ceil(this.state.activePlaylistTracks.length / 40), 3);
-        
+    // function that updates the tracks in the state
+    updateActivePlaylistTracks(){
+        this.setTracks(this.state.activePlaylistId);
     }
     changePlaylistButtonClickEvent(ev){
         this.setState({activePlaylist : false, activePlaylistTracks : []})
     }
 }
 
-// components for each of the buttons functions
-    // component for the display songs option
-    class DisplaySongsOption extends React.Component{
-        constructor(props){
-            super(props);
-        }
-        render(){
-            return (
-                "this is the display songs option"
-            )
-        }
-    }
-    // component for the add songs option
-    class AddSongsOption extends React.Component{
-        constructor(props){
-            super(props);
-        }
-        render(){
-            return (
-                'this is the add songs option'
-            )
-        }
-    }
-    // component for the add songs from song bank option
-    class AddSongsFromSongBankOption extends React.Component{
-        constructor(props){
-            super(props);
-        }
-        render(){
-            return(
-                "this is the add songs from song bank option"
-            )
-        }
-    }
-    // component for the delete songs from song bank option
-    class DeleteSongsOption extends React.Component{
-        constructor(props){
-            super(props);
-        }
-        render(){
-            return(
-                "this is the delete songs option"
-            )
-        }
-    }
-    // component for the move songs option
-    class MoveSongsOption extends React.Component{
-        constructor(props){
-            super(props);
-        }
-        render(){
-            return(
-                "this is the move songs option"
-            )
-        }
-    }
 
 export default ManipulateAPlaylist

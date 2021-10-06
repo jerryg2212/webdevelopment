@@ -143,6 +143,23 @@ exports.deleteSongsFromSongBankRequest = (userId, deleteableSongs) => {
     return response
 }
 
+// returns the number of columns wanted based on how many songs their are in the active playlist
+// parameters
+    // amountOfSongs = the amount of songs that are to be displayed
+exports.amountOfColumns = function(amountOfSongs){
+        return  Math.min(Math.ceil(amountOfSongs / 40), 3);
+    }
+
+// function that given an array of song ids returns the url needed to request to spotify to receive the list of tracks
+exports.getSongsRequestUrl = function(songs){
+    let baseUrl = 'https://api.spotify.com/v1/tracks?ids=';
+    for(let song of songs){
+        baseUrl += `${song},`;
+    }
+    baseUrl = baseUrl.slice(0, -1);
+    return baseUrl
+}
+
 
 // function given spotify api song trims down the name into display format
 exports.trimSongName = (name) => {
