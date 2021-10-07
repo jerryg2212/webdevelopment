@@ -1,6 +1,8 @@
 import React from 'react';
 
 
+// props
+    // activeClassAdder = a function that takes the song id as a parameter and return true or false in order to add the active class or not
 class SongListColumn extends React.Component{
     constructor(props){
         super(props);
@@ -17,7 +19,7 @@ class SongListColumn extends React.Component{
     goThroughTrackDisplay(){
         return(
             this.props.songs.map((elm, index, arr) => (
-                <div className="songListContainer" key={elm.id} onClick={(this.props.listItemClickEventHandler) ? this.props.listItemClickEventHandler.bind(this, elm.id) : undefined}>
+                <div className={`songListContainer ${(this.props.activeClassAdder(elm.id)) ? 'removeableSongListContainer' : ''}`} key={elm.id} onClick={(this.props.listItemClickEventHandler) ? this.props.listItemClickEventHandler.bind(this, elm.id) : undefined}>
                     <img src={(elm.track.album.images[2]) ? elm.track.album.images[2].url : ''} />
                     <p>
                         <span>{elm.track.name}</span>
@@ -32,7 +34,7 @@ class SongListColumn extends React.Component{
     trackDisplay(){
         return (
             this.props.songs.map((elm, index, arr) => (
-                <div className="songListContainer" key={elm.id} onClick={(this.props.listItemClickEventHandler) ? this.props.listItemClickEventHandler.bind(this, elm.id) : undefined}>
+                <div className={`songListContainer ${(this.props.activeClassAdder(elm.id)) ? 'removeableSongListContainer' : ''}`} key={elm.id} onClick={(this.props.listItemClickEventHandler) ? this.props.listItemClickEventHandler.bind(this, elm.id) : undefined}>
                     <img src={(elm.album.images[2]) ? elm.album.images[2].url : ''} />
                     <p>
                         <span>{elm.name}</span>
@@ -43,6 +45,5 @@ class SongListColumn extends React.Component{
                 )
         )
     }
-
 }
 export default SongListColumn

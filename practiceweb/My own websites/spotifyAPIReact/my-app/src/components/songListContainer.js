@@ -6,6 +6,7 @@ import '../styles/songListContainer.css';
     // songList = array of song objects
     // columns = amount of columns to display
     // listItemClickEventHandler = function to run when each song container is clicked
+    // activeClassAdder = a function that is passed to songListColumn and takes the song id as a parameter and return true or false in order to add the active class or not
 class SongListContainer extends React.Component{
     constructor(props){
         super(props);
@@ -15,7 +16,7 @@ class SongListContainer extends React.Component{
         return (
             <div className="activePlaylistSongsListContainer">
                 {this.splitSongs().map((elm, ind, arr) => (
-                    <SongListColumn key={ind} songs={elm} listItemClickEventHandler={this.props.listItemClickEventHandler}/>
+                    <SongListColumn key={ind} songs={elm} listItemClickEventHandler={this.props.listItemClickEventHandler} activeClassAdder={this.props.activeClassAdder}/>
                 ))}
             </div>
         )
@@ -33,5 +34,7 @@ class SongListContainer extends React.Component{
         return result;
     }
 }
-
+SongListContainer.defaultProps = {
+    activeClassAdder : (id) => {return false}
+}
 export default SongListContainer

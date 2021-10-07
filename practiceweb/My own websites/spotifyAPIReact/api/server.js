@@ -9,7 +9,7 @@ const axios = require('axios');
 const MongoClient = require('mongodb').MongoClient;
 
 let mongodbUrl = 'mongodb+srv://jerryg2212:Baseball22@cluster0.cirov.mongodb.net/spotifyAPI?retryWrites=true&w=majority';
-
+//mongodbUrl = 'mongodb://jerryg2212:Baseball22@cluster0-shard-00-00.cirov.mongodb.net:27017,cluster0-shard-00-01.cirov.mongodb.net:27017,cluster0-shard-00-02.cirov.mongodb.net:27017/spotifyAPI?ssl=true&replicaSet=atlas-13kfwf-shard-0&authSource=admin&retryWrites=true&w=majority'
 app.use(cors());
 app.use(express.urlencoded({
     extended: true
@@ -174,7 +174,7 @@ app.get('/api/getSongsFromSongBank', async (req, res) => {
         res.send(songIds);
     }catch(err){
         console.log(err);
-        res.status(410).send({message : 'error accessing the database'});
+        res.status(410).send({message : 'error accessiklj;ng the database'});
     }
 })
 

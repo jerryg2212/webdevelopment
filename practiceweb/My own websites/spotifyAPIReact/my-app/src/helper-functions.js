@@ -107,7 +107,7 @@ exports.getSongsFromSongBankRequest = (userId) => {
                 if(request.status != 410){
                     resolve(request.responseText)
                 }else{
-                    console.log('rejected');
+                    console.log('rejected get songs from song bank');
                     reject(request)
                 }
             }
