@@ -97,6 +97,7 @@ app.get('/api/callback', (req, res) => {
 
 // uses user id sent by query parameters to get users banked songs from mongodb database
 app.get('/api/addSongToSongBank', async (req, res) => {
+    console.log('add songs to song bank ran');
     let userId = req.query.userId;
    // let songUri = req.query.songUri;
     let songId = req.query.songId;
@@ -127,7 +128,7 @@ app.get('/api/addSongToSongBank', async (req, res) => {
         res.send(user.songBank);
     }catch(err){
         console.log(err);
-        res.status(410).send({message : 'error accessing the database'});
+        res.status(410).send({message : 'errors accessing the database'});
     }
 })
 
@@ -153,12 +154,13 @@ app.get('/api/deleteSongsFromSongBank', async (req, res) => {
         res.send();
     }catch(err){
         console.log(err);
-        res.status(410).send({message : 'error accessing the database'});
+        res.status(410).send({message : 'errorssss accessing the database'});
     }
 })
 
 // returns the songs the user has in song bank
-app.get('/api/getSongsFromSongBank', async (req, res) => {
+app.get('/api/getSongsFromSongBannk', async (req, res) => {
+    console.log('get songs form song bank ran');
     let userId = req.query.userId;
     let songIds = []
     try{
@@ -176,6 +178,7 @@ app.get('/api/getSongsFromSongBank', async (req, res) => {
         console.log(err);
         res.status(410).send({message : 'error accessiklj;ng the database'});
     }
+    res.status(405).send({message : 'sdlkjfa;klfds'});
 })
 
 app.post('/token', (req, res) => {

@@ -49,6 +49,7 @@ class AddSongsFromSongBankOption extends SpotifyAPIBase{
         return new Promise(async (resolve, reject) => {
             try{
                 let songIdsFromSongBankResponse = await getSongsFromSongBankRequest(this.userId);
+                console.log('did not fail getting the ids');
                 let songIdsFromSongBank = JSON.parse(songIdsFromSongBankResponse);
                 resolve(songIdsFromSongBank);
             }catch(err){

@@ -108,12 +108,12 @@ exports.getSongsFromSongBankRequest = (userId) => {
                     resolve(request.responseText)
                 }else{
                     console.log('rejected get songs from song bank');
-                    reject(request)
+                    reject(request);
                 }
             }
 
         }
-        request.open('GET', `/api/getSongsFromSongBank?userId=${userId}`, true);
+        request.open('GET', `/api/getSongsFromSongBannk?userId=${userId}`, true);
         request.send();
     })
     return response
