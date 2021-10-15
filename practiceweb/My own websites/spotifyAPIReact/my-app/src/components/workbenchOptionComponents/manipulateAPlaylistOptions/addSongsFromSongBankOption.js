@@ -14,7 +14,7 @@ import {getSongsFromSongBankRequest, getSongsRequestUrl, spotifyAPIRequest, comm
 class AddSongsFromSongBankOption extends SpotifyAPIBase{
     constructor(props){
         super(props);
-        this.state = {songsFromSongBank : [], selectedSongBankSongs : new Set(), selectedSongBankSongsUris : new Set()}
+        this.state = {songsFromSongBank : [], selectedSongBankSongsUris : new Set()}
         this.selectAllChangeEventHandler = this.selectAllChangeEvent.bind(this);
         // ref to the checkbox
         this.selectAllSongsCheckBox = React.createRef();
@@ -92,7 +92,7 @@ class AddSongsFromSongBankOption extends SpotifyAPIBase{
             selectedSongBankSongsUris.add(elm.uri);
         }
 
-        this.setState({/*selectedSongBankSongs : selectedSongBankSongs,*/ selectedSongBankSongsUris : selectedSongBankSongsUris});
+        this.setState({selectedSongBankSongsUris : selectedSongBankSongsUris});
     }
     // change event handler for the checkbox that either selects or deselects all the songs
     selectAllChangeEvent(ev){
@@ -107,7 +107,7 @@ class AddSongsFromSongBankOption extends SpotifyAPIBase{
         else{
             selectedSongBankSongsUris.clear();
         }
-        this.setState({/*selectedSongBankSongs : selectedSongBankSongs,*/ selectedSongBankSongsUris : selectedSongBankSongsUris});
+        this.setState({selectedSongBankSongsUris : selectedSongBankSongsUris});
     }
     // function that give the song id returns true or false depending on whether or not the song is selected
     activeClassAdder(id, uri){

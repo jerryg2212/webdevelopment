@@ -5,31 +5,36 @@
 }
 
 /* flex container for the add songs from song bank option */
-#manipulateAPlaylistAddSongsFromSongBankOption{
+#manipulateAPlaylistAddSongsFromSongBankOption, #manipulateAPlaylistAddSongsToSongBankOption{
     display: flex;
     flex-wrap: wrap;
 }
     /* container that holds the song bank songs */
-    #manipulateAPlaylistAddSongsFromSongBankSongBankSongs{
+    #manipulateAPlaylistAddSongsFromSongBankSongBankSongs, #manipulateAPlaylistAddSongsToSongBankSongBankSongs{
         flex: 1 1 33%;
         text-align: center;
         box-shadow: 2px 0px lightblue;
     }
+        /* submit button */
+        #manipulateAPlaylistAddSongsFromSongBankSongBankSongs .secondaryButtonStyle, #manipulateAPlaylistDeleteSongsOption .secondaryButtonStyle, #manipulateAPlaylistAddSongsToSongBankSongBankSongs .secondaryButtonStyle{
+            display:block;
+            margin: 5px auto;
+        }
         /* label for the checkbox to select all songs */
-        #manipulateAPlaylistAddSongsFromSongBankSongBankSongs label, #manipulateAPlaylistDeleteSongsOption label{
-            display: block;
+        #manipulateAPlaylistAddSongsFromSongBankSongBankSongs label, #manipulateAPlaylistDeleteSongsOption label, #manipulateAPlaylistAddSongsToSongBankSongBankSongs label{
+            display: inline-block;
             margin-top: 5px;
             color: lightblue;
             font-size: 18px;
         }
         /* checkbox to select all songs */
-        #manipulateAPlaylistAddSongsFromSongBankSongBankSongs input[type="checkbox"]{
+        #manipulateAPlaylistAddSongsFromSongBankSongBankSongs input[type="checkbox"], #manipulateAPlaylistAddSongsToSongBankSongBankSongs input[type="checkbox"]{
             width: 18px;
             height: 18px;
             margin-left: 5px;
         }
     /* container that holds the playlist songs */
-    #manipulateAPlaylistAddSongsFromSongBankPlaylistSongs{
+    #manipulateAPlaylistAddSongsFromSongBankPlaylistSongs, #manipulateAPlaylistAddSongsToSongBankPlaylistSongs{
         flex: 1 1 67%;
         text-align: center;
     }
