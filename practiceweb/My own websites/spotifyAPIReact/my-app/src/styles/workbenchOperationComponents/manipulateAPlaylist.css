@@ -16,19 +16,19 @@
         box-shadow: 2px 0px lightblue;
     }
         /* submit button */
-        #manipulateAPlaylistAddSongsFromSongBankSongBankSongs .secondaryButtonStyle, #manipulateAPlaylistDeleteSongsOption .secondaryButtonStyle, #manipulateAPlaylistAddSongsToSongBankSongBankSongs .secondaryButtonStyle{
+        #manipulateAPlaylistAddSongsFromSongBankSongBankSongs .secondaryButtonStyle, #manipulateAPlaylistDeleteSongsOption .secondaryButtonStyle, #manipulateAPlaylistAddSongsToSongBankPlaylistSongs .secondaryButtonStyle{
             display:block;
             margin: 5px auto;
         }
         /* label for the checkbox to select all songs */
-        #manipulateAPlaylistAddSongsFromSongBankSongBankSongs label, #manipulateAPlaylistDeleteSongsOption label, #manipulateAPlaylistAddSongsToSongBankSongBankSongs label{
+        #manipulateAPlaylistAddSongsFromSongBankSongBankSongs label, #manipulateAPlaylistDeleteSongsOption label, #manipulateAPlaylistAddSongsToSongBankPlaylistSongs label{
             display: inline-block;
             margin-top: 5px;
             color: lightblue;
             font-size: 18px;
         }
         /* checkbox to select all songs */
-        #manipulateAPlaylistAddSongsFromSongBankSongBankSongs input[type="checkbox"], #manipulateAPlaylistAddSongsToSongBankSongBankSongs input[type="checkbox"]{
+        #manipulateAPlaylistAddSongsFromSongBankSongBankSongs input[type="checkbox"], #manipulateAPlaylistAddSongsToSongBankPlaylistSongs input[type="checkbox"]{
             width: 18px;
             height: 18px;
             margin-left: 5px;

@@ -97,11 +97,12 @@ app.get('/api/callback', (req, res) => {
 
 // uses user id sent by query parameters to get users banked songs from mongodb database
 app.get('/api/addSongToSongBank', async (req, res) => {
-    console.log('add songs to song bank ran');
+    console.log('add song to song bank ran');
     let userId = req.query.userId;
    // let songUri = req.query.songUri;
     let songId = req.query.songId;
     try{
+        if(songId == null) throw new Error();
         // getting the proper collection to search from
             let client = await MongoClient.connect(mongodbUrl);
             let collection = await client.db('spotifyAPI').collection('songBank');
@@ -131,6 +132,41 @@ app.get('/api/addSongToSongBank', async (req, res) => {
         res.status(410).send({message : 'errors accessing the database'});
     }
 })
+// adds multiple songs to the song bank
+app.post('/api/addSongsToSongBank/', async (req, res) => {
+    let songs = req.body.songs;
+    let userId = req.query.userId;
+     try{
+        // gets the collection
+        let collection = await getMongoCollection();
+        // finds the user
+        let user = await collection.findOne({userId : userId});
+        let songBank;
+        // sets the song bank to empty if user is null, else the songbank is the users songBank
+            if(user == null){songBank = [];}
+            else{songBank = user.songBank;}
+            console.log(`this is the user ${user}`);
+        // gets the new songBank after it adds the new songs to the song Bank
+        songBank = getNewSongBank(songBank, songs);
+        // either creates a new user if user is null or saves the new songBank to the old user
+            // user is null so create user
+            if(user == null){
+                // create user
+                collection.insertOne({
+                    userId : userId,
+                    songBank : songBank
+                })
+            }else{
+                collection.updateOne({userId : userId},{
+                    $set : {userId : userId, songBank : songBank}
+                }) 
+            }
+            res.send(songBank);
+     }catch(err){
+         console.log(err);
+         res.status(410).send({message : 'error accessing the database'});
+     }
+})
 
 // deletes the songs from the song bank
 app.get('/api/deleteSongsFromSongBank', async (req, res) => {
@@ -159,7 +195,7 @@ app.get('/api/deleteSongsFromSongBank', async (req, res) => {
 })
 
 // returns the songs the user has in song bank
-app.get('/api/getSongsFromSongBannnk', async (req, res) => {
+app.get('/api/getSongsFromSongBannnnk', async (req, res) => {
     console.log('get songs form song bank ran');
     let userId = req.query.userId;
     let songIds = []
@@ -226,4 +262,19 @@ function stringifyScopes(Scopes){
         result += ` ${Scopes[scope]}`
     }
     return result;
+}
+// function that adds songs to the songBank
+// parameters
+    // songBank = the users songBank
+    // songs = an array on songs that needs to be added to the song bank
+// returns
+    // songBank = the users updated songBank
+function getNewSongBank(songBank, songs){
+    songBank = new Set(songBank);
+    for(let song of songs){
+        if(!songBank.has(song)){
+            songBank.add(song);
+        }
+    }
+    return Array.from(songBank.values());
 }

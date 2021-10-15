@@ -101,6 +101,7 @@ class ManipulateAPlaylist extends SpotifyAPIBase{
                 songs = songs.concat(tracksPagingObject.items);
                 nextHref = tracksPagingObject.next;
             }
+            songs = this.removeDuplicateSongs(songs);
             this.setState({
                 activePlaylistTracks : songs
             })
@@ -118,6 +119,27 @@ class ManipulateAPlaylist extends SpotifyAPIBase{
     }
     changePlaylistButtonClickEvent(ev){
         this.setState({activePlaylist : false, activePlaylistTracks : []})
+    }
+    // removes duplicate songs in the playlist because duplicate songs causes bugs
+    removeDuplicateSongs(songs){
+        let setOfSongs = new Set();
+        let resultSongs = [];
+        for (let song of songs){
+            if(setOfSongs.has(song.track.uri)){}
+            else{resultSongs.push(song);setOfSongs.add(song.track.uri);}
+        }
+        console.log(resultSongs);
+        return resultSongs;
+    }
+    // function that returns the array of songs returned from Spotify in the right format. Sometimes the Spotify API returns a Song object with a Track object nested inside it with information from the song. So we reduce the Track with the Song object
+    transitionResponseSongsToFormat(songs){
+        let result = []
+        if(songs.track){
+            for(let song of songs){
+                result.push(song.track);
+            }
+        }else{}
+        return result
     }
 }
 

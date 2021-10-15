@@ -19,7 +19,7 @@ class SongListColumn extends React.Component{
     goThroughTrackDisplay(){
         return(
             this.props.songs.map((elm, index, arr) => (
-                <div className={`songListContainer ${(this.props.activeClassAdder(elm.track.id, elm.track.uri)) ? 'removeableSongListContainer' : ''}`} key={elm.id} onClick={(this.props.listItemClickEventHandler) ? this.props.listItemClickEventHandler.bind(this, elm.track.id, elm.track) : undefined}>
+                <div className={`songListContainer ${(this.props.activeClassAdder(elm.track.id, elm.track.uri)) ? 'removeableSongListContainer' : ''}`} key={elm.track.id} onClick={(this.props.listItemClickEventHandler) ? this.props.listItemClickEventHandler.bind(this, elm.track.id, elm.track) : undefined}>
                     <img src={(elm.track.album.images[2]) ? elm.track.album.images[2].url : ''} />
                     <p>
                         <span>{elm.track.name}</span>

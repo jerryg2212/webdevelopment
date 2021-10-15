@@ -1,7 +1,7 @@
 import React from 'react';
 import { SpotifyAPIBase } from '../../helper-components';
 import SongListContainer from '../../songListContainer';
-import {getSongsFromSongBankRequest, getSongsRequestUrl, spotifyAPIRequest, commaSeperatedItemsUrl, spotifyAPIRequestPost} from '../../../helper-functions';
+import {getSongsFromSongBankRequest, getSongsRequestUrl, spotifyAPIRequest, commaSeperatedItemsUrl, spotifyAPIRequestPost, addSongsToSongBankRequest} from '../../../helper-functions';
 
 
 // component for the add songs to song bank option
@@ -15,7 +15,7 @@ import {getSongsFromSongBankRequest, getSongsRequestUrl, spotifyAPIRequest, comm
 class AddSongsToSongBankOption extends SpotifyAPIBase{
     constructor(props){
         super(props);
-        this.state = {songsFromSongBank : [], selectedSongBankSongsUris : new Set()}
+        this.state = {songsFromSongBank : [], selectedPlaylistSongsIds : new Set()}
         this.selectAllChangeEventHandler = this.selectAllChangeEvent.bind(this);
         // ref to the checkbox
         this.selectAllSongsCheckBox = React.createRef();
@@ -27,13 +27,13 @@ class AddSongsToSongBankOption extends SpotifyAPIBase{
                 {error}
                 <div id="manipulateAPlaylistAddSongsToSongBankSongBankSongs">
                     <h1 className="secondaryHeader">Song Bank</h1>
-                    <button className="secondaryButtonStyle" onClick={this.addSongsButtonClickEvent.bind(this)}>Add Songs</button>
-                    <label >Select All<input type="checkbox" onChange={this.selectAllChangeEventHandler} ref={this.selectAllSongsCheckBox}></input></label>
-                    {(this.state.songsFromSongBank.length != 0) && <SongListContainer columns={1} songList={this.state.songsFromSongBank} listItemClickEventHandler={this.songBankSongContainerClickEvent.bind(this)} activeClassAdder={this.activeClassAdder.bind(this)} />}
+                    {(this.state.songsFromSongBank.length != 0) && <SongListContainer columns={1} songList={this.state.songsFromSongBank}/>}
                 </div>
                 <div id="manipulateAPlaylistAddSongsToSongBankPlaylistSongs">
                     <h1 className="secondaryHeader">Playlist</h1>
-                    {(this.props.playlistTracks.length != 0) && <SongListContainer songList={this.props.playlistTracks} columns={2}/>}
+                    <button className="secondaryButtonStyle" onClick={this.addSongsButtonClickEvent.bind(this)}>Add Songs</button>
+                    <label >Select All<input type="checkbox" onChange={this.selectAllChangeEventHandler} ref={this.selectAllSongsCheckBox}></input></label>
+                    {(this.props.playlistTracks.length != 0) && <SongListContainer songList={this.props.playlistTracks} listItemClickEventHandler={this.playlistSongContainerClickEvent.bind(this)} activeClassAdder={this.activeClassAdder.bind(this)}  columns={2}/>}
                 </div>
             </div>
         )
@@ -82,56 +82,57 @@ class AddSongsToSongBankOption extends SpotifyAPIBase{
         }
     }
     // click event handler for the song container that either adds or removes the songId from the selected songs
-    songBankSongContainerClickEvent(songId, elm, ev){
-        let selectedSongBankSongsUris = this.state.selectedSongBankSongsUris;
+    playlistSongContainerClickEvent(songId, elm, ev){
+        let selectedPlaylistSongsIds = this.state.selectedPlaylistSongsIds;
         // item is already selected so deselect it
-        if(selectedSongBankSongsUris.has(elm.uri)){
-            selectedSongBankSongsUris.delete(elm.uri);
+        if(selectedPlaylistSongsIds.has(elm.id)){
+            selectedPlaylistSongsIds.delete(elm.id);
         }
         // item is not selected so select it
         else{
-            selectedSongBankSongsUris.add(elm.uri);
+            selectedPlaylistSongsIds.add(elm.id);
         }
 
-        this.setState({selectedSongBankSongsUris : selectedSongBankSongsUris});
+        this.setState({selectedPlaylistSongsIds : selectedPlaylistSongsIds});
     }
     // change event handler for the checkbox that either selects or deselects all the songs
     selectAllChangeEvent(ev){
-        let selectedSongBankSongsUris = this.state.selectedSongBankSongsUris;
+        let selectedPlaylistSongsIds = this.state.selectedPlaylistSongsIds;
         // if the box is checked
         if(ev.target.checked){
-            for(let song of this.state.songsFromSongBank){
-                selectedSongBankSongsUris.add(song.uri);
+            for(let track of this.props.playlistTracks){
+                selectedPlaylistSongsIds.add(track.track.id);
             }
         }
         // if the box is not checked
         else{
-            selectedSongBankSongsUris.clear();
+            selectedPlaylistSongsIds.clear();
         }
-        this.setState({selectedSongBankSongsUris : selectedSongBankSongsUris});
+        this.setState({selectedPlaylistSongsIds : selectedPlaylistSongsIds});
     }
     // function that give the song id returns true or false depending on whether or not the song is selected
     activeClassAdder(id, uri){
-        return this.state.selectedSongBankSongsUris.has(uri);
+        return this.state.selectedPlaylistSongsIds.has(id);
     }
     // click event handler for the add songs button that adds the songs to the playlist then refreshes
     async addSongsButtonClickEvent(ev){
-     /*   // if their are no selected songs return
-        if(this.state.selectedSongBankSongsUris.size < 1){return}
-        let url = commaSeperatedItemsUrl(`https://api.spotify.com/v1/playlists/${this.props.playlistId}/tracks?uris=`)(this.state.selectedSongBankSongsUris.values());
-        console.log(`this is the url ${url}`);
+        // if their are no selected songs return
+        if(this.state.selectedPlaylistSongsIds.size < 1){return}
         try{
-            let response = await spotifyAPIRequestPost(url, this.props.accessToken);
-            this.props.updateParentsTracks();
-            // clearing the selected song bank songs uris and saving it so their active class goes away
-                let selectedSongBankSongsUris = this.state.selectedSongBankSongsUris;
-                selectedSongBankSongsUris.clear();
+            let body = {songs : Array.from(this.state.selectedPlaylistSongsIds.values())}
+            body = JSON.stringify(body);
+            let response = await addSongsToSongBankRequest(this.userId, body);
+            // update the song bank
+            await this.setSongs();
+                // clearing the selected song bank songs uris and saving it so their active class goes away
+                let selectedPlaylistSongsIds = this.state.selectedPlaylistSongsIds;
+                selectedPlaylistSongsIds.clear();
                 this.selectAllSongsCheckBox.current.checked = false;
-                this.setState({selectedSongBankSongsUris : selectedSongBankSongsUris})
+                this.setState({selectedPlaylistSongsIds : selectedPlaylistSongsIds})
         }catch(err){
             this.handleResponseForErrors(err);
             console.log(err);
-        }*/
+        }
     }
 }
 

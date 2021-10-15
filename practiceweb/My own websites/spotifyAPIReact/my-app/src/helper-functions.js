@@ -119,6 +119,30 @@ exports.addSongToSongBankRequest = (userId, songId) => {
     })
     return response
 }
+// function that given user id makes a request to server that adds songs to users song bank or error
+//parameters
+    // songs = {songs : [id1, id2, id3]}
+exports.addSongsToSongBankRequest = (userId, songs) => {
+    let response = new Promise((resolve, reject) => {
+        let request = new XMLHttpRequest();
+        request.onreadystatechange = () => {
+            if(request.readyState == 4){
+                console.log(`server response from song bank request ${request.responseText}`);
+                if(request.status != 410){
+                    resolve(request.responseText)
+                }else{
+                    console.log('rejected');
+                    reject(request)
+                }
+            }
+
+        }
+        request.open('POST', `/api/addSongsToSongBank?userId=${userId}`, true);
+        request.setRequestHeader('Content-type', 'application/json');
+        request.send(songs);
+    })
+    return response
+}
 // function that given userId makes a request to server that returns the users songbank
 exports.getSongsFromSongBankRequest = (userId) => {
     let response = new Promise((resolve, reject) => {
@@ -134,7 +158,7 @@ exports.getSongsFromSongBankRequest = (userId) => {
             }
 
         }
-        request.open('GET', `/api/getSongsFromSongBannnk?userId=${userId}`, true);
+        request.open('GET', `/api/getSongsFromSongBannnnk?userId=${userId}`, true);
         request.send();
     })
     return response
@@ -189,6 +213,17 @@ exports.commaSeperatedItemsUrl = function(baseURL){
         baseURL = baseURL.slice(0, -1);
         return baseURL
     }
+}
+
+// function that returns the array of songs returned from Spotify in the right format. Sometimes the Spotify API returns a Song object with a Track object nested inside it with information from the song. So we reduce the Track with the Song object
+exports.transitionResponseSongsToFormat = function(songs){
+    let result = []
+    if(songs.track){
+        for(let song of songs){
+            result.push(song.track);
+        }
+    }else{}
+    return result
 }
 
 
