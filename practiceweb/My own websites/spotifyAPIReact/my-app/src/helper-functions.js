@@ -75,6 +75,28 @@ exports.spotifyAPIRequestPut = (requestURL, accessToken) => {
     })
     return response;
 }
+// delete request to the spotify api
+exports.spotifyAPIRequestDelete = (requestURL, accessToken, requestBody = {}) => {
+    let response = new Promise((resolve, reject) => {
+        let request = new XMLHttpRequest();
+        request.open("DELETE", requestURL, true);
+        request.onreadystatechange = () => {
+            if(request.readyState === 4){
+                if(request.status > 199 && request.status < 299){
+                   // console.log(`the responseText is ${request.responseText} and the response is ${request.response}`);
+                    resolve(request.responseText);
+                }else{
+                    //console.log(request.resopnseText);
+                    reject(request);
+                }
+            }
+        }
+        request.setRequestHeader('Authorization', `Bearer ${accessToken}`);
+        request.setRequestHeader('Content-type', 'application/json');
+        request.send(requestBody);
+    })
+    return response;
+}
 
 // function that given user id makes a request to server that adds a song to users song bank or error
 exports.addSongToSongBankRequest = (userId, songId) => {
@@ -103,7 +125,6 @@ exports.getSongsFromSongBankRequest = (userId) => {
         let request = new XMLHttpRequest();
         request.onreadystatechange = () => {
             if(request.readyState == 4){
-                console.log(`server response from song bank request ${request.responseText}`);
                 if(request.status != 410){
                     resolve(request.responseText)
                 }else{
@@ -113,7 +134,7 @@ exports.getSongsFromSongBankRequest = (userId) => {
             }
 
         }
-        request.open('GET', `/api/getSongsFromSongBannk?userId=${userId}`, true);
+        request.open('GET', `/api/getSongsFromSongBannnk?userId=${userId}`, true);
         request.send();
     })
     return response
@@ -158,6 +179,16 @@ exports.getSongsRequestUrl = function(songs){
     }
     baseUrl = baseUrl.slice(0, -1);
     return baseUrl
+}
+//function that given an array of items 
+exports.commaSeperatedItemsUrl = function(baseURL){
+    return (items) => {
+        for(let item of items){
+            baseURL += `${item},`;
+        }
+        baseURL = baseURL.slice(0, -1);
+        return baseURL
+    }
 }
 
 

@@ -25,7 +25,7 @@ class DeleteSongsFromSongBankBody extends SpotifyAPIBase{
                 <div style={{marginTop : '15px', marginBottom : '-10px'}}>
                     {(this.state.deleteMode) ? deleteSongsButton : explainationP}
                 </div>
-                {(this.props.songs.length > 1) && <SongListContainer songList={this.props.songs} columns={this.amountOfColumns(this.props.songs)} listItemClickEventHandler={this.songContainerClickEventHandler}/> }
+                {(this.props.songs.length > 0) && <SongListContainer songList={this.props.songs} columns={this.amountOfColumns(this.props.songs)} listItemClickEventHandler={this.songContainerClickEventHandler}/> }
             </div>
             )
     }
@@ -36,12 +36,12 @@ class DeleteSongsFromSongBankBody extends SpotifyAPIBase{
             console.log(err);
         }
     }
-    songContainerClickEvent(songId, ev){
+    songContainerClickEvent(songId, songUri, ev){
         // if song is already clicked remove it from the list of songs to remove
         if(ev.currentTarget.classList.contains('removeableSongListContainer')){
             ev.currentTarget.classList.remove('removeableSongListContainer');
             this.removeableSongs.delete(songId);
-            console.log(this.removeableSongs);
+           // console.log(this.removeableSongs);
         }
         // songs is not already clicked so add it to the lsit of songs to remove
         else{
@@ -53,8 +53,8 @@ class DeleteSongsFromSongBankBody extends SpotifyAPIBase{
         if(this.removeableSongs.size == 0) return;
         try{
             let response = await deleteSongsFromSongBankRequest(this.userId, this.convertSetToArray(this.removeableSongs));
-            await this.props.updateState();
             this.removeableSongs.clear();
+            await this.props.updateState();
         }catch(err){
             this.handleResponseForErrors(err);
         }

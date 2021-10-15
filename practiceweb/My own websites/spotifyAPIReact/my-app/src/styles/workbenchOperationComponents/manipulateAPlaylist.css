@@ -16,7 +16,7 @@
         box-shadow: 2px 0px lightblue;
     }
         /* label for the checkbox to select all songs */
-        #manipulateAPlaylistAddSongsFromSongBankSongBankSongs label{
+        #manipulateAPlaylistAddSongsFromSongBankSongBankSongs label, #manipulateAPlaylistDeleteSongsOption label{
             display: block;
             margin-top: 5px;
             color: lightblue;

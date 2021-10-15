@@ -254,7 +254,8 @@ button:hover{
         /* container for the queue and next song buttons */
         #queueAndNextTrackButtonsContainer{
             display: flex;
-            justify-content: space-evenly;
+            justify-content: center;
+            flex-wrap: wrap;
         }
         /* div container that holds the paragraph with the actice device */
         #activeDeviceDisplayContainer{

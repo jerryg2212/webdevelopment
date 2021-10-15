@@ -7,8 +7,10 @@ import UpdatedWorkbenchOptionsComponent from '../updatedWorkBenchOptionsComponen
 import DisplaySongsOption from './manipulateAPlaylistOptions/displaySongsOption';
 import AddSongsOption from './manipulateAPlaylistOptions/addSongsOption';
 import AddSongsFromSongBankOption from './manipulateAPlaylistOptions/addSongsFromSongBankOption';
+import AddSongsToSongBankOption from './manipulateAPlaylistOptions/addSongsToSongBankOption';
 import DeleteSongsOption from './manipulateAPlaylistOptions/deleteSongsOption';
 import MoveSongsOption from './manipulateAPlaylistOptions/moveSongsOption';
+import AddSongsToSongBankBody from './songBankOperations/addSongsToSongBankBody';
 
 /* component that gives user the ability to add songs to a playlist by searching and from song bank, delete songs, display songs and later delete songs */
 class ManipulateAPlaylist extends SpotifyAPIBase{
@@ -27,6 +29,7 @@ class ManipulateAPlaylist extends SpotifyAPIBase{
             DisplaySongsOption : DisplaySongsOption,
             AddSongsOption : AddSongsOption,
             AddSongsFromSongBankOption : AddSongsFromSongBankOption,
+            AddSongsToSongBankOption : AddSongsToSongBankOption,
             DeleteSongsOption : DeleteSongsOption,
             MoveSongsOption : MoveSongsOption
         }
@@ -40,7 +43,7 @@ class ManipulateAPlaylist extends SpotifyAPIBase{
         return (
             <div id="manipulateAPlaylistContainer">
                 {header()}
-                {this.state.activePlaylist && <UpdatedWorkbenchOptionsComponent updateParentState={this.updateActiveOperationComponentState.bind(this)} activeOptionComponent={this.state.activeOptionComponent} options={[{optionComponent : 'DisplaySongsOption', textContent : "Display Songs"}, {optionComponent : 'AddSongsOption', textContent : 'Add Songs'}, {optionComponent : 'AddSongsFromSongBankOption', textContent : "Add Songs From Song Bank"}, {optionComponent : 'DeleteSongsOption', textContent : "DeleteSongs"}, {optionComponent : 'MoveSongsOption', textContent : 'Move Songs'}]} />}
+                {this.state.activePlaylist && <UpdatedWorkbenchOptionsComponent updateParentState={this.updateActiveOperationComponentState.bind(this)} activeOptionComponent={this.state.activeOptionComponent} options={[{optionComponent : 'DisplaySongsOption', textContent : "Display Songs"}, {optionComponent : 'AddSongsOption', textContent : 'Add Songs'}, {optionComponent : 'AddSongsFromSongBankOption', textContent : "Add Songs From Song Bank"}, {optionComponent : 'AddSongsToSongBankOption', textContent : 'Add Songs To Song Bank'}, {optionComponent : 'DeleteSongsOption', textContent : "DeleteSongs"}, {optionComponent : 'MoveSongsOption', textContent : 'Move Songs'}]} />}
                 { !this.state.activePlaylist && <DispalyAllPlaylists rootThis={this.props.rootThis} playlistClickEvent={this.playlistClickEventHandler} accessToken={this.props.accessToken} />}
                 { this.state.activePlaylist && <div id="manipulateAPlaylistBody"><ActiveOptionComponent playlistTracks={this.state.activePlaylistTracks} updateParentsTracks={this.updateActivePlaylistTracks.bind(this)} rootThis={this.props.rootThis} accessToken={this.props.accessToken} playlistId={this.state.activePlaylistId}/></div>}
             </div>
@@ -77,13 +80,14 @@ class ManipulateAPlaylist extends SpotifyAPIBase{
     // saves the active song information
     async playlistClickEvent(ev){
         let attributes = (ev.target.classList.contains('playlistContainer')) ? ev.target.attributes : ev.target.parentElement.attributes;
+        await  this.setTracks(attributes.playlistid.value);
         this.setState({
             activePlaylist: true,
             activePlaylistId : attributes.playlistid.value,
             activePlaylistImageSrc : attributes.playlistimagesrc.value || undefined,
             activePlaylistName : attributes.playlistname.value
         });
-        this.setTracks(attributes.playlistid.value);
+        //this.setTracks(attributes.playlistid.value);
     }
     // saves all the users tracks
     async setTracks(playlistId){

@@ -18,7 +18,7 @@ class AddSongsToSongBankBody extends SpotifyAPIBase{
             <div id="addSongsToSongBankBody">
                 {error}
                 <SearchSongControlComponent ref={this.searchSongInputRef} rootThis={this.props.rootThis} accessToken={this.props.accessToken} submitEventHandler={this.searchSongControlComponentSubmitEventHandler}/>
-                {(this.props.songs.length > 1) && <SongListContainer songList={this.props.songs} columns={this.amountOfColumns(this.props.songs)}/> }
+                {(this.props.songs.length > 0) && <SongListContainer songList={this.props.songs} columns={this.amountOfColumns(this.props.songs)}/> }
             </div>
             )
     }

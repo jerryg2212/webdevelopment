@@ -19,16 +19,17 @@ class AddSongsOption extends SpotifyAPIBase{
     render(){
         return (
             <>
-            <SearchSongControlComponent rootThis={this.props.rootThis} submitEventHandler={this.addSongToPlaylist.bind(this)} accessToken={this.props.accessToken}/>
+            <SearchSongControlComponent rootThis={this.props.rootThis} submitEventHandler={this.addSongToPlaylist.bind(this)} accessToken={this.props.accessToken} submitButtonText="Add Song"/>
             <SongListContainer songList={this.props.playlistTracks} columns={amountOfColumns(this.props.playlistTracks.length)} />
             </>
         )
     }
     // adds the new song to the playlist and then updates the parents state to it has access to the new song
-    addSongToPlaylist(songUri){
+    async addSongToPlaylist(songUri){
+        console.log(`tis is the songuri ${songUri}`);
         let url = `https://api.spotify.com/v1/playlists/${this.props.playlistId}/tracks?uris=${songUri}`;
-        spotifyAPIRequestPost(url, this.props.accessToken);
-        this.props.updateParentsTracks();
+        await spotifyAPIRequestPost(url, this.props.accessToken);
+        await this.props.updateParentsTracks();
     }
 }
 

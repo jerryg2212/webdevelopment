@@ -79,18 +79,22 @@ class SongControlSideBar extends SpotifyAPIBase{
     async saveCurrentlyPlayingSongInformation(){
         try{
             let response = await spotifyAPIRequest('https://api.spotify.com/v1/me/player/currently-playing', this.props.accessToken);
-            if(response == '') return;
-            response = JSON.parse(response);
-            this.setState({
-                isCurrentlyPlayingSong : response.is_playing,
-                currentlyPlayingSongTitle : response.item.name,
-                artists : response.item.artists,
-                albumName : response.item.album.name,
-                releaseDate : response.item.album.release_date,
-                albumCoverSrc : response.item.album.images[1].url,
-                songPopularity : response.item.popularity
-                
-            })
+            if(response == '') {
+                this.setState({isCurrentlyPlayingSong : false});
+            }
+            else{
+                response = JSON.parse(response);
+                this.setState({
+                    isCurrentlyPlayingSong : response.is_playing,
+                    currentlyPlayingSongTitle : response.item.name,
+                    artists : response.item.artists,
+                    albumName : response.item.album.name,
+                    releaseDate : response.item.album.release_date,
+                    albumCoverSrc : response.item.album.images[1].url,
+                    songPopularity : response.item.popularity
+                    
+                })
+            }
         }catch(err){
             this.handleResponseForErrors(err);
             console.log(err);
@@ -164,61 +168,6 @@ class SongControlSideBar extends SpotifyAPIBase{
                 )
             }
         }
-          /*  // box that contains songs that user is searching for
-            class SearchSongResponsesBox extends React.Component{
-                constructor(props){
-                    super(props);
-                  // let searchInputPosition = document.getElementById('searchSongToPlayInput').getBoundingClientRect();
-                    let searchInputPosition = this.props.positionElement.getBoundingClientRect();
-                    this.responseBoxStyles = {
-                        top : `${searchInputPosition.bottom + window.scrollY}px`,
-                        left : `${searchInputPosition.left + 15}px`,
-                        width : `${searchInputPosition.width - 30}px`
-                    }
-                }
-                render(){
-                    let listElements = this.makeListOfSearchedSongs();
-                    return(
-                        <div id="searchSongResponsesBox" style={this.responseBoxStyles}>
-                            <ul id="searchSongResponsesList">
-                                {listElements}
-                            </ul>
-                        </div>
-                    )
-                }
-                componentDidMount(){
-                    document.body.addEventListener('click', this.clickOutsideEvent, false);
-                }
-                componentWillUnmount(){
-                    document.body.removeEventListener('click', this.clickOutsideEvent, false);
-                }
-                makeListOfSearchedSongs(){
-                    return this.props.searchedSongs.map((elm, index, arr) => {
-                        return <SearchSongResponseListElement key={elm.id} songUri={elm.uri} songId={elm.id} songName={elm.name} artistName={elm.artist} clickEvent={this.props.searchSongResponseListItemClickEvent}/>
-                    })
-                }
-                clickOutsideEvent(ev){
-                    // getting the search songs input element
-                    let searchSongsInput = document.getElementById('searchSongToPlayInput');
-                    // changing the inputs value to blank
-                    searchSongsInput.value = '';
-                    // creatings a input event so the SearchSongsControl components state resets
-                        let event = document.createEvent('Event');
-                        event.initEvent('input', true, true);
-                        searchSongsInput.dispatchEvent(event);
-                    }
-            }
-                // class that represents the list item in the searchSongResponsesBox
-                class SearchSongResponseListElement extends React.Component{
-                    constructor(props){
-                        super(props);
-                    }
-                    render(){
-                        return (<li onClick={this.props.clickEvent.bind(this, this.props.songName, this.props.artistName, this.props.songUri, this.props.songId)}>
-                            {this.props.songName} - <span className="italics">{this.props.artistName}</span>
-                        </li>)
-                    }
-                }*/
         // containe that holds the queue song and next track button
         class QueueAndNextTrackButtonsContainer extends SpotifyAPIBase{
             constructor(props){
@@ -233,7 +182,7 @@ class SongControlSideBar extends SpotifyAPIBase{
                 return (
                     <div id="queueAndNextTrackButtonsContainer">
                         {errorMessage}
-                        <button id="queueSongButton" className="playSongContainerButton" onClick={this.queueSongButtonClickEventHandler}>Queue</button>
+                        <button id="queueSongButton" className="primaryButtonStyle" onClick={this.queueSongButtonClickEventHandler}>Queue</button>
                         <button id="nextTrackButton" className="playSongContainerButton" onClick={this.nextTrackButtonClickEventHandler}>Next Track</button>
                         <button id="bankSongButton" className="playSongContainerButton" onClick={this.bankSongButtonClickEventHandler} >Bank Song</button>
                     </div>
@@ -316,7 +265,6 @@ class SongControlSideBar extends SpotifyAPIBase{
         }
         render(){
             let error = this.returnCorrectErrorMessage();
-            console.log(this.state.activateDeviceErrorMessage);
           return  (
               <React.Fragment>
                   {error}

@@ -33,7 +33,7 @@ class SearchSongControlComponent extends SpotifyAPIBase{
             {error}
             {songResponsesBox}
             <input className="searchSongInput" id="123" type="text" value={this.state.songInput} onInput={this.searchSongOnInputHandler} ref={this.inputElementRef}></input>
-            <button className='secondaryButtonStyle positionAbsolute' onClick={this.addSongToSongBankButtonSubmitEvent.bind(this)}>Bank Song</button>
+            <button className='secondaryButtonStyle positionAbsolute' onClick={this.addSongToSongBankButtonSubmitEvent.bind(this)}>{this.props.submitButtonText}</button>
             </>
         )
     }
@@ -76,6 +76,9 @@ class SearchSongControlComponent extends SpotifyAPIBase{
             searchedSongs : []
         })
     }
+}
+SearchSongControlComponent.defaultProps = {
+    submitButtonText : "Bank Song"
 }
 
 
