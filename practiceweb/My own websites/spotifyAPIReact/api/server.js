@@ -170,6 +170,7 @@ app.post('/api/addSongsToSongBank/', async (req, res) => {
 
 // deletes the songs from the song bank
 app.get('/api/deleteSongsFromSongBank', async (req, res) => {
+    console.log('deletesongs from song bank ran');
     let userId = req.query.userId;
     let deleteableSongs = req.query.deleteableSongs.split(',');
     try{
@@ -214,7 +215,6 @@ app.get('/api/getSongsFromSongBannnnk', async (req, res) => {
         console.log(err);
         res.status(410).send({message : 'error accessiklj;ng the database'});
     }
-    res.status(405).send({message : 'sdlkjfa;klfds'});
 })
 
 app.post('/token', (req, res) => {

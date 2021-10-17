@@ -8,7 +8,8 @@ class DeleteSongsFromSongBankBody extends SpotifyAPIBase{
     constructor(props){
         super(props);
         this.state = {
-            deleteMode : true
+            deleteMode : true,
+            removeableSongs = new Set();
         }
         this.songContainerClickEventHandler = this.songContainerClickEvent.bind(this);
         // click event handler for the delete songs button
@@ -40,7 +41,8 @@ class DeleteSongsFromSongBankBody extends SpotifyAPIBase{
         // if song is already clicked remove it from the list of songs to remove
         if(ev.currentTarget.classList.contains('removeableSongListContainer')){
             ev.currentTarget.classList.remove('removeableSongListContainer');
-            this.removeableSongs.delete(songId);
+            this.state.removeableSongs.delete(songId);
+          //  this.setState({removeableSongs : })
            // console.log(this.removeableSongs);
         }
         // songs is not already clicked so add it to the lsit of songs to remove
