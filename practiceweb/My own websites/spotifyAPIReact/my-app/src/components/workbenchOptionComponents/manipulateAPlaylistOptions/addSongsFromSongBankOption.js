@@ -114,7 +114,7 @@ class AddSongsFromSongBankOption extends SpotifyAPIBase{
         return this.state.selectedSongBankSongsUris.has(uri);
     }
     // click event handler for the add songs button that adds the songs to the playlist then refreshes
-    async addSongsButtonClickEvent(ev){
+    /*async addSongsButtonClickEvent(ev){
         // if their are no selected songs return
         if(this.state.selectedSongBankSongsUris.size < 1){return}
         let url = commaSeperatedItemsUrl(`https://api.spotify.com/v1/playlists/${this.props.playlistId}/tracks?uris=`)(this.state.selectedSongBankSongsUris.values());
@@ -131,6 +131,29 @@ class AddSongsFromSongBankOption extends SpotifyAPIBase{
             this.handleResponseForErrors(err);
             console.log(err);
         }
+    }*/
+    async addSongsButtonClickEvent(ev){
+        let selectedSongBankSongsUris = Array.from(this.state.selectedSongBankSongsUris.values());
+        // if their are no selected songs return
+        if(selectedSongBankSongsUris.size === 0){return}
+            try{
+                while(selectedSongBankSongsUris.length != 0){
+                    console.log(selectedSongBankSongsUris.length);
+                let songsForUrl = selectedSongBankSongsUris.splice(0,99);
+                let url = commaSeperatedItemsUrl(`https://api.spotify.com/v1/playlists/${this.props.playlistId}/tracks?uris=`)(songsForUrl);
+                let response = await spotifyAPIRequestPost(url, this.props.accessToken);
+                }
+                // clearing the selected song bank songs uris and saving it so their active class goes away
+                let tempSelectedSongBankSongsUris = this.state.selectedSongBankSongsUris;
+                tempSelectedSongBankSongsUris.clear();
+                this.selectAllSongsCheckBox.current.checked = false;
+                this.setState({selectedSongBankSongsUris : tempSelectedSongBankSongsUris});
+            }catch(err){
+                this.handleResponseForErrors(err);
+                console.log(err);
+            }finally{
+                this.props.updateParentsTracks();
+            }
     }
 }
 

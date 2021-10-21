@@ -29,7 +29,7 @@ class SongListContainer extends React.Component{
         for(let i = 0; i < this.props.columns; i++){
            // result.push(this.songs.splice(0, seperator));
            tem = this.props.songList.slice(i * seperator, (i * seperator + seperator));
-           result.push(tem);
+           if(tem.length != 0){result.push(tem);}
         }
         return result;
     }

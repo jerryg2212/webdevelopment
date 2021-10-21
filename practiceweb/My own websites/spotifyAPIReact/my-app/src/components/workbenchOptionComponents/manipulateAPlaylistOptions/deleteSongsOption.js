@@ -1,6 +1,7 @@
 import React from 'react';
 import SongListContainer from '../../songListContainer';
 import {amountOfColumns, spotifyAPIRequestDelete} from '../../../helper-functions';
+import { SpotifyAPIBase } from '../../helper-components';
 
 // component for the delete songs from song bank option
 // properties
@@ -9,7 +10,7 @@ import {amountOfColumns, spotifyAPIRequestDelete} from '../../../helper-function
     // updateParentsTracks = a function that updates the parents tracks forcing a rerender with a new playlistTracks property
     // rootThis = reference to the root component for the purposes of the spotifyAPIBase component
     // accessToken
-class DeleteSongsOption extends React.Component{
+class DeleteSongsOption extends SpotifyAPIBase{
     constructor(props){
         super(props);
         this.state = {selectAllChecked : false, selectedSongs : new Set()}
@@ -17,8 +18,10 @@ class DeleteSongsOption extends React.Component{
         this.selectAllCheckBox = React.createRef();
     }
     render(){
+        let error = this.returnCorrectErrorMessage();
         return(
             <div id="manipulateAPlaylistDeleteSongsOption">
+                {error}
                 <button className="secondaryButtonStyle" onClick={this.deleteSongsButtonClickEvent.bind(this)}>Delete Selected Songs</button>
                 <label>Select All
                     <input type="checkbox" onChange={this.selectAllClickEvent.bind(this)} checked={this.state.selectAllChecked} ref={this.selectAllCheckBox}/>
@@ -27,7 +30,14 @@ class DeleteSongsOption extends React.Component{
             </div>            
         )
     }
-    async deleteSongsButtonClickEvent(ev){
+    async componentDidMount(){
+        try{
+            await this.setUserId(this.props.accessToken);
+        }catch(err){
+            console.log(err)
+        }
+    }
+    /*async deleteSongsButtonClickEvent(ev){
         // if there are no selected songs return
         if(this.state.selectedSongs.size < 1){return}
         // delete the songs then update the state
@@ -36,25 +46,52 @@ class DeleteSongsOption extends React.Component{
         let body;
         while(selectedSongs.size > 0){
             let url = `https://api.spotify.com/v1/playlists/${this.props.playlistId}/tracks`;
-            [selectedSongs, body] = this.deleteSongsRequestBody(selectedSongs);
+            [selectedSongs, body] = this.deleteSongsRequestBody(selectedSongs.values());
             await spotifyAPIRequestDelete(url, this.props.accessToken, body);
         }
         this.setState({selectAllChecked : false});
         await this.props.updateParentsTracks();
+    }*/
+    async deleteSongsButtonClickEvent(ev){
+        let selectedSongs = Array.from(this.state.selectedSongs);
+        // if there are no selected songs return
+        if(selectedSongs.length === 0 ){return}
+        try{
+            while(selectedSongs.length != 0){
+                let body = this.deleteSongsRequestBody(selectedSongs.splice(0, 99));
+                let url = `https://api.spotify.com/v1/playlists/${this.props.playlistId}/tracks`;
+                await spotifyAPIRequestDelete(url, this.props.accessToken, body);
+            }
+            this.setState({selectAllChecked : false});
+        }catch(err){
+            console.log(err);
+            this.handleResponseForErrors(err);
+        }finally{
+            await this.props.updateParentsTracks();
+        }
+
     }
         // function that returns a proper body for the request to delete songs from a playlist
         // parameters
             // selectedSongs = a Set of songs that were selected
         // returns
             // an array [selectedSongs = new selectedSongs array, body = the body the be used in the request to the server]
-        deleteSongsRequestBody(selectedSongs){
+        /*deleteSongsRequestBody(selectedSongs){
             let body = {tracks : []}
-            for(let songUri of selectedSongs.values()){
+            for(let songUri of selectedSongs){
                 body.tracks.push({uri : songUri});
                 selectedSongs.delete(songUri);
             }
             body = JSON.stringify(body);
             return [selectedSongs, body]
+        }*/
+        deleteSongsRequestBody(songs){
+            let body = {tracks : []}
+            for(let song of songs){
+                body.tracks.push({uri : song});
+            }
+            body = JSON.stringify(body);
+            return body
         }
     // event handler check box
     selectAllClickEvent(ev){

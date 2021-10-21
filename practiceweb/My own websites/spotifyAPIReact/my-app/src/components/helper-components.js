@@ -1,5 +1,5 @@
-import React from 'react';
-import  ReactDOM  from 'react-dom';
+import React, { useEffect, useState } from 'react';
+import  ReactDOM, { render }  from 'react-dom';
 import axios from 'axios';
 import exitIcon from '../icons/exit.svg';
 import { spotifyAPIRequest, spotifyAPIRequestPost } from '../helper-functions';
@@ -166,5 +166,127 @@ class ErrorMessage extends React.Component{
     
     export {
         SpotifyAPIBase,
-        ActivateDeviceErrorMessage
+        ActivateDeviceErrorMessage,
+        SpotifyAPIBaseComposition
     }
+
+
+
+
+// spotify base component like the one above however this one user composition instead of inheritance
+// properties
+    // accessToken
+    // refreshToken
+function SpotifyAPIBaseComposition(Component, properties){
+    return class extends React.Component{
+        constructor(props){
+            super(props);
+            this.state = {
+                activateDeviceErrorMessage : false,
+                mustHavePremiumAccountErrorMessage : false,
+                cannotAccessSongBankErrorMessage : false,
+                userId : undefined
+            }
+        }
+        async componentDidMount(){
+            try{
+                let userIdResponse = await spotifyAPIRequest('https://api.spotify.com/v1/me', this.props.accessToken);
+                this.setState({userId : JSON.parse(userIdResponse).id});
+            }catch(err){
+                console.log(err);
+                this.handleResponseForErrors(err);
+            }
+        }
+        render(){
+            let error = this.returnCorrectErrorMessage();
+            return(
+                <>
+                {error}
+                <Component allUsersPlaylists={this.allUsersPlaylists.bind(this)} {...this.props} {...properties}/>
+                </>
+            )
+        }
+        // Error handleing 
+            // given a response it handles errors and sets correct error messages and returns true if there is an error
+            handleResponseForErrors(response){
+                if(this.checkResponseForError(response)){
+                    this.activateCorrectErrorMessage(response);
+                }
+                return this.checkResponseForError(response);
+            }
+            returnCorrectErrorMessage(){
+                let error = undefined;
+                if(this.state.activateDeviceErrorMessage){
+                    error = this.activateDeviceErrorMessage();
+                }
+                if(this.state.mustHavePremiumAccount){
+                    error = this.mustHavePremiumAccount();
+                }
+                if(this.state.cannotAccessSongBank){
+                    error = this.cannotAccessSongBank();
+                }
+                return error
+
+            }
+            activateDeviceErrorMessage(){
+                return <ActivateDeviceErrorMessage thisOfParent={this} />
+            }
+            mustHavePremiumAccount(){
+                return <MustHavePremiumAccount thisOfParent={this} />
+            }
+            cannotAccessSongBank(){
+                return <CannotAccessSongBank thisOfParent={this} />
+            }
+            // given the response from the server it will check for errors and return true if their is one
+            checkResponseForError(response){
+                if(response.status == undefined){return false}
+                if(response.status > 399){return true}
+                return false
+            }
+            async activateCorrectErrorMessage(response){
+                if(response.status == 401){
+                    // need a new access token
+                    if(this.props.getNewAccessToken){
+                        this.props.getNewAccessToken();
+                    }else{
+                        let accessTokenResponse = await axios.post('/refreshToken', {refreshToken : this.props.refreshToken});
+                        this.props.rootThis.setState({access_token : accessTokenResponse.data.access_token});
+                    }
+                }
+                if(response.status == 403){
+                    // needs a premium account
+                    this.setState({mustHavePremiumAccount : true})
+                }
+                if(response.status == 404){
+                    // user needs an active device
+                    this.setState({activateDeviceErrorMessage : true})
+                }
+                if(response.status == 410){
+                    // cannot access the song bank
+                    this.setState({cannotAccessSongBank : true});
+                }
+            }
+        // Spotify API Requests
+            // returns an array of the users playlists
+            async allUsersPlaylists(){
+                try{
+                    let url = 'https://api.spotify.com/v1/me/playlists?limit=50&offset=0';
+                    let playlists = [];
+                    while(url){
+                        let playlistsResponse = await spotifyAPIRequest(url, this.props.accessToken);
+                        playlistsResponse = JSON.parse(playlistsResponse);
+                        console.log(playlistsResponse);
+                        playlists = playlists.concat(playlistsResponse.items);
+                        url = playlistsResponse.next;
+                    }
+                    return playlists;
+                }catch(err){
+                    this.handleResponseForErrors(err);
+                    console.log(err);
+                    return []
+                }
+            }
+        
+    }
+
+}

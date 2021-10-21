@@ -1,0 +1,69 @@
+/* background-image: radial-gradient(#121B40 70%, #060D28) 
+** lighter #121B40
+** darker #060D28
+*/
+
+
+.selectAPlaylistDropDownContainer{
+    list-style-type: none;
+    border: 2px solid #121B40;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 250px;
+}   
+    /* container that holds the playlist image and the playlist name */
+    .playlistImageAndNameContainer{
+        flex: 4;
+        padding-left: 2px;
+    }
+        /* li element that holds the playlist image and playlist name */
+        .selectedPlaylistDropDownListElement{
+            display: inline-block;
+            display:flex;
+            justify-content: start;
+            align-items: center;
+        }
+    /* contianer that holds the drop drop arrow */
+    .dropDownArrowContainer{
+        flex: 1;
+        align-self: stretch;
+        display:flex;
+        align-items: center;
+        justify-content: center;
+    }
+    /* list that holds the drop down of all the playlists */
+    .listOfPlaylists{
+        position:relative;
+        max-height: 200px;
+        background-color: lightblue;
+        padding-left: 0px;
+        margin:0px;
+        list-style-type: none;
+        overflow-y: scroll;
+    }
+        .listOfPlaylists li{
+            border: 2px solid #121B40;
+            border-top: none;
+            display: inline-block;
+            display:flex;
+            justify-content: start;
+            align-items: center;
+            width: 250px;
+            padding-left: 2px;
+        }
+            .selectedPlaylistDropDownListElement img,
+            .playlistDropDownListElement img
+            {
+                width: 40px;
+                height: 40px;
+                margin-right: 2px;
+            }
+            .selectedPlaylistDropDownListElement p,
+            .playlistDropDownListElement p
+            {
+                color: #121B40;
+                text-shadow: .2px .2px black;
+                font-size: 17px;
+            }
+    

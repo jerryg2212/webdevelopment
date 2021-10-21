@@ -96,3 +96,17 @@ input:focus{
 .positionAbsolute{
     position : absolute;
 }
+
+/* select all label */
+.selectAllLabel{
+    display: inline-block;
+    margin-top: 5px;
+    color: lightblue;
+    font-size: 18px;
+}
+/* select all checkbox */
+.selectAllCheckbox{
+    width: 18px;
+    height: 18px;
+    margin-left: 5px;
+}

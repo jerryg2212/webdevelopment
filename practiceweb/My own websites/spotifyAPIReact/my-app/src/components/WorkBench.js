@@ -7,6 +7,8 @@ import DisplaySongBank from './workbenchOptionComponents/displaySongBank.js';
 import CreateNewPlaylist from './workbenchOptionComponents/createNewPlaylist.js';
 import ManipulateAPlaylist from './workbenchOptionComponents/manipulateAPlaylist.js';
 
+// properties
+    // getNewAccessToken = function that lets the parent request for a new access token; this function is called in the ErrorMessage component
 class WorkBench extends React.Component{
     constructor(props){
         super(props);
@@ -38,7 +40,7 @@ class WorkBench extends React.Component{
                     <button onClick={this.activateOperationButtonClickEventHandler} className="playSongContainerButton" >Start</button>
                 </div>
                 <WorkBenchActionContainer>
-                    {ActiveOperationComponent && <ActiveOperationComponent accessToken={this.props.accessToken} rootThis={this.props.rootThis} />}
+                    {ActiveOperationComponent && <ActiveOperationComponent accessToken={this.props.accessToken} refreshToken={this.props.refreshToken} rootThis={this.props.rootThis} getNewAccessToken={this.props.getNewAccessToken} />}
                 </WorkBenchActionContainer>
             </div>
         )

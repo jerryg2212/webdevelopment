@@ -61,7 +61,7 @@ class ManipulateAPlaylist extends SpotifyAPIBase{
         choosePlaylistSectionHeader(){
             return (
                 <div className="workbenchOperationDescriptiveHeader">
-                    <h1>Choose playlist to display songs from</h1>
+                    <h1>Choose playlist to manipulate</h1>
                 </div>
             )
         }

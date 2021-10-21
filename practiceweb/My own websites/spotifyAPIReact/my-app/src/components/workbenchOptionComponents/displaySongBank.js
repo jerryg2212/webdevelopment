@@ -68,11 +68,12 @@ class DisplaySongBank extends SpotifyAPIBase{
             let songsResponse = await spotifyAPIRequest(url, this.props.accessToken);
             songsResponse = JSON.parse(songsResponse);
             songs = songs.concat(songsResponse.tracks);
-            this.setState({
-                songsFromSongBank : songs,
-                passOnSongBank : songs
-            });
-        }
+            console.log(`these are the song ${songs.length}`);
+            }
+        this.setState({
+            songsFromSongBank : songs,
+            passOnSongBank : songs
+        });
         }catch(err){
             this.handleResponseForErrors(err);
         }

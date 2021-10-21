@@ -7,7 +7,7 @@ class MoveSongsOption extends React.Component{
     }
     render(){
         return(
-            "this is the move songs option"
+            <h1 className="secondaryHeader">This Operation is comming soon</h1>
         )
     }
 }

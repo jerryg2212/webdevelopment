@@ -1,0 +1,25 @@
+/* background-image: radial-gradient(#121B40 70%, #060D28) 
+** lighter #121B40
+** darker #060D28
+*/
+
+/* container that holds who operation */
+#compareTwoPlaylistsContainer{
+
+}
+
+    /* container that is where the user selects each playlist */
+    #selectPlaylistsContainer{
+        display: flex;
+        justify-content : space-around;
+        margin-top: 20px;
+    }
+        /* container for selecting each individual playlist */
+        #selectPlaylistsContainer > div{
+            background-color: lightblue;
+            padding: 5px;
+        }
+
+
+
+/* SelectAPlaylist component styles */
