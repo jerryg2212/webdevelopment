@@ -26,6 +26,16 @@
             align-self: center;
         }
 
-
-
-/* SelectAPlaylist component styles */
+    /* container that holds all the tracks */
+    #compareTwoPlaylistsTracksContainer{
+        display: flex;
+        flex-wrap: wrap;
+        flex : 1 1 1;
+        justify-content: space-between;
+    }
+        /* containers that holds the songs for each section */
+        #compareTwoPlaylistsTracksContainer > div{
+            min-width:300px;
+            max-width: 200px;
+            overflow: hidden;
+        }

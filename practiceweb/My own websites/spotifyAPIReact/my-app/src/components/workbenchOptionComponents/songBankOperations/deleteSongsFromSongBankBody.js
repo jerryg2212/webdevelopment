@@ -56,7 +56,11 @@ class DeleteSongsFromSongBankBody extends SpotifyAPIBase{
         let removeableSongs = this.state.removeableSongs;
         try{
             if(removeableSongs.size == 0) return;
-            let response = await deleteSongsFromSongBankRequest(this.userId, this.convertSetToArray(removeableSongs));
+            console.log(removeableSongs.size);
+            let removeableSongsArray = Array.from(removeableSongs.values());
+            while(removeableSongsArray.length > 0){
+                let response = await deleteSongsFromSongBankRequest(this.userId, removeableSongsArray.splice(0, 50));
+            }
             removeableSongs.clear();
             this.setState({removeableSongs: removeableSongs});
             await this.props.updateState();
@@ -66,13 +70,13 @@ class DeleteSongsFromSongBankBody extends SpotifyAPIBase{
             this.setState({selectAllSongsChecked : false});
         }
     }
-    convertSetToArray(tempSet){
+  /*convertSetToArray(tempSet){
         let result = [];
         tempSet.forEach((val) => {
             result.push(val);
         });
         return result;
-    }
+    }*/
     // on change event for the select all songs checkbox
     selectAllSongsOnChange(ev){
         let removeableSongs = this.state.removeableSongs;

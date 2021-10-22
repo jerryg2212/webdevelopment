@@ -19,6 +19,9 @@ class CompareTwoPlaylists extends React.Component{
             playlistTwoId : undefined,
             playlistOneTracks : [],
             playlistTwoTracks : [],
+            tracksInBothPlaylists : [],
+            tracksInPlaylistOneButNotTwo : [],
+            tracksInPlaylistTwoButNotOne : [],
             compareActive : false // lets the render method know wheter or not to display the songs in both the playlists
         }
     }
@@ -63,7 +66,7 @@ class CompareTwoPlaylists extends React.Component{
                 this.setState({playlistOneTracks : songs});
             }catch(err){
                 console.log(`There was an error getting playlist One's songs Error: ${err}`);
-            }
+            }finally{return}
         }
         // saves the songs in playlistTwo to the state
         async setPlaylistTwoTracks(id = this.state.playlistTwoId){
@@ -72,12 +75,24 @@ class CompareTwoPlaylists extends React.Component{
                 this.setState({playlistTwoTracks : songs});
             }catch(err){
                 console.log(`There was an error getting playlist One's songs Error: ${err}`);
-            }
+            }finally{return}
         }
     // returns Components
         playlistsTracksBody(){
             if(this.state.compareActive){
-                return <SongListContainer songList={removeDuplicateSongs(this.state.playlistTwoTracks.concat(this.state.playlistOneTracks))} columns={1}></SongListContainer>
+                return (
+                    <div id="compareTwoPlaylistsTracksContainer">
+                        <div id="tracksInPlaylistOneButNotTwoContainer">
+                            <SongListComparisionsComponent songs={this.state.tracksInPlaylistOneButNotTwo} title="Songs In Playlist One Only"/>
+                        </div>
+                        <div id="tracksBothPlaylists">
+                            <SongListComparisionsComponent songs={this.state.tracksInBothPlaylists} title="Songs In Both Playlists"/>
+                        </div>
+                        <div id="tracksInPlaylistTwoButNotOne">
+                            <SongListComparisionsComponent songs={this.state.tracksInPlaylistTwoButNotOne} title="Songs In Playlist Two Only"/>
+                        </div>
+                    </div>
+                )
             }
             return 
             
@@ -85,7 +100,9 @@ class CompareTwoPlaylists extends React.Component{
     
     // Events
         // click event for the compare button
-        compareButtonClickEvent(ev){
+        async compareButtonClickEvent(ev){
+            await this.setPlaylistOneTracks(this.state.playlistOneId);
+            await this.setPlaylistTwoTracks(this.state.playlistTwoId);
             let playlistOneId = this.state.playlistOneId;
             let playlistTwoId = this.state.playlistTwoId;
             // at least one playlist's tracks are not saved
@@ -98,18 +115,36 @@ class CompareTwoPlaylists extends React.Component{
         }   
             // sets state to represent all the differences or similarities of the songs in both playlists
             setDifferencesAndSimilarities(){
-                let playlistOneIdsSet = this.returnSetOfIds(this.state.playlistOneTracks);
-                let playlistTwoIdsSet = this.returnSetOfIds(this.state.playlistTwoTracks);
-                let songsIdsInBoth = new Set();
-                let songsIdsInOneButNotTwo = new Set();
-                let songsIdsInTwoButNotOne = new Set();
+                // set of ids for playlist one and two
+                    let playlistOneIdsSet = this.returnSetOfIds(this.state.playlistOneTracks);
+                    let playlistTwoIdsSet = this.returnSetOfIds(this.state.playlistTwoTracks);
+                // sets that holds the ids of the songs seperated
+                    let songsIdsInBoth = new Set();
+                    let songsIdsInOneButNotTwo = new Set();
+                    let songsIdsInTwoButNotOne = new Set();
+                    
                 let playlistOneIdsArray = Array.from(playlistOneIdsSet.values());
                 let playlistTwoIdsArray = Array.from(playlistTwoIdsSet.values());
-                if(playlistOneIdsArray.length > playlistTwoIdsArray.length){
-
-                }else{
-                    
+                let combinedIdsArray = playlistOneIdsArray.concat(playlistTwoIdsArray);
+                // adding the ids to their proper set
+                    for(let id of combinedIdsArray){
+                        // if the id is in both
+                        if(playlistOneIdsSet.has(id) && playlistTwoIdsSet.has(id))songsIdsInBoth.add(id);
+                        // if the id is in playlistOne only
+                        else if(playlistOneIdsSet.has(id)) songsIdsInOneButNotTwo.add(id);
+                        // if the id is in playlistTwo only
+                        else songsIdsInTwoButNotOne.add(id);
+                    }
+                // adding the songs to their arrays based on the ids sets
+                let tracksInBothPlaylists = [];
+                let tracksInPlaylistOneButNotTwo = [];
+                let tracksInPlaylistTwoButNotOne = [];
+                for(let song of removeDuplicateSongs(this.state.playlistOneTracks.concat(this.state.playlistTwoTracks))){
+                    if(songsIdsInBoth.has(song.id))tracksInBothPlaylists.push(song);
+                    else if(songsIdsInOneButNotTwo.has(song.id))tracksInPlaylistOneButNotTwo.push(song);
+                    else tracksInPlaylistTwoButNotOne.push(song);
                 }
+                this.setState({tracksInBothPlaylists : tracksInBothPlaylists, tracksInPlaylistOneButNotTwo : tracksInPlaylistOneButNotTwo, tracksInPlaylistTwoButNotOne : tracksInPlaylistTwoButNotOne});
                 
 
             }
@@ -126,80 +161,31 @@ class CompareTwoPlaylists extends React.Component{
         // updates the playlistOneId state value
         updatePlaylistOneId(playlist){
             this.setState({playlistOneId : playlist.id});
-            this.setPlaylistOneTracks(playlist.id);
+           // this.setPlaylistOneTracks(playlist.id);
         }
         // updates the playlistTwoId state value
         updatePlaylistTwoId(playlist){
             this.setState({playlistTwoId : playlist.id});
-            this.setPlaylistTwoTracks(playlist.id);
+           // this.setPlaylistTwoTracks(playlist.id);
         }
 }
 export default SpotifyAPIBaseComposition(CompareTwoPlaylists);
 
-   /* // component that controls selecting a playlist
-    // props
-        // updateParentState = function that updates the parent state when a new playlist is selected
-    class SelectAPlaylist extends React.Component{
+    // component that holds comparisions of the songs
+    // properties
+        // title = the title
+        // songs = the songs to be displayed
+    class SongListComparisionsComponent extends React.Component{
         constructor(props){
             super(props);
-            this.state = {
-                usersPlaylists : [],
-                isActivePlaylist : false,
-                activelySelectedPlaylistId : undefined,
-                activePlaylistName : '',
-                activePlaylistImageSRC : undefined
-            }
-        }
-        async componentDidMount(){
-            await this.setAllPlaylists();
         }
         render(){
-            console.log(`giving playlistsdeopdown ${this.state.usersPlaylists.length}`);
-            return (
-                <div id="selectAPlaylistContainer">
-                    {this.state.usersPlaylists.length > 0 && <PlaylistsDropDown playlists={this.state.usersPlaylists} />}
-                    {this.changeSelectButton()}
+            return(
+                <div className="songListComparisionComponentContanier">
+                    <h1 className="secondaryHeader" style={{"fontSize" : "18px"}}>{this.props.title}</h1>
+                    <label>Select All<input type="checkbox"></input></label>
+                    <SongListContainer songList={this.props.songs} columns={1}/>
                 </div>
             )
         }
-        // saving information
-            // saves to state all the users playlists
-            async setAllPlaylists(){
-                let playlists = await this.props.allUsersPlaylists();
-                this.setState({usersPlaylists : playlists});
-            }
-        / component elements
-            // returns the select element so the user can select a playlist
-            selectAPlaylistDropDown(){
-                return (
-                    <div id="selectAPlaylistDropDownContainer">
-                    <ul>{this.playlistsDropDownListElements()}</ul>
-                    <span></span>
-                    </div>
-                )
-            }
-                // returns an array of li elements to populate the dropdown
-                playlistsDropDownListElements(){
-                    return this.state.usersPlaylists.map((elm, ind, arr) => {
-                        return <li key={elm.id} className="playlistsDropDownListElement"><img src={(elm.images[2]) ? elm.images[2].url : ''}/><p>{elm.name}</p></li>
-                    })
-                }
-            // returns playlist details for the active playlist
-            activePlaylistDetails(){
-                return <p>dsf</p>
-            }
-            // returns either the playlist details or the select element so the user can select a playlist
-            returnPlaylistDetailsOrSelect(){
-                // there is an active playlist so return playlist details
-                if(this.state.isActivePlaylist){return this.activePlaylistDetails()}
-                // there is not an active playlist so return the select element so the user can select a playlist
-                else{return this.selectAPlaylistDropDown()}
-            }
-            // returns the correct button element 
-            changeSelectButton(){
-                // their is an active playlist so return the change button
-                if(this.state.isActivePlaylist){return <button className="secondaryButtonStyle" style={{"margin-top" : "15px"}}>Change</button>}
-                // there is not an active playlist so return the select button
-                else{return <button className="secondaryButtonStyle" style={{"marginTop" : "15px"}}>Select</button>}
-            }
-    }*/
+    }

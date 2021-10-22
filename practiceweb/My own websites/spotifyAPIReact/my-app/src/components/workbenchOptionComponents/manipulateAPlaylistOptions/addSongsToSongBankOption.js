@@ -116,6 +116,7 @@ class AddSongsToSongBankOption extends SpotifyAPIBase{
     }
     // click event handler for the add songs button that adds the songs to the playlist then refreshes
     async addSongsButtonClickEvent(ev){
+        console.log('addsongsButtonSclicked');
         // if their are no selected songs return
         if(this.state.selectedPlaylistSongsIds.size < 1){return}
         try{

@@ -134,6 +134,7 @@ app.get('/api/addSongToSongBank', async (req, res) => {
 })
 // adds multiple songs to the song bank
 app.post('/api/addSongsToSongBank/', async (req, res) => {
+    console.log('addsongstosongbank');
     let songs = req.body.songs;
     let userId = req.query.userId;
      try{
@@ -169,7 +170,7 @@ app.post('/api/addSongsToSongBank/', async (req, res) => {
 })
 
 // deletes the songs from the song bank
-app.get('/api/deleteSongsFromSongBank', async (req, res) => {
+app.get('/api/deleteSongsFromSongBannk', async (req, res) => {
     console.log('deletesongs from song bank ran');
     let userId = req.query.userId;
     let deleteableSongs = req.query.deleteableSongs.split(',');

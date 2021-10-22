@@ -182,7 +182,7 @@ exports.deleteSongsFromSongBankRequest = (userId, deleteableSongs) => {
         }
         let deleteableSongsString = deleteableSongs.join(',');
         console.log(`this is the deleteableSongsString ${deleteableSongsString}`);
-        request.open('GET', `/api/deleteSongsFromSongBank?userId=${userId}&deleteableSongs=${deleteableSongsString}`, true);
+        request.open('GET', `/api/deleteSongsFromSongBannk?userId=${userId}&deleteableSongs=${deleteableSongsString}`, true);
         request.send();
     })
     return response
