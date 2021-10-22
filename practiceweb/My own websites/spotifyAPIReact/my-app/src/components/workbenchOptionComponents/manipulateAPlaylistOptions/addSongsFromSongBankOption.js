@@ -1,7 +1,7 @@
 import React from 'react';
 import { SpotifyAPIBase } from '../../helper-components';
 import SongListContainer from '../../songListContainer';
-import {getSongsFromSongBankRequest, getSongsRequestUrl, spotifyAPIRequest, commaSeperatedItemsUrl, spotifyAPIRequestPost} from '../../../helper-functions';
+import {getSongsFromSongBankRequest, getSongsRequestUrl, spotifyAPIRequest, commaSeperatedItemsUrl, spotifyAPIRequestPost, transitionResponseSongsToFormat} from '../../../helper-functions';
 
 
 // component for the add songs from song bank option

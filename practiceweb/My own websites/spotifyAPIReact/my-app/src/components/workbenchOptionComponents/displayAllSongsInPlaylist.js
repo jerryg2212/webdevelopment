@@ -2,7 +2,7 @@ import React from 'react'
 import { SpotifyAPIBase } from '.././helper-components'
 import '../../styles/displayAllSongsInPlaylist.css';
 import DispalyAllPlaylists from './displayAllPlaylists';
-import { spotifyAPIRequestPut, spotifyAPIRequestPost, spotifyAPIRequest } from '../../helper-functions';
+import { spotifyAPIRequestPut, spotifyAPIRequestPost, spotifyAPIRequest, transitionResponseSongsToFormat } from '../../helper-functions';
 import SongListColumn from '../songListColumn';
 import SongListContainer from '../songListContainer.js';
 
@@ -61,6 +61,7 @@ class DisplayAllSongsInPlaylist extends SpotifyAPIBase{
                 songs = songs.concat(tracksPagingObject.items);
                 nextHref = tracksPagingObject.next;
             }
+            songs = transitionResponseSongsToFormat(songs);
             this.setState({
                 activePlaylistTracks : songs
             })

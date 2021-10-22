@@ -9,7 +9,7 @@ class DisplaySongBankBody extends React.Component{
     }
     render(){
         return (
-            (this.props.songs.length > 1) && <SongListContainer songList={this.props.songs} columns={this.amountOfColumns(this.props.songs)} /> 
+            (this.props.songs.length > 0) && <SongListContainer songList={this.props.songs} columns={this.amountOfColumns(this.props.songs)} /> 
             )
             
     }

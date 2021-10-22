@@ -218,11 +218,24 @@ exports.commaSeperatedItemsUrl = function(baseURL){
 // function that returns the array of songs returned from Spotify in the right format. Sometimes the Spotify API returns a Song object with a Track object nested inside it with information from the song. So we reduce the Track with the Song object
 exports.transitionResponseSongsToFormat = function(songs){
     let result = []
-    if(songs.track){
+    if(songs[0].track){
         for(let song of songs){
             result.push(song.track);
         }
-    }else{}
+    }else{return songs}
+    return result
+}
+
+// given an array of songs in proper format returns an array of songs without duplicates
+exports.removeDuplicateSongs = function(songs){
+    let songIdSet = new Set();
+    let result = [];
+    for(let song of songs){
+        if(!songIdSet.has(song.id)){
+            result.push(song);
+            songIdSet.add(song.id);
+        }
+    }
     return result
 }
 

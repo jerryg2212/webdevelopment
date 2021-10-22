@@ -2,7 +2,7 @@ import React from 'react';
 import '../../styles/workbenchOperationComponents/manipulateAPlaylist.css';
 import { SpotifyAPIBase } from '../helper-components';
 import DispalyAllPlaylists from './displayAllPlaylists';
-import {spotifyAPIRequest} from '../../helper-functions.js';
+import {spotifyAPIRequest, transitionResponseSongsToFormat} from '../../helper-functions.js';
 import UpdatedWorkbenchOptionsComponent from '../updatedWorkBenchOptionsComponent';
 import DisplaySongsOption from './manipulateAPlaylistOptions/displaySongsOption';
 import AddSongsOption from './manipulateAPlaylistOptions/addSongsOption';
@@ -102,6 +102,7 @@ class ManipulateAPlaylist extends SpotifyAPIBase{
                 nextHref = tracksPagingObject.next;
             }
             songs = this.removeDuplicateSongs(songs);
+            songs = transitionResponseSongsToFormat(songs);
             this.setState({
                 activePlaylistTracks : songs
             })

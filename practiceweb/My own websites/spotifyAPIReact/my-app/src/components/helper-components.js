@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import  ReactDOM, { render }  from 'react-dom';
 import axios from 'axios';
 import exitIcon from '../icons/exit.svg';
-import { spotifyAPIRequest, spotifyAPIRequestPost } from '../helper-functions';
+import { spotifyAPIRequest, spotifyAPIRequestPost, transitionResponseSongsToFormat } from '../helper-functions';
 //import { response } from 'express';
 
 // base component for the spotify api that provides functionality for all components
@@ -202,7 +202,7 @@ function SpotifyAPIBaseComposition(Component, properties){
             return(
                 <>
                 {error}
-                <Component allUsersPlaylists={this.allUsersPlaylists.bind(this)} {...this.props} {...properties}/>
+                <Component {...this.props} {...properties} allUsersPlaylists={this.allUsersPlaylists.bind(this)} getPlaylistTracks={this.getPlaylistTracks.bind(this)} />
                 </>
             )
         }
@@ -275,7 +275,6 @@ function SpotifyAPIBaseComposition(Component, properties){
                     while(url){
                         let playlistsResponse = await spotifyAPIRequest(url, this.props.accessToken);
                         playlistsResponse = JSON.parse(playlistsResponse);
-                        console.log(playlistsResponse);
                         playlists = playlists.concat(playlistsResponse.items);
                         url = playlistsResponse.next;
                     }
@@ -286,7 +285,29 @@ function SpotifyAPIBaseComposition(Component, properties){
                     return []
                 }
             }
-        
+            // returns all the tracks in the users playlist
+            // parameters
+                // id = the id of the playlist
+            async getPlaylistTracks(id){
+                return new Promise(async (resolve, reject) => {
+                    var songs = [];
+                    try{
+                        var url = `https://api.spotify.com/v1/playlists/${id}/tracks?limit=50`;
+                        while(url){
+                            let songsResponse = await spotifyAPIRequest(url, this.props.accessToken);
+                            songsResponse = JSON.parse(songsResponse);
+                            songs = songs.concat(songsResponse.items);
+                            url = songsResponse.next;  
+                        }
+                        songs = transitionResponseSongsToFormat(songs);
+                        resolve(songs);
+                    }catch(err){
+                        console.log(err);
+                        this.handleResponseForErrors(err);
+                        reject(err);
+                    }
+                })
+            }
     }
 
 }

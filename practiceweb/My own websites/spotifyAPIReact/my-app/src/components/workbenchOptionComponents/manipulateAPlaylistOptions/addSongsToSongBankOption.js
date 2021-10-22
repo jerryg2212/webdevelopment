@@ -1,7 +1,7 @@
 import React from 'react';
 import { SpotifyAPIBase } from '../../helper-components';
 import SongListContainer from '../../songListContainer';
-import {getSongsFromSongBankRequest, getSongsRequestUrl, spotifyAPIRequest, commaSeperatedItemsUrl, spotifyAPIRequestPost, addSongsToSongBankRequest} from '../../../helper-functions';
+import {getSongsFromSongBankRequest, getSongsRequestUrl, spotifyAPIRequest, commaSeperatedItemsUrl, spotifyAPIRequestPost, addSongsToSongBankRequest, transitionResponseSongsToFormat} from '../../../helper-functions';
 
 
 // component for the add songs to song bank option
@@ -101,7 +101,7 @@ class AddSongsToSongBankOption extends SpotifyAPIBase{
         // if the box is checked
         if(ev.target.checked){
             for(let track of this.props.playlistTracks){
-                selectedPlaylistSongsIds.add(track.track.id);
+                selectedPlaylistSongsIds.add(track.id);
             }
         }
         // if the box is not checked

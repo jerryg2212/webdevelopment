@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from "react";
 import { SpotifyAPIBase, SpotifyAPIBaseComposition } from "../helper-components";
+import { removeDuplicateSongs } from "../../helper-functions";
 import '../../styles/workbenchOperationComponents/compareTwoPlaylists.css';
 import PlaylistsDropDown from "../helperComponents/PlaylistsDropDown";
+import SongListContainer from "../songListContainer";
 
 
 // component that lets the user compare two playlists
@@ -11,26 +13,130 @@ import PlaylistsDropDown from "../helperComponents/PlaylistsDropDown";
 class CompareTwoPlaylists extends React.Component{
     constructor(props){
         super(props);
+        this.state = {
+            usersPlaylists : [],
+            playlistOneId : undefined,
+            playlistTwoId : undefined,
+            playlistOneTracks : [],
+            playlistTwoTracks : [],
+            compareActive : false // lets the render method know wheter or not to display the songs in both the playlists
+        }
     }
     render(){
-        let PlaylistOneContainerComponent = SpotifyAPIBaseComposition(SelectAPlaylist);
         return (
             <div id="compareTwoPlaylistsContainer">
                 <header className="workbenchOperationDescriptiveHeader"><h1>Compare Two Playlists</h1></header>
                 <div id="selectPlaylistsContainer">
                     <div id="selectPlaylistOneContainer">
                         <h1 className="primaryHeader">Playlist 1</h1>
-                        {<PlaylistOneContainerComponent accessToken={this.props.accessToken} refreshToken={this.props.refreshToken} getNewAccessToken={this.props.getNewAccessToken}/>}
+                        {<PlaylistsDropDown updateParentState={this.updatePlaylistOneId.bind(this)} playlists={this.state.usersPlaylists} />}
                     </div>
-                    <div id="selectPlayistTwoContainer"></div>
+                    <div id="compareButtonContainer">
+                        <button className="secondaryButtonStyle" onClick={this.compareButtonClickEvent.bind(this)}>Compare</button>
+                    </div>
+                    <div id="selectPlaylistTwoContainer">
+                        <h1 className="primaryHeader">Playlist 2</h1>
+                        {<PlaylistsDropDown updateParentState={this.updatePlaylistTwoId.bind(this)} playlists={this.state.usersPlaylists} />}
+                    </div>
                 </div>
+                {this.playlistsTracksBody()}
             </div>
         )
     }
+    async componentDidMount(){
+        try{
+            await this.setAllPlaylists();
+        }catch(err){
+            console.log(err);
+        }
+    }
+    // Sets information
+        // saves to state all the users playlists
+        async setAllPlaylists(){
+            let playlists = await this.props.allUsersPlaylists();
+            this.setState({usersPlaylists : playlists});
+        }
+        // saves the songs in playlistOne to the state
+        async setPlaylistOneTracks(id = this.state.playlistOneId){
+            try{
+                let songs = await this.props.getPlaylistTracks(id);
+                this.setState({playlistOneTracks : songs});
+            }catch(err){
+                console.log(`There was an error getting playlist One's songs Error: ${err}`);
+            }
+        }
+        // saves the songs in playlistTwo to the state
+        async setPlaylistTwoTracks(id = this.state.playlistTwoId){
+            try{
+                let songs = await this.props.getPlaylistTracks(id);
+                this.setState({playlistTwoTracks : songs});
+            }catch(err){
+                console.log(`There was an error getting playlist One's songs Error: ${err}`);
+            }
+        }
+    // returns Components
+        playlistsTracksBody(){
+            if(this.state.compareActive){
+                return <SongListContainer songList={removeDuplicateSongs(this.state.playlistTwoTracks.concat(this.state.playlistOneTracks))} columns={1}></SongListContainer>
+            }
+            return 
+            
+        }
+    
+    // Events
+        // click event for the compare button
+        compareButtonClickEvent(ev){
+            let playlistOneId = this.state.playlistOneId;
+            let playlistTwoId = this.state.playlistTwoId;
+            // at least one playlist's tracks are not saved
+            if(playlistOneId == undefined && playlistTwoId == undefined){
+                console.log('please select two playlists to compare');
+            }else{
+                this.setDifferencesAndSimilarities();
+                this.setState({compareActive : true});
+            }
+        }   
+            // sets state to represent all the differences or similarities of the songs in both playlists
+            setDifferencesAndSimilarities(){
+                let playlistOneIdsSet = this.returnSetOfIds(this.state.playlistOneTracks);
+                let playlistTwoIdsSet = this.returnSetOfIds(this.state.playlistTwoTracks);
+                let songsIdsInBoth = new Set();
+                let songsIdsInOneButNotTwo = new Set();
+                let songsIdsInTwoButNotOne = new Set();
+                let playlistOneIdsArray = Array.from(playlistOneIdsSet.values());
+                let playlistTwoIdsArray = Array.from(playlistTwoIdsSet.values());
+                if(playlistOneIdsArray.length > playlistTwoIdsArray.length){
+
+                }else{
+                    
+                }
+                
+
+            }
+            // returns a Set of ids from the songs paramter
+            returnSetOfIds(songs){
+                let ids = new Set();
+                for(let song of songs){
+                    ids.add(song.id);
+                }
+                return ids;
+            }
+
+    // Random
+        // updates the playlistOneId state value
+        updatePlaylistOneId(playlist){
+            this.setState({playlistOneId : playlist.id});
+            this.setPlaylistOneTracks(playlist.id);
+        }
+        // updates the playlistTwoId state value
+        updatePlaylistTwoId(playlist){
+            this.setState({playlistTwoId : playlist.id});
+            this.setPlaylistTwoTracks(playlist.id);
+        }
 }
 export default SpotifyAPIBaseComposition(CompareTwoPlaylists);
 
-    // component that controls selecting a playlist
+   /* // component that controls selecting a playlist
     // props
         // updateParentState = function that updates the parent state when a new playlist is selected
     class SelectAPlaylist extends React.Component{
@@ -62,7 +168,7 @@ export default SpotifyAPIBaseComposition(CompareTwoPlaylists);
                 let playlists = await this.props.allUsersPlaylists();
                 this.setState({usersPlaylists : playlists});
             }
-        /*// component elements
+        / component elements
             // returns the select element so the user can select a playlist
             selectAPlaylistDropDown(){
                 return (
@@ -88,7 +194,7 @@ export default SpotifyAPIBaseComposition(CompareTwoPlaylists);
                 if(this.state.isActivePlaylist){return this.activePlaylistDetails()}
                 // there is not an active playlist so return the select element so the user can select a playlist
                 else{return this.selectAPlaylistDropDown()}
-            }*/
+            }
             // returns the correct button element 
             changeSelectButton(){
                 // their is an active playlist so return the change button
@@ -96,4 +202,4 @@ export default SpotifyAPIBaseComposition(CompareTwoPlaylists);
                 // there is not an active playlist so return the select button
                 else{return <button className="secondaryButtonStyle" style={{"marginTop" : "15px"}}>Select</button>}
             }
-    }
+    }*/

@@ -7,6 +7,7 @@ import dropDownArrow from '../../icons/drop-down-arrow.png';
 // class that acts as a drop down element for the users playlists 
 // properties 
     // playlists = array of playlists to select from
+    // updateParentState = function ran when a new playlist is selected and it takes the playlist object as the parameter
 
 class PlaylistsDropDown extends React.Component{
     constructor(props){
@@ -61,9 +62,14 @@ class PlaylistsDropDown extends React.Component{
         // changes the value of the selectedPlaylist in the state
         dropDownListElementClickEvent(ev){
             ev.stopPropagation();
-            this.setState({selectedPlaylist : JSON.parse(ev.currentTarget.attributes.getNamedItem("playlist").value), displayList : false});
+            let playlist = JSON.parse(ev.currentTarget.attributes.getNamedItem("playlist").value);
+            this.props.updateParentState(playlist);
+            this.setState({selectedPlaylist : playlist, displayList : false});
             
         }
+}
+PlaylistsDropDown.defaultProps = {
+    updateParentState : playlist => {return}
 }
 
 export default PlaylistsDropDown

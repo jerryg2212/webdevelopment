@@ -11,13 +11,19 @@
     /* container that is where the user selects each playlist */
     #selectPlaylistsContainer{
         display: flex;
-        justify-content : space-around;
+        justify-content : space-evenly;
         margin-top: 20px;
+        align-items: flex-start;
+        padding-bottom: 20px;
     }
         /* container for selecting each individual playlist */
-        #selectPlaylistsContainer > div{
+        #selectPlaylistOneContainer, #selectPlaylistTwoContainer{
             background-color: lightblue;
             padding: 5px;
+        }
+        /* container that holds the compare button */
+        #compareButtonContainer{
+            align-self: center;
         }
 
 
