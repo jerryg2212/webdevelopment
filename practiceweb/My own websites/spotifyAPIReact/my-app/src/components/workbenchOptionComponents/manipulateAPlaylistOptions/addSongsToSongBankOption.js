@@ -91,6 +91,7 @@ class AddSongsToSongBankOption extends SpotifyAPIBase{
         // item is not selected so select it
         else{
             selectedPlaylistSongsIds.add(elm.id);
+            console.log(`added ${elm.id}`);
         }
 
         this.setState({selectedPlaylistSongsIds : selectedPlaylistSongsIds});
@@ -122,6 +123,7 @@ class AddSongsToSongBankOption extends SpotifyAPIBase{
         try{
             let body = {songs : Array.from(this.state.selectedPlaylistSongsIds.values())}
             body = JSON.stringify(body);
+            console.log(body);
             let response = await addSongsToSongBankRequest(this.userId, body);
             // update the song bank
             await this.setSongs();

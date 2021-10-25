@@ -134,7 +134,6 @@ app.get('/api/addSongToSongBank', async (req, res) => {
 })
 // adds multiple songs to the song bank
 app.post('/api/addSongsToSongBank/', async (req, res) => {
-    console.log('addsongstosongbank');
     let songs = req.body.songs;
     let userId = req.query.userId;
      try{
@@ -146,7 +145,6 @@ app.post('/api/addSongsToSongBank/', async (req, res) => {
         // sets the song bank to empty if user is null, else the songbank is the users songBank
             if(user == null){songBank = [];}
             else{songBank = user.songBank;}
-            console.log(`this is the user ${user}`);
         // gets the new songBank after it adds the new songs to the song Bank
         songBank = getNewSongBank(songBank, songs);
         // either creates a new user if user is null or saves the new songBank to the old user

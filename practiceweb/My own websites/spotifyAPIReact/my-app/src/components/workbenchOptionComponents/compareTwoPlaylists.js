@@ -22,8 +22,13 @@ class CompareTwoPlaylists extends React.Component{
             tracksInBothPlaylists : [],
             tracksInPlaylistOneButNotTwo : [],
             tracksInPlaylistTwoButNotOne : [],
+            // array of objects that have the properties of type Set "selectedSongIds" and "selectedSongUris"
+            selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()},
             compareActive : false // lets the render method know wheter or not to display the songs in both the playlists
         }
+        this.tracksInBothPlaylistsRef = React.createRef();
+        this.tracksInPlaylistOneButNotTwo = React.createRef();
+        this.tracksInPlaylistTwoButNotOne = React.createRef();
     }
     render(){
         return (
@@ -83,13 +88,13 @@ class CompareTwoPlaylists extends React.Component{
                 return (
                     <div id="compareTwoPlaylistsTracksContainer">
                         <div id="tracksInPlaylistOneButNotTwoContainer">
-                            <SongListComparisionsComponent songs={this.state.tracksInPlaylistOneButNotTwo} title="Songs In Playlist One Only"/>
+                            <SongListComparisionsComponent songs={this.state.tracksInPlaylistOneButNotTwo} title="Songs In Playlist One Only" ref={this.tracksInPlaylistOneButNotTwoRef} />
                         </div>
                         <div id="tracksBothPlaylists">
-                            <SongListComparisionsComponent songs={this.state.tracksInBothPlaylists} title="Songs In Both Playlists"/>
+                            <SongListComparisionsComponent songs={this.state.tracksInBothPlaylists} title="Songs In Both Playlists" ref={this.tracksInBothPlaylistsRef} />
                         </div>
                         <div id="tracksInPlaylistTwoButNotOne">
-                            <SongListComparisionsComponent songs={this.state.tracksInPlaylistTwoButNotOne} title="Songs In Playlist Two Only"/>
+                            <SongListComparisionsComponent songs={this.state.tracksInPlaylistTwoButNotOne} title="Songs In Playlist Two Only" ref={this.tracksInPlaylistTwoButNotOneRef} />
                         </div>
                     </div>
                 )
@@ -178,14 +183,62 @@ export default SpotifyAPIBaseComposition(CompareTwoPlaylists);
     class SongListComparisionsComponent extends React.Component{
         constructor(props){
             super(props);
+            this.state = {
+                selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}, // selected songs has the properties that are both sets "selectedSongIds" and "selectedSongUris"
+                selectAllChecked : false
+            } 
         }
         render(){
             return(
                 <div className="songListComparisionComponentContanier">
                     <h1 className="secondaryHeader" style={{"fontSize" : "18px"}}>{this.props.title}</h1>
-                    <label>Select All<input type="checkbox"></input></label>
-                    <SongListContainer songList={this.props.songs} columns={1}/>
+                    <label className="selectAllLabel">Select All<input type="checkbox" value={this.state.selectAllChecked} className="selectAllCheckbox" onChange={this.onChangeSelectAll.bind(this)}></input></label>
+                    <SongListContainer songList={this.props.songs} columns={1} listItemClickEventHandler={this.songListContainerClickEvent.bind(this)} activeClassAdder={this.activeClassAdder.bind(this)}/>
                 </div>
             )
+        }
+        // click event for the song list container that adds or deletes the songs from the selected songs
+        songListContainerClickEvent(id, elm, ev){
+            let selectedSongIds = this.state.selectedSongs.selectedSongIds;
+            let selectedSongUris = this.state.selectedSongs.selectedSongUris;
+            // already active so remove it
+            if(selectedSongIds.has(id)){
+                selectedSongIds.delete(id);
+                selectedSongUris.delete(elm.uri);
+            }
+            // add it
+            else{
+                selectedSongIds.add(id);
+                selectedSongUris.add(elm.uri);
+            }
+            this.setState({selectedSongs : {selectedSongIds : selectedSongIds, selectedSongUris : selectedSongUris}});
+        }
+        // function given to songListColumn to give the container the active class or not
+        activeClassAdder(id, uri){
+            return this.state.selectedSongs.selectedSongIds.has(id);
+        }
+        // onChange event for the select all checkbox
+        onChangeSelectAll(ev){
+            var checked = ev.target.checked;
+            var selectedSongIds = this.state.selectedSongs.selectedSongIds;
+            var selectedSongUris = this.state.selectedSongs.selectedSongUris;
+            // box is checked add all songs and change the value of the checkbox state value to true
+            if(checked){
+                for(let song of this.props.songs){
+                    selectedSongIds.add(song.id);
+                    selectedSongUris.add(song.uri);
+                }
+            }            
+            // box is not checked so remove the songs and change the value of the checkbox state value to false
+            else{
+                for(let song of this.props.songs){
+                    selectedSongIds.delete(song.id);
+                    selectedSongUris.delete(song.uri);
+                }
+            }
+            this.setState({
+                selectAllChecked : checked,
+                selectedSongs : {selectedSongIds : selectedSongIds, selectedSongUris : selectedSongUris}
+            })
         }
     }
