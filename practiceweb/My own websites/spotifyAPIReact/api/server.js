@@ -134,7 +134,9 @@ app.get('/api/addSongToSongBank', async (req, res) => {
 })
 // adds multiple songs to the song bank
 app.post('/api/addSongsToSongBank/', async (req, res) => {
+    console.log('addsongstosongbank ran');
     let songs = req.body.songs;
+    console.log(songs);
     let userId = req.query.userId;
      try{
         // gets the collection
@@ -195,7 +197,7 @@ app.get('/api/deleteSongsFromSongBannk', async (req, res) => {
 })
 
 // returns the songs the user has in song bank
-app.get('/api/getSongsFromSongBannnnk', async (req, res) => {
+app.get('/api/getSongsFromSongBannnnnk', async (req, res) => {
     console.log('get songs form song bank ran');
     let userId = req.query.userId;
     let songIds = []

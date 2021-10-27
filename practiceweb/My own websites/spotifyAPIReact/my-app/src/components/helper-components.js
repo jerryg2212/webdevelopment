@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import  ReactDOM, { render }  from 'react-dom';
 import axios from 'axios';
 import exitIcon from '../icons/exit.svg';
-import { spotifyAPIRequest, spotifyAPIRequestPost, transitionResponseSongsToFormat } from '../helper-functions';
+import { spotifyAPIRequest, spotifyAPIRequestPost, transitionResponseSongsToFormat, addSongsToSongBankRequest } from '../helper-functions';
 //import { response } from 'express';
 
 // base component for the spotify api that provides functionality for all components
@@ -202,7 +202,7 @@ function SpotifyAPIBaseComposition(Component, properties){
             return(
                 <>
                 {error}
-                <Component {...this.props} {...properties} allUsersPlaylists={this.allUsersPlaylists.bind(this)} getPlaylistTracks={this.getPlaylistTracks.bind(this)} />
+                <Component {...this.props} {...properties} allUsersPlaylists={this.allUsersPlaylists.bind(this)} getPlaylistTracks={this.getPlaylistTracks.bind(this)} addSongsToSongBank={this.addSongsToSongBank.bind(this)} />
                 </>
             )
         }
@@ -301,6 +301,19 @@ function SpotifyAPIBaseComposition(Component, properties){
                         }
                         songs = transitionResponseSongsToFormat(songs);
                         resolve(songs);
+                    }catch(err){
+                        console.log(err);
+                        this.handleResponseForErrors(err);
+                        reject(err);
+                    }
+                })
+            }
+        // requests to our server 
+            async addSongsToSongBank(songs){
+                return new Promise(async (resolve, reject) => {
+                    try{
+                        await addSongsToSongBankRequest(this.state.userId, songs);
+                        resolve();
                     }catch(err){
                         console.log(err);
                         this.handleResponseForErrors(err);

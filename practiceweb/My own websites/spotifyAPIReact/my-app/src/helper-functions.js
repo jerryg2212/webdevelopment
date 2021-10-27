@@ -158,7 +158,7 @@ exports.getSongsFromSongBankRequest = (userId) => {
             }
 
         }
-        request.open('GET', `/api/getSongsFromSongBannnnk?userId=${userId}`, true);
+        request.open('GET', `/api/getSongsFromSongBannnnnk?userId=${userId}`, true);
         request.send();
     })
     return response

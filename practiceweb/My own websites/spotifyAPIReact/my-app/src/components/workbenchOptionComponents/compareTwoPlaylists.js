@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from "react";
 import { SpotifyAPIBase, SpotifyAPIBaseComposition } from "../helper-components";
-import { removeDuplicateSongs } from "../../helper-functions";
+import { removeDuplicateSongs, addSongsToSongBankRequest } from "../../helper-functions";
 import '../../styles/workbenchOperationComponents/compareTwoPlaylists.css';
 import PlaylistsDropDown from "../helperComponents/PlaylistsDropDown";
 import SongListContainer from "../songListContainer";
+import UpdatedWorkbenchOptionsComponent from "../updatedWorkBenchOptionsComponent";
 
 
 // component that lets the user compare two playlists
@@ -27,8 +28,8 @@ class CompareTwoPlaylists extends React.Component{
             compareActive : false // lets the render method know wheter or not to display the songs in both the playlists
         }
         this.tracksInBothPlaylistsRef = React.createRef();
-        this.tracksInPlaylistOneButNotTwo = React.createRef();
-        this.tracksInPlaylistTwoButNotOne = React.createRef();
+        this.tracksInPlaylistOneButNotTwoRef = React.createRef();
+        this.tracksInPlaylistTwoButNotOneRef = React.createRef();
     }
     render(){
         return (
@@ -39,14 +40,15 @@ class CompareTwoPlaylists extends React.Component{
                         <h1 className="primaryHeader">Playlist 1</h1>
                         {<PlaylistsDropDown updateParentState={this.updatePlaylistOneId.bind(this)} playlists={this.state.usersPlaylists} />}
                     </div>
-                    <div id="compareButtonContainer">
-                        <button className="secondaryButtonStyle" onClick={this.compareButtonClickEvent.bind(this)}>Compare</button>
-                    </div>
                     <div id="selectPlaylistTwoContainer">
                         <h1 className="primaryHeader">Playlist 2</h1>
                         {<PlaylistsDropDown updateParentState={this.updatePlaylistTwoId.bind(this)} playlists={this.state.usersPlaylists} />}
                     </div>
                 </div>
+                <div id="compareButtonContainer">
+                        <button className="secondaryButtonStyle" onClick={this.compareButtonClickEvent.bind(this)}>Compare</button>
+                </div>
+                {this.returnOptions()}
                 {this.playlistsTracksBody()}
             </div>
         )
@@ -82,6 +84,22 @@ class CompareTwoPlaylists extends React.Component{
                 console.log(`There was an error getting playlist One's songs Error: ${err}`);
             }finally{return}
         }
+
+        // updates the state value of selected songs and returns a promise after the state has been updated
+        updateSelectedSongs(){
+            return new Promise((resolve, reject) => {
+                var selectedSongIds = [];
+                var selectedSongUris = [];
+                selectedSongIds = selectedSongIds.concat(Array.from(this.tracksInBothPlaylistsRef.current.state.selectedSongs.selectedSongIds.values()));
+                selectedSongIds = selectedSongIds.concat(Array.from(this.tracksInPlaylistOneButNotTwoRef.current.state.selectedSongs.selectedSongIds.values()));
+                selectedSongIds = selectedSongIds.concat(Array.from(this.tracksInPlaylistTwoButNotOneRef.current.state.selectedSongs.selectedSongIds.values()));
+                selectedSongUris = selectedSongUris.concat(Array.from(this.tracksInBothPlaylistsRef.current.state.selectedSongs.selectedSongUris.values()));
+                selectedSongUris = selectedSongUris.concat(Array.from(this.tracksInPlaylistOneButNotTwoRef.current.state.selectedSongs.selectedSongUris.values()));
+                selectedSongUris = selectedSongUris.concat(Array.from(this.tracksInPlaylistTwoButNotOneRef.current.state.selectedSongs.selectedSongUris.values()));
+                this.setState({selectedSongs : {selectedSongIds : selectedSongIds, selectedSongUris : selectedSongUris}}, () => {resolve(true)});
+            })
+        }
+
     // returns Components
         playlistsTracksBody(){
             if(this.state.compareActive){
@@ -100,7 +118,19 @@ class CompareTwoPlaylists extends React.Component{
                 )
             }
             return 
-            
+        }
+    // returns the options component if the compare is activated
+        returnOptions(){
+            if(this.state.compareActive){
+                return(
+                    <div id="compareTwoPlaylistsOptionsContainer">
+                        <button className="secondaryButtonStyle" onClick={this.addSelectedSongsToSongBank.bind(this)}>Bank Songs</button>
+                        <button className="secondaryButtonStyle" onClick={this.addSelectedSongsToPlaylistOne.bind(this)}>Add To Playlist 1</button>
+                        <button className="secondaryButtonStyle" onClick={this.addSelectedSongsToPlaylistTwo.bind(this)}>Add To Playlist 2</button>
+                    </div>
+                )
+            }
+            return undefined
         }
     
     // Events
@@ -161,6 +191,25 @@ class CompareTwoPlaylists extends React.Component{
                 }
                 return ids;
             }
+        // click event for the bank songs button
+        async addSelectedSongsToSongBank(ev){
+            try{
+                await this.updateSelectedSongs();
+                let selectedSongIds = Array.from(this.state.selectedSongs.selectedSongIds.values());
+                let selectedSongIdsBody = {songs : selectedSongIds};
+                selectedSongIdsBody = JSON.stringify(selectedSongIdsBody);
+                let result = await this.props.addSongsToSongBank(selectedSongIdsBody);
+                this.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}});
+            }catch(err){
+                console.log(err);
+            }
+
+
+        }
+        // click event for the add songs to playlist 1 button
+        addSelectedSongsToPlaylistOne(ev){}
+        // click event for the add songs to playlist 2 button
+        addSelectedSongsToPlaylistTwo(ev){}
 
     // Random
         // updates the playlistOneId state value
