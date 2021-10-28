@@ -25,7 +25,8 @@ class CompareTwoPlaylists extends React.Component{
             tracksInPlaylistTwoButNotOne : [],
             // array of objects that have the properties of type Set "selectedSongIds" and "selectedSongUris"
             selectedSongs : {selectedSongIds : {tracksInPlaylistOneButNotTwo : new Set(), tracksInBothPlaylists : new Set(), tracksInPlaylistTwoButNotOne : new Set()}, selectedSongUris : {tracksInPlaylistOneButNotTwo : new Set(), tracksInBothPlaylists : new Set(), tracksInPlaylistTwoButNotOne : new Set()}},
-            compareActive : false // lets the render method know wheter or not to display the songs in both the playlists
+            compareActive : false, // lets the render method know wheter or not to display the songs in both the playlists
+            compareButtonErrorMessage : false
         }
         this.tracksInBothPlaylistsRef = React.createRef();
         this.tracksInPlaylistOneButNotTwoRef = React.createRef();
@@ -47,6 +48,7 @@ class CompareTwoPlaylists extends React.Component{
                 </div>
                 <div id="compareButtonContainer">
                         <button className="secondaryButtonStyle" onClick={this.compareButtonClickEvent.bind(this)}>Compare</button>
+                        {this.returnCompareButtonErrorMessage()}
                 </div>
                 {this.returnOptions()}
                 {this.playlistsTracksBody()}
@@ -99,6 +101,7 @@ class CompareTwoPlaylists extends React.Component{
         }
 
     // returns Components
+        // returns the three columns of songs
         playlistsTracksBody(){
             if(this.state.compareActive){
                 return (
@@ -117,7 +120,7 @@ class CompareTwoPlaylists extends React.Component{
             }
             return 
         }
-    // returns the options component if the compare is activated
+        // returns the options component if the compare is activated
         returnOptions(){
             if(this.state.compareActive){
                 return(
@@ -130,20 +133,28 @@ class CompareTwoPlaylists extends React.Component{
             }
             return undefined
         }
+        // returns the error message for the compare button if it is needed
+        returnCompareButtonErrorMessage(){
+            if(this.state.compareButtonErrorMessage){
+                return <p id="compareButtonErrorMessage">Please Select Two Playlists To Compare</p>
+            }
+            return undefined
+        }
     
     // Events
         // click event for the compare button
         async compareButtonClickEvent(ev){
-            await this.setPlaylistOneTracks(this.state.playlistOneId);
-            await this.setPlaylistTwoTracks(this.state.playlistTwoId);
             let playlistOneId = this.state.playlistOneId;
             let playlistTwoId = this.state.playlistTwoId;
             // at least one playlist's tracks are not saved
-            if(playlistOneId == undefined && playlistTwoId == undefined){
+            if(playlistOneId == undefined || playlistTwoId == undefined){
                 console.log('please select two playlists to compare');
+                this.setState({compareButtonErrorMessage : true});
             }else{
+                await this.setPlaylistOneTracks(this.state.playlistOneId);
+                await this.setPlaylistTwoTracks(this.state.playlistTwoId);
                 this.setDifferencesAndSimilarities();
-                this.setState({compareActive : true});
+                this.setState({compareActive : true, compareButtonErrorMessage : false});
             }
         }   
             // sets state to represent all the differences or similarities of the songs in both playlists
@@ -247,13 +258,17 @@ class CompareTwoPlaylists extends React.Component{
     // Random
         // updates the playlistOneId state value
         updatePlaylistOneId(playlist){
-            this.setState({playlistOneId : playlist.id});
-           // this.setPlaylistOneTracks(playlist.id);
+            var compareButtonErrorMessage = false;
+            if(this.state.compareButtonErrorMessage && playlist.id && !this.state.playlistTwoId){
+                compareButtonErrorMessage = true;
+            }
+            this.setState({playlistOneId : playlist.id, compareButtonErrorMessage : compareButtonErrorMessage});
         }
         // updates the playlistTwoId state value
         updatePlaylistTwoId(playlist){
-            this.setState({playlistTwoId : playlist.id});
-           // this.setPlaylistTwoTracks(playlist.id);
+            var compareButtonErrorMessage = false;
+            if(this.state.compareButtonErrorMessage && playlist.id && !this.state.playlistOneId) compareButtonErrorMessage = true;
+            this.setState({playlistTwoId : playlist.id, compareButtonErrorMessage : compareButtonErrorMessage});
         }
 }
 export default SpotifyAPIBaseComposition(CompareTwoPlaylists);

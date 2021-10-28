@@ -57,3 +57,10 @@
         box-shadow: 2px 2px 3px black;
         justify-content: space-evenly;
     }
+
+    /* compare button error message */
+    #compareButtonErrorMessage{
+        color: red;
+        margin: 1px;
+        font-style:italic;
+    }
