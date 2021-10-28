@@ -24,7 +24,7 @@ class CompareTwoPlaylists extends React.Component{
             tracksInPlaylistOneButNotTwo : [],
             tracksInPlaylistTwoButNotOne : [],
             // array of objects that have the properties of type Set "selectedSongIds" and "selectedSongUris"
-            selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()},
+            selectedSongs : {selectedSongIds : {tracksInPlaylistOneButNotTwo : new Set(), tracksInBothPlaylists : new Set(), tracksInPlaylistTwoButNotOne : new Set()}, selectedSongUris : {tracksInPlaylistOneButNotTwo : new Set(), tracksInBothPlaylists : new Set(), tracksInPlaylistTwoButNotOne : new Set()}},
             compareActive : false // lets the render method know wheter or not to display the songs in both the playlists
         }
         this.tracksInBothPlaylistsRef = React.createRef();
@@ -88,15 +88,13 @@ class CompareTwoPlaylists extends React.Component{
         // updates the state value of selected songs and returns a promise after the state has been updated
         updateSelectedSongs(){
             return new Promise((resolve, reject) => {
-                var selectedSongIds = [];
-                var selectedSongUris = [];
-                selectedSongIds = selectedSongIds.concat(Array.from(this.tracksInBothPlaylistsRef.current.state.selectedSongs.selectedSongIds.values()));
-                selectedSongIds = selectedSongIds.concat(Array.from(this.tracksInPlaylistOneButNotTwoRef.current.state.selectedSongs.selectedSongIds.values()));
-                selectedSongIds = selectedSongIds.concat(Array.from(this.tracksInPlaylistTwoButNotOneRef.current.state.selectedSongs.selectedSongIds.values()));
-                selectedSongUris = selectedSongUris.concat(Array.from(this.tracksInBothPlaylistsRef.current.state.selectedSongs.selectedSongUris.values()));
-                selectedSongUris = selectedSongUris.concat(Array.from(this.tracksInPlaylistOneButNotTwoRef.current.state.selectedSongs.selectedSongUris.values()));
-                selectedSongUris = selectedSongUris.concat(Array.from(this.tracksInPlaylistTwoButNotOneRef.current.state.selectedSongs.selectedSongUris.values()));
-                this.setState({selectedSongs : {selectedSongIds : selectedSongIds, selectedSongUris : selectedSongUris}}, () => {resolve(true)});
+                var tracksInBothPlaylistsIds = Array.from(this.tracksInBothPlaylistsRef.current.state.selectedSongs.selectedSongIds.values());
+                var tracksInPlaylistOneButNotTwoIds = Array.from(this.tracksInPlaylistOneButNotTwoRef.current.state.selectedSongs.selectedSongIds.values());
+                var tracksInPlaylistTwoButNotOneIds = Array.from(this.tracksInPlaylistTwoButNotOneRef.current.state.selectedSongs.selectedSongIds.values());
+                var tracksInBothPlaylistsUris = Array.from(this.tracksInBothPlaylistsRef.current.state.selectedSongs.selectedSongUris.values());
+                var tracksInPlaylistOneButNotTwoUris = Array.from(this.tracksInPlaylistOneButNotTwoRef.current.state.selectedSongs.selectedSongUris.values());
+                var tracksInPlaylistTwoButNotOneUris = Array.from(this.tracksInPlaylistTwoButNotOneRef.current.state.selectedSongs.selectedSongUris.values());
+                this.setState({selectedSongs : {selectedSongIds : {tracksInPlaylistOneButNotTwo : tracksInPlaylistOneButNotTwoIds, tracksInBothPlaylists : tracksInBothPlaylistsIds, tracksInPlaylistTwoButNotOne : tracksInPlaylistTwoButNotOneIds}, selectedSongUris : {tracksInPlaylistOneButNotTwo : tracksInPlaylistOneButNotTwoUris, tracksInBothPlaylists : tracksInBothPlaylistsUris, tracksInPlaylistTwoButNotOne : tracksInPlaylistTwoButNotOneUris}}}, () => {resolve(true)});
             })
         }
 
@@ -195,21 +193,56 @@ class CompareTwoPlaylists extends React.Component{
         async addSelectedSongsToSongBank(ev){
             try{
                 await this.updateSelectedSongs();
-                let selectedSongIds = Array.from(this.state.selectedSongs.selectedSongIds.values());
+                let selectedSongIds = Array.from(this.state.selectedSongs.selectedSongIds.tracksInPlaylistOneButNotTwo.values()).concat(Array.from(this.state.selectedSongs.selectedSongIds.tracksInBothPlaylists.values())).concat(Array.from(this.state.selectedSongs.selectedSongIds.tracksInPlaylistTwoButNotOne.values()))
                 let selectedSongIdsBody = {songs : selectedSongIds};
                 selectedSongIdsBody = JSON.stringify(selectedSongIdsBody);
                 let result = await this.props.addSongsToSongBank(selectedSongIdsBody);
-                this.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}});
-            }catch(err){
+                // setting this components state
+                this.setState({selectedSongs : {selectedSongIds : {tracksInPlaylistOneButNotTwo : new Set(), tracksInBothPlaylists : new Set(), tracksInPlaylistTwoButNotOne : new Set()}, selectedSongUris : {tracksInPlaylistOneButNotTwo : new Set(), tracksInBothPlaylists : new Set(), tracksInPlaylistTwoButNotOne : new Set()}}});
+                // setting the SongListComponentComparison component state
+                    this.tracksInBothPlaylistsRef.current.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}})
+                    this.tracksInPlaylistOneButNotTwoRef.current.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}})
+                    this.tracksInPlaylistTwoButNotOneRef.current.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}})
+                }catch(err){
                 console.log(err);
             }
-
-
         }
         // click event for the add songs to playlist 1 button
-        addSelectedSongsToPlaylistOne(ev){}
+        async addSelectedSongsToPlaylistOne(ev){
+            try{
+                await this.updateSelectedSongs();
+                let result = await this.props.addSongsToPlaylist(this.state.playlistOneId, Array.from(this.state.selectedSongs.selectedSongUris.tracksInPlaylistTwoButNotOne.values()));
+                // setting this components state
+                this.setState({selectedSongs : {selectedSongIds : {tracksInPlaylistOneButNotTwo : new Set(), tracksInBothPlaylists : new Set(), tracksInPlaylistTwoButNotOne : new Set()}, selectedSongUris : {tracksInPlaylistOneButNotTwo : new Set(), tracksInBothPlaylists : new Set(), tracksInPlaylistTwoButNotOne : new Set()}}});
+                // setting the SongListComponentComparison component state
+                    this.tracksInBothPlaylistsRef.current.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}})
+                    this.tracksInPlaylistOneButNotTwoRef.current.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}})
+                    this.tracksInPlaylistTwoButNotOneRef.current.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}})
+                // resetting the tracks
+                    await this.setPlaylistOneTracks();
+                    this.setDifferencesAndSimilarities();
+                }catch(err){
+                console.log('error addings songs to playlist in compare two playlists');
+            }
+        }
         // click event for the add songs to playlist 2 button
-        addSelectedSongsToPlaylistTwo(ev){}
+        async addSelectedSongsToPlaylistTwo(ev){
+            try{
+                await this.updateSelectedSongs();
+                let result = await this.props.addSongsToPlaylist(this.state.playlistTwoId, Array.from(this.state.selectedSongs.selectedSongUris.tracksInPlaylistOneButNotTwo.values()));
+                // setting this components state
+                this.setState({selectedSongs : {selectedSongIds : {tracksInPlaylistOneButNotTwo : new Set(), tracksInBothPlaylists : new Set(), tracksInPlaylistTwoButNotOne : new Set()}, selectedSongUris : {tracksInPlaylistOneButNotTwo : new Set(), tracksInBothPlaylists : new Set(), tracksInPlaylistTwoButNotOne : new Set()}}});
+                // setting the SongListComponentComparison component state
+                    this.tracksInBothPlaylistsRef.current.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}})
+                    this.tracksInPlaylistOneButNotTwoRef.current.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}})
+                    this.tracksInPlaylistTwoButNotOneRef.current.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}})
+                // resetting the tracks
+                    await this.setPlaylistTwoTracks();
+                    this.setDifferencesAndSimilarities();
+                }catch(err){
+                console.log('error addings songs to playlist in compare two playlists');
+            }
+        }
 
     // Random
         // updates the playlistOneId state value

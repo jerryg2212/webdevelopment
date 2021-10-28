@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import  ReactDOM, { render }  from 'react-dom';
 import axios from 'axios';
 import exitIcon from '../icons/exit.svg';
-import { spotifyAPIRequest, spotifyAPIRequestPost, transitionResponseSongsToFormat, addSongsToSongBankRequest } from '../helper-functions';
+import { spotifyAPIRequest, spotifyAPIRequestPost, transitionResponseSongsToFormat, addSongsToSongBankRequest, removeDuplicateSongs, commaSeperatedItemsUrl } from '../helper-functions';
 //import { response } from 'express';
 
 // base component for the spotify api that provides functionality for all components
@@ -202,7 +202,7 @@ function SpotifyAPIBaseComposition(Component, properties){
             return(
                 <>
                 {error}
-                <Component {...this.props} {...properties} allUsersPlaylists={this.allUsersPlaylists.bind(this)} getPlaylistTracks={this.getPlaylistTracks.bind(this)} addSongsToSongBank={this.addSongsToSongBank.bind(this)} />
+                <Component {...this.props} {...properties} allUsersPlaylists={this.allUsersPlaylists.bind(this)} getPlaylistTracks={this.getPlaylistTracks.bind(this)} addSongsToSongBank={this.addSongsToSongBank.bind(this)} addSongsToPlaylist={this.addSongsToPlaylist.bind(this)} />
                 </>
             )
         }
@@ -266,6 +266,9 @@ function SpotifyAPIBaseComposition(Component, properties){
                     this.setState({cannotAccessSongBank : true});
                 }
             }
+
+
+
         // Spotify API Requests
             // returns an array of the users playlists
             async allUsersPlaylists(){
@@ -308,6 +311,30 @@ function SpotifyAPIBaseComposition(Component, properties){
                     }
                 })
             }
+            // adds songs to playlist
+            // precondition = their are no duplicate songs
+            // parameters
+                // playlistId = the id of the playlist you want to add the songs to
+                // songs = array of the songs user wants to add to the playlist
+            async addSongsToPlaylist(playlistId, songs){
+                return new Promise(async (resolve, reject) => {
+                    try{
+                        var requestableSongs = songs;
+                        while(requestableSongs.length > 0){
+                            let url = commaSeperatedItemsUrl(`https://api.spotify.com/v1/playlists/${playlistId}/tracks?uris=`)(requestableSongs.splice(0, 100));
+                            await spotifyAPIRequestPost(url, this.props.accessToken);
+                        }
+                        resolve();
+                    }catch(err){
+                        this.handleResponseForErrors(err);
+                        console.log(err);
+                        reject(err);
+                    }
+                })
+            }
+
+
+
         // requests to our server 
             async addSongsToSongBank(songs){
                 return new Promise(async (resolve, reject) => {
