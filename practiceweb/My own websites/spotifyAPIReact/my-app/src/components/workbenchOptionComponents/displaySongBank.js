@@ -13,8 +13,11 @@ const BodyComponents = {
     DeleteSongsFromSongBankBody : DeleteSongsFromSongBankBody
 }
 
-
-
+// component that lets the user display, add songs, and delete songs from the song bank
+// properties
+    // accessToken;
+    // refreshToken;
+    // getNewAccessToken = function lets the root get a new access token
 class DisplaySongBank extends SpotifyAPIBase{
     constructor(props){
         super(props);

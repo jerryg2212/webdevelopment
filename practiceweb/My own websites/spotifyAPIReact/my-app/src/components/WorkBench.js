@@ -57,7 +57,7 @@ class WorkBench extends React.Component{
         class WorkBenchTaskSelect extends React.Component{
             constructor(props){
                 super(props);
-                this.tasks = [{name: '     ', operationComponent : undefined}, {name : 'Display All Playlists', operationComponent : 'DisplayAllPlaylists'}, {name : 'Display All Songs In Playlist', operationComponent : 'DisplayAllSongsInPlaylist'}, {name : 'Compare Two Playlists', operationComponent : 'CompareTwoPlaylists'}, {name : 'Song Bank', operationComponent : 'DisplaySongBank'}, {name : 'Create New Playlist', operationComponent : 'CreateNewPlaylist'}, {name : 'Manipulate A Playlist', operationComponent : 'ManipulateAPlaylist'}];
+                this.tasks = [{name: '     ', operationComponent : undefined}, /*{name : 'Display All Playlists', operationComponent : 'DisplayAllPlaylists'}, {name : 'Display All Songs In Playlist', operationComponent : 'DisplayAllSongsInPlaylist'},*/ {name : 'Song Bank', operationComponent : 'DisplaySongBank'}, {name : 'Create New Playlist', operationComponent : 'CreateNewPlaylist'}, {name : 'Manipulate A Playlist', operationComponent : 'ManipulateAPlaylist'}, {name : 'Compare Two Playlists', operationComponent : 'CompareTwoPlaylists'}];
             }
             render(){
                 let options = this.makeOptions();

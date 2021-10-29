@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <script>
+            function toggle(...args){
+                var currentValueIndex = 0;
+                return function(){
+                    let currentValue = args[currentValueIndex];
+                    console.log(currentValue);
+                    currentValueIndex = currentValueIndex + 1;
+                    currentValueIndex = currentValueIndex % args.length
+                }
+            }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head></head>
+    <body>
+        <script>
+            var isPrime = (function isPrime(){
+                var cache = {}
+                return function isPrime(v) {
+                    if(cache.hasOwnProperty(v)){console.log(cache);return cache[v]}
+                    console.log(`evaluated ${v}`);
+                    if (v <= 3) {
+                        if(v > 1){cache[v] = true; return true}
+                        cache[v] = false;
+                        return v > 1;
+                    }
+                    if (v % 2 == 0 || v % 3 == 0) {
+                        cache[v] = false;
+                        return false;
+                    }
+                    var vSqrt = Math.sqrt(v);
+                    for (let i = 5; i <= vSqrt; i += 6) {
+                        if (v % i == 0 || v % (i + 2) == 0) {
+                            cache[v] = false;
+                            return false;
+                        }
+                    }
+                    cache[v] = true
+                    return true;
+                }
+        })()
+        </script>
+    </body>
+</html>

@@ -1,8 +1,12 @@
 import { spotifyAPIRequestPost } from '../../helper-functions';
 import '../../styles/workbenchOperationComponents/createNewPlaylist.css';
-import {SpotifyAPIBase} from '../helper-components';
+import {SpotifyAPIBase, SpotifyAPIBaseComposition} from '../helper-components';
 import React from 'react';
 
+// component that lets the user create a new playlist
+// properties
+    // accessToken;
+    // getNewAccessToken = function lets the root get a new access token
 class CreateNewPlaylist extends SpotifyAPIBase{
     constructor(props){
         super(props);
@@ -93,4 +97,4 @@ class CreateNewPlaylist extends SpotifyAPIBase{
     }
 }
 
-export default CreateNewPlaylist
+export default SpotifyAPIBaseComposition(CreateNewPlaylist)

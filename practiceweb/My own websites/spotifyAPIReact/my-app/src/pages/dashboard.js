@@ -19,7 +19,7 @@ class Dashboard extends React.Component{
         <div id="pageContainer">
         <ProfileInformation accessToken={this.state.access_token} getNewAccessToken={this.getNewAccessToken.bind(this)} rootThis={this}/>
         <WorkBench rootThis={this} accessToken={this.state.access_token} refreshToken={this.state.refresh_token} getNewAccessToken={this.getNewAccessToken.bind(this)}></WorkBench>
-        <SongControlSideBar accessToken={this.state.access_token} rootThis={this}></SongControlSideBar>
+        <SongControlSideBar accessToken={this.state.access_token} rootThis={this} getNewAccessToken={this.getNewAccessToken.bind(this)}></SongControlSideBar>
         </div> : <div></div>
     }
     async componentDidMount(){

@@ -177,6 +177,7 @@ class ErrorMessage extends React.Component{
 // properties
     // accessToken
     // refreshToken
+    // getNewAccessToken = function that lets the root get a new access token
 function SpotifyAPIBaseComposition(Component, properties){
     return class extends React.Component{
         constructor(props){
@@ -208,6 +209,8 @@ function SpotifyAPIBaseComposition(Component, properties){
         }
         // Error handleing 
             // given a response it handles errors and sets correct error messages and returns true if there is an error
+            // properties
+                // response = the error returned
             handleResponseForErrors(response){
                 if(this.checkResponseForError(response)){
                     this.activateCorrectErrorMessage(response);
@@ -247,7 +250,8 @@ function SpotifyAPIBaseComposition(Component, properties){
                 if(response.status == 401){
                     // need a new access token
                     if(this.props.getNewAccessToken){
-                        this.props.getNewAccessToken();
+                            await this.props.getNewAccessToken();
+                       
                     }else{
                         let accessTokenResponse = await axios.post('/refreshToken', {refreshToken : this.props.refreshToken});
                         this.props.rootThis.setState({access_token : accessTokenResponse.data.access_token});
