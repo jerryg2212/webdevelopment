@@ -203,7 +203,7 @@ function SpotifyAPIBaseComposition(Component, properties){
             return(
                 <>
                 {error}
-                <Component {...this.props} {...properties} allUsersPlaylists={this.allUsersPlaylists.bind(this)} getPlaylistTracks={this.getPlaylistTracks.bind(this)} addSongsToSongBank={this.addSongsToSongBank.bind(this)} addSongsToPlaylist={this.addSongsToPlaylist.bind(this)} />
+                <Component {...this.props} {...properties} allUsersPlaylists={this.allUsersPlaylists.bind(this)} getPlaylistTracks={this.getPlaylistTracks.bind(this)} addSongsToSongBank={this.addSongsToSongBank.bind(this)} addSongsToPlaylist={this.addSongsToPlaylist.bind(this)} createNewPlaylist={this.createNewPlaylist.bind(this)} />
                 </>
             )
         }
@@ -335,6 +335,22 @@ function SpotifyAPIBaseComposition(Component, properties){
                         reject(err);
                     }
                 })
+            }
+            // creates a new playlist
+            // parameters
+                // requestBody = body with details on the playlist sent to make the request
+            createNewPlaylist(requestBody){
+                return new Promise(async (resolve, reject) => {
+                    let url = `https://api.spotify.com/v1/users/${this.state.userId}/playlists`;
+                    try{
+                        let response = await spotifyAPIRequestPost(url, this.props.accessToken, requestBody);
+                        resolve(response);
+                    }catch(err){
+                        this.handleResponseForErrors(err);
+                        reject(err);
+                    }
+                })
+
             }
 
 

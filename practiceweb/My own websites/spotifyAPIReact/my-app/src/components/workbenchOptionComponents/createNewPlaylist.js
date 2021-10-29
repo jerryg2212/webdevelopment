@@ -1,13 +1,13 @@
 import { spotifyAPIRequestPost } from '../../helper-functions';
 import '../../styles/workbenchOperationComponents/createNewPlaylist.css';
-import {SpotifyAPIBase, SpotifyAPIBaseComposition} from '../helper-components';
+import {SpotifyAPIBaseComposition} from '../helper-components';
 import React from 'react';
 
 // component that lets the user create a new playlist
 // properties
     // accessToken;
     // getNewAccessToken = function lets the root get a new access token
-class CreateNewPlaylist extends SpotifyAPIBase{
+class CreateNewPlaylist extends React.Component{
     constructor(props){
         super(props);
         this.state = {
@@ -29,11 +29,8 @@ class CreateNewPlaylist extends SpotifyAPIBase{
         this.playlistNameInputRef = React.createRef();
     }
     render(){
-        let error = this.returnCorrectErrorMessage();
-        console.log(`public playlist is ${this.state.publicPlaylistCheckedValue} and collaborative is ${this.state.collaborativeCheckedValue}`);
         return(
             <div id="createNewPlaylistContainer">
-                {error}
                 <header className="workbenchOperationDescriptiveHeader">
                     <h1>Create New Playlist</h1>
                 </header>
@@ -56,14 +53,6 @@ class CreateNewPlaylist extends SpotifyAPIBase{
             </div>
         )
     }
-    async componentDidMount(){
-        try{
-            this.setUserId(this.props.accessToken);
-        }catch(err){
-            this.handleResponseForErrors(err);
-            console.log(err);
-        }
-    }
     newPlaylistNameInputInputEvent(ev){
         let newPlaylistNameError = false;
         if(ev.target.value.length < 1){newPlaylistNameError = true}
@@ -81,9 +70,7 @@ class CreateNewPlaylist extends SpotifyAPIBase{
             collaborative : new Boolean(this.state.collaborativeCheckedValue === "true")
         }
         requestBodyParameters = JSON.stringify(requestBodyParameters);
-        // creating the url to send to
-        let url = `https://api.spotify.com/v1/users/${this.userId}/playlists`
-        let response = spotifyAPIRequestPost(url, this.props.accessToken, requestBodyParameters);
+        let response = await this.props.createNewPlaylist(requestBodyParameters);
         this.playlistNameInputRef.current.value = '';
 
     }
