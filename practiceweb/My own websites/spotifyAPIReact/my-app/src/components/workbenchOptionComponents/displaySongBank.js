@@ -1,5 +1,5 @@
 import React from 'react';
-import { SpotifyAPIBase } from '../helper-components';
+import {SpotifyAPIBaseComposition } from '../helper-components';
 import '../../styles/displaySongBank.css';
 import UpdatedWorkbenchOptionsComponent from '../updatedWorkBenchOptionsComponent';
 import DisplaySongBankBody from './songBankOperations/displaySongBankBody';
@@ -16,9 +16,8 @@ const BodyComponents = {
 // component that lets the user display, add songs, and delete songs from the song bank
 // properties
     // accessToken;
-    // refreshToken;
     // getNewAccessToken = function lets the root get a new access token
-class DisplaySongBank extends SpotifyAPIBase{
+class DisplaySongBank extends React.Component{
     constructor(props){
         super(props);
         this.state = {
@@ -33,11 +32,9 @@ class DisplaySongBank extends SpotifyAPIBase{
         ]
     }
     render(){
-        let error = this.returnCorrectErrorMessage();
         let options = <UpdatedWorkbenchOptionsComponent updateParentState={this.updateActiveOptionComponent.bind(this)} activeOptionComponent={this.state.activeOptionComponent} options={[{optionComponent : 'DisplaySongBankBody', textContent : 'Display Songs'},{optionComponent : 'AddSongsToSongBankBody', textContent : "Add Songs"},{optionComponent : "DeleteSongsFromSongBankBody", textContent : "Delete Songs"}]} />
         return (
             <>
-            {error}
             <div id="displaySongBankHeader">
                 <h1>{this.displayActiveOperationTitle()}</h1>
             </div>
@@ -50,47 +47,24 @@ class DisplaySongBank extends SpotifyAPIBase{
         )
     }
     async componentDidMount(){
-        try{
-            await this.setUserId(this.props.accessToken);
-            this.setSongsFromSongBank();
-        }catch(err){
-            this.handleResponseForErrors(err);
-        }
+        this.setSongsFromSongBank();
+    }
+    async componentDidUpdate(){
+        this.setSongsFromSongBank();
     }
     // makes the request to spotify to get the songs information
     async setSongsFromSongBank(){
         try{
-            console.log('setsongsfromsongbankran');
             // gets the array of song ids from the database
-            let songIds = await this.getSongIds();
-            let songs = [];
-            while(songIds.length != 0){
-            let maxLengthRequest = Math.min(songIds.length, 50);
-            let url = getSongsRequestUrl(songIds.slice(0, maxLengthRequest));
-            songIds.splice(0, maxLengthRequest);
-            let songsResponse = await spotifyAPIRequest(url, this.props.accessToken);
-            songsResponse = JSON.parse(songsResponse);
-            songs = songs.concat(songsResponse.tracks);
-            console.log(`these are the song ${songs.length}`);
-            }
+            let songIds = await this.props.getSongIdsFromSongBank();
+            // gets the songs 
+            let songs = await this.props.getSongsFromIds(songIds);
         this.setState({
             songsFromSongBank : songs,
             passOnSongBank : songs
         });
         }catch(err){
-            this.handleResponseForErrors(err);
-        }
-    }
-    // makes request to server to get the array of song ids from the database and returns the array of song ids
-    async getSongIds(){
-        try{
-            let songIdsResponse = await getSongsFromSongBankRequest(this.userId);
-            let songIds = JSON.parse(songIdsResponse);
-            return songIds
-        }catch(err){
             console.log(err);
-            this.handleResponseForErrors(err);
-            return undefined
         }
     }
     // returns correct title for the header based on the active button
@@ -110,4 +84,4 @@ class DisplaySongBank extends SpotifyAPIBase{
 }
 
 
-export default DisplaySongBank
+export default SpotifyAPIBaseComposition(DisplaySongBank)

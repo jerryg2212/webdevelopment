@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import  ReactDOM, { render }  from 'react-dom';
 import axios from 'axios';
 import exitIcon from '../icons/exit.svg';
-import { spotifyAPIRequest, spotifyAPIRequestPost, transitionResponseSongsToFormat, addSongsToSongBankRequest, removeDuplicateSongs, commaSeperatedItemsUrl } from '../helper-functions';
+import { spotifyAPIRequest, spotifyAPIRequestPost, transitionResponseSongsToFormat, addSongsToSongBankRequest, removeDuplicateSongs, commaSeperatedItemsUrl, getSongsFromSongBankRequest, getSongsRequestUrl } from '../helper-functions';
 //import { response } from 'express';
 
 // base component for the spotify api that provides functionality for all components
@@ -176,7 +176,6 @@ class ErrorMessage extends React.Component{
 // spotify base component like the one above however this one user composition instead of inheritance
 // properties
     // accessToken
-    // refreshToken
     // getNewAccessToken = function that lets the root get a new access token
 function SpotifyAPIBaseComposition(Component, properties){
     return class extends React.Component{
@@ -203,7 +202,7 @@ function SpotifyAPIBaseComposition(Component, properties){
             return(
                 <>
                 {error}
-                <Component {...this.props} {...properties} allUsersPlaylists={this.allUsersPlaylists.bind(this)} getPlaylistTracks={this.getPlaylistTracks.bind(this)} addSongsToSongBank={this.addSongsToSongBank.bind(this)} addSongsToPlaylist={this.addSongsToPlaylist.bind(this)} createNewPlaylist={this.createNewPlaylist.bind(this)} />
+                <Component {...this.props} {...properties} allUsersPlaylists={this.allUsersPlaylists.bind(this)} getPlaylistTracks={this.getPlaylistTracks.bind(this)} addSongsToSongBank={this.addSongsToSongBank.bind(this)} addSongsToPlaylist={this.addSongsToPlaylist.bind(this)} createNewPlaylist={this.createNewPlaylist.bind(this)} getSongIdsFromSongBank={this.getSongIdsFromSongBank.bind(this)} getSongsFromIds={this.getSongsFromIds.bind(this)} />
                 </>
             )
         }
@@ -274,84 +273,112 @@ function SpotifyAPIBaseComposition(Component, properties){
 
 
         // Spotify API Requests
-            // returns an array of the users playlists
-            async allUsersPlaylists(){
-                try{
-                    let url = 'https://api.spotify.com/v1/me/playlists?limit=50&offset=0';
-                    let playlists = [];
-                    while(url){
-                        let playlistsResponse = await spotifyAPIRequest(url, this.props.accessToken);
-                        playlistsResponse = JSON.parse(playlistsResponse);
-                        playlists = playlists.concat(playlistsResponse.items);
-                        url = playlistsResponse.next;
-                    }
-                    return playlists;
-                }catch(err){
-                    this.handleResponseForErrors(err);
-                    console.log(err);
-                    return []
-                }
-            }
-            // returns all the tracks in the users playlist
-            // parameters
-                // id = the id of the playlist
-            async getPlaylistTracks(id){
-                return new Promise(async (resolve, reject) => {
-                    var songs = [];
-                    try{
-                        var url = `https://api.spotify.com/v1/playlists/${id}/tracks?limit=50`;
-                        while(url){
-                            let songsResponse = await spotifyAPIRequest(url, this.props.accessToken);
-                            songsResponse = JSON.parse(songsResponse);
-                            songs = songs.concat(songsResponse.items);
-                            url = songsResponse.next;  
-                        }
-                        songs = transitionResponseSongsToFormat(songs);
-                        resolve(songs);
-                    }catch(err){
-                        console.log(err);
-                        this.handleResponseForErrors(err);
-                        reject(err);
-                    }
-                })
-            }
-            // adds songs to playlist
-            // precondition = their are no duplicate songs
-            // parameters
-                // playlistId = the id of the playlist you want to add the songs to
-                // songs = array of the songs user wants to add to the playlist
-            async addSongsToPlaylist(playlistId, songs){
-                return new Promise(async (resolve, reject) => {
-                    try{
-                        var requestableSongs = songs;
-                        while(requestableSongs.length > 0){
-                            let url = commaSeperatedItemsUrl(`https://api.spotify.com/v1/playlists/${playlistId}/tracks?uris=`)(requestableSongs.splice(0, 100));
-                            await spotifyAPIRequestPost(url, this.props.accessToken);
-                        }
-                        resolve();
-                    }catch(err){
-                        this.handleResponseForErrors(err);
-                        console.log(err);
-                        reject(err);
-                    }
-                })
-            }
-            // creates a new playlist
-            // parameters
-                // requestBody = body with details on the playlist sent to make the request
-            createNewPlaylist(requestBody){
-                return new Promise(async (resolve, reject) => {
-                    let url = `https://api.spotify.com/v1/users/${this.state.userId}/playlists`;
-                    try{
-                        let response = await spotifyAPIRequestPost(url, this.props.accessToken, requestBody);
-                        resolve(response);
-                    }catch(err){
-                        this.handleResponseForErrors(err);
-                        reject(err);
-                    }
-                })
+            
+            // Playlist Requests
 
-            }
+                // returns an array of the users playlists
+                async allUsersPlaylists(){
+                    try{
+                        let url = 'https://api.spotify.com/v1/me/playlists?limit=50&offset=0';
+                        let playlists = [];
+                        while(url){
+                            let playlistsResponse = await spotifyAPIRequest(url, this.props.accessToken);
+                            playlistsResponse = JSON.parse(playlistsResponse);
+                            playlists = playlists.concat(playlistsResponse.items);
+                            url = playlistsResponse.next;
+                        }
+                        return playlists;
+                    }catch(err){
+                        this.handleResponseForErrors(err);
+                        console.log(err);
+                        return []
+                    }
+                }
+                // returns all the tracks in the users playlist
+                // parameters
+                    // id = the id of the playlist
+                async getPlaylistTracks(id){
+                    return new Promise(async (resolve, reject) => {
+                        var songs = [];
+                        try{
+                            var url = `https://api.spotify.com/v1/playlists/${id}/tracks?limit=50`;
+                            while(url){
+                                let songsResponse = await spotifyAPIRequest(url, this.props.accessToken);
+                                songsResponse = JSON.parse(songsResponse);
+                                songs = songs.concat(songsResponse.items);
+                                url = songsResponse.next;  
+                            }
+                            songs = transitionResponseSongsToFormat(songs);
+                            resolve(songs);
+                        }catch(err){
+                            console.log(err);
+                            this.handleResponseForErrors(err);
+                            reject(err);
+                        }
+                    })
+                }
+                // adds songs to playlist
+                // precondition = their are no duplicate songs
+                // parameters
+                    // playlistId = the id of the playlist you want to add the songs to
+                    // songs = array of the songs user wants to add to the playlist
+                async addSongsToPlaylist(playlistId, songs){
+                    return new Promise(async (resolve, reject) => {
+                        try{
+                            var requestableSongs = songs;
+                            while(requestableSongs.length > 0){
+                                let url = commaSeperatedItemsUrl(`https://api.spotify.com/v1/playlists/${playlistId}/tracks?uris=`)(requestableSongs.splice(0, 100));
+                                await spotifyAPIRequestPost(url, this.props.accessToken);
+                            }
+                            resolve();
+                        }catch(err){
+                            this.handleResponseForErrors(err);
+                            console.log(err);
+                            reject(err);
+                        }
+                    })
+                }
+                // creates a new playlist
+                // parameters
+                    // requestBody = body with details on the playlist sent to make the request
+                createNewPlaylist(requestBody){
+                    return new Promise(async (resolve, reject) => {
+                        let url = `https://api.spotify.com/v1/users/${this.state.userId}/playlists`;
+                        try{
+                            let response = await spotifyAPIRequestPost(url, this.props.accessToken, requestBody);
+                            resolve(response);
+                        }catch(err){
+                            this.handleResponseForErrors(err);
+                            reject(err);
+                        }
+                    })
+                }
+            
+            // Random Requests
+                
+                // returns array of songs 
+                // parameters
+                    // songIds = array of songIds the user wants to get songs from
+                async getSongsFromIds(songIds){
+                    return new Promise(async (resolve, reject) => {
+                        try{
+                            let songs = [];
+                            while(songIds.length != 0){
+                                let maxLengthRequest = Math.min(songIds.length, 50);
+                                let url = getSongsRequestUrl(songIds.splice(0, maxLengthRequest));
+                                let songsResponse = await spotifyAPIRequest(url, this.props.accessToken);
+                                songsResponse = JSON.parse(songsResponse);
+                                songs = songs.concat(songsResponse.tracks);
+                            }
+                            resolve(songs);
+                        }catch(err){
+                            console.log(err);
+                            this.handleResponseForErrors(err);
+                            reject(err);
+                        }
+                    })
+                }
+
 
 
 
@@ -361,6 +388,20 @@ function SpotifyAPIBaseComposition(Component, properties){
                     try{
                         await addSongsToSongBankRequest(this.state.userId, songs);
                         resolve();
+                    }catch(err){
+                        console.log(err);
+                        this.handleResponseForErrors(err);
+                        reject(err);
+                    }
+                })
+            }
+            // returns an array of the users ids of the songs in their song bank
+            async getSongIdsFromSongBank(){
+                return new Promise(async (resolve, reject) => {
+                    try{
+                        let songIdsResponse = await getSongsFromSongBankRequest(this.state.userId);
+                        let songIds = JSON.parse(songIdsResponse);
+                        resolve(songIds);
                     }catch(err){
                         console.log(err);
                         this.handleResponseForErrors(err);

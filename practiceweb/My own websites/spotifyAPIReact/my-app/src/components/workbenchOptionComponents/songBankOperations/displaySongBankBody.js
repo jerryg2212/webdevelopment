@@ -1,5 +1,6 @@
 import React from 'react';
 import SongListContainer from '../../songListContainer';
+import {amountOfColumns} from '../../../helper-functions';
 
 
 class DisplaySongBankBody extends React.Component{
@@ -9,15 +10,10 @@ class DisplaySongBankBody extends React.Component{
     }
     render(){
         return (
-            (this.props.songs.length > 0) && <SongListContainer songList={this.props.songs} columns={this.amountOfColumns(this.props.songs)} /> 
+            (this.props.songs.length > 0) && <SongListContainer songList={this.props.songs} columns={amountOfColumns(this.props.songs)} /> 
             )
             
     }
-        // returns the number of columns wanted based on how many songs their are in the active playlist
-        amountOfColumns(songs){
-            return  Math.min(Math.ceil(songs.length / 40), 3);
-            
-        }
 }
 
 export default DisplaySongBankBody
