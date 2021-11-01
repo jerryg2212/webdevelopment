@@ -1,6 +1,6 @@
 import React from 'react';
 import { deleteSongsFromSongBankRequest, spotifyAPIRequest, amountOfColumns } from '../../../helper-functions';
-import { SpotifyAPIBase } from '../../helper-components';
+import { SpotifyAPIBase, SpotifyAPIBaseComposition } from '../../helper-components';
 import SongListContainer from '../../songListContainer';
 
 
@@ -17,12 +17,10 @@ class DeleteSongsFromSongBankBody extends SpotifyAPIBase{
         this.deleteSongsButtonClickEventHandler = this.deleteSongsButtonClickEvent.bind(this);
     }
     render(){
-        let error = this.returnCorrectErrorMessage();
         let explainationP = <p>Click songs to add them to remove batch</p>
         let deleteSongsButton = <button className="secondaryButtonStyle" onClick={this.deleteSongsButtonClickEventHandler} style={{"display" : "block","margin" : "auto"}}>Remove Songs</button>
         return (
             <div id="deleteSongsFromSongBankBody">
-                {error}
                 <div style={{marginTop : '15px', marginBottom : '-10px'}}>
                     {(this.state.deleteMode) ? deleteSongsButton : explainationP}
                     <label className="selectAllLabel">Select All<input type="checkbox" onChange={this.selectAllSongsOnChange.bind(this)} className="selectAllCheckbox" checked={this.state.selectAllSongsChecked} /></label>
@@ -32,11 +30,6 @@ class DeleteSongsFromSongBankBody extends SpotifyAPIBase{
             )
     }
     async componentDidMount(){
-        try{
-            await this.setUserId(this.props.accessToken);
-        }catch(err){
-            console.log(err);
-        }
     }
     songContainerClickEvent(songId, songUri, ev){
         let removeableSongs = this.state.removeableSongs;
@@ -55,29 +48,17 @@ class DeleteSongsFromSongBankBody extends SpotifyAPIBase{
     async deleteSongsButtonClickEvent(ev){
         let removeableSongs = this.state.removeableSongs;
         try{
-            if(removeableSongs.size == 0) return;
-            console.log(removeableSongs.size);
-            let removeableSongsArray = Array.from(removeableSongs.values());
-            while(removeableSongsArray.length > 0){
-                let response = await deleteSongsFromSongBankRequest(this.userId, removeableSongsArray.splice(0, 50));
-            }
+            await this.props.deleteSongsFromSongBank(Array.from(removeableSongs.values()));
             removeableSongs.clear();
             this.setState({removeableSongs: removeableSongs});
             await this.props.updateState();
         }catch(err){
-            this.handleResponseForErrors(err);
         }finally{
             this.setState({selectAllSongsChecked : false});
         }
     }
-  /*convertSetToArray(tempSet){
-        let result = [];
-        tempSet.forEach((val) => {
-            result.push(val);
-        });
-        return result;
-    }*/
     // on change event for the select all songs checkbox
+    // adds or removes all the songs from the removeableSongs value in the state
     selectAllSongsOnChange(ev){
         let removeableSongs = this.state.removeableSongs;
         let checked = ev.currentTarget.checked;
@@ -96,4 +77,4 @@ class DeleteSongsFromSongBankBody extends SpotifyAPIBase{
     }
 }
 
-export default DeleteSongsFromSongBankBody
+export default SpotifyAPIBaseComposition(DeleteSongsFromSongBankBody);

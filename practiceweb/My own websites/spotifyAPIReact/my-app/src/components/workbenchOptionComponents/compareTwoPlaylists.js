@@ -212,9 +212,9 @@ class CompareTwoPlaylists extends React.Component{
                 // setting this components state
                 this.setState({selectedSongs : {selectedSongIds : {tracksInPlaylistOneButNotTwo : new Set(), tracksInBothPlaylists : new Set(), tracksInPlaylistTwoButNotOne : new Set()}, selectedSongUris : {tracksInPlaylistOneButNotTwo : new Set(), tracksInBothPlaylists : new Set(), tracksInPlaylistTwoButNotOne : new Set()}}});
                 // setting the SongListComponentComparison component state
-                    this.tracksInBothPlaylistsRef.current.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}})
-                    this.tracksInPlaylistOneButNotTwoRef.current.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}})
-                    this.tracksInPlaylistTwoButNotOneRef.current.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}})
+                    this.tracksInBothPlaylistsRef.current.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}, selectAllChecked : false})
+                    this.tracksInPlaylistOneButNotTwoRef.current.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}, selectAllChecked : false})
+                    this.tracksInPlaylistTwoButNotOneRef.current.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}, selectAllChecked : false})
                 }catch(err){
                 console.log(err);
             }
@@ -227,9 +227,9 @@ class CompareTwoPlaylists extends React.Component{
                 // setting this components state
                 this.setState({selectedSongs : {selectedSongIds : {tracksInPlaylistOneButNotTwo : new Set(), tracksInBothPlaylists : new Set(), tracksInPlaylistTwoButNotOne : new Set()}, selectedSongUris : {tracksInPlaylistOneButNotTwo : new Set(), tracksInBothPlaylists : new Set(), tracksInPlaylistTwoButNotOne : new Set()}}});
                 // setting the SongListComponentComparison component state
-                    this.tracksInBothPlaylistsRef.current.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}})
-                    this.tracksInPlaylistOneButNotTwoRef.current.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}})
-                    this.tracksInPlaylistTwoButNotOneRef.current.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}})
+                    this.tracksInBothPlaylistsRef.current.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()},selectAllChecked : false})
+                    this.tracksInPlaylistOneButNotTwoRef.current.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}, selectAllChecked : false})
+                    this.tracksInPlaylistTwoButNotOneRef.current.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}, selectAllChecked : false})
                 // resetting the tracks
                     await this.setPlaylistOneTracks();
                     this.setDifferencesAndSimilarities();
@@ -245,9 +245,9 @@ class CompareTwoPlaylists extends React.Component{
                 // setting this components state
                 this.setState({selectedSongs : {selectedSongIds : {tracksInPlaylistOneButNotTwo : new Set(), tracksInBothPlaylists : new Set(), tracksInPlaylistTwoButNotOne : new Set()}, selectedSongUris : {tracksInPlaylistOneButNotTwo : new Set(), tracksInBothPlaylists : new Set(), tracksInPlaylistTwoButNotOne : new Set()}}});
                 // setting the SongListComponentComparison component state
-                    this.tracksInBothPlaylistsRef.current.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}})
-                    this.tracksInPlaylistOneButNotTwoRef.current.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}})
-                    this.tracksInPlaylistTwoButNotOneRef.current.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}})
+                    this.tracksInBothPlaylistsRef.current.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}, selectAllChecked : false})
+                    this.tracksInPlaylistOneButNotTwoRef.current.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}, selectAllChecked : false})
+                    this.tracksInPlaylistTwoButNotOneRef.current.setState({selectedSongs : {selectedSongIds : new Set(), selectedSongUris : new Set()}, selectAllChecked : false})
                 // resetting the tracks
                     await this.setPlaylistTwoTracks();
                     this.setDifferencesAndSimilarities();
@@ -290,7 +290,7 @@ export default SpotifyAPIBaseComposition(CompareTwoPlaylists);
             return(
                 <div className="songListComparisionComponentContanier">
                     <h1 className="secondaryHeader" style={{"fontSize" : "18px"}}>{this.props.title}</h1>
-                    <label className="selectAllLabel">Select All<input type="checkbox" value={this.state.selectAllChecked} className="selectAllCheckbox" onChange={this.onChangeSelectAll.bind(this)}></input></label>
+                    <label className="selectAllLabel">Select All<input type="checkbox" checked={this.state.selectAllChecked} className="selectAllCheckbox" onChange={this.onChangeSelectAll.bind(this)}></input></label>
                     <SongListContainer songList={this.props.songs} columns={1} listItemClickEventHandler={this.songListContainerClickEvent.bind(this)} activeClassAdder={this.activeClassAdder.bind(this)}/>
                 </div>
             )

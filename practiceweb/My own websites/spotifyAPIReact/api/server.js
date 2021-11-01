@@ -197,7 +197,7 @@ app.get('/api/deleteSongsFromSongBannk', async (req, res) => {
 })
 
 // returns the songs the user has in song bank
-app.get('/api/getSongsFromSongBannnnnnnk', async (req, res) => {
+app.get('/api/getSongsFromSongBannnnnnnnkk', async (req, res) => {
     console.log('get songs form song bank ran');
     let userId = req.query.userId;
     let songIds = []

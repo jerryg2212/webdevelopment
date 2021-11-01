@@ -5,7 +5,7 @@ import UpdatedWorkbenchOptionsComponent from '../updatedWorkBenchOptionsComponen
 import DisplaySongBankBody from './songBankOperations/displaySongBankBody';
 import AddSongsToSongBankBody from './songBankOperations/addSongsToSongBankBody';
 import DeleteSongsFromSongBankBody from './songBankOperations/deleteSongsFromSongBankBody';
-import { getSongsFromSongBankRequest } from '../../helper-functions';
+import { areEqualArrays, areEqualSets, getSongsFromSongBankRequest } from '../../helper-functions';
 import { spotifyAPIRequest, getSongsRequestUrl} from '../../helper-functions';
 const BodyComponents = {
     DisplaySongBankBody : DisplaySongBankBody,
@@ -47,10 +47,7 @@ class DisplaySongBank extends React.Component{
         )
     }
     async componentDidMount(){
-        this.setSongsFromSongBank();
-    }
-    async componentDidUpdate(){
-        this.setSongsFromSongBank();
+        await this.setSongsFromSongBank();
     }
     // makes the request to spotify to get the songs information
     async setSongsFromSongBank(){
@@ -59,6 +56,7 @@ class DisplaySongBank extends React.Component{
             let songIds = await this.props.getSongIdsFromSongBank();
             // gets the songs 
             let songs = await this.props.getSongsFromIds(songIds);
+            console.log(songs);
         this.setState({
             songsFromSongBank : songs,
             passOnSongBank : songs

@@ -158,7 +158,7 @@ exports.getSongsFromSongBankRequest = (userId) => {
             }
 
         }
-        request.open('GET', `/api/getSongsFromSongBannnnnnnk?userId=${userId}`, true);
+        request.open('GET', `/api/getSongsFromSongBannnnnnnnkk?userId=${userId}`, true);
         request.send();
     })
     return response
@@ -247,4 +247,21 @@ exports.trimSongName = (name) => {
         return name.substring(0, index);
     }
     return name
+}
+
+// function that given two sets returns true or false whether or not they are equal too
+exports.areEqualSets = (setOne, setTwo) => {
+    if(setOne.size != setTwo.size) return false;
+    for(let setElement of setOne){
+        if(!setTwo.has(setElement)){return false}
+    }
+    return true;
+}
+// function that given two arrays returns true or false whether or not they are equal too
+exports.areEqualArrays = (arrayOne, arrayTwo) => {
+    if(arrayOne.length != arrayTwo.length)return false;
+    for(let i = 0; i < arrayOne.length; i++){
+        if(arrayOne[i] != arrayTwo[i])return false;
+    }
+    return true;
 }

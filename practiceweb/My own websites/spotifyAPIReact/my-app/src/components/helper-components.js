@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import  ReactDOM, { render }  from 'react-dom';
 import axios from 'axios';
 import exitIcon from '../icons/exit.svg';
-import { spotifyAPIRequest, spotifyAPIRequestPost, transitionResponseSongsToFormat, addSongsToSongBankRequest, removeDuplicateSongs, commaSeperatedItemsUrl, getSongsFromSongBankRequest, getSongsRequestUrl } from '../helper-functions';
+import { spotifyAPIRequest, spotifyAPIRequestPost, transitionResponseSongsToFormat, addSongsToSongBankRequest, removeDuplicateSongs, commaSeperatedItemsUrl, getSongsFromSongBankRequest, getSongsRequestUrl, deleteSongsFromSongBankRequest } from '../helper-functions';
 //import { response } from 'express';
 
 // base component for the spotify api that provides functionality for all components
@@ -190,8 +190,9 @@ function SpotifyAPIBaseComposition(Component, properties){
         }
         async componentDidMount(){
             try{
-                let userIdResponse = await spotifyAPIRequest('https://api.spotify.com/v1/me', this.props.accessToken);
-                this.setState({userId : JSON.parse(userIdResponse).id});
+                await this.setUserId();
+               /* let userIdResponse = await spotifyAPIRequest('https://api.spotify.com/v1/me', this.props.accessToken);
+                this.setState({userId : JSON.parse(userIdResponse).id});*/
             }catch(err){
                 console.log(err);
                 this.handleResponseForErrors(err);
@@ -202,7 +203,7 @@ function SpotifyAPIBaseComposition(Component, properties){
             return(
                 <>
                 {error}
-                <Component {...this.props} {...properties} allUsersPlaylists={this.allUsersPlaylists.bind(this)} getPlaylistTracks={this.getPlaylistTracks.bind(this)} addSongsToSongBank={this.addSongsToSongBank.bind(this)} addSongsToPlaylist={this.addSongsToPlaylist.bind(this)} createNewPlaylist={this.createNewPlaylist.bind(this)} getSongIdsFromSongBank={this.getSongIdsFromSongBank.bind(this)} getSongsFromIds={this.getSongsFromIds.bind(this)} />
+                <Component {...this.props} {...properties} allUsersPlaylists={this.allUsersPlaylists.bind(this)} getPlaylistTracks={this.getPlaylistTracks.bind(this)} addSongsToSongBank={this.addSongsToSongBank.bind(this)} addSongsToPlaylist={this.addSongsToPlaylist.bind(this)} createNewPlaylist={this.createNewPlaylist.bind(this)} getSongIdsFromSongBank={this.getSongIdsFromSongBank.bind(this)} getSongsFromIds={this.getSongsFromIds.bind(this)} deleteSongsFromSongBank={this.deleteSongsFromSongBank.bind(this)} />
                 </>
             )
         }
@@ -301,6 +302,7 @@ function SpotifyAPIBaseComposition(Component, properties){
                     return new Promise(async (resolve, reject) => {
                         var songs = [];
                         try{
+                            if(this.state.userId === undefined){reject("userId is undefined");}
                             var url = `https://api.spotify.com/v1/playlists/${id}/tracks?limit=50`;
                             while(url){
                                 let songsResponse = await spotifyAPIRequest(url, this.props.accessToken);
@@ -379,10 +381,28 @@ function SpotifyAPIBaseComposition(Component, properties){
                     })
                 }
 
+                // returns promise
+                // resolve = userId was set
+                // reject means an error occured
+                async setUserId(){
+                    return new Promise( async (resolve, reject) => {
+                        try{
+                            if(this.state.userId != undefined){console.log('user id already set');resolve('userId already set');}
+                            let userIdResponse = await spotifyAPIRequest('https://api.spotify.com/v1/me', this.props.accessToken);
+                            this.setState({userId : JSON.parse(userIdResponse).id}, () => {resolve()});
+                        }catch(err){
+                            this.handleResponseForErrors(err);
+                            console.log(err);
+                            reject(err);
+                        }
+                    })
+                }
+
 
 
 
         // requests to our server 
+            // makes request to add songs to the song bank
             async addSongsToSongBank(songs){
                 return new Promise(async (resolve, reject) => {
                     try{
@@ -399,6 +419,7 @@ function SpotifyAPIBaseComposition(Component, properties){
             async getSongIdsFromSongBank(){
                 return new Promise(async (resolve, reject) => {
                     try{
+                        await this.setUserId();
                         let songIdsResponse = await getSongsFromSongBankRequest(this.state.userId);
                         let songIds = JSON.parse(songIdsResponse);
                         resolve(songIds);
@@ -406,6 +427,23 @@ function SpotifyAPIBaseComposition(Component, properties){
                         console.log(err);
                         this.handleResponseForErrors(err);
                         reject(err);
+                    }
+                })
+            }
+            // makes request to delete the songs from the song bank
+            // parameters
+                // removeableSongs = an array of the ids of songs that the user wants to remove
+            async deleteSongsFromSongBank(removeableSongs){
+                return new Promise(async (resolve, reject) => {
+                    try{
+                        while(removeableSongs.length > 0){
+                            await deleteSongsFromSongBankRequest(this.state.userId, removeableSongs.splice(0, 50));
+                        }
+                        resolve();
+                    }catch(err){
+                        this.handleResponseForErrors(err);
+                        console.log(err);
+                        reject('error deleteing songs');
                     }
                 })
             }
