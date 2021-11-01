@@ -40,7 +40,6 @@ class DeleteSongsFromSongBankBody extends SpotifyAPIBase{
         }
         // songs is not already clicked so add it to the lsit of songs to remove
         else{
-            //ev.currentTarget.classList.add('removeableSongListContainer');
             removeableSongs.add(songId);
         }
         this.setState({removeableSongs : removeableSongs})
