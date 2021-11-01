@@ -16,7 +16,7 @@ import AddSongsToSongBankBody from './songBankOperations/addSongsToSongBankBody'
 // properties
     // accessToken;
     // refreshToken;
-    // getNewAccessToken = function lets the root get a new access token
+    // getNewAccessToken = function lets the root get a new access token 
 class ManipulateAPlaylist extends SpotifyAPIBase{
     constructor(props){
         super(props);

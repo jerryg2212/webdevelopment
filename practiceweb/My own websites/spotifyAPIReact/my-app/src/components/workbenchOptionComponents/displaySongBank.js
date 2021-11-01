@@ -77,7 +77,7 @@ class DisplaySongBank extends React.Component{
     // returns correct body operation based on the active operation
     returnActiveOperationBody(){
         let Body = BodyComponents[this.state.activeOptionComponent];
-        return <Body songs={this.state.songsFromSongBank} updateState={this.setSongsFromSongBank.bind(this)} rootThis={this.props.rootThis} accessToken={this.props.accessToken} />;
+        return <Body songs={this.state.songsFromSongBank} updateState={this.setSongsFromSongBank.bind(this)} accessToken={this.props.accessToken} />;
     }
 }
 

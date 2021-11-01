@@ -4,7 +4,7 @@ import { SpotifyAPIBase, SpotifyAPIBaseComposition } from '../../helper-componen
 import SongListContainer from '../../songListContainer';
 
 
-class DeleteSongsFromSongBankBody extends SpotifyAPIBase{
+class DeleteSongsFromSongBankBody extends React.Component{
     constructor(props){
         super(props);
         this.state = {
@@ -28,8 +28,6 @@ class DeleteSongsFromSongBankBody extends SpotifyAPIBase{
                 {(this.props.songs.length > 0) && <SongListContainer songList={this.props.songs} columns={amountOfColumns(this.props.songs.length)} listItemClickEventHandler={this.songContainerClickEventHandler} activeClassAdder={this.activeClassAdder.bind(this)}/> }
             </div>
             )
-    }
-    async componentDidMount(){
     }
     songContainerClickEvent(songId, songUri, ev){
         let removeableSongs = this.state.removeableSongs;
