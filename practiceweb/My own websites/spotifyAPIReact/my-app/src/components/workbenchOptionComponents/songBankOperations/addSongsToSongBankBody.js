@@ -14,7 +14,6 @@ class AddSongsToSongBankBody extends SpotifyAPIBase{
     }
     render(){
         let error = this.returnCorrectErrorMessage();
-        console.log(`songs ${this.props.songs.length}`);
         return (
             <div id="addSongsToSongBankBody">
                 {error}
