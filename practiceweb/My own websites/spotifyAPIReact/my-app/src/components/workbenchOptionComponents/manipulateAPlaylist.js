@@ -48,7 +48,7 @@ class ManipulateAPlaylist extends React.Component{
                 {header()}
                 {this.state.activePlaylist && <UpdatedWorkbenchOptionsComponent updateParentState={this.updateActiveOperationComponentState.bind(this)} activeOptionComponent={this.state.activeOptionComponent} options={[{optionComponent : 'DisplaySongsOption', textContent : "Display Songs"}, {optionComponent : 'AddSongsOption', textContent : 'Add Songs'}, {optionComponent : 'AddSongsFromSongBankOption', textContent : "Add Songs From Song Bank"}, {optionComponent : 'AddSongsToSongBankOption', textContent : 'Add Songs To Song Bank'}, {optionComponent : 'DeleteSongsOption', textContent : "DeleteSongs"}, {optionComponent : 'MoveSongsOption', textContent : 'Move Songs'}]} />}
                 { !this.state.activePlaylist && <DispalyAllPlaylists rootThis={this.props.rootThis} playlistClickEvent={this.playlistClickEventHandler} accessToken={this.props.accessToken} />}
-                { this.state.activePlaylist && <div id="manipulateAPlaylistBody"><ActiveOptionComponent playlistTracks={this.state.activePlaylistTracks} updateParentsTracks={this.updateActivePlaylistTracks.bind(this)} rootThis={this.props.rootThis} accessToken={this.props.accessToken} playlistId={this.state.activePlaylistId}/></div>}
+                { this.state.activePlaylist && <div id="manipulateAPlaylistBody"><ActiveOptionComponent playlistTracks={this.state.activePlaylistTracks} updateParentsTracks={this.updateActivePlaylistTracks.bind(this)} accessToken={this.props.accessToken} playlistId={this.state.activePlaylistId} getNewAccessToken={this.props.getNewAccessToken}/></div>}
             </div>
         )
     }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { SpotifyAPIBase } from '../../helper-components';
+import { SpotifyAPIBase, SpotifyAPIBaseComposition } from '../../helper-components';
 import SongListContainer from '../../songListContainer';
 import {getSongsFromSongBankRequest, getSongsRequestUrl, spotifyAPIRequest, commaSeperatedItemsUrl, spotifyAPIRequestPost, transitionResponseSongsToFormat} from '../../../helper-functions';
 
@@ -9,9 +9,9 @@ import {getSongsFromSongBankRequest, getSongsRequestUrl, spotifyAPIRequest, comm
     // playlistTracks = array with tracks objects that represents the tracks in the playlist
     // playlistId = the id of the playlist so we can add songs to it
     // updateParentsTracks = a function that updates the parents tracks forcing a rerender with a new playlistTracks property
-    // rootThis = reference to the root component for the purposes of the spotifyAPIBase component
     // accessToken
-class AddSongsFromSongBankOption extends SpotifyAPIBase{
+    // getNewAccessToken = function lets the root get a new access token 
+class AddSongsFromSongBankOption extends React.Component{
     constructor(props){
         super(props);
         this.state = {songsFromSongBank : [], selectedSongBankSongsUris : new Set()}
@@ -20,10 +20,8 @@ class AddSongsFromSongBankOption extends SpotifyAPIBase{
         this.selectAllSongsCheckBox = React.createRef();
     }
     render(){
-        let error = this.returnCorrectErrorMessage();
         return(
             <div id="manipulateAPlaylistAddSongsFromSongBankOption">
-                {error}
                 <div id="manipulateAPlaylistAddSongsFromSongBankSongBankSongs">
                     <h1 className="secondaryHeader">Song Bank</h1>
                     <button className="secondaryButtonStyle" onClick={this.addSongsButtonClickEvent.bind(this)}>Add Songs</button>
@@ -39,44 +37,21 @@ class AddSongsFromSongBankOption extends SpotifyAPIBase{
     }
     async componentDidMount(){
         try{
-            await this.setUserId(this.props.accessToken);
             await this.setSongs();
         }catch(err){
-            this.handleResponseForErrors(err);
             console.log(err);
         }
     }
-    // saves the array of song ids from the song bank to the state
-    async getSongIdsFromSongBank(){
-        return new Promise(async (resolve, reject) => {
-            try{
-                let songIdsFromSongBankResponse = await getSongsFromSongBankRequest(this.userId);
-                let songIdsFromSongBank = JSON.parse(songIdsFromSongBankResponse);
-                resolve(songIdsFromSongBank);
-            }catch(err){
-                reject(err);
-            }
-        })
-    }
-    // saves the array of songs to the state
-    async setSongs(songIds){
+    // saves the songs in the song bank to the state value songsFromSongBank
+    async setSongs(){
         try{
             // gets the array of song ids from the database
-            let songIds = await this.getSongIdsFromSongBank();
-            let songs = [];
-            while(songIds.length != 0){
-                let maxLengthRequest = Math.min(songIds.length, 50);
-                let url = getSongsRequestUrl(songIds.slice(0, maxLengthRequest));
-                songIds.splice(0, maxLengthRequest);
-                let songsResponse = await spotifyAPIRequest(url, this.props.accessToken);
-                songsResponse = JSON.parse(songsResponse);
-                songs = songs.concat(songsResponse.tracks);
-            }
+            let songIds = await this.props.getSongIdsFromSongBank();
+            let songs = await this.props.getSongsFromIds(songIds);
                 this.setState({
                     songsFromSongBank : songs
                 });
         }catch(err){
-            this.handleResponseForErrors(err);
             console.log(err);
         }
     }
@@ -113,43 +88,16 @@ class AddSongsFromSongBankOption extends SpotifyAPIBase{
     activeClassAdder(id, uri){
         return this.state.selectedSongBankSongsUris.has(uri);
     }
-    // click event handler for the add songs button that adds the songs to the playlist then refreshes
-    /*async addSongsButtonClickEvent(ev){
-        // if their are no selected songs return
-        if(this.state.selectedSongBankSongsUris.size < 1){return}
-        let url = commaSeperatedItemsUrl(`https://api.spotify.com/v1/playlists/${this.props.playlistId}/tracks?uris=`)(this.state.selectedSongBankSongsUris.values());
-        console.log(`this is the url ${url}`);
-        try{
-            let response = await spotifyAPIRequestPost(url, this.props.accessToken);
-            this.props.updateParentsTracks();
-            // clearing the selected song bank songs uris and saving it so their active class goes away
-                let selectedSongBankSongsUris = this.state.selectedSongBankSongsUris;
-                selectedSongBankSongsUris.clear();
-                this.selectAllSongsCheckBox.current.checked = false;
-                this.setState({selectedSongBankSongsUris : selectedSongBankSongsUris})
-        }catch(err){
-            this.handleResponseForErrors(err);
-            console.log(err);
-        }
-    }*/
     async addSongsButtonClickEvent(ev){
         let selectedSongBankSongsUris = Array.from(this.state.selectedSongBankSongsUris.values());
-        // if their are no selected songs return
-        if(selectedSongBankSongsUris.size === 0){return}
             try{
-                while(selectedSongBankSongsUris.length != 0){
-                    console.log(selectedSongBankSongsUris.length);
-                let songsForUrl = selectedSongBankSongsUris.splice(0,99);
-                let url = commaSeperatedItemsUrl(`https://api.spotify.com/v1/playlists/${this.props.playlistId}/tracks?uris=`)(songsForUrl);
-                let response = await spotifyAPIRequestPost(url, this.props.accessToken);
-                }
+                await this.props.addSongsToPlaylist(this.props.playlistId, selectedSongBankSongsUris);
                 // clearing the selected song bank songs uris and saving it so their active class goes away
                 let tempSelectedSongBankSongsUris = this.state.selectedSongBankSongsUris;
                 tempSelectedSongBankSongsUris.clear();
                 this.selectAllSongsCheckBox.current.checked = false;
                 this.setState({selectedSongBankSongsUris : tempSelectedSongBankSongsUris});
             }catch(err){
-                this.handleResponseForErrors(err);
                 console.log(err);
             }finally{
                 this.props.updateParentsTracks();
@@ -157,4 +105,4 @@ class AddSongsFromSongBankOption extends SpotifyAPIBase{
     }
 }
 
-export default AddSongsFromSongBankOption
+export default SpotifyAPIBaseComposition(AddSongsFromSongBankOption)
