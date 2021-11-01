@@ -311,6 +311,7 @@ function SpotifyAPIBaseComposition(Component, properties){
                                 url = songsResponse.next;  
                             }
                             songs = transitionResponseSongsToFormat(songs);
+                            songs = removeDuplicateSongs(songs);
                             resolve(songs);
                         }catch(err){
                             console.log(err);

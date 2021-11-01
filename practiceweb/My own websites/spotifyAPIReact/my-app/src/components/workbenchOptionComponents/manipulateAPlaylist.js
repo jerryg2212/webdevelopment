@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../styles/workbenchOperationComponents/manipulateAPlaylist.css';
-import { SpotifyAPIBase } from '../helper-components';
+import { SpotifyAPIBase, SpotifyAPIBaseComposition } from '../helper-components';
 import DispalyAllPlaylists from './displayAllPlaylists';
 import {spotifyAPIRequest, transitionResponseSongsToFormat} from '../../helper-functions.js';
 import UpdatedWorkbenchOptionsComponent from '../updatedWorkBenchOptionsComponent';
@@ -17,7 +17,7 @@ import AddSongsToSongBankBody from './songBankOperations/addSongsToSongBankBody'
     // accessToken;
     // refreshToken;
     // getNewAccessToken = function lets the root get a new access token 
-class ManipulateAPlaylist extends SpotifyAPIBase{
+class ManipulateAPlaylist extends React.Component{
     constructor(props){
         super(props);
         this.state = {
@@ -42,7 +42,6 @@ class ManipulateAPlaylist extends SpotifyAPIBase{
     }
     render(){
         let ActiveOptionComponent = this.optionComponents[this.state.activeOptionComponent];
-        let error = this.returnCorrectErrorMessage();
         let header = (this.state.activePlaylist) ? this.changePlaylistSectionHeader.bind(this) : this.choosePlaylistSectionHeader.bind(this);
         return (
             <div id="manipulateAPlaylistContainer">
@@ -52,14 +51,6 @@ class ManipulateAPlaylist extends SpotifyAPIBase{
                 { this.state.activePlaylist && <div id="manipulateAPlaylistBody"><ActiveOptionComponent playlistTracks={this.state.activePlaylistTracks} updateParentsTracks={this.updateActivePlaylistTracks.bind(this)} rootThis={this.props.rootThis} accessToken={this.props.accessToken} playlistId={this.state.activePlaylistId}/></div>}
             </div>
         )
-    }
-    async componentDidMount(){
-        try{
-            await this.setUserId(this.props.accessToken);
-        }catch(err){
-            this.handleResponseForErrors(err);
-            console.log(err);
-        }
     }
     // Headers
         choosePlaylistSectionHeader(){
@@ -91,27 +82,17 @@ class ManipulateAPlaylist extends SpotifyAPIBase{
             activePlaylistImageSrc : attributes.playlistimagesrc.value || undefined,
             activePlaylistName : attributes.playlistname.value
         });
-        //this.setTracks(attributes.playlistid.value);
     }
     // saves all the users tracks
     async setTracks(playlistId){
         // getting the tracks and saving them
-        let songs = [];
-        let nextHref = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
         try{
-            while(nextHref != null){
-                let playlistResponse = await spotifyAPIRequest(nextHref, this.props.accessToken);
-                let tracksPagingObject = JSON.parse(playlistResponse);
-                songs = songs.concat(tracksPagingObject.items);
-                nextHref = tracksPagingObject.next;
-            }
-            songs = this.removeDuplicateSongs(songs);
-            songs = transitionResponseSongsToFormat(songs);
+            let songs = await this.props.getPlaylistTracks(playlistId);
             this.setState({
                 activePlaylistTracks : songs
             })
         }catch(err){
-            this.handleResponseForErrors(err);
+            console.log(err);
         }
     }
     // function that updates the state so it rerenders with the newly active component
@@ -124,17 +105,6 @@ class ManipulateAPlaylist extends SpotifyAPIBase{
     }
     changePlaylistButtonClickEvent(ev){
         this.setState({activePlaylist : false, activePlaylistTracks : []})
-    }
-    // removes duplicate songs in the playlist because duplicate songs causes bugs
-    removeDuplicateSongs(songs){
-        let setOfSongs = new Set();
-        let resultSongs = [];
-        for (let song of songs){
-            if(setOfSongs.has(song.track.uri)){}
-            else{resultSongs.push(song);setOfSongs.add(song.track.uri);}
-        }
-        console.log(resultSongs);
-        return resultSongs;
     }
     // function that returns the array of songs returned from Spotify in the right format. Sometimes the Spotify API returns a Song object with a Track object nested inside it with information from the song. So we reduce the Track with the Song object
     transitionResponseSongsToFormat(songs){
@@ -149,4 +119,4 @@ class ManipulateAPlaylist extends SpotifyAPIBase{
 }
 
 
-export default ManipulateAPlaylist
+export default SpotifyAPIBaseComposition(ManipulateAPlaylist)
