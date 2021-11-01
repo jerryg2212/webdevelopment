@@ -403,6 +403,8 @@ function SpotifyAPIBaseComposition(Component, properties){
 
         // requests to our server 
             // makes request to add songs to the song bank
+            // parameters
+                // songs = {songs : [id1, id2, id3, ... , idN]}
             async addSongsToSongBank(songs){
                 return new Promise(async (resolve, reject) => {
                     try{
