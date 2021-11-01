@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import  ReactDOM, { render }  from 'react-dom';
 import axios from 'axios';
 import exitIcon from '../icons/exit.svg';
-import { spotifyAPIRequest, spotifyAPIRequestPost, transitionResponseSongsToFormat, addSongsToSongBankRequest, removeDuplicateSongs, commaSeperatedItemsUrl, getSongsFromSongBankRequest, getSongsRequestUrl, deleteSongsFromSongBankRequest } from '../helper-functions';
+import { spotifyAPIRequest, spotifyAPIRequestPost, transitionResponseSongsToFormat, addSongsToSongBankRequest, removeDuplicateSongs, commaSeperatedItemsUrl, getSongsFromSongBankRequest, getSongsRequestUrl, deleteSongsFromSongBankRequest, spotifyAPIRequestDelete, deleteSongsRequestBody } from '../helper-functions';
 //import { response } from 'express';
 
 // base component for the spotify api that provides functionality for all components
@@ -203,7 +203,7 @@ function SpotifyAPIBaseComposition(Component, properties){
             return(
                 <>
                 {error}
-                <Component {...this.props} {...properties} allUsersPlaylists={this.allUsersPlaylists.bind(this)} getPlaylistTracks={this.getPlaylistTracks.bind(this)} addSongsToSongBank={this.addSongsToSongBank.bind(this)} addSongsToPlaylist={this.addSongsToPlaylist.bind(this)} createNewPlaylist={this.createNewPlaylist.bind(this)} getSongIdsFromSongBank={this.getSongIdsFromSongBank.bind(this)} getSongsFromIds={this.getSongsFromIds.bind(this)} deleteSongsFromSongBank={this.deleteSongsFromSongBank.bind(this)} />
+                <Component {...this.props} {...properties} allUsersPlaylists={this.allUsersPlaylists.bind(this)} getPlaylistTracks={this.getPlaylistTracks.bind(this)} addSongsToSongBank={this.addSongsToSongBank.bind(this)} addSongsToPlaylist={this.addSongsToPlaylist.bind(this)} createNewPlaylist={this.createNewPlaylist.bind(this)} getSongIdsFromSongBank={this.getSongIdsFromSongBank.bind(this)} getSongsFromIds={this.getSongsFromIds.bind(this)} deleteSongsFromSongBank={this.deleteSongsFromSongBank.bind(this)} deleteSongsFromPlaylist={this.deleteSongsFromPlaylist.bind(this)} />
                 </>
             )
         }
@@ -337,6 +337,26 @@ function SpotifyAPIBaseComposition(Component, properties){
                         }catch(err){
                             this.handleResponseForErrors(err);
                             console.log(err);
+                            reject(err);
+                        }
+                    })
+                }
+                // delete songs from playlist
+                // parameters
+                    // playlistId = the id of the playlist the user wants to delete songs form
+                    // deleteableSongs = array of song uris to be deleted
+                deleteSongsFromPlaylist(playlistId, deleteableSongs){
+                    return new Promise(async (resolve, reject) => {
+                        try{
+                            while(deleteableSongs.length != 0){
+                                let body = deleteSongsRequestBody(deleteableSongs.splice(0, 99));
+                                let url = `https://api.spotify.com/v1/playlists/${playlistId}/tracks`;
+                                await spotifyAPIRequestDelete(url, this.props.accessToken, body);
+                            }
+                            resolve();
+                        }catch(err){
+                            console.log(err);
+                            this.handleResponseForErrors(err);
                             reject(err);
                         }
                     })

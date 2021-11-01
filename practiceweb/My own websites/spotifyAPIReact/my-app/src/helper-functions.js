@@ -76,6 +76,8 @@ exports.spotifyAPIRequestPut = (requestURL, accessToken) => {
     return response;
 }
 // delete request to the spotify api
+// parameters
+    // requestBody = {tracks : [{uri : 'spotify:234klj43kld'}]}
 exports.spotifyAPIRequestDelete = (requestURL, accessToken, requestBody = {}) => {
     let response = new Promise((resolve, reject) => {
         let request = new XMLHttpRequest();
@@ -218,6 +220,7 @@ exports.commaSeperatedItemsUrl = function(baseURL){
 // function that returns the array of songs returned from Spotify in the right format. Sometimes the Spotify API returns a Song object with a Track object nested inside it with information from the song. So we reduce the Track with the Song object
 exports.transitionResponseSongsToFormat = function(songs){
     let result = []
+    if(songs.length === 0)return result;
     if(songs[0].track){
         for(let song of songs){
             result.push(song.track);
@@ -265,3 +268,14 @@ exports.areEqualArrays = (arrayOne, arrayTwo) => {
     }
     return true;
 }
+// function that returns a proper body for the request to delete songs from a playlist
+// parameters
+    // songs = array of song uris to be deleted
+exports.deleteSongsRequestBody = (songs) => {
+        let body = {tracks : []}
+        for(let song of songs){
+            body.tracks.push({uri : song});
+        }
+        body = JSON.stringify(body);
+        return body
+    }
