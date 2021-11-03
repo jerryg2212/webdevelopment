@@ -5,6 +5,7 @@ import {SpotifyAPIBase} from '../components/helper-components.js';
 import searchSongResponsesBoxComponent from './searchSongsResponsesBoxComponent.js';
 import SearchSongResponsesBoxComponent from './searchSongsResponsesBoxComponent.js';
 let accessTokenContext = React.createContext('');
+
 class SongControlSideBar extends SpotifyAPIBase{
     constructor(props){
         super(props);
