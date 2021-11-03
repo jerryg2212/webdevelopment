@@ -203,7 +203,7 @@ function SpotifyAPIBaseComposition(Component, properties){
             return(
                 <>
                 {error}
-                <Component {...this.props} {...properties} allUsersPlaylists={this.allUsersPlaylists.bind(this)} getPlaylistTracks={this.getPlaylistTracks.bind(this)} addSongsToSongBank={this.addSongsToSongBank.bind(this)} addSongsToPlaylist={this.addSongsToPlaylist.bind(this)} createNewPlaylist={this.createNewPlaylist.bind(this)} getSongIdsFromSongBank={this.getSongIdsFromSongBank.bind(this)} getSongsFromIds={this.getSongsFromIds.bind(this)} deleteSongsFromSongBank={this.deleteSongsFromSongBank.bind(this)} deleteSongsFromPlaylist={this.deleteSongsFromPlaylist.bind(this)} />
+                <Component {...this.props} {...properties} allUsersPlaylists={this.allUsersPlaylists.bind(this)} getPlaylistTracks={this.getPlaylistTracks.bind(this)} addSongsToSongBank={this.addSongsToSongBank.bind(this)} addSongsToPlaylist={this.addSongsToPlaylist.bind(this)} createNewPlaylist={this.createNewPlaylist.bind(this)} getSongIdsFromSongBank={this.getSongIdsFromSongBank.bind(this)} getSongsFromIds={this.getSongsFromIds.bind(this)} deleteSongsFromSongBank={this.deleteSongsFromSongBank.bind(this)} deleteSongsFromPlaylist={this.deleteSongsFromPlaylist.bind(this)} getLinkToUsersPage={this.getLinkToUsersPage.bind(this)} getUsersActiveDevice={this.getUsersActiveDevice.bind(this)} getUsersCurrentlyPlayingTrack={this.getUsersCurrentlyPlayingTrack.bind(this)} />
                 </>
             )
         }
@@ -373,6 +373,69 @@ function SpotifyAPIBaseComposition(Component, properties){
                         }catch(err){
                             this.handleResponseForErrors(err);
                             reject(err);
+                        }
+                    })
+                }
+            
+            // User Profile Information Requests
+                // returns link to the users Spotify Page
+                getLinkToUsersPage(){
+                    return new Promise(async (resolve, reject) => {
+                        try{
+                            let linkToPageResponse = await spotifyAPIRequest('https://api.spotify.com/v1/me', this.props.accessToken);
+                            let linkToPage = JSON.parse(linkToPageResponse);
+                            resolve(linkToPage.external_urls.spotify);
+                       }catch(err){
+                        this.handleResponseForErrors(err);
+                        console.log(err);
+                        reject(err);
+                       }
+                    })
+                }
+                // gets a list of users devices
+                getUsersDevices(){
+                    return new Promise(async (resolve, reject) => {
+                        try{
+                            let activeDeviceResponse = await spotifyAPIRequest('https://api.spotify.com/v1/me/player/devices', this.props.accessToken);
+                            let activeDevice = JSON.parse(activeDeviceResponse);
+                            resolve(activeDevice.devices);
+                        }catch(err){
+                            console.log(err);
+                            reject(err);
+                        }
+                    })
+                }
+                    // returns the users active device
+                    getUsersActiveDevice(){
+                        return new Promise(async (resolve, reject) => {
+                            try{
+                                let devices = await this.getUsersDevices();
+                                for(let device of devices){
+                                    if(device.is_active){resolve(device);}
+                                }
+                                reject("no active device");
+                            }catch(err){
+                                console.log(err);
+                                reject(err);
+                            }
+                        })
+                    }
+                // returns the users currently playing track
+                // returns a track object
+                getUsersCurrentlyPlayingTrack(){
+                    return new Promise(async (resolve, reject) => {
+                        try{
+                            let response = await spotifyAPIRequest('https://api.spotify.com/v1/me/player/currently-playing', this.props.accessToken);
+                            if(response == '') {
+                                resolve(undefined);
+                            }
+                            else{
+                                response = JSON.parse(response);
+                                resolve(response);
+                            }
+                        }catch(err){
+                            this.handleResponseForErrors(err);
+                            console.log(err);
                         }
                     })
                 }

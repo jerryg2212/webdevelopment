@@ -1,12 +1,15 @@
 import React from 'react';
 import { spotifyAPIRequest, spotifyAPIRequestPost, spotifyAPIRequestPut, addSongToSongBankRequest } from '../helper-functions';
 import playPauseSongIconPNG from '../icons/pause-play-button.png';
-import {SpotifyAPIBase} from '../components/helper-components.js';
+import {SpotifyAPIBase, SpotifyAPIBaseComposition} from '../components/helper-components.js';
 import searchSongResponsesBoxComponent from './searchSongsResponsesBoxComponent.js';
 import SearchSongResponsesBoxComponent from './searchSongsResponsesBoxComponent.js';
 let accessTokenContext = React.createContext('');
-
-class SongControlSideBar extends SpotifyAPIBase{
+// component that is the sidebar where you can change the song
+// properties
+    // accessToken
+    // getNewAccessToken
+class SongControlSideBar extends React.Component{
     constructor(props){
         super(props);
         this.state = {
@@ -24,11 +27,9 @@ class SongControlSideBar extends SpotifyAPIBase{
     }
     render(){
         let {activeDevice, linkToPage, ...currentlyPlayingSongInformation} = this.state;
-        let error = this.returnCorrectErrorMessage();
         return (
             <accessTokenContext.Provider value={this.props.accessToken}>
                 <div id="playSongContainer">
-                    {error}
                 <h1>Search Song</h1>
                 <SearchSongControl rootThis={this.props.rootThis}/>
                 <ActiveDeviceDisplayContainer rootThis={this.props.rootThis} activeDevice={this.state.activeDevice} linkToPage={this.state.linkToPage}/>
@@ -44,7 +45,6 @@ class SongControlSideBar extends SpotifyAPIBase{
         this.getLinkToPage();
         this.setActiveDevice();
         this.saveCurrentlyPlayingSongInformation();
-       // this.setUserId(this.props.accessToken);
     }
     refreshInformationButtonClickEvent(ev){
         this.getLinkToPage();
@@ -53,38 +53,28 @@ class SongControlSideBar extends SpotifyAPIBase{
     }
     async getLinkToPage(){
         try{
-            let linkToPageResponse = await spotifyAPIRequest('https://api.spotify.com/v1/me', this.props.accessToken);
-            let linkToPage = JSON.parse(linkToPageResponse);
-                this.setState({
-                    linkToPage : linkToPage.external_urls.spotify
-            })
+            this.setState({
+                linkToPage : await this.props.getLinkToUsersPage()
+        })
        }catch(err){
-        this.handleResponseForErrors(err);
-            //window.location = '/';
+            console.log(err);
        }
     }
     async setActiveDevice(){
         try{
-            let activeDeviceResponse = await spotifyAPIRequest('https://api.spotify.com/v1/me/player/devices', this.props.accessToken);
-            let activeDevice = JSON.parse(activeDeviceResponse);
-                for(let device of activeDevice.devices){
-                    if(device.is_active){
-                        this.setState({activeDevice : device.name})
-                    }
-                }
+            let activeDevice = await this.props.getUsersActiveDevice();
+            this.setState({activeDevice : activeDevice.name})
         }catch(err){
-            this.handleResponseForErrors(err);
             console.log(err);
         }
     }
     async saveCurrentlyPlayingSongInformation(){
         try{
-            let response = await spotifyAPIRequest('https://api.spotify.com/v1/me/player/currently-playing', this.props.accessToken);
-            if(response == '') {
+            let response = await this.props.getUsersCurrentlyPlayingTrack();
+            if(response == undefined) {
                 this.setState({isCurrentlyPlayingSong : false});
             }
             else{
-                response = JSON.parse(response);
                 this.setState({
                     isCurrentlyPlayingSong : response.is_playing,
                     currentlyPlayingSongTitle : response.item.name,
@@ -97,14 +87,13 @@ class SongControlSideBar extends SpotifyAPIBase{
                 })
             }
         }catch(err){
-            this.handleResponseForErrors(err);
             console.log(err);
         }
         
     }
 }   
     // holds UI where user searches song and adds it to queue and can skip to the next track
-    class SearchSongControl extends SpotifyAPIBase{
+    class SearchSongControl extends React.Component{
         constructor(props){
             super(props);
             this.state = {songInput : '', searchedSongs : [],  activeSongUri: undefined, activeSongId : undefined}
@@ -353,4 +342,4 @@ class SongControlSideBar extends SpotifyAPIBase{
        // static contextType = accessTokenContext
     }
 
-export default SongControlSideBar;
+export default SpotifyAPIBaseComposition(SongControlSideBar);
