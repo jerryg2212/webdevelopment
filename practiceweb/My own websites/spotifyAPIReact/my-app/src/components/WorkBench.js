@@ -9,7 +9,8 @@ import ManipulateAPlaylist from './workbenchOptionComponents/manipulateAPlaylist
 
 // properties
     // getNewAccessToken = function that lets the parent request for a new access token; this function is called in the ErrorMessage component
-class WorkBench extends React.Component{
+    // accessToken 
+    class WorkBench extends React.Component{
     constructor(props){
         super(props);
         this.state = {
@@ -40,7 +41,7 @@ class WorkBench extends React.Component{
                     <button onClick={this.activateOperationButtonClickEventHandler} className="playSongContainerButton" >Start</button>
                 </div>
                 <WorkBenchActionContainer>
-                    {ActiveOperationComponent && <ActiveOperationComponent accessToken={this.props.accessToken} refreshToken={this.props.refreshToken} rootThis={this.props.rootThis} getNewAccessToken={this.props.getNewAccessToken} />}
+                    {ActiveOperationComponent && <ActiveOperationComponent accessToken={this.props.accessToken} getNewAccessToken={this.props.getNewAccessToken} />}
                 </WorkBenchActionContainer>
             </div>
         )

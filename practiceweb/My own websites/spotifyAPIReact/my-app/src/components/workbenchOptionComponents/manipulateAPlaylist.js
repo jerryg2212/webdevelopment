@@ -15,7 +15,6 @@ import AddSongsToSongBankBody from './songBankOperations/addSongsToSongBankBody'
 /* component that gives user the ability to add songs to a playlist by searching and from song bank, delete songs, display songs and later delete songs */
 // properties
     // accessToken;
-    // refreshToken;
     // getNewAccessToken = function lets the root get a new access token 
 class ManipulateAPlaylist extends React.Component{
     constructor(props){

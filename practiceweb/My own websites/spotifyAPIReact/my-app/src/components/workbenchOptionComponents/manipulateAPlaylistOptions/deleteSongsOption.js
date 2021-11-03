@@ -42,20 +42,6 @@ class DeleteSongsOption extends React.Component{
     }
         // function that returns a proper body for the request to delete songs from a playlist
         // parameters
-            // selectedSongs = a Set of songs that were selected
-        // returns
-            // an array [selectedSongs = new selectedSongs array, body = the body the be used in the request to the server]
-        /*deleteSongsRequestBody(selectedSongs){
-            let body = {tracks : []}
-            for(let songUri of selectedSongs){
-                body.tracks.push({uri : songUri});
-                selectedSongs.delete(songUri);
-            }
-            body = JSON.stringify(body);
-            return [selectedSongs, body]
-        }*/
-        // function that returns a proper body for the request to delete songs from a playlist
-        // parameters
             // songs = array of song uris to be deleted
         deleteSongsRequestBody(songs){
             let body = {tracks : []}

@@ -10,7 +10,6 @@ import UpdatedWorkbenchOptionsComponent from "../updatedWorkBenchOptionsComponen
 // component that lets the user compare two playlists
 // properties
     // accessToken;
-    // refreshToken;
     // getNewAccessToken = function lets the root get a new access token
 class CompareTwoPlaylists extends React.Component{
     constructor(props){
