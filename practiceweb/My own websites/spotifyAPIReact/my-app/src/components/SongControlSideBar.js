@@ -103,13 +103,14 @@ class SongControlSideBar extends React.Component{
             this.onFocusSearchSongEventHandler = this.onFocusSearchSongEvent.bind(this);
         }
         render(){
+            let QueueAndNextTrackButtonsContainerComponent = SpotifyAPIBaseComposition(QueueAndNextTrackButtonsContainer)
             let songResponsesBox = (this.state.searchedSongs.length > 0) ? <SearchSongResponsesBoxComponent searchedSongs={this.state.searchedSongs} searchSongResponseListItemClickEvent={this.searchSongResponseListItemClickEventHandler} positionElement={document.getElementById('searchSongToPlayInput')} /> : undefined;
             // let songResponsesBox = (this.state.searchedSongs.length > 0) ? <SearchSongResponsesBox rootThis={this.props.rootThis} searchedSongs={this.state.searchedSongs} searchSongResponseListItemClickEvent={this.searchSongResponseListItemClickEventHandler} positionElement={document.getElementById('searchSongToPlayInput')}/> : undefined;
                 return (
                 <div>
                     <SearchSongToPlayInput rootThis={this.props.rootThis} inputOnInputHandler={this.searchSongOnInputHandler} onFocusSearchSongEventHandler={this.onFocusSearchSongEventHandler} />
                     {songResponsesBox}
-                    <QueueAndNextTrackButtonsContainer rootThis={this.props.rootThis} activeSongUri={this.state.activeSongUri} activeSongId={this.state.activeSongId} />
+                    <QueueAndNextTrackButtonsContainerComponent accessToken={this.props.accessToken} activeSongUri={this.state.activeSongUri} activeSongId={this.state.activeSongId} />
                 </div>
             )
         }
@@ -157,7 +158,7 @@ class SongControlSideBar extends React.Component{
             }
         }
         // containe that holds the queue song and next track button
-        class QueueAndNextTrackButtonsContainer extends SpotifyAPIBase{
+        class QueueAndNextTrackButtonsContainer extends React.Component{
             constructor(props){
                 super(props);
                 this.queueSongButtonClickEventHandler = this.queueSongButtonClickEvent.bind(this);
@@ -166,22 +167,13 @@ class SongControlSideBar extends React.Component{
                 this.state = {activateDeviceErrorMessage : false}
             }
             render(){
-                let errorMessage = this.returnCorrectErrorMessage();
                 return (
                     <div id="queueAndNextTrackButtonsContainer">
-                        {errorMessage}
                         <button id="queueSongButton" className="primaryButtonStyle" onClick={this.queueSongButtonClickEventHandler}>Queue</button>
                         <button id="nextTrackButton" className="playSongContainerButton" onClick={this.nextTrackButtonClickEventHandler}>Next Track</button>
                         <button id="bankSongButton" className="playSongContainerButton" onClick={this.bankSongButtonClickEventHandler} >Bank Song</button>
                     </div>
                 )
-            }
-            async componentDidMount(){
-                try{
-                    await this.setUserId(this.context);
-                }catch(err){
-                    this.handleResponseForErrors(err);
-                }
             }
             // click event for the queue button
             async queueSongButtonClickEvent(ev){
@@ -191,16 +183,14 @@ class SongControlSideBar extends React.Component{
                 }
                // console.log(this.props.activeSongUri);
                 try{
-                    console.log(`queuer song uri ${this.props.activeSongUri}`);
-                    let response = await spotifyAPIRequestPost(`https://api.spotify.com/v1/me/player/queue?uri=${this.props.activeSongUri}`, this.context);
+                    await this.props.addSongToQueue(this.props.activeSongUri);
+                    let input = document.getElementById('searchSongToPlayInput');
+                    input.value = '';
+                    input.focus();
                 }catch(err){
-                    this.handleResponseForErrors(err);
                     console.log(err);
                 }finally{
                     // get the search song input and remove its value and focus it
-                     let input = document.getElementById('searchSongToPlayInput');
-                     input.value = '';
-                     input.focus();
                   //  this.setState({activateDeviceErrorMessage: true})
                 }
                 // else make request to spotify to add the song to the queue
@@ -209,8 +199,6 @@ class SongControlSideBar extends React.Component{
                 try{
                     let response = await spotifyAPIRequestPost('https://api.spotify.com/v1/me/player/next', this.context);
                 }catch(err){
-                    this.handleResponseForErrors(err);
-                    console.log(err);
                 }
             }
             // adds the active song to the users song bank
@@ -220,7 +208,6 @@ class SongControlSideBar extends React.Component{
                 try{
                     let songBank = await addSongToSongBankRequest(this.userId, this.props.activeSongId);
                 }catch(err){
-                    this.handleResponseForErrors(err);
                     console.log(err);
                 }finally{
                     // get the search song input and remove its value and focus it
