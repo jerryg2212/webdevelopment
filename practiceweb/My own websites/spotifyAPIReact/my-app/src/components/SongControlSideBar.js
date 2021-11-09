@@ -28,6 +28,7 @@ class SongControlSideBar extends React.Component{
     render(){
         let {activeDevice, linkToPage, ...currentlyPlayingSongInformation} = this.state;
         let SearchSongControlComponent = SpotifyAPIBaseComposition(SearchSongControl)
+        let PlayPauseSongIconComponent = SpotifyAPIBaseComposition(PlayPauseSongIcon);
         return (
             <accessTokenContext.Provider value={this.props.accessToken}>
                 <div id="playSongContainer">
@@ -35,7 +36,7 @@ class SongControlSideBar extends React.Component{
                 <SearchSongControlComponent accessToken={this.props.accessToken}/>
                 <ActiveDeviceDisplayContainer rootThis={this.props.rootThis} activeDevice={this.state.activeDevice} linkToPage={this.state.linkToPage}/>
                 <h1 id="currentlyPlayingSongHeader">Currently Playing Song</h1>
-                <PlayPauseSongIcon rootThis={this.props.rootThis} />
+                <PlayPauseSongIconComponent accessToken={this.props.accessToken} />
                 <UpdateCurrentlyPlayingSongInformationButton rootThis={this.props.rootThis} clickEventHandler={this.refreshInformationButtonClickEventHandler}/>
                 <CurrentlyPlayingSongInformation rootThis={this.props.rootThis} current={currentlyPlayingSongInformation}/>
             </div>
@@ -231,16 +232,14 @@ class SongControlSideBar extends React.Component{
             )
         }
     }
-    class PlayPauseSongIcon extends SpotifyAPIBase{
+    class PlayPauseSongIcon extends React.Component{
         constructor(props){
             super(props);
             this.playPauseSongIconClickEventHandler = this.playPauseSongIconClickEvent.bind(this);
         }
         render(){
-            let error = this.returnCorrectErrorMessage();
           return  (
               <React.Fragment>
-                  {error}
                   <img id="playPauseSongIcon" src={playPauseSongIconPNG} onClick={this.playPauseSongIconClickEventHandler}></img>
               </React.Fragment>
           )
@@ -248,12 +247,12 @@ class SongControlSideBar extends React.Component{
         async playPauseSongIconClickEvent(ev){
             let isPlaying = false;
             try{
-                let isPlayingResponse = await spotifyAPIRequest('https://api.spotify.com/v1/me/player', this.context);
-                isPlayingResponse = JSON.parse(isPlayingResponse);
-                isPlaying = isPlayingResponse.is_playing;
+                let isPlayingResponse = await this.props.isCurrentlyPlayingSong();
+                isPlaying = isPlayingResponse.isPlaying;
+
             }catch(err){
-                this.handleResponseForErrors(err);
             }
+            console.log(`this is the status ${isPlaying}`);
             // pause
             if(isPlaying){
                 this.pauseSong();
@@ -265,23 +264,20 @@ class SongControlSideBar extends React.Component{
         }
         async resumeSong(){
             try{
-                let resumeSongResponse = await spotifyAPIRequestPut('https://api.spotify.com/v1/me/player/play', this.context);
-                    this.setState({isPlaying : true});
+                await this.props.resumeCurrentlyPlayingSong();
+                this.setState({isPlaying : true});
                 
             }catch(err){
-                this.handleResponseForErrors(err);
             }
         }
         async pauseSong(){
             try{
-                let pauseSongResponse = await spotifyAPIRequestPut('https://api.spotify.com/v1/me/player/pause', this.context);
+                await this.props.pauseCurrentlyPlayingSong();
                     this.setState({isPlaying : false});
                 
             }catch(err){
-                this.handleResponseForErrors(err);
             }
         }
-        static contextType = accessTokenContext;
 
     }
     class UpdateCurrentlyPlayingSongInformationButton extends React.Component{
