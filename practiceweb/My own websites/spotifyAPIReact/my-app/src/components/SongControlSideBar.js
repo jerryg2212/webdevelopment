@@ -219,15 +219,13 @@ class SongControlSideBar extends React.Component{
             static contextType = accessTokenContext
         }
     // container that holds the information about the active device
-    class ActiveDeviceDisplayContainer extends SpotifyAPIBase{
+    class ActiveDeviceDisplayContainer extends React.Component{
         constructor(props){
             super(props);
         }
         render() {
-            let error = this.returnCorrectErrorMessage();
             return (
                 <div id="activeDeviceDisplayContainer">
-                    {error}
                     <p><span className="currentlyPlayingSongDescriptionTitle">Active Device -  <span className="italics lightblueFont"><a href={`${this.props.linkToPage}`} >{this.props.activeDevice}</a></span></span></p>
                 </div>
             )
