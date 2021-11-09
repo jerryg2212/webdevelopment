@@ -27,11 +27,12 @@ class SongControlSideBar extends React.Component{
     }
     render(){
         let {activeDevice, linkToPage, ...currentlyPlayingSongInformation} = this.state;
+        let SearchSongControlComponent = SpotifyAPIBaseComposition(SearchSongControl)
         return (
             <accessTokenContext.Provider value={this.props.accessToken}>
                 <div id="playSongContainer">
                 <h1>Search Song</h1>
-                <SearchSongControl rootThis={this.props.rootThis}/>
+                <SearchSongControlComponent accessToken={this.props.accessToken}/>
                 <ActiveDeviceDisplayContainer rootThis={this.props.rootThis} activeDevice={this.state.activeDevice} linkToPage={this.state.linkToPage}/>
                 <h1 id="currentlyPlayingSongHeader">Currently Playing Song</h1>
                 <PlayPauseSongIcon rootThis={this.props.rootThis} />
@@ -102,12 +103,10 @@ class SongControlSideBar extends React.Component{
             this.onFocusSearchSongEventHandler = this.onFocusSearchSongEvent.bind(this);
         }
         render(){
-            let error = this.returnCorrectErrorMessage();
             let songResponsesBox = (this.state.searchedSongs.length > 0) ? <SearchSongResponsesBoxComponent searchedSongs={this.state.searchedSongs} searchSongResponseListItemClickEvent={this.searchSongResponseListItemClickEventHandler} positionElement={document.getElementById('searchSongToPlayInput')} /> : undefined;
             // let songResponsesBox = (this.state.searchedSongs.length > 0) ? <SearchSongResponsesBox rootThis={this.props.rootThis} searchedSongs={this.state.searchedSongs} searchSongResponseListItemClickEvent={this.searchSongResponseListItemClickEventHandler} positionElement={document.getElementById('searchSongToPlayInput')}/> : undefined;
                 return (
                 <div>
-                    {error}
                     <SearchSongToPlayInput rootThis={this.props.rootThis} inputOnInputHandler={this.searchSongOnInputHandler} onFocusSearchSongEventHandler={this.onFocusSearchSongEventHandler} />
                     {songResponsesBox}
                     <QueueAndNextTrackButtonsContainer rootThis={this.props.rootThis} activeSongUri={this.state.activeSongUri} activeSongId={this.state.activeSongId} />
@@ -118,9 +117,8 @@ class SongControlSideBar extends React.Component{
             this.setState({songInput: ev.target.value}, async () => {
                 try{
                     // get list of song resoponses from the api
-                    let searchedSongsResponse = await spotifyAPIRequest(`https://api.spotify.com/v1/search?q=${this.state.songInput}&type=track&limit=5`, this.context);
-                    let searchedSongsList = JSON.parse(searchedSongsResponse)
-                        searchedSongsList = searchedSongsList.tracks.items;
+                    let searchedSongsResponse = await this.props.spotifySearchRequest(this.state.songInput, 'track', 5);
+                    let searchedSongsList = searchedSongsResponse.tracks.items;
                         let searchedSongs = []
                         // making an array of song information so the response block renders after the new state is set
                         for(let song of searchedSongsList){
@@ -128,7 +126,7 @@ class SongControlSideBar extends React.Component{
                         }
                         this.setState({searchedSongs: searchedSongs});
                 }catch(err){
-                    this.handleResponseForErrors(err);
+                    console.log(err);
                     this.setState({searchedSongs: []});
                 }
             });

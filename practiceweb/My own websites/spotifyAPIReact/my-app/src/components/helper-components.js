@@ -203,7 +203,7 @@ function SpotifyAPIBaseComposition(Component, properties){
             return(
                 <>
                 {error}
-                <Component {...this.props} {...properties} allUsersPlaylists={this.allUsersPlaylists.bind(this)} getPlaylistTracks={this.getPlaylistTracks.bind(this)} addSongsToSongBank={this.addSongsToSongBank.bind(this)} addSongsToPlaylist={this.addSongsToPlaylist.bind(this)} createNewPlaylist={this.createNewPlaylist.bind(this)} getSongIdsFromSongBank={this.getSongIdsFromSongBank.bind(this)} getSongsFromIds={this.getSongsFromIds.bind(this)} deleteSongsFromSongBank={this.deleteSongsFromSongBank.bind(this)} deleteSongsFromPlaylist={this.deleteSongsFromPlaylist.bind(this)} getLinkToUsersPage={this.getLinkToUsersPage.bind(this)} getUsersActiveDevice={this.getUsersActiveDevice.bind(this)} getUsersCurrentlyPlayingTrack={this.getUsersCurrentlyPlayingTrack.bind(this)} />
+                <Component {...this.props} {...properties} allUsersPlaylists={this.allUsersPlaylists.bind(this)} getPlaylistTracks={this.getPlaylistTracks.bind(this)} addSongsToSongBank={this.addSongsToSongBank.bind(this)} addSongsToPlaylist={this.addSongsToPlaylist.bind(this)} createNewPlaylist={this.createNewPlaylist.bind(this)} getSongIdsFromSongBank={this.getSongIdsFromSongBank.bind(this)} getSongsFromIds={this.getSongsFromIds.bind(this)} deleteSongsFromSongBank={this.deleteSongsFromSongBank.bind(this)} deleteSongsFromPlaylist={this.deleteSongsFromPlaylist.bind(this)} getLinkToUsersPage={this.getLinkToUsersPage.bind(this)} getUsersActiveDevice={this.getUsersActiveDevice.bind(this)} getUsersCurrentlyPlayingTrack={this.getUsersCurrentlyPlayingTrack.bind(this)} spotifySearchRequest={this.spotifySearchRequest.bind(this)} />
                 </>
             )
         }
@@ -460,6 +460,26 @@ function SpotifyAPIBaseComposition(Component, properties){
                         }catch(err){
                             console.log(err);
                             this.handleResponseForErrors(err);
+                            reject(err);
+                        }
+                    })
+                }
+                // users search string to make a search request 
+                // returns a tracks object
+                // parameters
+                    // input - the input string the user wants to search for
+                    // type - the type of the response objects the user is searching for
+                    // limit - the amount of items returned
+                spotifySearchRequest(input, type = 'track', limit = 5){
+                    return new Promise(async (resolve, reject) => {
+                        try{
+                            // get list of song resoponses from the api
+                            let searchedSongsResponse = await spotifyAPIRequest(`https://api.spotify.com/v1/search?q=${input}&type=${type}&limit=${limit}`, this.props.accessToken);
+                            let searchedSongsList = JSON.parse(searchedSongsResponse);
+                            resolve(searchedSongsList);
+                        }catch(err){
+                            this.handleResponseForErrors(err);
+                            console.log(err);
                             reject(err);
                         }
                     })
