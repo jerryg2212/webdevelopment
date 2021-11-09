@@ -197,7 +197,7 @@ class SongControlSideBar extends React.Component{
             }
             async nextTrackButtonClickEvent(ev){
                 try{
-                    let response = await spotifyAPIRequestPost('https://api.spotify.com/v1/me/player/next', this.context);
+                    await this.props.skipToNextTrack();
                 }catch(err){
                 }
             }
@@ -206,7 +206,7 @@ class SongControlSideBar extends React.Component{
                 // if no active Song Uri return
                 if(!this.props.activeSongId) return
                 try{
-                    let songBank = await addSongToSongBankRequest(this.userId, this.props.activeSongId);
+                    let songBank = await this.props.addSongsToSongBank(JSON.stringify({songs : [this.props.activeSongId]}));
                 }catch(err){
                     console.log(err);
                 }finally{

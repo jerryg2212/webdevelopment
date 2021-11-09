@@ -203,7 +203,7 @@ function SpotifyAPIBaseComposition(Component, properties){
             return(
                 <>
                 {error}
-                <Component {...this.props} {...properties} allUsersPlaylists={this.allUsersPlaylists.bind(this)} getPlaylistTracks={this.getPlaylistTracks.bind(this)} addSongsToSongBank={this.addSongsToSongBank.bind(this)} addSongsToPlaylist={this.addSongsToPlaylist.bind(this)} createNewPlaylist={this.createNewPlaylist.bind(this)} getSongIdsFromSongBank={this.getSongIdsFromSongBank.bind(this)} getSongsFromIds={this.getSongsFromIds.bind(this)} deleteSongsFromSongBank={this.deleteSongsFromSongBank.bind(this)} deleteSongsFromPlaylist={this.deleteSongsFromPlaylist.bind(this)} getLinkToUsersPage={this.getLinkToUsersPage.bind(this)} getUsersActiveDevice={this.getUsersActiveDevice.bind(this)} getUsersCurrentlyPlayingTrack={this.getUsersCurrentlyPlayingTrack.bind(this)} spotifySearchRequest={this.spotifySearchRequest.bind(this)} addSongToQueue={this.addSongToQueue.bind(this)} />
+                <Component {...this.props} {...properties} allUsersPlaylists={this.allUsersPlaylists.bind(this)} getPlaylistTracks={this.getPlaylistTracks.bind(this)} addSongsToSongBank={this.addSongsToSongBank.bind(this)} addSongsToPlaylist={this.addSongsToPlaylist.bind(this)} createNewPlaylist={this.createNewPlaylist.bind(this)} getSongIdsFromSongBank={this.getSongIdsFromSongBank.bind(this)} getSongsFromIds={this.getSongsFromIds.bind(this)} deleteSongsFromSongBank={this.deleteSongsFromSongBank.bind(this)} deleteSongsFromPlaylist={this.deleteSongsFromPlaylist.bind(this)} getLinkToUsersPage={this.getLinkToUsersPage.bind(this)} getUsersActiveDevice={this.getUsersActiveDevice.bind(this)} getUsersCurrentlyPlayingTrack={this.getUsersCurrentlyPlayingTrack.bind(this)} spotifySearchRequest={this.spotifySearchRequest.bind(this)} addSongToQueue={this.addSongToQueue.bind(this)} skipToNextTrack={this.skipToNextTrack.bind(this)} />
                 </>
             )
         }
@@ -511,6 +511,20 @@ function SpotifyAPIBaseComposition(Component, properties){
                     return new Promise(async (resolve, reject) => {
                         try{
                             let response = await spotifyAPIRequestPost(`https://api.spotify.com/v1/me/player/queue?uri=${songUri}`, this.props.accessToken);
+                            resolve(response);
+                        }catch(err){
+                            console.log(err);
+                            this.handleResponseForErrors(err);
+                            reject(err);
+                        }
+                    })
+                }
+                
+                // skips to the next track
+                async skipToNextTrack(){
+                    return new Promise(async (resolve, reject) => {
+                        try{
+                            let response = await spotifyAPIRequestPost('https://api.spotify.com/v1/me/player/next', this.props.accessToken);
                             resolve(response);
                         }catch(err){
                             console.log(err);
