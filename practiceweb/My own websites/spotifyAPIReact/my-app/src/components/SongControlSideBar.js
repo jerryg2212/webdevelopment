@@ -35,10 +35,10 @@ class SongControlSideBar extends React.Component{
                 <div id="playSongContainer">
                 <h1>Search Song</h1>
                 <SearchSongControlComponent getNewAccessToken={this.props.getNewAccessToken} accessToken={this.props.accessToken}/>
-                <ActiveDeviceDisplayContainer rootThis={this.props.rootThis} activeDevice={this.state.activeDevice} linkToPage={this.state.linkToPage}/>
+                <ActiveDeviceDisplayContainer activeDevice={this.state.activeDevice} linkToPage={this.state.linkToPage}/>
                 <h1 id="currentlyPlayingSongHeader">Currently Playing Song</h1>
                 <PlayPauseSongIconComponent getNewAccessToken={this.props.getNewAccessToken} accessToken={this.props.accessToken} />
-                <UpdateCurrentlyPlayingSongInformationButton rootThis={this.props.rootThis} clickEventHandler={this.refreshInformationButtonClickEventHandler}/>
+                <UpdateCurrentlyPlayingSongInformationButton clickEventHandler={this.refreshInformationButtonClickEventHandler}/>
                 <CurrentlyPlayingSongInformationComponent getNewAccessToken={this.props.getNewAccessToken} accessToken={this.props.accessToken} current={currentlyPlayingSongInformation}/>
             </div>
             </accessTokenContext.Provider>
@@ -110,9 +110,9 @@ class SongControlSideBar extends React.Component{
             // let songResponsesBox = (this.state.searchedSongs.length > 0) ? <SearchSongResponsesBox rootThis={this.props.rootThis} searchedSongs={this.state.searchedSongs} searchSongResponseListItemClickEvent={this.searchSongResponseListItemClickEventHandler} positionElement={document.getElementById('searchSongToPlayInput')}/> : undefined;
                 return (
                 <div>
-                    <SearchSongToPlayInput rootThis={this.props.rootThis} inputOnInputHandler={this.searchSongOnInputHandler} onFocusSearchSongEventHandler={this.onFocusSearchSongEventHandler} />
+                    <SearchSongToPlayInput inputOnInputHandler={this.searchSongOnInputHandler} onFocusSearchSongEventHandler={this.onFocusSearchSongEventHandler} />
                     {songResponsesBox}
-                    <QueueAndNextTrackButtonsContainerComponent accessToken={this.props.accessToken} activeSongUri={this.state.activeSongUri} activeSongId={this.state.activeSongId} />
+                    <QueueAndNextTrackButtonsContainerComponent getNewAccessToken={this.props.getNewAccessToken} accessToken={this.props.accessToken} activeSongUri={this.state.activeSongUri} activeSongId={this.state.activeSongId} />
                 </div>
             )
         }

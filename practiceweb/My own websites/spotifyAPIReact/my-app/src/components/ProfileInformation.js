@@ -1,6 +1,6 @@
 import React from 'react';
 import {spotifyAPIRequest, trimSongName, spotifyAPIRequestPost} from '../helper-functions.js';
-import { SpotifyAPIBase } from './helper-components.js';
+import { SpotifyAPIBase, SpotifyAPIBaseComposition } from './helper-components.js';
 
 let accessTokenContext = React.createContext(undefined);
 class ProfileInformation extends React.Component{
