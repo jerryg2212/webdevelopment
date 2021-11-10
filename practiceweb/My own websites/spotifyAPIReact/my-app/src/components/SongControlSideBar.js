@@ -29,16 +29,17 @@ class SongControlSideBar extends React.Component{
         let {activeDevice, linkToPage, ...currentlyPlayingSongInformation} = this.state;
         let SearchSongControlComponent = SpotifyAPIBaseComposition(SearchSongControl)
         let PlayPauseSongIconComponent = SpotifyAPIBaseComposition(PlayPauseSongIcon);
+        let CurrentlyPlayingSongInformationComponent = SpotifyAPIBaseComposition(CurrentlyPlayingSongInformation);
         return (
             <accessTokenContext.Provider value={this.props.accessToken}>
                 <div id="playSongContainer">
                 <h1>Search Song</h1>
-                <SearchSongControlComponent accessToken={this.props.accessToken}/>
+                <SearchSongControlComponent getNewAccessToken={this.props.getNewAccessToken} accessToken={this.props.accessToken}/>
                 <ActiveDeviceDisplayContainer rootThis={this.props.rootThis} activeDevice={this.state.activeDevice} linkToPage={this.state.linkToPage}/>
                 <h1 id="currentlyPlayingSongHeader">Currently Playing Song</h1>
-                <PlayPauseSongIconComponent accessToken={this.props.accessToken} />
+                <PlayPauseSongIconComponent getNewAccessToken={this.props.getNewAccessToken} accessToken={this.props.accessToken} />
                 <UpdateCurrentlyPlayingSongInformationButton rootThis={this.props.rootThis} clickEventHandler={this.refreshInformationButtonClickEventHandler}/>
-                <CurrentlyPlayingSongInformation rootThis={this.props.rootThis} current={currentlyPlayingSongInformation}/>
+                <CurrentlyPlayingSongInformationComponent getNewAccessToken={this.props.getNewAccessToken} accessToken={this.props.accessToken} current={currentlyPlayingSongInformation}/>
             </div>
             </accessTokenContext.Provider>
         )
@@ -252,7 +253,6 @@ class SongControlSideBar extends React.Component{
 
             }catch(err){
             }
-            console.log(`this is the status ${isPlaying}`);
             // pause
             if(isPlaying){
                 this.pauseSong();
@@ -288,14 +288,12 @@ class SongControlSideBar extends React.Component{
             return    <button className="playSongContainerButton" id="updateCurrentlyPlayingSongInformationButton" onClick={this.props.clickEventHandler}>Update Information</button>
         }
     }
-    class CurrentlyPlayingSongInformation extends SpotifyAPIBase{
+    class CurrentlyPlayingSongInformation extends React.Component{
         constructor(props){
             super(props);
         }
         render(){
-            let error = this.returnCorrectErrorMessage();
             let body = (this.props.current.isCurrentlyPlayingSong) ? (<div id="currentlyPlayingSongInformationContainer">
-                {error}
                 <img id="currentlyPlayingSongAlbumCover" src={this.props.current.albumCoverSrc}></img>
                 <div id="currentlyPlayingSongFactsContainer">
                     <p><span className="currentlyPlayingSongDescription">Title:  </span>{this.props.current.currentlyPlayingSongTitle}</p>
@@ -304,7 +302,7 @@ class SongControlSideBar extends React.Component{
                     <p><span className="currentlyPlayingSongDescriptionTitle">Release Date:  </span>{this.props.current.releaseDate}</p>
                     <p><span className="currentlyPlayingSongDescriptionTitle">Song Popularity:  </span>{this.props.current.songPopularity}</p>
                 </div>
-            </div>) : <div>{error}</div>
+            </div>) : <div></div>
             return body
         }
         // returns text bases on the artists
@@ -318,7 +316,6 @@ class SongControlSideBar extends React.Component{
             }
             return (!this.props.current.artists.length > 1) ? `${this.props.current.artists[0].name}` : displayMultipleArtists.apply(this);
         }
-       // static contextType = accessTokenContext
     }
 
 export default SpotifyAPIBaseComposition(SongControlSideBar);
