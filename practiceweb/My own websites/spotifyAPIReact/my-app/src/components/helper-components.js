@@ -203,7 +203,7 @@ function SpotifyAPIBaseComposition(Component, properties){
             return(
                 <>
                 {error}
-                <Component {...this.props} {...properties} allUsersPlaylists={this.allUsersPlaylists.bind(this)} getPlaylistTracks={this.getPlaylistTracks.bind(this)} addSongsToSongBank={this.addSongsToSongBank.bind(this)} addSongsToPlaylist={this.addSongsToPlaylist.bind(this)} createNewPlaylist={this.createNewPlaylist.bind(this)} getSongIdsFromSongBank={this.getSongIdsFromSongBank.bind(this)} getSongsFromIds={this.getSongsFromIds.bind(this)} deleteSongsFromSongBank={this.deleteSongsFromSongBank.bind(this)} deleteSongsFromPlaylist={this.deleteSongsFromPlaylist.bind(this)} getLinkToUsersPage={this.getLinkToUsersPage.bind(this)} getUsersActiveDevice={this.getUsersActiveDevice.bind(this)} getUsersCurrentlyPlayingTrack={this.getUsersCurrentlyPlayingTrack.bind(this)} spotifySearchRequest={this.spotifySearchRequest.bind(this)} addSongToQueue={this.addSongToQueue.bind(this)} skipToNextTrack={this.skipToNextTrack.bind(this)} isCurrentlyPlayingSong={this.isCurrentlyPlayingSong.bind(this)} pauseCurrentlyPlayingSong={this.pauseCurrentlyPlayingSong.bind(this)} resumeCurrentlyPlayingSong={this.resumeCurrentlyPlayingSong.bind(this)} />
+                <Component {...this.props} {...properties} allUsersPlaylists={this.allUsersPlaylists.bind(this)} getPlaylistTracks={this.getPlaylistTracks.bind(this)} addSongsToSongBank={this.addSongsToSongBank.bind(this)} addSongsToPlaylist={this.addSongsToPlaylist.bind(this)} createNewPlaylist={this.createNewPlaylist.bind(this)} getSongIdsFromSongBank={this.getSongIdsFromSongBank.bind(this)} getSongsFromIds={this.getSongsFromIds.bind(this)} deleteSongsFromSongBank={this.deleteSongsFromSongBank.bind(this)} deleteSongsFromPlaylist={this.deleteSongsFromPlaylist.bind(this)} getLinkToUsersPage={this.getLinkToUsersPage.bind(this)} getUsersActiveDevice={this.getUsersActiveDevice.bind(this)} getUsersCurrentlyPlayingTrack={this.getUsersCurrentlyPlayingTrack.bind(this)} spotifySearchRequest={this.spotifySearchRequest.bind(this)} addSongToQueue={this.addSongToQueue.bind(this)} skipToNextTrack={this.skipToNextTrack.bind(this)} isCurrentlyPlayingSong={this.isCurrentlyPlayingSong.bind(this)} pauseCurrentlyPlayingSong={this.pauseCurrentlyPlayingSong.bind(this)} resumeCurrentlyPlayingSong={this.resumeCurrentlyPlayingSong.bind(this)} getProfileInformationObject={this.getProfileInformationObject.bind(this)} getTopSongs={this.getTopSongs.bind(this)} getTopArtists={this.getTopArtists.bind(this)} />
                 </>
             )
         }
@@ -377,8 +377,24 @@ function SpotifyAPIBaseComposition(Component, properties){
                         }
                     })
                 }
+    
             
             // User Profile Information Requests
+                // returns an object with the users profile information
+                getProfileInformationObject(){
+                    return new Promise(async (resolve, reject) => {
+                        try{
+                            let profileInformationObjectResponse = await spotifyAPIRequest('https://api.spotify.com/v1/me', this.props.accessToken);
+                            let profileInformationObject = JSON.parse(profileInformationObjectResponse);
+                            resolve(profileInformationObject);
+                        }catch(err){
+                            console.log(err);
+                            this.handleResponseForErrors(err);
+                            reject(err);
+                        }
+                    })
+                }
+
                 // returns link to the users Spotify Page
                 getLinkToUsersPage(){
                     return new Promise(async (resolve, reject) => {
@@ -438,6 +454,42 @@ function SpotifyAPIBaseComposition(Component, properties){
                         }catch(err){
                             this.handleResponseForErrors(err);
                             console.log(err);
+                        }
+                    })
+                }
+
+                // returns the users top Songs
+                // parameters
+                    // timeRange = the time range for the request
+                    // limit = the amount of top songs to return
+                getTopSongs(timeRange, limit){
+                    return new Promise(async (resolve, reject) => {
+                        try{
+                            let topSongsResponse = await spotifyAPIRequest(`https://api.spotify.com/v1/me/top/tracks?time_range=${timeRange}&limit=${limit}`, this.props.accessToken);
+                            let topSongs = JSON.parse(topSongsResponse);
+                            resolve(topSongs);
+                        }catch(err){
+                            console.log(err);
+                            this.handleResponseForErrors(err);
+                            reject(err);
+                        }
+                    })
+                }
+
+                // returns the users top artists
+                // parameters
+                    // timeRange = the time range for the request
+                    // limit = the amount of top artists to return
+                getTopArtists(timeRange, limit){
+                    return new Promise(async (resolve, reject) => {
+                        try{
+                            let topArtistsResponse = await spotifyAPIRequest(`https://api.spotify.com/v1/me/top/artists?time_range=${timeRange}&limit=${limit}`, this.props.accessToken);
+                            let topArtists = JSON.parse(topArtistsResponse);
+                            resolve(topArtists);
+                        }catch(err){
+                            console.log(err);
+                            this.handleResponseForErrors(err);
+                            reject(err);
                         }
                     })
                 }
