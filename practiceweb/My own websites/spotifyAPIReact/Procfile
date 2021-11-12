@@ -1,0 +1,2 @@
+web ./my-app/ npm start
+web ./api nodemon server.js
